@@ -1,0 +1,715 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "GetView1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insights2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        []
+      ]
+    },
+    "Schedule Trigger2": {
+      "main": [
+        [
+          {
+            "node": "GetView1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        []
+      ]
+    },
+    "insights3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetView2": {
+      "main": [
+        [
+          {
+            "node": "insights3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger3": {
+      "main": [
+        [
+          {
+            "node": "GetView2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insights": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetView": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "insights",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2025-12-09T14:06:37.999Z",
+  "id": "buRpxMIVaiiNL7FQ",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "NR0002 | Notifications Reports | Lançamento Hibrido",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "Até o momento captamos *36026* leads ao CPL de *R$ 2,98*. Cumprimos *83.78%* da meta otimista de 43000 leads. Precisamos captar mais 6974, ao pace de 1395 Leads/dia até 15/12/2025 (final capt), para alcançar 100% do objetivo esperado.\n\nAlgumas métricas e feedbacks:\n🔹 Leads totais dia: *3547* - 🟢 154.3% acima da meta projetada de 1395\n🔹 Leads pagos no dia: *2965*\n🔹 Leads orgânicos no dia: *509*\n🔹 Leads não rastreados no dia: *73*\n\n🔹 Investimento Capt de hoje: *R$ 8.513,11*\n🔹 CPL hoje: *R$ 2,40*\n🔹 CPL Pago hoje: *R$ 2,87*\n🔹 CPL Pago total: *R$ 3,41*\n🔹 Investimento Capt total: *R$ 107.520,90* - 🟢 53.8% do Budget.\n🔹 Saldo para investir: *R$ 92.479,10* - Podemos aumentar a verba diária em R$ 18.495,82\n\n🔹 Pesquisas respondidas: *5713* envios\n🔹 Taxa de resposta: *15.86%*\n\n🔹 Entradas em grupos hoje: *2482* leads\n🔹 Saídas de grupos hoje: *452* leads\n🔹 Taxa de conversão hoje: *69.97%* - 🔴 17.7% abaixo da meta\n🔹 Taxa de conversão total: *47.45%* - 🔴 44.2% abaixo da meta",
+        "height": 528,
+        "width": 576,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1888,
+        1024
+      ],
+      "typeVersion": 1,
+      "id": "744d391e-0ed1-433f-bfb2-226e3bf2ab1b",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "052a11ec-7721-4707-84d6-956fa489a8fc",
+              "name": "message",
+              "value": "={{ $json.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -528,
+        1168
+      ],
+      "id": "0625cbdf-c4c0-45ed-9c6e-c119b92effd5",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "content": "### Relatório Hoje - Captação",
+        "height": 240,
+        "width": 256,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1264,
+        1168
+      ],
+      "typeVersion": 1,
+      "id": "de08b38d-091c-40c4-8f5d-094e2faeea1c",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- FUNÇÕES DE FORMATAÇÃO ---\nconst formatMoney = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);\nconst formatDate = (dateString) => {\n    if (!dateString) return 'DD/MM/AAAA';\n    const [year, month, day] = dateString.split('-');\n    return `${day}/${month}/${year}`;\n};\n\n// --- FUNÇÃO DE FEEDBACK (EMOJIS) ---\nconst getFeedback = (actual, target, type) => {\n    if (!target || target === 0) return '';\n    \n    // Calcula a variação percentual\n    let diff = ((actual - target) / target) * 100;\n    let diffAbs = Math.abs(diff).toFixed(1);\n    let emoji = '', text = '';\n\n    if (type === 'high') { // Leads, Conversão (Maior é melhor)\n        if (diff >= 0) {\n            emoji = '🟢';\n            text = `${diffAbs}% acima`;\n        } else {\n            emoji = '🔴';\n            text = `${diffAbs}% abaixo da meta`;\n        }\n    } else { // CPL (Menor é melhor)\n        if (diff <= 0) {\n            emoji = '🟢';\n            text = `${diffAbs}% abaixo da meta`;\n        } else {\n            emoji = '🔴';\n            text = `${diffAbs}% acima da meta`;\n        }\n    }\n    return `${emoji} ${text}`;\n};\n\nconst results = [];\n\nfor (const item of items) {\n    const json = item.json;\n\n    // --- VARIÁVEIS E CÁLCULOS ---\n    \n    // 1. Definições Básicas\n    const leadsTotais = parseFloat(json.leads_totais);\n    const leadsFaltantes = parseFloat(json.leads_diff_meta_capt);\n    const metaLeadsTotal = leadsTotais + leadsFaltantes;\n    const leadsPagosDia = parseInt(json.leads_meta_ads_dia) + parseInt(json.leads_google_ads_dia);\n\n    // 2. Financeiro\n    const investimentoTotal = parseFloat(json.investimento_meta_geral);\n    const custoAteAgora = parseFloat(json.custo_total);\n    const saldoRestante = investimentoTotal - custoAteAgora;\n    const diasRestantes = parseInt(json.dias_restantes_capt) || 1;\n    const sugestaoInvestimentoDiario = saldoRestante / diasRestantes;\n    \n    // 3. Lógica do Budget (Corrigido para ficar vermelho se estourar)\n    const pctBudgetUsado = (custoAteAgora / investimentoTotal) * 100;\n    const emojiBudget = pctBudgetUsado > 100 ? '🔴' : '🟢';\n\n    // 4. Metas para Comparativo\n    const metaCpl = investimentoTotal / metaLeadsTotal; \n    const metaLeadsDia = parseFloat(json.pace_leads_meta); // Meta diária (Pace)\n    const metaTaxaConversao = parseFloat(json.goal_entrada_grupo) * 100;\n\n    // --- LÓGICA CONDICIONAL DE TEXTO ---\n    \n    // Só mostra o texto de \"Precisamos captar mais...\" se ainda faltar leads\n    let textoMetaPendente = '';\n    if (leadsFaltantes > 0) {\n        textoMetaPendente = `Precisamos captar mais ${parseInt(json.leads_diff_meta_capt)}, ao pace de ${parseInt(json.pace_leads_meta)} Leads/dia até ${formatDate(json.lead_generation_end_date)} (final capt), para alcançar 100% do objetivo esperado.`;\n    } else {\n        textoMetaPendente = `🎉 Parabéns! A meta de leads já foi batida.`;\n    }\n\n    // --- MONTAGEM DA MENSAGEM ---\n    const mensagem = `Até o momento captamos *${json.leads_totais}* leads ao CPL de *${formatMoney(json.cpl_total)}*. Cumprimos *${json.pct_para_meta_leads_capt}%* da meta otimista de ${metaLeadsTotal} leads. ${textoMetaPendente}\n\nAlgumas métricas e feedbacks:\n🔹 Leads totais dia: *${json.leads_dia}* - ${getFeedback(json.leads_dia, metaLeadsDia, 'high')} da meta projetada de ${parseInt(metaLeadsDia)}\n🔹 Leads pagos no dia: *${leadsPagosDia}*\n🔹 Leads orgânicos no dia: *${json.leads_organico_dia}*\n🔹 Leads não rastreados no dia: *${json.leads_nao_rastreado_dia}*\n\n🔹 Investimento Capt de hoje: *${formatMoney(json.custo_total_dia)}*\n🔹 CPL hoje: *${formatMoney(json.cpl_dia)}*\n🔹 CPL Pago hoje: *${formatMoney(json.cpl_pago_dia)}*\n🔹 CPL Pago total: *${formatMoney(json.cpl_pago_total)}*\n🔹 Investimento Capt total: *${formatMoney(json.custo_total)}* - ${emojiBudget} ${pctBudgetUsado.toFixed(1)}% do Budget.\n🔹 Saldo para investir: *${formatMoney(saldoRestante)}* - Podemos aumentar a verba diária em ${formatMoney(sugestaoInvestimentoDiario)}\n\n🔹 Pesquisas respondidas: *${json.pesquisas_respondidas}* envios\n🔹 Taxa de resposta: *${json.pct_respostas_pesquisa}%*\n\n🔹 Entradas em grupos hoje: *${json.entradas_grupo_dia}* leads\n🔹 Saídas de grupos hoje: *${json.saidas_grupo_dia}* leads\n🔹 Taxa de conversão hoje: *${json.taxa_conversao_grupo_dia}%* - ${getFeedback(json.taxa_conversao_grupo_dia, metaTaxaConversao, 'high')}\n🔹 Taxa de conversão total: *${json.taxa_media_conversao_grupo}%* - ${getFeedback(json.taxa_media_conversao_grupo, metaTaxaConversao, 'high')}`;\n\n    results.push({\n        json: {\n            message: mensagem\n        }\n    });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -736,
+        1360
+      ],
+      "id": "ebbad44c-b1e4-4ea0-82d5-6339eace3a7a",
+      "name": "insights2"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM vw_notifications_reports_launch_capt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -960,
+        1248
+      ],
+      "id": "60e4292b-37c6-4e00-91c8-5ea55e8e250c",
+      "name": "GetView1",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- FUNÇÕES DE FORMATAÇÃO ---\nconst formatMoney = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);\nconst formatDate = (dateString) => {\n    if (!dateString) return 'DD/MM/AAAA';\n    const [year, month, day] = dateString.split('-');\n    return `${day}/${month}/${year}`;\n};\n\n// --- FUNÇÃO DE FEEDBACK (EMOJIS) ---\nconst getFeedback = (actual, target, type) => {\n    if (!target || target === 0) return '';\n    \n    // Calcula a variação percentual\n    let diff = ((actual - target) / target) * 100;\n    let diffAbs = Math.abs(diff).toFixed(1);\n    let emoji = '', text = '';\n\n    if (type === 'high') { // Leads, Conversão (Maior é melhor)\n        if (diff >= 0) {\n            emoji = '🟢';\n            text = `${diffAbs}% acima`;\n        } else {\n            emoji = '🔴';\n            text = `${diffAbs}% abaixo`;\n        }\n    } else { // CPL (Menor é melhor)\n        if (diff <= 0) {\n            emoji = '🟢';\n            text = `${diffAbs}% abaixo da meta`;\n        } else {\n            emoji = '🔴';\n            text = `${diffAbs}% acima da meta`;\n        }\n    }\n    return `${emoji} ${text}`;\n};\n\nconst results = [];\n\nfor (const item of items) {\n    const json = item.json;\n\n    // --- VARIÁVEIS E CÁLCULOS BÁSICOS ---\n    const leadsTotais = parseFloat(json.leads_totais);\n    const leadsFaltantes = parseFloat(json.leads_diff_meta_capt); // Se negativo, meta batida\n    const metaLeadsTotal = leadsTotais + leadsFaltantes;\n    \n    // Cálculos de Leads Pagos (Soma Meta + Google) para uso no CPL\n    const leadsPagosDia = parseInt(json.leads_meta_ads_dia) + parseInt(json.leads_google_ads_dia);\n    const leadsPagosTotal = parseInt(json.leads_meta_ads_total) + parseInt(json.leads_google_ads_total);\n\n    // --- FINANCEIRO ---\n    const investimentoTotal = parseFloat(json.investimento_meta_geral);\n    const custoTotalDia = parseFloat(json.custo_total_dia);\n    const custoAteAgora = parseFloat(json.custo_total);\n    const saldoRestante = investimentoTotal - custoAteAgora;\n    const diasRestantes = parseInt(json.dias_restantes_capt) || 1;\n    const sugestaoInvestimentoDiario = saldoRestante / diasRestantes;\n    \n    // Cálculo do CPL PAGO (Separado do CPL Geral que inclui orgânico)\n    // Evita divisão por zero com (leadsPagosDia || 1)\n    const cplPagoDia = custoTotalDia / (leadsPagosDia || 1);\n    const cplPagoTotal = custoAteAgora / (leadsPagosTotal || 1);\n\n    // Lógica do Budget (Vermelho se estourar)\n    const pctBudgetUsado = (custoAteAgora / investimentoTotal) * 100;\n    const emojiBudget = pctBudgetUsado > 100 ? '🔴' : '🟢';\n\n    // --- METAS ---\n    const metaCpl = investimentoTotal / metaLeadsTotal; \n    const metaLeadsDia = parseFloat(json.pace_leads_meta); \n    const metaTaxaConversao = parseFloat(json.goal_entrada_grupo) * 100;\n\n    // --- LÓGICA CONDICIONAL DE TEXTO ---\n    \n    // 1. Texto do Cabeçalho (Pace)\n    let textoMetaPendente = '';\n    if (leadsFaltantes > 0) {\n        textoMetaPendente = `Precisamos captar mais ${parseInt(json.leads_diff_meta_capt)}, ao pace de ${parseInt(json.pace_leads_meta)} Leads/dia até ${formatDate(json.lead_generation_end_date)} (final capt), para alcançar 100% do objetivo esperado.`;\n    } else {\n        textoMetaPendente = `A meta de leads já foi batida.`;\n    }\n\n    // 2. Linha \"Leads totais dia\" (Correção solicitada)\n    // Se a meta foi batida (leadsFaltantes <= 0), não mostramos \"abaixo da meta projetada de -400\"\n    let linhaLeadsDia = '';\n    if (leadsFaltantes > 0) {\n        // Cenário normal: Compara com o Pace\n        linhaLeadsDia = `🔹 Leads totais dia: *${json.leads_dia}* - ${getFeedback(json.leads_dia, metaLeadsDia, 'high')} da meta projetada de ${parseInt(metaLeadsDia)}`;\n    } else {\n        // Cenário Meta Batida: Mostra só o total e um check\n        linhaLeadsDia = `🔹 Leads totais dia: *${json.leads_dia}* ✅ (Meta Total Batida)`;\n    }\n\n    // --- MONTAGEM DA MENSAGEM ---\n    const mensagem = `Até o momento captamos *${json.leads_totais}* leads ao CPL de *${formatMoney(json.cpl_total)}*. Cumprimos *${json.pct_para_meta_leads_capt}%* da meta otimista de ${metaLeadsTotal} leads. ${textoMetaPendente}\n\nAlgumas métricas e feedbacks:\n${linhaLeadsDia}\n🔹 Leads pagos no dia: *${leadsPagosDia}*\n🔹 Leads orgânicos no dia: *${json.leads_organico_dia}*\n🔹 Leads não rastreados no dia: *${json.leads_nao_rastreado_dia}*\n\n🔹 Investimento Capt de hoje: *${formatMoney(json.custo_total_dia)}*\n🔹 CPL hoje (Geral): *${formatMoney(json.cpl_dia)}*\n🔹 CPL Pago hoje: *${formatMoney(cplPagoDia)}* \n🔹 CPL Pago total: *${formatMoney(cplPagoTotal)}*\n🔹 Investimento Capt total: *${formatMoney(json.custo_total)}* - ${emojiBudget} ${pctBudgetUsado.toFixed(1)}% do Budget.\n🔹 Saldo para investir: *${formatMoney(saldoRestante)}* - Podemos aumentar a verba diária em ${formatMoney(sugestaoInvestimentoDiario)}\n\n🔹 Pesquisas respondidas: *${json.pesquisas_respondidas}* envios\n🔹 Taxa de resposta: *${json.pct_respostas_pesquisa}%*\n\n🔹 Entradas em grupos hoje: *${json.entradas_grupo_dia}* leads\n🔹 Saídas de grupos hoje: *${json.saidas_grupo_dia}* leads\n🔹 Taxa de conversão hoje: *${json.taxa_conversao_grupo_dia}%* - ${getFeedback(json.taxa_conversao_grupo_dia, metaTaxaConversao, 'high')}\n🔹 Taxa de conversão total: *${json.taxa_media_conversao_grupo}%* - ${getFeedback(json.taxa_media_conversao_grupo, metaTaxaConversao, 'high')}`;\n\n    results.push({\n        json: {\n            message: mensagem\n        }\n    });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -736,
+        1168
+      ],
+      "id": "1c16fb53-8ca6-478f-9d13-f73e65480c01",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "052a11ec-7721-4707-84d6-956fa489a8fc",
+              "name": "message",
+              "value": "={{ $json.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -528,
+        1360
+      ],
+      "id": "2d1688de-7704-48dd-8d7a-a57671e8e911",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://webhook.umcliquedigital.com/group/ee1a6b7ad82854b7e2a01006dacfb798",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "variavel1",
+              "value": "={{ $json[\"message\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "469c25b2-330a-46b4-9c0a-7eed61de9978",
+      "name": "EnviaMSG1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -272,
+        1248
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 0 9,21 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1184,
+        1248
+      ],
+      "id": "75de2dd5-8297-46f7-b8cb-8f0e29a4c334",
+      "name": "Schedule Trigger2"
+    },
+    {
+      "parameters": {
+        "content": "Foram vendidos XX ingressos até o momento, gerando um faturamento de R$ XX.XXX,XX. Nosso Roas atual é de R$ XX,ZZ sobre o investimento de captação. \n\nAlgumas métricas e feedbacks:\n🔹 Ingressos no dia: {venda}, gerando R$ RR.RRR,RR \n🔹 Faturamento do ingresso no dia: R$ RR.RRR,RR \n🔹 Taxa de conversão ingresso: {evolução}\n\n🔹 Investimento total: *R$ 107.520,90* - 🟢 53.8% abaixo do Budget, restando saldo de \n🔹 CPL: *R$ 2,40*\n🔹 CPL Pago: *R$ 2,87*\n🔹 CPA ingresso: *R$ 2,87*\n🔹 ROAS: *R$ 2,87*\n🔹 ROAS Capt: *R$ 2,87*\n🔹 Leads totais do lançamento: {evolução}, XXX acima da meta (ou abaixo)\n",
+        "height": 528,
+        "width": 576,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1888,
+        1568
+      ],
+      "typeVersion": 1,
+      "id": "880ec172-1c36-4db9-930d-edb830ec1674",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "052a11ec-7721-4707-84d6-956fa489a8fc",
+              "name": "message",
+              "value": "={{ $json.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -528,
+        1712
+      ],
+      "id": "b0ac25aa-a7c4-4b84-9c75-2d3c2df95f12",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "content": "### Relatório Hoje - Ingresso",
+        "height": 240,
+        "width": 256,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1264,
+        1712
+      ],
+      "typeVersion": 1,
+      "id": "6c09b815-edff-4aae-9ff7-9b0630274964",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- CONFIGURAÇÕES DO LANÇAMENTO (AJUSTE AQUI) ---\nconst DATA_FIM_CARRINHO = '2025-12-20'; // Data de fechamento das vendas\nconst META_CONVERSAO_PADRAO = 1.0; // Ex: Meta de converter 1% da lista em vendas\n\n// --- FUNÇÕES DE FORMATAÇÃO ---\nconst formatMoney = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);\nconst formatNumber = (val) => new Intl.NumberFormat('pt-BR').format(val);\nconst formatDate = (dateString) => {\n    if (!dateString) return 'DD/MM';\n    const parts = dateString.split('-');\n    if (parts.length === 3) return `${parts[2]}/${parts[1]}`;\n    return dateString;\n};\n\n// --- FUNÇÃO DE CALCULO DE DIAS ---\nconst getDaysDifference = (targetDate) => {\n    const today = new Date();\n    const target = new Date(targetDate);\n    const diffTime = target - today;\n    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); \n    return diffDays > 0 ? diffDays : 0; // Evita dias negativos\n};\n\nconst results = [];\n\nfor (const item of items) {\n    const json = item.json;\n\n    // --- 1. DADOS DE VENDAS (O AGORA) ---\n    const qtdVendas = parseFloat(json.quantidade_vendas || 0);\n    const faturamentoTotal = parseFloat(json.faturamento_total || 0);\n    const vendasDia = parseFloat(json.quantidade_vendas_dia || 0);\n    const faturamentoDia = parseFloat(json.faturamento_dia || 0);\n    \n    const ticketMedio = qtdVendas > 0 ? faturamentoTotal / qtdVendas : 0;\n\n    // --- 2. DADOS DE INVESTIMENTO (A EFICIÊNCIA) ---\n    // Somamos o custo total acumulado (Capt + Vendas até agora)\n    const custoTotalAccumulado = parseFloat(json.custo_total || 0);\n    const custoTotalAccumulado_launch = parseFloat(json.custo_total_laaunch || 0);\n    \n    \n    // ROAS (Retorno sobre Gasto em Anúncio)\n    // Se o custo for 0, evitamos divisão por zero\n    const roas = $input.first().json.roas_vs_invest_total;\n    const roas_capt = $input.first().json.roas_vs_capt_total\n    \n    // CPA (Custo por Aquisição - Quanto custou cada venda)\n    const cpa = qtdVendas > 0 ? (custoTotalAccumulado / qtdVendas) : 0;\n\n    // --- 3. DADOS DA BASE (A TEMPERATURA) ---\n    const leadsTotais = parseFloat(json.leads_totais || 0);\n    \n    // Taxa de Conversão da Lista (Vendas / Leads)\n    const taxaConversao = leadsTotais > 0 ? (qtdVendas / leadsTotais) * 100 : 0;\n\n    // --- 4. METAS E PACE (O FUTURO) ---\n    // Calculando meta de vendas baseada na conversão esperada da lista\n    const metaVendas = Math.ceil(leadsTotais * (META_CONVERSAO_PADRAO / 100));\n    const pctMetaVendas = metaVendas > 0 ? (qtdVendas / metaVendas) * 100 : 0;\n    \n    const diasRestantes = getDaysDifference(DATA_FIM_CARRINHO);\n    const vendasRestantes = metaVendas - qtdVendas;\n    \n    // Pace: Quantas vendas por dia preciso fazer para bater a meta?\n    // Se diasRestantes for 0, usamos 1 para não quebrar a conta\n    const paceVendas = vendasRestantes > 0 ? Math.ceil(vendasRestantes / (diasRestantes || 1)) : 0;\n\n    // Emojis de Status\n    const emojiRoas = roas >= 1 ? '🟢' : (roas >= 0.5 ? '🟡' : '🔴');\n    const emojiMeta = pctMetaVendas >= 100 ? '🎉' : (pctMetaVendas >= 50 ? '🟢' : '🟡');\n\n    // --- MONTAGEM DA MENSAGEM (COPY HÍBRIDA) ---\n    const mensagem = `*SSP-L19: Venda de Ingressos*\nForam vendidos *${formatNumber(qtdVendas)}* ingresso até o momento, gerando caixa de *${formatMoney(faturamentoTotal)}* e uma taxa de conversão de *${taxaConversao.toFixed(2)}%*\n\n🎯 *Métricas e feedbacks:*\n🔹 Vendas de Ingressos no dia: *${formatNumber(json.quantidade_vendas_dia)}*\n🔹 Faturamento no dia: *${formatMoney(faturamentoDia)}*\n🔹 Ticket Médio: *${formatMoney(ticketMedio)}*\n\n🔹 CPA do Ingresso: *${formatMoney(cpa)}* gastos para cada ingresso\n🔹 Investimento Total: *${formatMoney(custoTotalAccumulado_launch)}* \n🔹 ROAS Geral: *${parseFloat(roas).toFixed(2)}*\n🔹 Investimento Capt: *${formatMoney(custoTotalAccumulado)}* \n🔹 ROAS Capt: *${parseFloat(roas_capt).toFixed(2)}*\n🔹 Base de Leads: *${formatNumber(leadsTotais)}* \n🔹 CPL Total: *${formatMoney($input.first().json.cpl_total)}* \n\n*Obs:* Captamos *${json.leads_dia}* leads hoje`;\n\n    results.push({\n        json: {\n            message: mensagem,\n            // Passando valores calculados caso queira usar em filtros depois\n        }\n    });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -736,
+        1904
+      ],
+      "id": "fbe73b37-cf08-4223-b893-33832df960cd",
+      "name": "insights3"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM vw_notifications_reports_launch_capt_ticket_hibrid",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -960,
+        1792
+      ],
+      "id": "5ecb4033-bf6c-4151-ae4b-fa9b39c812bc",
+      "name": "GetView2",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const DATA_FIM_CARRINHO = '2025-12-20'; // Data de fechamento das vendas\nconst META_CONVERSAO_PADRAO = 1.0; // Ex: Meta de converter 1% da lista em vendas\n\n// --- FUNÇÕES DE FORMATAÇÃO ---\nconst formatMoney = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);\nconst formatNumber = (val) => new Intl.NumberFormat('pt-BR').format(val);\nconst formatDate = (dateString) => {\n    if (!dateString) return 'DD/MM';\n    const parts = dateString.split('-');\n    if (parts.length === 3) return `${parts[2]}/${parts[1]}`;\n    return dateString;\n};\n\n// --- FUNÇÃO DE CALCULO DE DIAS ---\nconst getDaysDifference = (targetDate) => {\n    const today = new Date();\n    const target = new Date(targetDate);\n    const diffTime = target - today;\n    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); \n    return diffDays > 0 ? diffDays : 0; // Evita dias negativos\n};\n\nconst results = [];\n\nfor (const item of items) {\n    const json = item.json;\n\n    // --- 1. DADOS DE VENDAS (O AGORA) ---\n    const qtdVendas = parseFloat(json.quantidade_vendas || 0);\n    const faturamentoTotal = parseFloat(json.faturamento_total || 0);\n    const vendasDia = parseFloat(json.quantidade_vendas_dia || 0);\n    const faturamentoDia = parseFloat(json.faturamento_dia || 0);\n    \n    const ticketMedio = qtdVendas > 0 ? faturamentoTotal / qtdVendas : 0;\n\n    // --- 2. DADOS DE INVESTIMENTO (A EFICIÊNCIA) ---\n    // Somamos o custo total acumulado (Capt + Vendas até agora)\n    const custoTotalAccumulado = parseFloat(json.custo_total || 0);\n    // Nota: Mantive a chave 'custo_total_laaunch' conforme seu código original\n    const custoTotalAccumulado_launch = parseFloat(json.custo_total_laaunch || 0);\n    \n    // NOVO: Cálculo do Saldo (Investimento Geral - Gasto Total)\n    const investimentoGeral = parseFloat(json.investimento_geral_launch || 0);\n    const saldoInvestimento = investimentoGeral - custoTotalAccumulado_launch;\n    \n    // ROAS (Retorno sobre Gasto em Anúncio)\n    // Se o custo for 0, evitamos divisão por zero\n    // Acessando via json direto se estiver disponível no item, ou via $input.first() como estava\n    const roas = json.roas_vs_invest_total || $input.first().json.roas_vs_invest_total;\n    const roas_capt = json.roas_vs_capt_total || $input.first().json.roas_vs_capt_total;\n    \n    // CPA (Custo por Aquisição - Quanto custou cada venda)\n    const cpa = qtdVendas > 0 ? (custoTotalAccumulado / qtdVendas) : 0;\n\n    // --- 3. DADOS DA BASE (A TEMPERATURA) ---\n    const leadsTotais = parseFloat(json.leads_totais || 0);\n    const paceLeads = parseFloat(json.pace_leads || 0);\n    const sinalPace = paceLeads >= 0 ? '+' : ''; // Adiciona o + se for positivo\n    \n    // Taxa de Conversão da Lista (Vendas / Leads)\n    const taxaConversao = leadsTotais > 0 ? (qtdVendas / leadsTotais) * 100 : 0;\n\n    // --- 4. METAS E PACE (O FUTURO) ---\n    // Calculando meta de vendas baseada na conversão esperada da lista\n    const metaVendas = Math.ceil(leadsTotais * (META_CONVERSAO_PADRAO / 100));\n    const pctMetaVendas = metaVendas > 0 ? (qtdVendas / metaVendas) * 100 : 0;\n    \n    const diasRestantes = getDaysDifference(DATA_FIM_CARRINHO);\n    const vendasRestantes = metaVendas - qtdVendas;\n    \n    // Pace: Quantas vendas por dia preciso fazer para bater a meta?\n    // Se diasRestantes for 0, usamos 1 para não quebrar a conta\n    const paceVendas = vendasRestantes > 0 ? Math.ceil(vendasRestantes / (diasRestantes || 1)) : 0;\n\n    // Emojis de Status\n    const emojiRoas = roas >= 1 ? '🟢' : (roas >= 0.5 ? '🟡' : '🔴');\n    const emojiMeta = pctMetaVendas >= 100 ? '🎉' : (pctMetaVendas >= 50 ? '🟢' : '🟡');\n\n    // --- MONTAGEM DA MENSAGEM (COPY HÍBRIDA) ---\n    const mensagem = `*SSP-L19: Venda de Ingressos*\nForam vendidos *${formatNumber(qtdVendas)}* ingresso até o momento, gerando caixa de *${formatMoney(faturamentoTotal)}* e uma taxa de conversão de *${taxaConversao.toFixed(2)}%*\n\n🎯 *Métricas e feedbacks:*\n🔹 Vendas de Ingressos no dia: *${formatNumber(json.quantidade_vendas_dia)}*\n🔹 Faturamento no dia: *${formatMoney(faturamentoDia)}*\n🔹 Ticket Médio: *${formatMoney(ticketMedio)}*\n\n🔹 *CPA do Ingresso:* *${formatMoney(cpa)}* gastos para cada ingresso\n🔹 Investimento Total: *${formatMoney(custoTotalAccumulado_launch)}* (Resta saldo de *${formatMoney(saldoInvestimento)}*)\n🔹 *ROAS Geral:* *${parseFloat(roas).toFixed(2)}*\n🔹 Investimento Capt: *${formatMoney(custoTotalAccumulado)}* 🔹 *ROAS Capt:* *${parseFloat(roas_capt).toFixed(2)}*\n🔹 Base de Leads: *${formatNumber(leadsTotais)}* (Pace: ${sinalPace}${formatNumber(paceLeads)})\n\n*Obs:* Ainda captamos *${json.leads_dia}* leads hoje (CPL R$ ${parseFloat(json.cpl_dia).toFixed(2).replace('.', ',')}).`;\n\n    results.push({\n        json: {\n            message: mensagem,\n            // Passando valores calculados caso queira usar em filtros depois\n            saldo_investimento: saldoInvestimento,\n            pace_leads_formatado: paceLeads\n        }\n    });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -736,
+        1712
+      ],
+      "id": "d7a6209b-b72a-4b4b-8511-c32dd1589ee8",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "052a11ec-7721-4707-84d6-956fa489a8fc",
+              "name": "message",
+              "value": "={{ $json.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -528,
+        1904
+      ],
+      "id": "8afaeba1-cbda-4f9d-b4c0-567f22fb5d8f",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://webhook.umcliquedigital.com/group/ee1a6b7ad82854b7e2a01006dacfb798",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "variavel1",
+              "value": "={{ $json[\"message\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "53e35df8-48ff-4b5b-b18c-63fceef576ec",
+      "name": "EnviaMSG",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -272,
+        1792
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 0 9,21 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1184,
+        1792
+      ],
+      "id": "56e077ce-96be-4810-a165-3f1837c1bf89",
+      "name": "Schedule Trigger3"
+    },
+    {
+      "parameters": {
+        "content": "Foram vendidos XX ingressos até o momento, gerando um faturamento de R$ XX.XXX,XX. Nosso Roas atual é de R$ XX,ZZ sobre o investimento de captação. \n\nAlgumas métricas e feedbacks:\n🔹 Ingressos no dia: {venda}, gerando R$ RR.RRR,RR \n🔹 Faturamento do ingresso no dia: R$ RR.RRR,RR \n🔹 Taxa de conversão ingresso: {evolução}\n\n🔹 Investimento total: *R$ 107.520,90* - 🟢 53.8% abaixo do Budget, restando saldo de \n🔹 CPL: *R$ 2,40*\n🔹 CPL Pago: *R$ 2,87*\n🔹 CPA ingresso: *R$ 2,87*\n🔹 ROAS: *R$ 2,87*\n🔹 ROAS Capt: *R$ 2,87*\n🔹 Leads totais do lançamento: {evolução}, XXX acima da meta (ou abaixo)\n",
+        "height": 528,
+        "width": 576,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1888,
+        2112
+      ],
+      "typeVersion": 1,
+      "id": "71275ed1-1774-46a4-8024-0b0271987dbb",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "052a11ec-7721-4707-84d6-956fa489a8fc",
+              "name": "message",
+              "value": "={{ $json.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -528,
+        2256
+      ],
+      "id": "31e73a83-33b4-4124-88b9-bc35cc62d2ac",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "content": "### Relatório Hoje - Carrinho Aberto",
+        "height": 240,
+        "width": 256,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1264,
+        2256
+      ],
+      "typeVersion": 1,
+      "id": "5a9c0558-2793-4b58-bf41-951d7ac2e5c5",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- CONFIGURAÇÕES DO LANÇAMENTO (AJUSTE AQUI) ---\nconst DATA_FIM_CARRINHO = '2025-12-20'; // Data de fechamento das vendas\nconst META_CONVERSAO_PADRAO = 1.0; // Ex: Meta de converter 1% da lista em vendas\n\n// --- FUNÇÕES DE FORMATAÇÃO ---\nconst formatMoney = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);\nconst formatNumber = (val) => new Intl.NumberFormat('pt-BR').format(val);\nconst formatDate = (dateString) => {\n    if (!dateString) return 'DD/MM';\n    const parts = dateString.split('-');\n    if (parts.length === 3) return `${parts[2]}/${parts[1]}`;\n    return dateString;\n};\n\n// --- FUNÇÃO DE CALCULO DE DIAS ---\nconst getDaysDifference = (targetDate) => {\n    const today = new Date();\n    const target = new Date(targetDate);\n    const diffTime = target - today;\n    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); \n    return diffDays > 0 ? diffDays : 0; // Evita dias negativos\n};\n\nconst results = [];\n\nfor (const item of items) {\n    const json = item.json;\n\n    // --- 1. DADOS DE VENDAS (O AGORA) ---\n    const qtdVendas = parseFloat(json.quantidade_vendas || 0);\n    const faturamentoTotal = parseFloat(json.faturamento_total || 0);\n    const vendasDia = parseFloat(json.quantidade_vendas_dia || 0);\n    const faturamentoDia = parseFloat(json.faturamento_dia || 0);\n    \n    const ticketMedio = qtdVendas > 0 ? faturamentoTotal / qtdVendas : 0;\n\n    // --- 2. DADOS DE INVESTIMENTO (A EFICIÊNCIA) ---\n    // Somamos o custo total acumulado (Capt + Vendas até agora)\n    const custoTotalAccumulado = parseFloat(json.custo_total || 0); \n    \n    // ROAS (Retorno sobre Gasto em Anúncio)\n    // Se o custo for 0, evitamos divisão por zero\n    const roas = custoTotalAccumulado > 0 ? (faturamentoTotal / custoTotalAccumulado) : 0;\n    \n    // CPA (Custo por Aquisição - Quanto custou cada venda)\n    const cpa = qtdVendas > 0 ? (custoTotalAccumulado / qtdVendas) : 0;\n\n    // --- 3. DADOS DA BASE (A TEMPERATURA) ---\n    const leadsTotais = parseFloat(json.leads_totais || 0);\n    \n    // Taxa de Conversão da Lista (Vendas / Leads)\n    const taxaConversao = leadsTotais > 0 ? (qtdVendas / leadsTotais) * 100 : 0;\n\n    // --- 4. METAS E PACE (O FUTURO) ---\n    // Calculando meta de vendas baseada na conversão esperada da lista\n    const metaVendas = Math.ceil(leadsTotais * (META_CONVERSAO_PADRAO / 100));\n    const pctMetaVendas = metaVendas > 0 ? (qtdVendas / metaVendas) * 100 : 0;\n    \n    const diasRestantes = getDaysDifference(DATA_FIM_CARRINHO);\n    const vendasRestantes = metaVendas - qtdVendas;\n    \n    // Pace: Quantas vendas por dia preciso fazer para bater a meta?\n    // Se diasRestantes for 0, usamos 1 para não quebrar a conta\n    const paceVendas = vendasRestantes > 0 ? Math.ceil(vendasRestantes / (diasRestantes || 1)) : 0;\n\n    // Emojis de Status\n    const emojiRoas = roas >= 1 ? '🟢' : (roas >= 0.5 ? '🟡' : '🔴');\n    const emojiMeta = pctMetaVendas >= 100 ? '🎉' : (pctMetaVendas >= 50 ? '🟢' : '🟡');\n\n    // --- MONTAGEM DA MENSAGEM (COPY HÍBRIDA) ---\n    const mensagem = `🚨 *UPDATE: VENDA DE INGRESSOS*\n📅 *Status:* Carrinho Aberto (Faltam ${diasRestantes} dias)\n\n💰 *O RESULTADO AGORA*\n🔹 Vendas Totais: *${formatNumber(qtdVendas)}* ${vendasDia > 0 ? `(+${formatNumber(vendasDia)} hoje)` : ''}\n🔹 Faturamento: *${formatMoney(faturamentoTotal)}*\n🔹 Ticket Médio: *${formatMoney(ticketMedio)}*\n\n📉 *EFICIÊNCIA FINANCEIRA*\n🔹 Investimento Total (Ads): *${formatMoney(custoTotalAccumulado)}*\n🔹 *ROAS Geral:* *${roas.toFixed(2)}x* ${emojiRoas}\n🔹 *CPA (Custo p/ Venda):* *${formatMoney(cpa)}*\n_(Gastamos ${formatMoney(cpa)} para fazer 1 venda)_\n\n🌡️ *TEMPERATURA DA LISTA*\n🔹 Taxa de Conversão: *${taxaConversao.toFixed(2)}%*\n🔹 Base de Leads: *${formatNumber(leadsTotais)}*\n\n🎯 *CHECK DE METAS*\nMeta de Vendas (${META_CONVERSAO_PADRAO}% da lista): *${formatNumber(metaVendas)}*\nRealizado: *${pctMetaVendas.toFixed(1)}%* ${emojiMeta}\n🚀 *Pace Necessário:* Precisamos de *${formatNumber(paceVendas)} vendas/dia* até ${formatDate(DATA_FIM_CARRINHO)} para bater a meta.\n\n--------------------------------\n*Obs:* Ainda captamos *${json.leads_dia}* leads hoje (CPL R$ ${parseFloat(json.cpl_dia).toFixed(2).replace('.', ',')}).`;\n\n    results.push({\n        json: {\n            message: mensagem,\n            // Passando valores calculados caso queira usar em filtros depois\n        }\n    });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -736,
+        2448
+      ],
+      "id": "1de8ce7d-8afb-4b5a-8c8a-d5a71b510dfd",
+      "name": "insights"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM vw_notifications_reports_launch_capt_ticket_hibrid",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -960,
+        2336
+      ],
+      "id": "4960330f-354d-4c6c-8f1e-c0976c1fb1e0",
+      "name": "GetView",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- FUNÇÕES DE FORMATAÇÃO ---\nconst formatMoney = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);\nconst formatDate = (dateString) => {\n    if (!dateString) return 'DD/MM/AAAA';\n    const [year, month, day] = dateString.split('-');\n    return `${day}/${month}/${year}`;\n};\n\n// --- FUNÇÃO DE FEEDBACK (EMOJIS) ---\nconst getFeedback = (actual, target, type) => {\n    if (!target || target === 0) return '';\n    \n    // Calcula a variação percentual\n    let diff = ((actual - target) / target) * 100;\n    let diffAbs = Math.abs(diff).toFixed(1);\n    let emoji = '', text = '';\n\n    if (type === 'high') { // Leads, Conversão (Maior é melhor)\n        if (diff >= 0) {\n            emoji = '🟢';\n            text = `${diffAbs}% acima`;\n        } else {\n            emoji = '🔴';\n            text = `${diffAbs}% abaixo`;\n        }\n    } else { // CPL (Menor é melhor)\n        if (diff <= 0) {\n            emoji = '🟢';\n            text = `${diffAbs}% abaixo da meta`;\n        } else {\n            emoji = '🔴';\n            text = `${diffAbs}% acima da meta`;\n        }\n    }\n    return `${emoji} ${text}`;\n};\n\nconst results = [];\n\nfor (const item of items) {\n    const json = item.json;\n\n    // --- VARIÁVEIS E CÁLCULOS BÁSICOS ---\n    const leadsTotais = parseFloat(json.leads_totais);\n    const leadsFaltantes = parseFloat(json.leads_diff_meta_capt); // Se negativo, meta batida\n    const metaLeadsTotal = leadsTotais + leadsFaltantes;\n    \n    // Cálculos de Leads Pagos (Soma Meta + Google) para uso no CPL\n    const leadsPagosDia = parseInt(json.leads_meta_ads_dia) + parseInt(json.leads_google_ads_dia);\n    const leadsPagosTotal = parseInt(json.leads_meta_ads_total) + parseInt(json.leads_google_ads_total);\n\n    // --- FINANCEIRO ---\n    const investimentoTotal = parseFloat(json.investimento_meta_geral);\n    const custoTotalDia = parseFloat(json.custo_total_dia);\n    const custoAteAgora = parseFloat(json.custo_total);\n    const saldoRestante = investimentoTotal - custoAteAgora;\n    const diasRestantes = parseInt(json.dias_restantes_capt) || 1;\n    const sugestaoInvestimentoDiario = saldoRestante / diasRestantes;\n    \n    // Cálculo do CPL PAGO (Separado do CPL Geral que inclui orgânico)\n    // Evita divisão por zero com (leadsPagosDia || 1)\n    const cplPagoDia = custoTotalDia / (leadsPagosDia || 1);\n    const cplPagoTotal = custoAteAgora / (leadsPagosTotal || 1);\n\n    // Lógica do Budget (Vermelho se estourar)\n    const pctBudgetUsado = (custoAteAgora / investimentoTotal) * 100;\n    const emojiBudget = pctBudgetUsado > 100 ? '🔴' : '🟢';\n\n    // --- METAS ---\n    const metaCpl = investimentoTotal / metaLeadsTotal; \n    const metaLeadsDia = parseFloat(json.pace_leads_meta); \n    const metaTaxaConversao = parseFloat(json.goal_entrada_grupo) * 100;\n\n    // --- LÓGICA CONDICIONAL DE TEXTO ---\n    \n    // 1. Texto do Cabeçalho (Pace)\n    let textoMetaPendente = '';\n    if (leadsFaltantes > 0) {\n        textoMetaPendente = `Precisamos captar mais ${parseInt(json.leads_diff_meta_capt)}, ao pace de ${parseInt(json.pace_leads_meta)} Leads/dia até ${formatDate(json.lead_generation_end_date)} (final capt), para alcançar 100% do objetivo esperado.`;\n    } else {\n        textoMetaPendente = `A meta de leads já foi batida.`;\n    }\n\n    // 2. Linha \"Leads totais dia\" (Correção solicitada)\n    // Se a meta foi batida (leadsFaltantes <= 0), não mostramos \"abaixo da meta projetada de -400\"\n    let linhaLeadsDia = '';\n    if (leadsFaltantes > 0) {\n        // Cenário normal: Compara com o Pace\n        linhaLeadsDia = `🔹 Leads totais dia: *${json.leads_dia}* - ${getFeedback(json.leads_dia, metaLeadsDia, 'high')} da meta projetada de ${parseInt(metaLeadsDia)}`;\n    } else {\n        // Cenário Meta Batida: Mostra só o total e um check\n        linhaLeadsDia = `🔹 Leads totais dia: *${json.leads_dia}* ✅ (Meta Total Batida)`;\n    }\n\n    // --- MONTAGEM DA MENSAGEM ---\n    const mensagem = `Até o momento captamos *${json.leads_totais}* leads ao CPL de *${formatMoney(json.cpl_total)}*. Cumprimos *${json.pct_para_meta_leads_capt}%* da meta otimista de ${metaLeadsTotal} leads. ${textoMetaPendente}\n\nAlgumas métricas e feedbacks:\n${linhaLeadsDia}\n🔹 Leads pagos no dia: *${leadsPagosDia}*\n🔹 Leads orgânicos no dia: *${json.leads_organico_dia}*\n🔹 Leads não rastreados no dia: *${json.leads_nao_rastreado_dia}*\n\n🔹 Investimento Capt de hoje: *${formatMoney(json.custo_total_dia)}*\n🔹 CPL hoje (Geral): *${formatMoney(json.cpl_dia)}*\n🔹 CPL Pago hoje: *${formatMoney(cplPagoDia)}* \n🔹 CPL Pago total: *${formatMoney(cplPagoTotal)}*\n🔹 Investimento Capt total: *${formatMoney(json.custo_total)}* - ${emojiBudget} ${pctBudgetUsado.toFixed(1)}% do Budget.\n🔹 Saldo para investir: *${formatMoney(saldoRestante)}* - Podemos aumentar a verba diária em ${formatMoney(sugestaoInvestimentoDiario)}\n\n🔹 Pesquisas respondidas: *${json.pesquisas_respondidas}* envios\n🔹 Taxa de resposta: *${json.pct_respostas_pesquisa}%*\n\n🔹 Entradas em grupos hoje: *${json.entradas_grupo_dia}* leads\n🔹 Saídas de grupos hoje: *${json.saidas_grupo_dia}* leads\n🔹 Taxa de conversão hoje: *${json.taxa_conversao_grupo_dia}%* - ${getFeedback(json.taxa_conversao_grupo_dia, metaTaxaConversao, 'high')}\n🔹 Taxa de conversão total: *${json.taxa_media_conversao_grupo}%* - ${getFeedback(json.taxa_media_conversao_grupo, metaTaxaConversao, 'high')}`;\n\n    results.push({\n        json: {\n            message: mensagem\n        }\n    });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -736,
+        2256
+      ],
+      "id": "9ef694e1-739a-42d1-8c24-f8d78390f84f",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "052a11ec-7721-4707-84d6-956fa489a8fc",
+              "name": "message",
+              "value": "={{ $json.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -528,
+        2448
+      ],
+      "id": "5303802c-c031-412c-8314-d702b6cad5a3",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://webhook.umcliquedigital.com/group/ee1a6b7ad82854b7e2a01006dacfb798",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "variavel1",
+              "value": "={{ $json[\"message\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e9056101-9a67-4c5c-b840-743d7064c0a8",
+      "name": "EnviaMSG2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -272,
+        2336
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 0 9,21 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1184,
+        2336
+      ],
+      "id": "3d178d2c-ae45-42d4-b7cc-dc7aeebdf0d9",
+      "name": "Schedule Trigger",
+      "disabled": true
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-09T14:06:37.999Z",
+      "createdAt": "2025-12-09T14:06:37.999Z",
+      "role": "workflow:owner",
+      "workflowId": "buRpxMIVaiiNL7FQ",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger1": {
+      "recurrenceRules": []
+    },
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    },
+    "node:Schedule Trigger2": {
+      "recurrenceRules": []
+    },
+    "node:Schedule Trigger3": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 2,
+  "updatedAt": "2026-01-05T23:49:22.938Z",
+  "versionId": "6ad5903c-a99e-4a98-93c2-bc8babf43bf1"
+}

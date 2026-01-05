@@ -1,0 +1,732 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-28T13:00:51.928Z",
+    "createdAt": "2025-12-28T13:00:51.928Z",
+    "versionId": "fcb8e96c-2a7c-4b18-8c2b-0124225fef9e",
+    "workflowId": "wYPQzrzAIE85QVpg",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          0,
+          0
+        ],
+        "id": "07e25b34-0d9c-4a0a-a22b-da34b55d112f",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE `launch_leads` SET `utm_campaign`='SSP-L20',`utm_term`='Stories',`utm_content`='Stories' WHERE `utm_source` = 'Instagram' AND `utm_medium` = 'Stories' AND `launch_key` = 'SSP-L20'",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          208,
+          0
+        ],
+        "id": "83559894-fd60-4801-ac80-1e37db535306",
+        "name": "Execute a SQL query",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE `launch_leads` SET `utm_campaign`='SSP-L20',`utm_term`='bio',`utm_content`='bio', `utm_medium`='bio' WHERE `utm_source` = 'Instagram' and utm_campaign ='bio' and launch_key = 'SSP-L20';",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          640,
+          0
+        ],
+        "id": "ac2223cb-e617-4265-85b5-f43af46a782b",
+        "name": "Execute a SQL query1",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE `launch_leads` SET `utm_campaign`='SSP-L20',`utm_term`='bio',`utm_content`='bio' WHERE `utm_campaign` is null AND `utm_medium` = 'Bio' and launch_key = 'SSP-L20';",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          1136,
+          0
+        ],
+        "id": "e8f46a4d-7818-429b-b4d1-6e258fb2e5b0",
+        "name": "Execute a SQL query2",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          416,
+          0
+        ],
+        "id": "13dc01e0-f4f6-4234-afde-77eddfb42079",
+        "name": "Wait",
+        "webhookId": "0151ad7b-0745-4142-83d6-805ab4501775"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          880,
+          0
+        ],
+        "id": "68b3d679-28b2-4b8e-81d4-fbed0bea9a36",
+        "name": "Wait1",
+        "webhookId": "0151ad7b-0745-4142-83d6-805ab4501775"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE `launch_leads` SET `utm_campaign`='SSP-L20',`utm_term`='tiktok',`utm_content`='tiktok', `utm_medium` = 'tiktok' where `utm_source` = 'tiktok' and launch_key = 'SSP-L20';",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          1648,
+          0
+        ],
+        "id": "37753a64-ec35-45ba-be00-8b6cf3bf364d",
+        "name": "Execute a SQL query3",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1392,
+          0
+        ],
+        "id": "a6d27214-2a32-4138-9213-895099d337cb",
+        "name": "Wait2",
+        "webhookId": "0151ad7b-0745-4142-83d6-805ab4501775"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE `launch_leads` SET `utm_campaign`='SSP-L20',`utm_term`='Descricao',`utm_medium`='Descricao',`utm_content`='Descricao' WHERE `utm_source` = 'Youtube' AND launch_key = 'SSP-L20';",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          2128,
+          0
+        ],
+        "id": "dd60ad9c-bd60-44d4-bfc8-becf3f2a6026",
+        "name": "Execute a SQL query4",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1872,
+          0
+        ],
+        "id": "75dc9221-edb3-4504-b00c-c3c651bfef57",
+        "name": "Wait3",
+        "webhookId": "0151ad7b-0745-4142-83d6-805ab4501775"
+      },
+      {
+        "parameters": {
+          "content": "utm_source = Instagram\nutm_medium = Stories\nlaunch_key = SSP-L17",
+          "height": 528
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          160,
+          -208
+        ],
+        "typeVersion": 1,
+        "id": "3143ba89-1845-4ac6-b59f-06f4c51a2722",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "content": "utm_source = Instagram\nutm_medium = Bio\nlaunch_key = SSP-L17\nutm_campaign = ''",
+          "height": 528
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          576,
+          -208
+        ],
+        "typeVersion": 1,
+        "id": "5dc18387-9094-4a5b-824b-1b167fbe6cae",
+        "name": "Sticky Note1"
+      },
+      {
+        "parameters": {
+          "content": "utm_source = Instagram\nutm_medium = Bio\nlaunch_key = SSP-L17\nutm_campaign is null",
+          "height": 528
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          1056,
+          -208
+        ],
+        "typeVersion": 1,
+        "id": "a045607f-4ed5-4471-80fa-848838bcba55",
+        "name": "Sticky Note2"
+      },
+      {
+        "parameters": {
+          "content": "utm_source = Youtube\nutm_medium = Descricao\nlaunch_key = SSP-L17\nutm_campaign is null",
+          "height": 528
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          2016,
+          -240
+        ],
+        "typeVersion": 1,
+        "id": "897cf522-8bc8-4920-af01-0c9d9a4fb202",
+        "name": "Sticky Note3"
+      },
+      {
+        "parameters": {
+          "content": "utm_source = Tiktok\nlaunch_key = SSP-L17",
+          "height": 528
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          1568,
+          -240
+        ],
+        "typeVersion": 1,
+        "id": "01d273a4-b910-4358-b9f7-cb1052eeba21",
+        "name": "Sticky Note4"
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Execute a SQL query",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Execute a SQL query": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Execute a SQL query1": {
+        "main": [
+          [
+            {
+              "node": "Wait1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "Execute a SQL query1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait1": {
+        "main": [
+          [
+            {
+              "node": "Execute a SQL query2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait2": {
+        "main": [
+          [
+            {
+              "node": "Execute a SQL query3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Execute a SQL query2": {
+        "main": [
+          [
+            {
+              "node": "Wait2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait3": {
+        "main": [
+          [
+            {
+              "node": "Execute a SQL query4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Execute a SQL query3": {
+        "main": [
+          [
+            {
+              "node": "Wait3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "fcb8e96c-2a7c-4b18-8c2b-0124225fef9e",
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query2": {
+      "main": [
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query3": {
+      "main": [
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-05T15:43:10.116Z",
+  "id": "wYPQzrzAIE85QVpg",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Correção UTMs",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "07e25b34-0d9c-4a0a-a22b-da34b55d112f",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE `launch_leads` SET `utm_campaign`='SSP-L20',`utm_term`='Stories',`utm_content`='Stories' WHERE `utm_source` = 'Instagram' AND `utm_medium` = 'Stories' AND `launch_key` = 'SSP-L20'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        208,
+        0
+      ],
+      "id": "83559894-fd60-4801-ac80-1e37db535306",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE `launch_leads` SET `utm_campaign`='SSP-L20',`utm_term`='bio',`utm_content`='bio', `utm_medium`='bio' WHERE `utm_source` = 'Instagram' and utm_campaign ='bio' and launch_key = 'SSP-L20';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        640,
+        0
+      ],
+      "id": "ac2223cb-e617-4265-85b5-f43af46a782b",
+      "name": "Execute a SQL query1",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE `launch_leads` SET `utm_campaign`='SSP-L20',`utm_term`='bio',`utm_content`='bio' WHERE `utm_campaign` is null AND `utm_medium` = 'Bio' and launch_key = 'SSP-L20';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1136,
+        0
+      ],
+      "id": "e8f46a4d-7818-429b-b4d1-6e258fb2e5b0",
+      "name": "Execute a SQL query2",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "13dc01e0-f4f6-4234-afde-77eddfb42079",
+      "name": "Wait",
+      "webhookId": "0151ad7b-0745-4142-83d6-805ab4501775"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        0
+      ],
+      "id": "68b3d679-28b2-4b8e-81d4-fbed0bea9a36",
+      "name": "Wait1",
+      "webhookId": "0151ad7b-0745-4142-83d6-805ab4501775"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE `launch_leads` SET `utm_campaign`='SSP-L20',`utm_term`='tiktok',`utm_content`='tiktok', `utm_medium` = 'tiktok' where `utm_source` = 'tiktok' and launch_key = 'SSP-L20';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1648,
+        0
+      ],
+      "id": "37753a64-ec35-45ba-be00-8b6cf3bf364d",
+      "name": "Execute a SQL query3",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1392,
+        0
+      ],
+      "id": "a6d27214-2a32-4138-9213-895099d337cb",
+      "name": "Wait2",
+      "webhookId": "0151ad7b-0745-4142-83d6-805ab4501775"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE `launch_leads` SET `utm_campaign`='SSP-L20',`utm_term`='Descricao',`utm_medium`='Descricao',`utm_content`='Descricao' WHERE `utm_source` = 'Youtube' AND launch_key = 'SSP-L20';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2128,
+        0
+      ],
+      "id": "dd60ad9c-bd60-44d4-bfc8-becf3f2a6026",
+      "name": "Execute a SQL query4",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1872,
+        0
+      ],
+      "id": "75dc9221-edb3-4504-b00c-c3c651bfef57",
+      "name": "Wait3",
+      "webhookId": "0151ad7b-0745-4142-83d6-805ab4501775"
+    },
+    {
+      "parameters": {
+        "content": "utm_source = Instagram\nutm_medium = Stories\nlaunch_key = SSP-L17",
+        "height": 528
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        160,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "3143ba89-1845-4ac6-b59f-06f4c51a2722",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "utm_source = Instagram\nutm_medium = Bio\nlaunch_key = SSP-L17\nutm_campaign = ''",
+        "height": 528
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        576,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "5dc18387-9094-4a5b-824b-1b167fbe6cae",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "utm_source = Instagram\nutm_medium = Bio\nlaunch_key = SSP-L17\nutm_campaign is null",
+        "height": 528
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1056,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "a045607f-4ed5-4471-80fa-848838bcba55",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "utm_source = Youtube\nutm_medium = Descricao\nlaunch_key = SSP-L17\nutm_campaign is null",
+        "height": 528
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2016,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "897cf522-8bc8-4920-af01-0c9d9a4fb202",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "utm_source = Tiktok\nlaunch_key = SSP-L17",
+        "height": 528
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1568,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "01d273a4-b910-4358-b9f7-cb1052eeba21",
+      "name": "Sticky Note4"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-05T15:43:10.116Z",
+      "createdAt": "2025-09-05T15:43:10.116Z",
+      "role": "workflow:owner",
+      "workflowId": "wYPQzrzAIE85QVpg",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-28T13:00:51.944Z",
+  "versionId": "fcb8e96c-2a7c-4b18-8c2b-0124225fef9e"
+}

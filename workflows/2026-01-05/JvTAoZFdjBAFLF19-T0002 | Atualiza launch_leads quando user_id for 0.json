@@ -1,0 +1,560 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T19:22:18.976Z",
+    "createdAt": "2025-11-26T19:22:18.976Z",
+    "versionId": "0f057313-ac2b-4249-8ea0-c7712eb0172a",
+    "workflowId": "JvTAoZFdjBAFLF19",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 1
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -544,
+          48
+        ],
+        "id": "a4534fa0-584b-4abf-8ad0-6aafb4ecb77b",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "select * from launch_leads\nwhere user_id = 0\nlimit 100",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          -336,
+          48
+        ],
+        "id": "1c3de751-0a03-4fc8-a28e-c32b0d19a0dc",
+        "name": "searchFunnel",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          -128,
+          48
+        ],
+        "id": "161c2331-5fb1-4203-9cf0-16367d3a577c",
+        "name": "Loop Over Items"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "name": "Replace Me",
+        "typeVersion": 1,
+        "position": [
+          128,
+          128
+        ],
+        "id": "ac92283a-48c2-4b47-9b24-a3fa2dd3e8d1"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "a965db1e-df3b-4cd1-a467-f98261fcab20",
+                "leftValue": "={{ $node['getUser'].json }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "object",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          528,
+          64
+        ],
+        "id": "e74737ab-dc9e-420b-94e8-628f7ef8ca60",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "users",
+            "mode": "list",
+            "cachedResultName": "users"
+          },
+          "where": {
+            "values": [
+              {
+                "column": "email",
+                "value": "={{ $json.email }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          336,
+          128
+        ],
+        "id": "8693603c-1930-44f4-896e-690cfaa04121",
+        "name": "getUser",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "launch_leads",
+            "mode": "list",
+            "cachedResultName": "launch_leads"
+          },
+          "dataMode": "defineBelow",
+          "columnToMatchOn": "id_launch",
+          "valueToMatchOn": "={{ $('Replace Me').item.json.id_launch }}",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "user_id",
+                "value": "={{ $('getUser').item.json.id_user }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          784,
+          80
+        ],
+        "id": "9b03e174-943d-48e9-9123-d3e33c40e1c2",
+        "name": "Update2LaunchLeads",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "searchFunnel",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "searchFunnel": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Replace Me",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Replace Me": {
+        "main": [
+          [
+            {
+              "node": "getUser",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getUser": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Update2LaunchLeads",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update2LaunchLeads": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "0f057313-ac2b-4249-8ea0-c7712eb0172a",
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "searchFunnel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "searchFunnel": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "getUser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getUser": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Update2LaunchLeads",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update2LaunchLeads": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-12T20:50:42.829Z",
+  "id": "JvTAoZFdjBAFLF19",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "T0002 | Atualiza launch_leads quando user_id for 0",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -544,
+        48
+      ],
+      "id": "a4534fa0-584b-4abf-8ad0-6aafb4ecb77b",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select * from launch_leads\nwhere user_id = 0\nlimit 100",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -336,
+        48
+      ],
+      "id": "1c3de751-0a03-4fc8-a28e-c32b0d19a0dc",
+      "name": "searchFunnel",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -128,
+        48
+      ],
+      "id": "161c2331-5fb1-4203-9cf0-16367d3a577c",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        128,
+        128
+      ],
+      "id": "ac92283a-48c2-4b47-9b24-a3fa2dd3e8d1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a965db1e-df3b-4cd1-a467-f98261fcab20",
+              "leftValue": "={{ $node['getUser'].json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        528,
+        64
+      ],
+      "id": "e74737ab-dc9e-420b-94e8-628f7ef8ca60",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "email",
+              "value": "={{ $json.email }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        336,
+        128
+      ],
+      "id": "8693603c-1930-44f4-896e-690cfaa04121",
+      "name": "getUser",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_launch",
+        "valueToMatchOn": "={{ $('Replace Me').item.json.id_launch }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "user_id",
+              "value": "={{ $('getUser').item.json.id_user }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        784,
+        80
+      ],
+      "id": "9b03e174-943d-48e9-9123-d3e33c40e1c2",
+      "name": "Update2LaunchLeads",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-12T20:50:42.829Z",
+      "createdAt": "2025-09-12T20:50:42.829Z",
+      "role": "workflow:owner",
+      "workflowId": "JvTAoZFdjBAFLF19",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-10T17:30:43.878Z",
+  "versionId": "0f057313-ac2b-4249-8ea0-c7712eb0172a"
+}

@@ -1,0 +1,1055 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-06T01:21:56.045Z",
+    "createdAt": "2026-01-06T01:21:56.045Z",
+    "versionId": "d4dba6ba-b389-4c25-b93d-c908b7ea9170",
+    "workflowId": "oyepV9RisSg0kGNR",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 3
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -160,
+          0
+        ],
+        "id": "8a62047a-11cb-495f-a708-38b6c6adc7de",
+        "name": "Schedule Trigger1",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SET @ltag='SSP-L19';\nCALL `insert_manychat_from_general_queue`(@ltag);",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          64,
+          0
+        ],
+        "id": "58022fca-1861-4e04-9250-8fcf34a8d329",
+        "name": "Execute",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "name": "Item",
+        "typeVersion": 1,
+        "position": [
+          560,
+          416
+        ],
+        "id": "aab93a29-0d3e-4bd7-ab7f-8ae4c03aed6b"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          288,
+          288
+        ],
+        "id": "60c920d0-4e81-478f-b45e-cacc5b30d6e1",
+        "name": "Loop"
+      },
+      {
+        "parameters": {
+          "jsCode": "let request = $node[\"Item\"].json[\"request_body\"]\nlet bufferObj = Buffer.from(request, \"base64\");\nlet decodedString = bufferObj.toString(\"utf8\");\nlet json = JSON.parse(decodedString);\nreturn json;"
+        },
+        "id": "63b8bedb-392d-40cf-a8a6-f2eb147c0a08",
+        "name": "Buffer",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1008,
+          416
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "general_queue",
+            "mode": "list",
+            "cachedResultName": "general_queue"
+          },
+          "dataMode": "defineBelow",
+          "columnToMatchOn": "id_perpetual_queue",
+          "valueToMatchOn": "={{ $node[\"Item\"].json[\"id_perpetual_queue\"] }}",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "tries_count",
+                "value": "={{ $json[\"tries_count\"] + 1}}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "de15a72e-f555-426d-9bcc-4b135bc59b4d",
+        "name": "Executar Tentativa",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          784,
+          416
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "let data = $node['Buffer'].json;\nlet user = $node[\"getUser\"].json\nlet item = $node[\"Item\"].json\n\nfunction mapManychatDirect(data) {\n  const parseDate = (v) => {\n    if (!v) return null\n    try {\n      const d = new Date(v)\n      if (isNaN(d)) return null\n      const pad = (n) => String(n).padStart(2, '0')\n      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`\n    } catch {\n      return null\n    }\n  }\n\n  const bool = (v) => {\n    if (typeof v === 'boolean') return v\n    if (v === 'true' || v === '1' || v === 1) return true\n    return false\n  }\n\n  return {\n    id_manychat_direct: data.id  || null,\n    // user_key: data.key ? data.key : user ? user?.id_user + \"_\" + item.insert_time.replace(/[^a-zA-Z0-9]/g, \"\") : item.insert_time.replace(/[^a-zA-Z0-9]/g, \"\") || null,\n    user_key: data.key ? data.key : (user && user.id_user) ? user.id_user + \"_\" + item.insert_time.replace(/[^a-zA-Z0-9]/g, \"\") : data.telefone + \"_\" +item.insert_time.replace(/[^a-zA-Z0-9]/g, \"\") || null,\n    page_id: data.page_id || null,\n    status: data.status || 'active',\n\n    first_name: data.name || null,\n    last_name: data.last_name || null,\n    full_name: user ? user.name || null : data.first_name || null,\n    gender: data.gender || null,\n    profile_pic: data.profile_pic || null,\n    locale: data.locale || null,\n    language: data.language || null,\n    timezone: data.timezone || null,\n\n    live_chat_url: data.live_chat_url || null,\n    last_input_text: data.last_input_text || null,\n\n    optin_phone: user ? !!user.phone : bool(data.optin_phone),\n    phone: data.telefone || null,\n    optin_email: user ? !!user.email : bool(data.optin_email),\n    email: user ? user.email || null : data.email || null,\n    optin_whatsapp: user ? !!user.phone : bool(data.optin_whatsapp),\n    whatsapp_phone: data.telefone || null,\n    phone_country_code: data.phone_country_code || data.telefone.substring(2, 4) || null,\n\n    subscribed: parseDate(data.subscribed) || parseDate(item.insert_time),\n    last_interaction: parseDate(data.last_interaction),\n    ig_last_interaction: parseDate(data.ig_last_interaction),\n    last_seen: parseDate(data.last_seen),\n    ig_last_seen: parseDate(data.ig_last_seen),\n\n    is_followup_enabled: bool(data.is_followup_enabled),\n    ig_username: data.ig_username || null,\n    ig_id: data.ig_id || null,\n\n    custom_fields: data.custom_fields ? JSON.stringify(data.custom_fields) : null,\n    user_refs: data.user_refs ? JSON.stringify(data.user_refs) : null,\n    raw_payload: JSON.stringify(data),\n    queue_id: item.id_perpetual_queue,\n    created_time: parseDate(data.subscribed) || parseDate(item.insert_time),\n    launch_tag: 'SSP-L20'\n  }\n}\n\n\nreturn mapManychatDirect(data);"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1440,
+          416
+        ],
+        "id": "9b02ef83-5b97-47ea-a20f-0aaf26f0d33a",
+        "name": "PrepareStatement"
+      },
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "manychat_direct",
+            "mode": "list",
+            "cachedResultName": "manychat_direct"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          1648,
+          416
+        ],
+        "id": "ad9073b1-e4b2-433d-b929-3432233bdbf1",
+        "name": "CreateRow",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "general_queue",
+            "mode": "list",
+            "cachedResultName": "general_queue"
+          },
+          "dataMode": "defineBelow",
+          "columnToMatchOn": "id_perpetual_queue",
+          "valueToMatchOn": "={{ $('Item').item.json.id_perpetual_queue }}",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "execution_time",
+                "value": "={{ $now }}"
+              },
+              {
+                "column": "is_pending",
+                "value": "N"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          1840,
+          416
+        ],
+        "id": "1f6649d1-8d55-4ca2-934a-ac0501d253f1",
+        "name": "SetExecuted",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "Nó SQL do tipo INSERT por não haver id do usuário no payload",
+          "height": 304,
+          "width": 150
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          1616,
+          272
+        ],
+        "typeVersion": 1,
+        "id": "a5ab5922-a1a7-4fa3-8734-f9ba980c5cd5",
+        "name": "Sticky Note",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 2
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -160,
+          288
+        ],
+        "id": "7aeae5f9-7acd-4cb0-ac5b-2325382a4eab",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "general_queue",
+            "mode": "list",
+            "cachedResultName": "general_queue"
+          },
+          "limit": 150,
+          "where": {
+            "values": [
+              {
+                "column": "action_source",
+                "value": "ManyChatDirect"
+              },
+              {
+                "column": "is_pending",
+                "value": "Y"
+              },
+              {
+                "column": "tries_count",
+                "condition": "<",
+                "value": "4"
+              }
+            ]
+          },
+          "sort": {
+            "values": [
+              {
+                "column": "id_perpetual_queue"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          48,
+          288
+        ],
+        "id": "51aafa8a-6b4b-488c-b859-a59856855b00",
+        "name": "SearchItems",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT * FROM users\nWHERE (phone = {{$json.telefone}} OR phone = {{ \"+\"+ $json.telefone }})\nORDER BY id_user DESC\nlimit 1;",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          1216,
+          416
+        ],
+        "id": "29d43d66-d674-468f-97a1-aec7c3c35bc1",
+        "name": "getUser",
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "general_queue",
+            "mode": "list",
+            "cachedResultName": "general_queue"
+          },
+          "where": {
+            "values": [
+              {
+                "column": "action_source",
+                "value": "ManyChatDirect"
+              },
+              {
+                "column": "id_perpetual_queue",
+                "value": "6"
+              }
+            ]
+          },
+          "sort": {
+            "values": [
+              {
+                "column": "id_perpetual_queue"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          48,
+          480
+        ],
+        "id": "6f4ef074-4244-4477-b0b6-21992a067068",
+        "name": "SearchItems1",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "content": "Caso não venha mais informações no payload, utiliza infos de users para preencher alguns campos",
+          "height": 304,
+          "width": 166
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          1408,
+          272
+        ],
+        "typeVersion": 1,
+        "id": "ddea792b-2b18-4a62-9eca-ddd50cf687a0",
+        "name": "Sticky Note1",
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Schedule Trigger1": {
+        "main": [
+          [
+            {
+              "node": "Execute",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Item": {
+        "main": [
+          [
+            {
+              "node": "Executar Tentativa",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Item",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Buffer": {
+        "main": [
+          [
+            {
+              "node": "getUser",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Executar Tentativa": {
+        "main": [
+          [
+            {
+              "node": "Buffer",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "PrepareStatement": {
+        "main": [
+          [
+            {
+              "node": "CreateRow",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "CreateRow": {
+        "main": [
+          [
+            {
+              "node": "SetExecuted",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SetExecuted": {
+        "main": [
+          [
+            {
+              "node": "Loop",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "SearchItems",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SearchItems": {
+        "main": [
+          [
+            {
+              "node": "Loop",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getUser": {
+        "main": [
+          [
+            {
+              "node": "PrepareStatement",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SearchItems1": {
+        "main": [
+          [
+            {
+              "node": "Loop",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "d4dba6ba-b389-4c25-b93d-c908b7ea9170",
+  "connections": {
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Execute",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item": {
+      "main": [
+        [
+          {
+            "node": "Executar Tentativa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buffer": {
+      "main": [
+        [
+          {
+            "node": "getUser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Executar Tentativa": {
+      "main": [
+        [
+          {
+            "node": "Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PrepareStatement": {
+      "main": [
+        [
+          {
+            "node": "CreateRow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateRow": {
+      "main": [
+        [
+          {
+            "node": "SetExecuted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SetExecuted": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "SearchItems",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchItems": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getUser": {
+      "main": [
+        [
+          {
+            "node": "PrepareStatement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchItems1": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-02T14:52:35.036Z",
+  "id": "oyepV9RisSg0kGNR",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "M0002 - Processa ManyChat",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 3
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -160,
+        0
+      ],
+      "id": "8a62047a-11cb-495f-a708-38b6c6adc7de",
+      "name": "Schedule Trigger1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SET @ltag='SSP-L19';\nCALL `insert_manychat_from_general_queue`(@ltag);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        64,
+        0
+      ],
+      "id": "58022fca-1861-4e04-9250-8fcf34a8d329",
+      "name": "Execute",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Item",
+      "typeVersion": 1,
+      "position": [
+        560,
+        416
+      ],
+      "id": "aab93a29-0d3e-4bd7-ab7f-8ae4c03aed6b"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        288,
+        288
+      ],
+      "id": "60c920d0-4e81-478f-b45e-cacc5b30d6e1",
+      "name": "Loop"
+    },
+    {
+      "parameters": {
+        "jsCode": "let request = $node[\"Item\"].json[\"request_body\"]\nlet bufferObj = Buffer.from(request, \"base64\");\nlet decodedString = bufferObj.toString(\"utf8\");\nlet json = JSON.parse(decodedString);\nreturn json;"
+      },
+      "id": "63b8bedb-392d-40cf-a8a6-f2eb147c0a08",
+      "name": "Buffer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "general_queue",
+          "mode": "list",
+          "cachedResultName": "general_queue"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_perpetual_queue",
+        "valueToMatchOn": "={{ $node[\"Item\"].json[\"id_perpetual_queue\"] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "tries_count",
+              "value": "={{ $json[\"tries_count\"] + 1}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "de15a72e-f555-426d-9bcc-4b135bc59b4d",
+      "name": "Executar Tentativa",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        784,
+        416
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let data = $node['Buffer'].json;\nlet user = $node[\"getUser\"].json\nlet item = $node[\"Item\"].json\n\nfunction mapManychatDirect(data) {\n  const parseDate = (v) => {\n    if (!v) return null\n    try {\n      const d = new Date(v)\n      if (isNaN(d)) return null\n      const pad = (n) => String(n).padStart(2, '0')\n      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`\n    } catch {\n      return null\n    }\n  }\n\n  const bool = (v) => {\n    if (typeof v === 'boolean') return v\n    if (v === 'true' || v === '1' || v === 1) return true\n    return false\n  }\n\n  return {\n    id_manychat_direct: data.id  || null,\n    // user_key: data.key ? data.key : user ? user?.id_user + \"_\" + item.insert_time.replace(/[^a-zA-Z0-9]/g, \"\") : item.insert_time.replace(/[^a-zA-Z0-9]/g, \"\") || null,\n    user_key: data.key ? data.key : (user && user.id_user) ? user.id_user + \"_\" + item.insert_time.replace(/[^a-zA-Z0-9]/g, \"\") : data.telefone + \"_\" +item.insert_time.replace(/[^a-zA-Z0-9]/g, \"\") || null,\n    page_id: data.page_id || null,\n    status: data.status || 'active',\n\n    first_name: data.name || null,\n    last_name: data.last_name || null,\n    full_name: user ? user.name || null : data.first_name || null,\n    gender: data.gender || null,\n    profile_pic: data.profile_pic || null,\n    locale: data.locale || null,\n    language: data.language || null,\n    timezone: data.timezone || null,\n\n    live_chat_url: data.live_chat_url || null,\n    last_input_text: data.last_input_text || null,\n\n    optin_phone: user ? !!user.phone : bool(data.optin_phone),\n    phone: data.telefone || null,\n    optin_email: user ? !!user.email : bool(data.optin_email),\n    email: user ? user.email || null : data.email || null,\n    optin_whatsapp: user ? !!user.phone : bool(data.optin_whatsapp),\n    whatsapp_phone: data.telefone || null,\n    phone_country_code: data.phone_country_code || data.telefone.substring(2, 4) || null,\n\n    subscribed: parseDate(data.subscribed) || parseDate(item.insert_time),\n    last_interaction: parseDate(data.last_interaction),\n    ig_last_interaction: parseDate(data.ig_last_interaction),\n    last_seen: parseDate(data.last_seen),\n    ig_last_seen: parseDate(data.ig_last_seen),\n\n    is_followup_enabled: bool(data.is_followup_enabled),\n    ig_username: data.ig_username || null,\n    ig_id: data.ig_id || null,\n\n    custom_fields: data.custom_fields ? JSON.stringify(data.custom_fields) : null,\n    user_refs: data.user_refs ? JSON.stringify(data.user_refs) : null,\n    raw_payload: JSON.stringify(data),\n    queue_id: item.id_perpetual_queue,\n    created_time: parseDate(data.subscribed) || parseDate(item.insert_time),\n    launch_tag: 'SSP-L20'\n  }\n}\n\n\nreturn mapManychatDirect(data);"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        416
+      ],
+      "id": "9b02ef83-5b97-47ea-a20f-0aaf26f0d33a",
+      "name": "PrepareStatement"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "manychat_direct",
+          "mode": "list",
+          "cachedResultName": "manychat_direct"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1648,
+        416
+      ],
+      "id": "ad9073b1-e4b2-433d-b929-3432233bdbf1",
+      "name": "CreateRow",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "general_queue",
+          "mode": "list",
+          "cachedResultName": "general_queue"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_perpetual_queue",
+        "valueToMatchOn": "={{ $('Item').item.json.id_perpetual_queue }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "execution_time",
+              "value": "={{ $now }}"
+            },
+            {
+              "column": "is_pending",
+              "value": "N"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1840,
+        416
+      ],
+      "id": "1f6649d1-8d55-4ca2-934a-ac0501d253f1",
+      "name": "SetExecuted",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Nó SQL do tipo INSERT por não haver id do usuário no payload",
+        "height": 304,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1616,
+        272
+      ],
+      "typeVersion": 1,
+      "id": "a5ab5922-a1a7-4fa3-8734-f9ba980c5cd5",
+      "name": "Sticky Note",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 2
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -160,
+        288
+      ],
+      "id": "7aeae5f9-7acd-4cb0-ac5b-2325382a4eab",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "general_queue",
+          "mode": "list",
+          "cachedResultName": "general_queue"
+        },
+        "limit": 150,
+        "where": {
+          "values": [
+            {
+              "column": "action_source",
+              "value": "ManyChatDirect"
+            },
+            {
+              "column": "is_pending",
+              "value": "Y"
+            },
+            {
+              "column": "tries_count",
+              "condition": "<",
+              "value": "4"
+            }
+          ]
+        },
+        "sort": {
+          "values": [
+            {
+              "column": "id_perpetual_queue"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        48,
+        288
+      ],
+      "id": "51aafa8a-6b4b-488c-b859-a59856855b00",
+      "name": "SearchItems",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM users\nWHERE (phone = {{$json.telefone}} OR phone = {{ \"+\"+ $json.telefone }})\nORDER BY id_user DESC\nlimit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1216,
+        416
+      ],
+      "id": "29d43d66-d674-468f-97a1-aec7c3c35bc1",
+      "name": "getUser",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "general_queue",
+          "mode": "list",
+          "cachedResultName": "general_queue"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "action_source",
+              "value": "ManyChatDirect"
+            },
+            {
+              "column": "id_perpetual_queue",
+              "value": "6"
+            }
+          ]
+        },
+        "sort": {
+          "values": [
+            {
+              "column": "id_perpetual_queue"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        48,
+        480
+      ],
+      "id": "6f4ef074-4244-4477-b0b6-21992a067068",
+      "name": "SearchItems1",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "Caso não venha mais informações no payload, utiliza infos de users para preencher alguns campos",
+        "height": 304,
+        "width": 166
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1408,
+        272
+      ],
+      "typeVersion": 1,
+      "id": "ddea792b-2b18-4a62-9eca-ddd50cf687a0",
+      "name": "Sticky Note1",
+      "disabled": true
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-02T14:52:35.036Z",
+      "createdAt": "2025-12-02T14:52:35.036Z",
+      "role": "workflow:owner",
+      "workflowId": "oyepV9RisSg0kGNR",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    },
+    "node:Schedule Trigger1": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-06T01:21:56.059Z",
+  "versionId": "d4dba6ba-b389-4c25-b93d-c908b7ea9170"
+}

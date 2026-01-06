@@ -1,0 +1,295 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking \"Test workflow\"": {
+      "main": [
+        [
+          {
+            "node": "n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "n8n3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n1": {
+      "main": [
+        [
+          {
+            "node": "n8n2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "n8n1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:55:15.112Z",
+  "id": "VGzKaKbVp13fnVGy",
+  "isArchived": true,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Avaliar",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "51a28cb4-64c5-444f-a61b-52baf2bf88db",
+      "name": "When clicking \"Test workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1296,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "id": "105ba0f1-de16-4e07-a07d-7eec4dffaeb8",
+      "name": "n8n",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -1088,
+        192
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "XMtKU4OwvrZrZXF7",
+          "name": "n8n libano"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch",
+        "output": "input2"
+      },
+      "id": "05f9f6c6-9dfa-4e68-ae0b-274984d2a54d",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        -224,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "23080ebc-e188-4cc9-b773-ed0b8af5c65d",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "Workflow de erro",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "56efe2b8-3298-45d8-8756-e13fc25ba7c2",
+      "name": "Filter1",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        0,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "workflowObject": "={ \"name\": \"{{ $json.name.replace('(Template) ','') }}\", \"nodes\": {{ JSON.stringify($json.nodes) }}, \"connections\": {{ JSON.stringify($json.connections) }}, \"settings\": {\"errorWorkflow\": \"{{ $item(\"0\").$node['n8n1'].json.id }}\" } }",
+        "requestOptions": {}
+      },
+      "id": "d7a3cda8-f6b1-4497-af33-721c0c5e4e66",
+      "name": "n8n3",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        224,
+        176
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "ED15KFHsFjXV3Aa1",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "workflowId": {
+          "__rl": true,
+          "value": "={{ $node['n8n1'].json.id }}",
+          "mode": "id"
+        },
+        "workflowObject": "={ \"name\": \"{{ $json.name.replace('(Template) ','') }}\", \"nodes\": {{ JSON.stringify($json.nodes) }}, \"connections\": {{ JSON.stringify($json.connections) }}, \"settings\": {\"errorWorkflow\": \"{{ $node['n8n1'].json.id }}\" } }",
+        "requestOptions": {}
+      },
+      "id": "0e8f613b-bbc2-4b18-90a0-a4d30cae5cfd",
+      "name": "n8n2",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        32
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "ED15KFHsFjXV3Aa1",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "workflowObject": "={ \"name\": \"{{ $json.name.replace('(Template) ','') }}\", \"nodes\": {{ JSON.stringify($json.nodes) }}, \"connections\": {{ JSON.stringify($json.connections) }}, \"settings\": {} }",
+        "requestOptions": {}
+      },
+      "id": "ff7fcc82-4c96-4bac-b43a-daa3095e994d",
+      "name": "n8n1",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        32
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "ED15KFHsFjXV3Aa1",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "23080ebc-e188-4cc9-b773-ed0b8af5c65d",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "Workflow de erro",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3a4b32d1-063a-42a3-a74f-f748e7089e49",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        -864,
+        32
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:55:15.112Z",
+      "createdAt": "2025-08-06T19:55:15.112Z",
+      "role": "workflow:owner",
+      "workflowId": "VGzKaKbVp13fnVGy",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-11T20:54:38.246Z",
+  "versionId": "91ca4512-aa42-4096-8a96-1f8a313a27c1"
+}

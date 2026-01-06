@@ -1,0 +1,1525 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Loop": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchQueue": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item": {
+      "main": [
+        [
+          {
+            "node": "Executar Tentativa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buffer": {
+      "main": [
+        [
+          {
+            "node": "CheckLeadExists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Executar Tentativa": {
+      "main": [
+        [
+          {
+            "node": "Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inserir Banco": {
+      "main": [
+        [
+          {
+            "node": "Atualizar Pendencia = N",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualizar Pendencia = N": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CheckLeadExists": {
+      "main": [
+        [
+          {
+            "node": "ActiveCampaign",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LeadExists": {
+      "main": [
+        [],
+        []
+      ]
+    },
+    "CreateLead": {
+      "main": [
+        [
+          {
+            "node": "LeadID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LeadID": {
+      "main": [
+        [
+          {
+            "node": "GetUser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ActiveCampaign": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "tratativaGoogle",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "SearchOnLaunch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "SearchOnLaunch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tratativaGoogle": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "UpdateContact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "CreateContact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetUser": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateContact": {
+      "main": [
+        [
+          {
+            "node": "RestartLead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UpdateContact": {
+      "main": [
+        [
+          {
+            "node": "CreateLead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "SearchQueue1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET": {
+      "main": [
+        [
+          {
+            "node": "SearchQueue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchOnLaunch": {
+      "main": [
+        [
+          {
+            "node": "isLLEmpty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "isLLEmpty": {
+      "main": [
+        [
+          {
+            "node": "RepeatSets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Atualizar Pendencia = N",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RepeatSets": {
+      "main": [
+        [
+          {
+            "node": "Inserir Banco",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "SET",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-28T16:03:42.357Z",
+  "id": "qhmJkg3AkucppZbP",
+  "isArchived": true,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "DESC - [EL] A0002 | Inserção Lead no Banco de Dados [Elementor] SSP-L17",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "9bf88e6c-8d1f-40ee-9171-53e02abd2a9c",
+      "name": "Loop",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        896,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM funnels_queue\nWHERE is_pending    = 'Y'\n  AND (tries_count   <= 4 OR tries_count = '-1')\n  AND funnel_id     = '{{ $node['SET'].json.launch_key }}'\n  AND (action_source = 'Elementor' OR action_source = 'elementor')\n  AND is_ignored    = 'N'\n  AND is_processing = 'N'\n  AND insert_time   <= (NOW() - INTERVAL 10 SECOND)\norder by insert_time DESC\nLIMIT 1\n",
+        "options": {}
+      },
+      "id": "dd03fd21-191c-4da9-b604-ad1049205515",
+      "name": "SearchQueue",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        704,
+        544
+      ],
+      "alwaysOutputData": false,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Busca pelos movimentos aguardando execução",
+        "height": 241.03800589349822,
+        "width": 385.4528310908945
+      },
+      "id": "edf5774b-3d45-44e6-a110-e0c0e4a80d5d",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        464,
+        464
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "e0ce2f71-f366-49d7-aa25-96cc6fe53d27",
+      "name": "Item",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1136,
+        704
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let request = $node[\"Item\"].json[\"request_body\"]\nlet bufferObj = Buffer.from(request, \"base64\");\nlet decodedString = bufferObj.toString(\"utf8\");\nlet json = JSON.parse(decodedString);\nreturn json;"
+      },
+      "id": "f0f2372a-05ca-48c2-8fd6-0e8c4bf34ed8",
+      "name": "Buffer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1568,
+        704
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "funnels_queue",
+          "mode": "list",
+          "cachedResultName": "funnels_queue"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_funnel_queue",
+        "valueToMatchOn": "={{ $node[\"Item\"].json[\"id_funnel_queue\"] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "tries_count",
+              "value": "={{ ($json[\"tries_count\"] ?? 0 ) + 1}}"
+            },
+            {
+              "column": "is_processing",
+              "value": "Y"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d45914c6-a97c-4cac-af1a-f36c33c17756",
+      "name": "Executar Tentativa",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1360,
+        704
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "columnToMatchOn": "email",
+        "options": {}
+      },
+      "id": "1b1b55e2-368e-441d-9f22-6b98d621b1e8",
+      "name": "Inserir Banco",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        4768,
+        640
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "funnels_queue",
+          "mode": "list",
+          "cachedResultName": "funnels_queue"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_funnel_queue",
+        "valueToMatchOn": "={{ $node[\"Item\"].json[\"id_funnel_queue\"] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "execution_time",
+              "value": "={{ $now.toSQL() }}"
+            },
+            {
+              "column": "is_pending",
+              "value": "N"
+            },
+            {
+              "column": "is_processing",
+              "value": "N"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bd45527f-07c6-41e4-b352-da891243feaa",
+      "name": "Atualizar Pendencia = N",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        4976,
+        720
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "email",
+              "value": "={{ $node['Buffer'].json['email'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e3d999c8-e1c1-456a-ad96-5af32b835480",
+      "name": "CheckLeadExists",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1792,
+        704
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "45cb854a-c21c-483c-8183-c76571dd6b33",
+              "leftValue": "={{ $node['CheckLeadExists'].json[\"id_user\"] ?? 0 }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "6683f238-e287-4d8a-bb53-3c41bc28c949",
+      "name": "LeadExists",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1808,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "email",
+        "valueToMatchOn": "={{ $node['Buffer'].json['email'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "name",
+              "value": "={{ $node['Buffer'].json['name'] }}"
+            },
+            {
+              "column": "phone",
+              "value": "={{ $node['Buffer'].json['phone'] }}"
+            },
+            {
+              "column": "create_time",
+              "value": "={{ $node['Buffer'].json['form_submit_time'] !== undefined && $node['Buffer'].json['form_submit_time'] !== null ? $node['Buffer'].json['form_submit_time'] : $node['ActiveCampaign'].json['cdate'] }}"
+            },
+            {
+              "column": "contact_id_active",
+              "value": "={{ $node['ActiveCampaign'].json.id }}"
+            },
+            {
+              "column": "ext_id",
+              "value": "={{ $node['Buffer'].json['email'] }}"
+            }
+          ]
+        },
+        "options": {
+          "detailedOutput": true
+        }
+      },
+      "id": "87e9101c-8397-4357-a26a-1d84b7e2f8fd",
+      "name": "CreateLead",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        2896,
+        688
+      ],
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let search =$node['CheckLeadExists'].runIndex >= 0 &&  $node['CheckLeadExists'].json['id_user'] !== undefined ? $node['CheckLeadExists'].json['id_user'] : 0;\nlet create =  $node['CreateLead'].runIndex >= 0 &&  $node['CreateLead'].json[\"data\"][\"insertId\"] !== undefined ? $node['CreateLead'].json[\"data\"][\"insertId\"] : 0;\n\n\nif(create > 0) return {id: create};\nreturn {id: search};"
+      },
+      "id": "42ffc1d9-3195-41c3-94a5-bd15270ef9df",
+      "name": "LeadID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3072,
+        688
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "additionalFields": {
+          "email": "={{ $node['Buffer'].json['email'] }}"
+        }
+      },
+      "id": "b80d851f-586b-485b-8d7d-b59ce004e904",
+      "name": "ActiveCampaign",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        2016,
+        704
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "alwaysOutputData": true,
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "fy3czEO2IaUXXxnk",
+          "name": "https://aceleraconcursos.activehosted.com/"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e53d32a8-e2e5-4351-a1c3-49bd7bd17668",
+              "leftValue": "={{ $('Buffer').item.json.utm_source }}",
+              "rightValue": "oogle",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "c8362722-18d6-41fd-8e39-9b63039f6c57",
+              "leftValue": "={{ $('Buffer').item.json.utm_source }}",
+              "rightValue": "OOGLE",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3520,
+        688
+      ],
+      "id": "2561eb4d-6a6a-443a-aa6c-c37c97752924",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "content": "## Utm Google\n\n- Envia requisição para o /tratativa-google (https://n8n.aconcursos.com.br/workflow/WVqwnyStcwOxT6bN)\n\n- Toda correção de utm é feita lá, retornando os dados certos que serão utilizados pelos nó set\n\n- o IF deve ser verificado de acordo com o taglaunch_source para google",
+        "height": 572,
+        "width": 420,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3232,
+        272
+      ],
+      "id": "986142a5-4262-45bb-95d3-7545d65ab30b",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "18eb1297-2157-4b38-95ca-67be5ae2ce5a",
+              "name": "launch_key",
+              "value": "={{ $node['Buffer'].json['funnel_id'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9307b216-2d02-4545-b6c3-c696f5bdc9ba",
+              "name": "utm_source",
+              "value": "=GoogleAds",
+              "type": "string"
+            },
+            {
+              "id": "b37e6b04-668e-4b35-84b9-8703ddf06f35",
+              "name": "utm_medium",
+              "value": "={{ $json.utm_medium ?? decodeURIComponent(($node['Buffer'].json['utm_medium'] ?? null)) }}",
+              "type": "string"
+            },
+            {
+              "id": "c9be6d2f-5f9e-4632-a205-e734d8709089",
+              "name": "utm_campaign",
+              "value": "={{ $json.utm_campaign ?? decodeURIComponent(($node['Buffer'].json['utm_campaign'] ?? null)) }}",
+              "type": "string"
+            },
+            {
+              "id": "bb3a1579-bfea-48bc-8325-4a12037c3552",
+              "name": "utm_term",
+              "value": "=youtube",
+              "type": "string"
+            },
+            {
+              "id": "1d5c12f7-3f75-4a18-9969-9bd82019e247",
+              "name": "utm_content",
+              "value": "={{ $json.utm_content ?? decodeURIComponent(($node['Buffer'].json['utm_content'] ?? null)) }}",
+              "type": "string"
+            },
+            {
+              "id": "c918f164-a759-4500-8b12-2ff583177d37",
+              "name": "utm_pagina",
+              "value": "={{ decodeURIComponent(($node['Buffer'].json['utm_slug'] ?? null)) }}",
+              "type": "string"
+            },
+            {
+              "id": "54212300-1c6c-4048-9566-22b64c5ee0af",
+              "name": "utm_url",
+              "value": "={{ decodeURIComponent(($node['Buffer'].json['utm_url'] ?? null)) }}",
+              "type": "string"
+            },
+            {
+              "id": "b0d72668-0f03-48b8-b215-117dce431392",
+              "name": "utm_id",
+              "value": "={{ $json.campaign_id }}|{{ $json.adset_id }}|{{ $json.ad_id }}",
+              "type": "string"
+            },
+            {
+              "id": "62baad1a-7b17-4022-8a6d-19e70e84d36d",
+              "name": "contact_id_active",
+              "value": "={{ $node['GetUser'].json['contact_id_active'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b9c39111-66af-4a50-bc18-bafda8067998",
+              "name": "user_id",
+              "value": "={{ $node['GetUser'].json['id_user'] }}",
+              "type": "string"
+            },
+            {
+              "id": "db1275b0-01d7-4346-8c31-29e731becb2a",
+              "name": "email",
+              "value": "={{ $node['Buffer'].json['email'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3e4071ec-91d8-44d4-a6c1-6dfbca60e5c3",
+              "name": "subscription_date",
+              "value": "={{\n  $node[\"Buffer\"].json[\"form_submit_time\"]\n    ? new Date($node[\"Buffer\"].json[\"form_submit_time\"]).toISOString().replace(\"Z\", \"\").slice(0,19)\n      // subtrai 3h\n      && new Date(new Date($node[\"Buffer\"].json[\"form_submit_time\"]).getTime() - 3*60*60*1000).toISOString()\n    : $now\n}}",
+              "type": "string"
+            },
+            {
+              "id": "678a8ca9-98fb-44c5-92d0-196bc985e1f8",
+              "name": "is_sspl16",
+              "value": "={{\n  $node[\"Buffer\"].json[\"form_submit_time\"]\n    ? new Date($node[\"Buffer\"].json[\"form_submit_time\"]).toISOString().replace(\"Z\", \"\").slice(0,19)\n      // subtrai 3h\n      && new Date(new Date($node[\"Buffer\"].json[\"form_submit_time\"]).getTime() - 3*60*60*1000).toISOString()\n    : $now\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "205fa94a-37e5-4fd3-ab49-709ff2e396c1",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        3920,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "18eb1297-2157-4b38-95ca-67be5ae2ce5a",
+              "name": "launch_key",
+              "value": "={{ $node['Buffer'].json['funnel_id'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9307b216-2d02-4545-b6c3-c696f5bdc9ba",
+              "name": "utm_source",
+              "value": "={{ \n  (() => {\n    const raw = $node['Buffer'].json['utm_source'];\n    if (raw == null) return '';\n    // Apenas escapa % soltos para evitar erros futuros, mas não decodifica\n    return String(raw).replace(/%(?![0-9a-fA-F]{2})/g, '%25');\n  })()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "b37e6b04-668e-4b35-84b9-8703ddf06f35",
+              "name": "utm_medium",
+              "value": "={{ \n  (() => {\n    const raw = $node['Buffer'].json['utm_medium'];\n    if (raw == null) return '';\n    // Apenas escapa % soltos para evitar erros futuros, mas não decodifica\n    return String(raw).replace(/%(?![0-9a-fA-F]{2})/g, '%');\n  })()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "c9be6d2f-5f9e-4632-a205-e734d8709089",
+              "name": "utm_campaign",
+              "value": "={{ \n  (() => {\n    const raw = $node['Buffer'].json['utm_campaign'];\n    if (raw == null) return '';\n    // Apenas escapa % soltos para evitar erros futuros, mas não decodifica\n    return String(raw).replace(/%(?![0-9a-fA-F]{2})/g, '%');\n  })()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "bb3a1579-bfea-48bc-8325-4a12037c3552",
+              "name": "utm_term",
+              "value": "={{ \n  (() => {\n    const raw = $node['Buffer'].json['utm_term'];\n    if (raw == null) return '';\n    // Apenas escapa % soltos para evitar erros futuros, mas não decodifica\n    return String(raw).replace(/%(?![0-9a-fA-F]{2})/g, '%25');\n  })()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "1d5c12f7-3f75-4a18-9969-9bd82019e247",
+              "name": "utm_content",
+              "value": "={{ \n  (() => {\n    const raw = $node['Buffer'].json['utm_content'];\n    if (raw == null) return '';\n    // Apenas escapa % soltos para evitar erros futuros, mas não decodifica\n    return String(raw).replace(/%(?![0-9a-fA-F]{2})/g, '%25');\n  })()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "c918f164-a759-4500-8b12-2ff583177d37",
+              "name": "utm_pagina",
+              "value": "={{ \n  (() => {\n    const raw = $node['Buffer'].json['utm_slug'];\n    if (raw == null) return '';\n    // Apenas escapa % soltos para evitar erros futuros, mas não decodifica\n    return String(raw).replace(/%(?![0-9a-fA-F]{2})/g, '%25');\n  })()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "54212300-1c6c-4048-9566-22b64c5ee0af",
+              "name": "utm_url",
+              "value": "={{ $node['Buffer'].json['utm_url'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b0d72668-0f03-48b8-b215-117dce431392",
+              "name": "utm_id",
+              "value": "={{ decodeURIComponent(($node['Buffer'].json['utm_id'] ?? null)) }}",
+              "type": "string"
+            },
+            {
+              "id": "62baad1a-7b17-4022-8a6d-19e70e84d36d",
+              "name": "contact_id_active",
+              "value": "={{ $node['GetUser'].json['contact_id_active'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b9c39111-66af-4a50-bc18-bafda8067998",
+              "name": "user_id",
+              "value": "={{ $node['GetUser'].json['id_user'] }}",
+              "type": "string"
+            },
+            {
+              "id": "db1275b0-01d7-4346-8c31-29e731becb2a",
+              "name": "email",
+              "value": "={{ $node['Buffer'].json['email'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0707245f-70da-4312-82c9-d15add462bb8",
+              "name": "is_sspl17",
+              "value": "={{\n  $node[\"Buffer\"].json[\"form_submit_time\"]\n    ? new Date($node[\"Buffer\"].json[\"form_submit_time\"]).toISOString().replace(\"Z\", \"\").slice(0,19)\n      // subtrai 3h\n      && new Date(new Date($node[\"Buffer\"].json[\"form_submit_time\"]).getTime() - 3*60*60*1000).toISOString()\n    : $now\n}}",
+              "type": "string"
+            },
+            {
+              "id": "81cc1c36-3666-48fa-8615-13c73866503c",
+              "name": "subscription_date",
+              "value": "={{\n  $node[\"Buffer\"].json[\"form_submit_time\"]\n    ? new Date($node[\"Buffer\"].json[\"form_submit_time\"]).toISOString().replace(\"Z\", \"\").slice(0,19)\n      // subtrai 3h\n      && new Date(new Date($node[\"Buffer\"].json[\"form_submit_time\"]).getTime() - 3*60*60*1000).toISOString()\n    : $now\n}}",
+              "type": "string"
+            },
+            {
+              "id": "f6728b39-b549-4a43-85d1-553aa7d506e2",
+              "name": "import_workflow",
+              "value": "elementor",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "dcb0662f-0c37-4e9d-a275-1bcf580c03cf",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        3920,
+        704
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://webhook.aconcursos.com.br/webhook/tratativa-google",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "s_ad_id",
+              "value": "={{ $('Buffer').item.json.utm_id.split('|').slice(-1)[0] }}"
+            },
+            {
+              "name": "leadID",
+              "value": "={{ $('LeadID').item.json.id }}"
+            },
+            {
+              "name": "url",
+              "value": "={{ $('Buffer').item.json.utm_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3696,
+        544
+      ],
+      "id": "cc57af82-046a-4d3a-95f0-c786a2282f90",
+      "name": "tratativaGoogle",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "431fdaa3-3927-4cd4-98d9-acddc8d34c73",
+              "leftValue": "={{ $node['ActiveCampaign'].json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2208,
+        704
+      ],
+      "id": "ce6f6542-5db7-4379-b6bb-dc2bad7bec63",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "id_user",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "column": "email",
+              "value": "={{ $node['Buffer'].json['email'] }}"
+            }
+          ]
+        },
+        "options": {
+          "detailedOutput": false
+        }
+      },
+      "id": "ab0badda-9e0b-4278-b486-caaf2160f68e",
+      "name": "GetUser",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        3280,
+        688
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "email": "={{ $('Buffer').item.json.email }}",
+        "additionalFields": {
+          "fieldValues": {
+            "property": [
+              {
+                "field": "223",
+                "value": "={{ $('Buffer').item.json.utm_source }}"
+              },
+              {
+                "field": "225",
+                "value": "={{ $('Buffer').item.json.utm_campaign }}"
+              },
+              {
+                "field": "224",
+                "value": "={{ $('Buffer').item.json.utm_medium }}"
+              },
+              {
+                "field": "227",
+                "value": "={{ $('Buffer').item.json.utm_content }}"
+              },
+              {
+                "field": "226",
+                "value": "={{ $('Buffer').item.json.utm_term }}"
+              },
+              {
+                "field": "228",
+                "value": "={{ $('Buffer').item.json.utm_id }}"
+              },
+              {
+                "field": "231",
+                "value": "={{ $('Buffer').item.json.utm_slug }}"
+              },
+              {
+                "field": "229",
+                "value": "={{ $('Buffer').item.json.utm_url }}"
+              },
+              {
+                "field": "230",
+                "value": "={{ $now }}"
+              }
+            ]
+          },
+          "firstName": "={{ $('Buffer').item.json.name }}",
+          "phone": "={{ $('Buffer').item.json.phone }}"
+        }
+      },
+      "id": "2a7f72d0-a97d-42d8-b0ff-7544ee22feda",
+      "name": "CreateContact",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        800
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "alwaysOutputData": true,
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "fy3czEO2IaUXXxnk",
+          "name": "https://aceleraconcursos.activehosted.com/"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "funnels_queue",
+          "mode": "list",
+          "cachedResultName": "funnels_queue"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_funnel_queue",
+        "valueToMatchOn": "={{ $node[\"Item\"].json[\"id_funnel_queue\"] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "tries_count",
+              "value": "=-1"
+            },
+            {
+              "column": "is_pending",
+              "value": "Y"
+            },
+            {
+              "column": "is_processing",
+              "value": "N"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "575462dd-3a12-4972-bdd1-0296c4a3b9b1",
+      "name": "RestartLead",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        2656,
+        800
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "contactId": "={{ $node['ActiveCampaign'].json.id }}",
+        "updateFields": {
+          "fieldValues": {
+            "property": [
+              {
+                "field": "223",
+                "value": "={{ $('Buffer').item.json.utm_source }}"
+              },
+              {
+                "field": "225",
+                "value": "={{ $('Buffer').item.json.utm_campaign }}"
+              },
+              {
+                "field": "224",
+                "value": "={{ $('Buffer').item.json.utm_medium }}"
+              },
+              {
+                "field": "227",
+                "value": "={{ $('Buffer').item.json.utm_content}}"
+              },
+              {
+                "field": "226",
+                "value": "={{ $('Buffer').item.json.utm_term }}"
+              },
+              {
+                "field": "229",
+                "value": "={{ $('Buffer').item.json.utm_url }}"
+              },
+              {
+                "field": "228",
+                "value": "={{ $('Buffer').item.json.utm_id }}"
+              },
+              {
+                "field": "231",
+                "value": "={{ $('Buffer').item.json.utm_slug }}"
+              },
+              {
+                "field": "230",
+                "value": "={{ $now }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "7858f020-0a1f-4854-a235-6fc1924913fe",
+      "name": "UpdateContact",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        640
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "alwaysOutputData": true,
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "fy3czEO2IaUXXxnk",
+          "name": "https://aceleraconcursos.activehosted.com/"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 2
+            }
+          ]
+        }
+      },
+      "id": "8d55bcdf-48d5-4e58-885a-ccf3eef9a413",
+      "name": "Schedule Trigger1",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        304,
+        304
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "funnels_queue",
+          "mode": "list",
+          "cachedResultName": "funnels_queue"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "id_funnel_queue",
+              "value": "248330"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        464,
+        864
+      ],
+      "id": "77f8480e-7e1b-4068-b2c3-ffc614327d1a",
+      "name": "Select rows from a table",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        224,
+        864
+      ],
+      "id": "de2f2d0e-c00d-4887-a71c-7bfcdfa46fc6",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE funnels_queue SET is_pending = 'Y', is_processing = 'N' WHERE is_pending = 'Y' AND action_source = 'elementor' AND is_ignored = 'N' AND funnel_id = 'SSP-L16' AND is_processing = 'Y' AND tries_count < 5;",
+        "options": {}
+      },
+      "id": "cdc367f3-73e1-4a3d-b89d-14665f01c0ca",
+      "name": "SearchQueue1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        496,
+        304
+      ],
+      "alwaysOutputData": false,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bc1e8d88-2dbc-43db-9415-c5caaf1f75cf",
+              "name": "launch_key",
+              "value": "SSP-L17",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        528,
+        544
+      ],
+      "id": "51505125-f417-43b4-8d0d-9fad240c3fdb",
+      "name": "SET"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "user_id",
+              "value": "={{ $('LeadID').item.json.id }}"
+            },
+            {
+              "column": "launch_key",
+              "value": "={{ $node['Buffer'].json['funnel_id'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        4160,
+        704
+      ],
+      "id": "94343e67-b7b9-43e9-9a3d-5ee350eacf60",
+      "name": "SearchOnLaunch",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "293ed5af-0516-459b-8327-986a82c11b0b",
+              "leftValue": "={{ $node['SearchOnLaunch'].json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        4368,
+        704
+      ],
+      "id": "2f4aff66-4c57-40e5-94fd-d9165aa8e85e",
+      "name": "isLLEmpty"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "funnels_queue",
+          "mode": "list",
+          "cachedResultName": "funnels_queue"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_funnel_queue",
+        "valueToMatchOn": "=178078",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "execution_time",
+              "value": "={{ null }}"
+            },
+            {
+              "column": "is_pending",
+              "value": "Y"
+            },
+            {
+              "column": "is_processing",
+              "value": "N"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "802d359a-cbe1-493f-b8b2-b97d3dd5c475",
+      "name": "Atualizar Pendencia = N1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        5280,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let data1 = $node['Edit Fields'].runIndex >= 0 && $node['Edit Fields'].json !== undefined ? $node['Edit Fields'].json : {};\nlet data2 = $node['Edit Fields1'].runIndex >= 0 && $node['Edit Fields1'].json !== undefined ? $node['Edit Fields1'].json : {};\n\nfunction isValidJson(obj) {\n  return obj && typeof obj === \"object\" && Object.keys(obj).length > 0;\n}\n\nlet result = {};\n\nif (isValidJson(data1)) {\n  result = data1;\n} else if (isValidJson(data2)) {\n  result = data2;\n} else {\n  result = {}; // nenhum válido\n}\n\nreturn result;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4592,
+        640
+      ],
+      "id": "ab4850bf-cf70-48e1-8db1-c8255426aced",
+      "name": "RepeatSets"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds",
+              "secondsInterval": 4
+            }
+          ]
+        }
+      },
+      "id": "d5a415f7-13fd-4fdb-9a70-431dd3a3510f",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        320,
+        544
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-28T16:03:42.357Z",
+      "createdAt": "2025-09-28T16:03:42.357Z",
+      "role": "workflow:owner",
+      "workflowId": "qhmJkg3AkucppZbP",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    },
+    "node:Schedule Trigger1": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-17T14:18:10.380Z",
+  "versionId": "f38ad3db-e41b-4dfd-b407-012704d0a4c0"
+}

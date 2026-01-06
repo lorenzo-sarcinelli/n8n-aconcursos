@@ -1,0 +1,2679 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "getAnswers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "appendShhet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getAnswers": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "appendShhet": {
+      "main": [
+        [
+          {
+            "node": "update2Survey_answers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "getLeads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "appendShhet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "appendShhet1": {
+      "main": [
+        [
+          {
+            "node": "update2LaunchLeads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getLeads": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger2": {
+      "main": [
+        [
+          {
+            "node": "searchCampaignsBM",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "searchReportsGoogle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "appendShhet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "appendShhet2": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "appendShhet3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "searchReportsGoogle": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "searchCampaignsBM": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger3": {
+      "main": [
+        [
+          {
+            "node": "appendShhet5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "appendShhet5": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "appendShhet6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "getUser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getUser": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "appendShhet6": {
+      "main": [
+        []
+      ]
+    },
+    "Schedule Trigger4": {
+      "main": [
+        [
+          {
+            "node": "getPurchases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getPurchases": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getLead": {
+      "main": [
+        [
+          {
+            "node": "getLaunchLeads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getLaunchLeads": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "appendShhet7": {
+      "main": [
+        [
+          {
+            "node": "update2LaunchLeads2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "idPurchases": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "GetContact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "idPurchases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insertLead": {
+      "main": [
+        [
+          {
+            "node": "insert2LaunchLeads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetContact": {
+      "main": [
+        [
+          {
+            "node": "insertLead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insert2LaunchLeads": {
+      "main": [
+        [
+          {
+            "node": "searchLaunchLeads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "searchLaunchLeads": {
+      "main": [
+        [
+          {
+            "node": "idPurchases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "appendShhet7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me1": {
+      "main": [
+        [
+          {
+            "node": "getLead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-08T14:52:48.400Z",
+  "id": "V3ejqA2LK0Zxt4aF",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "T0001 | Atualiza Sheets para leadScore SSP-L16",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -592,
+        32
+      ],
+      "id": "2b156d00-a25e-42b3-980a-9dd82c0f21b4",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "87206972-5beb-44e9-a07c-853f0a9cc9c9",
+              "name": "answer_id",
+              "value": "={{ $json.answers_id }}",
+              "type": "number"
+            },
+            {
+              "id": "8eb137f5-e2b5-40e1-99d6-55caa3f7c678",
+              "name": "user_id",
+              "value": "={{ $json.user_id }}",
+              "type": "number"
+            },
+            {
+              "id": "47b3b3da-815a-47b4-b670-15caabaf69d8",
+              "name": "Data de Envio",
+              "value": "={{ $json.subscription_time }}",
+              "type": "string"
+            },
+            {
+              "id": "6553bc37-d4d6-438b-8ce5-199ea68c98ae",
+              "name": "Tag",
+              "value": "={{ $json.lauch_key }}",
+              "type": "string"
+            },
+            {
+              "id": "eb7f5e74-cab3-49ff-895b-327795e89ca0",
+              "name": "Qual o seu e-mail?",
+              "value": "={{ $json.answers_1 || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "2ff0a650-1f37-4a43-a8ea-579a96799bf6",
+              "name": "Qual é sua idade?",
+              "value": "={{ $json.answers_2 || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "46ad4791-4c03-446c-befe-f64a275842c4",
+              "name": "Você é PCD?",
+              "value": "={{ $json.answers_3 || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "a077fb76-bfc7-46e8-bd54-4b4d7146d4fa",
+              "name": "Você pretende seguir na carreira técnica ou superior?",
+              "value": "={{ $json.answers_4 || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "6098fbbf-4908-43fc-8e49-a7eb0005c166",
+              "name": "Qual situação profissional atualmente?",
+              "value": "={{ $json.answers_5 || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "0a35b214-f5a3-4116-bcde-7d1a404b230f",
+              "name": "Qual a sua renda mensal? ",
+              "value": "={{ $json.answers_6 || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "9957659d-7f4a-42d0-899c-d62ec3178b4f",
+              "name": "Qual seu grau de escolaridade?",
+              "value": "={{ $json.answers_7 || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "64a2282d-7e90-4f6a-bad1-29dbe04b8672",
+              "name": "Quando você pensa no Concurso da Petrobras, qual sua dúvida número um?",
+              "value": "={{ $json.answers_8 || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "59b459ba-2b5e-43aa-80ff-80925d2d4506",
+              "name": "Qual a sua maior dificuldade na hora de estudar hoje?",
+              "value": "={{ $json.answers_9 || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "35d04169-230a-4cee-8405-ca5c03b10fff",
+              "name": "Selecione abaixo qual a deficiência que você possui",
+              "value": "={{ $json.answers_10 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -128,
+        32
+      ],
+      "id": "7c1abdf1-489c-4c40-8de8-c8b715391120",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "survey_answers",
+          "mode": "list",
+          "cachedResultName": "survey_answers"
+        },
+        "limit": 100,
+        "where": {
+          "values": [
+            {
+              "column": "export_sheets",
+              "value": "N"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -368,
+        32
+      ],
+      "id": "f49a6542-126a-43f5-9d52-31ffddbc8eba",
+      "name": "getAnswers",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1IUS4ec4SOPbdjYIevBr5sZnjXI3wOXu2hspyqs67l_8/edit?gid=1910780252#gid=1910780252",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1910780252,
+          "mode": "list",
+          "cachedResultName": "Respostas Pesquisa SSP-L16",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUS4ec4SOPbdjYIevBr5sZnjXI3wOXu2hspyqs67l_8/edit#gid=1910780252"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "answer_id",
+              "displayName": "answer_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "user_id",
+              "displayName": "user_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tag",
+              "displayName": "Tag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Data de Envio",
+              "displayName": "Data de Envio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Qual o seu e-mail?",
+              "displayName": "Qual o seu e-mail?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Qual é sua idade?",
+              "displayName": "Qual é sua idade?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Você é PCD?",
+              "displayName": "Você é PCD?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Você pretende seguir na carreira técnica ou superior?",
+              "displayName": "Você pretende seguir na carreira técnica ou superior?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Qual situação profissional atualmente?",
+              "displayName": "Qual situação profissional atualmente?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Qual a sua renda mensal? ",
+              "displayName": "Qual a sua renda mensal? ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Qual seu grau de escolaridade?",
+              "displayName": "Qual seu grau de escolaridade?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quando você pensa no Concurso da Petrobras, qual sua dúvida número um?",
+              "displayName": "Quando você pensa no Concurso da Petrobras, qual sua dúvida número um?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Qual a sua maior dificuldade na hora de estudar hoje?",
+              "displayName": "Qual a sua maior dificuldade na hora de estudar hoje?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Selecione abaixo qual a deficiência que você possui. Se possuir mais de uma, selecione apenas uma.",
+              "displayName": "Selecione abaixo qual a deficiência que você possui. Se possuir mais de uma, selecione apenas uma.",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        80,
+        32
+      ],
+      "id": "74659967-9141-4bbf-8665-01560ac6bf5b",
+      "name": "appendShhet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "survey_answers",
+          "mode": "list",
+          "cachedResultName": "survey_answers"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "answers_id",
+        "valueToMatchOn": "={{ $json.answer_id }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "export_sheets",
+              "value": "Y"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        288,
+        32
+      ],
+      "id": "14f272fc-1e2b-47d5-a756-62f91091ecdc",
+      "name": "update2Survey_answers",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds",
+              "secondsInterval": 130
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -576,
+        352
+      ],
+      "id": "9ba78a6b-ed3c-4053-8751-9f365ce86933",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "84702755-cb18-4625-afaa-df5af7033d70",
+              "name": "id_launch",
+              "value": "={{ $json.id_launch }}",
+              "type": "number"
+            },
+            {
+              "id": "21f2fb42-e725-42bb-985d-769b6f923a9c",
+              "name": "user_id",
+              "value": "={{ $json.user_id }}",
+              "type": "number"
+            },
+            {
+              "id": "c118ba06-c252-4b0b-aef8-241493d492c0",
+              "name": "ID Active",
+              "value": "={{ $json.contact_id_active }}",
+              "type": "number"
+            },
+            {
+              "id": "c621fa67-be86-47e0-9408-1591e31fa23e",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "1d9ac2ed-ec78-4afb-97d3-039c48011858",
+              "name": "utm_source",
+              "value": "={{ $json.utm_source }}",
+              "type": "string"
+            },
+            {
+              "id": "9b2f1416-5def-4711-a2a1-f7238a4e0646",
+              "name": "utm_medium",
+              "value": "={{ $json.utm_medium }}",
+              "type": "string"
+            },
+            {
+              "id": "00d2d470-ab73-4a36-8620-7f1c9b0dff87",
+              "name": "utm_campaign",
+              "value": "={{ $json.utm_campaign }}",
+              "type": "string"
+            },
+            {
+              "id": "23fdbffe-ded2-4178-b95f-d738441557c7",
+              "name": "utm_term",
+              "value": "={{ $json.utm_term }}",
+              "type": "string"
+            },
+            {
+              "id": "e540b5e4-a5c8-40e9-b451-67273dad3355",
+              "name": "utm_content",
+              "value": "={{ $json.utm_content }}",
+              "type": "string"
+            },
+            {
+              "id": "952a575b-2551-40c9-adbe-bad7e81b957e",
+              "name": "utm_pagina",
+              "value": "={{ $json.utm_pagina }}",
+              "type": "string"
+            },
+            {
+              "id": "b030351f-bea9-457e-807d-53760ee4f5d8",
+              "name": "TAG",
+              "value": "={{ $json.launch_key }}",
+              "type": "string"
+            },
+            {
+              "id": "e174f39c-3a0e-44f3-9a04-b7b225e7345b",
+              "name": "subscription_date",
+              "value": "={{ $json.subscription_date }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -128,
+        352
+      ],
+      "id": "e6a22bc6-837c-46b2-882a-3f121d17aaa5",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1IUS4ec4SOPbdjYIevBr5sZnjXI3wOXu2hspyqs67l_8/edit?gid=1910780252#gid=1910780252",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1890441180,
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUS4ec4SOPbdjYIevBr5sZnjXI3wOXu2hspyqs67l_8/edit#gid=1890441180"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "id_launch",
+              "displayName": "id_launch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "user_id",
+              "displayName": "user_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID Active",
+              "displayName": "ID Active",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_source",
+              "displayName": "utm_source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_medium",
+              "displayName": "utm_medium",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_campaign",
+              "displayName": "utm_campaign",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_term",
+              "displayName": "utm_term",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_content",
+              "displayName": "utm_content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_pagina",
+              "displayName": "utm_pagina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TAG",
+              "displayName": "TAG",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subscription_date",
+              "displayName": "subscription_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        80,
+        352
+      ],
+      "id": "6927112f-f31d-4d45-ab62-417116878490",
+      "name": "appendShhet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "limit": 1000,
+        "where": {
+          "values": [
+            {
+              "column": "export_sheets",
+              "value": "N"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -352,
+        352
+      ],
+      "id": "07188493-566b-4999-bc16-dfabcea60b7d",
+      "name": "getLeads",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_launch",
+        "valueToMatchOn": "={{ $json.id_launch }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "export_sheets",
+              "value": "Y"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        288,
+        352
+      ],
+      "id": "a196c582-2860-415f-97e0-1477ed3214b0",
+      "name": "update2LaunchLeads",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -592,
+        1152
+      ],
+      "id": "782358fa-55bb-42f5-976c-894ed6788b15",
+      "name": "Schedule Trigger2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6743120b-919a-41fc-9165-6204053a275e",
+              "name": "id_data",
+              "value": "={{ $json.id_data }}",
+              "type": "string"
+            },
+            {
+              "id": "7c9dbf5a-626b-4dae-88c2-795796a903ab",
+              "name": "account_name",
+              "value": "={{ $json.account_name }}",
+              "type": "string"
+            },
+            {
+              "id": "4c274aae-6853-40f1-8a7b-367875c4f5eb",
+              "name": "ad_group_name",
+              "value": "={{ $json.ad_group_name }}",
+              "type": "string"
+            },
+            {
+              "id": "e792d5bb-4c8f-458c-bdff-d5b0f0b89a63",
+              "name": "ad_name",
+              "value": "={{ $json.ad_name }}",
+              "type": "string"
+            },
+            {
+              "id": "073ff707-0429-4b7d-8e92-b74dc03cef56",
+              "name": "campaign",
+              "value": "={{ $json.campaign }}",
+              "type": "string"
+            },
+            {
+              "id": "6abc4d79-190c-47fb-abae-addea4ab5dd5",
+              "name": "date",
+              "value": "={{ $json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "55c417a9-5599-4097-b4ff-495b81a36638",
+              "name": "spend",
+              "value": "={{ $json.spend }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -144,
+        1056
+      ],
+      "id": "f148d939-137e-4667-b3b3-81b1ce7d6310",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1IUS4ec4SOPbdjYIevBr5sZnjXI3wOXu2hspyqs67l_8/edit?gid=832828647#gid=832828647",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 832828647,
+          "mode": "list",
+          "cachedResultName": "Tráfego - Google",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUS4ec4SOPbdjYIevBr5sZnjXI3wOXu2hspyqs67l_8/edit#gid=832828647"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "id_data"
+          ],
+          "schema": [
+            {
+              "id": "id_data",
+              "displayName": "id_data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "account_name",
+              "displayName": "account_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "campaign",
+              "displayName": "campaign",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ad_group_name",
+              "displayName": "ad_group_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ad_name",
+              "displayName": "ad_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "spend",
+              "displayName": "spend",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        64,
+        1056
+      ],
+      "id": "15c7786f-b4f1-41d4-b7e4-a6b1bc68a0a5",
+      "name": "appendShhet2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0fe67407-377a-4049-8f88-774161bfd96d",
+              "name": "id_data",
+              "value": "={{ $json.id_data }}",
+              "type": "string"
+            },
+            {
+              "id": "70724e23-265e-45bc-b85f-64a4595c7c33",
+              "name": "date",
+              "value": "={{ $json.data }}",
+              "type": "string"
+            },
+            {
+              "id": "883f723d-1aac-4570-a299-451404792edb",
+              "name": "BM",
+              "value": "={{ $json.BM }}",
+              "type": "string"
+            },
+            {
+              "id": "18a9e00f-fd3b-40c7-a7f8-9028e150df26",
+              "name": "Campanha",
+              "value": "={{ $json.Campanha }}",
+              "type": "string"
+            },
+            {
+              "id": "f86ac601-d638-43aa-81ee-c9abf7168c67",
+              "name": "Conjunto",
+              "value": "={{ $json.Conjunto }}",
+              "type": "string"
+            },
+            {
+              "id": "5900a272-e5c9-421d-a0bb-2c3abe747ebc",
+              "name": "ad",
+              "value": "={{ $json.ad }}",
+              "type": "string"
+            },
+            {
+              "id": "0e9ceeda-4066-4ff7-ba76-a089ad662e19",
+              "name": "gasto",
+              "value": "={{ $json.gasto }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -144,
+        1248
+      ],
+      "id": "f38369f1-bab7-44bc-85bf-3bd8346fc37e",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1IUS4ec4SOPbdjYIevBr5sZnjXI3wOXu2hspyqs67l_8/edit?gid=1910780252#gid=1910780252",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2107694885,
+          "mode": "list",
+          "cachedResultName": "Tráfego - BM",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUS4ec4SOPbdjYIevBr5sZnjXI3wOXu2hspyqs67l_8/edit#gid=2107694885"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "id_data"
+          ],
+          "schema": [
+            {
+              "id": "id_data",
+              "displayName": "id_data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "BM",
+              "displayName": "BM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Campanha",
+              "displayName": "Campanha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Conjunto",
+              "displayName": "Conjunto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ad",
+              "displayName": "ad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "gasto",
+              "displayName": "gasto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        64,
+        1248
+      ],
+      "id": "75fada81-be39-445b-89b3-9c21a1703718",
+      "name": "appendShhet3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "reports_google",
+          "mode": "list",
+          "cachedResultName": "reports_google"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -352,
+        1056
+      ],
+      "id": "426072a1-2810-4094-80e2-e33395433ba6",
+      "name": "searchReportsGoogle",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "campaigns_bms",
+          "mode": "list",
+          "cachedResultName": "campaigns_bms"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -352,
+        1248
+      ],
+      "id": "b42f6ef7-c2bc-4a30-9c4c-d2719ccbade7",
+      "name": "searchCampaignsBM",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Reports de tráfego",
+        "height": 384,
+        "width": 944,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        1024
+      ],
+      "id": "68e7a27f-6b50-4b9c-bf1f-0959b0f37d50",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Leads",
+        "height": 208,
+        "width": 1072,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        304
+      ],
+      "id": "c70772db-1832-4b18-ba0b-de573876bd6d",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Survey Answeres",
+        "height": 224,
+        "width": 1168,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        -32
+      ],
+      "id": "4537fc55-3186-40da-9f2c-32fec6442d58",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -576,
+        720
+      ],
+      "id": "f6a1d63e-8fe0-4693-94d6-ca97047d5ce7",
+      "name": "Schedule Trigger3"
+    },
+    {
+      "parameters": {
+        "content": "## Phone na plainha de Leads",
+        "height": 384,
+        "width": 1184,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        576
+      ],
+      "id": "a9df90aa-672f-40f6-9231-1d329505e6b3",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1IUS4ec4SOPbdjYIevBr5sZnjXI3wOXu2hspyqs67l_8/edit?gid=1910780252#gid=1910780252",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1890441180,
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUS4ec4SOPbdjYIevBr5sZnjXI3wOXu2hspyqs67l_8/edit#gid=1890441180"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "phone"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -400,
+        720
+      ],
+      "id": "5ba7010a-aaec-429a-8b4b-fdd2d92fc7f4",
+      "name": "appendShhet5",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -224,
+        720
+      ],
+      "id": "b2ab09ab-7a00-43a5-88be-4b84687537c1",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        16,
+        768
+      ],
+      "id": "ab62b24e-e6bb-43cc-b693-91c7e954e874"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "id_user",
+              "value": "={{ $json.user_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        192,
+        768
+      ],
+      "id": "8a6ede8a-9e32-4692-b7b2-1bbecbae4448",
+      "name": "getUser",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c106ebcc-c237-4401-a92d-1bb225c41118",
+              "name": "user_id",
+              "value": "={{ $json.id_user }}",
+              "type": "number"
+            },
+            {
+              "id": "23993a48-afe2-489b-aa2f-96685844d1e2",
+              "name": "phone",
+              "value": "={{ $json.phone || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "ad28d2c7-3318-408c-be41-1f4969a4b5f1",
+              "name": "id_launch",
+              "value": "={{ $('Replace Me').item.json.id_launch }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        768
+      ],
+      "id": "3608c3c7-4acb-469d-89a9-4e19aaa2ce06",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1IUS4ec4SOPbdjYIevBr5sZnjXI3wOXu2hspyqs67l_8/edit?gid=1910780252#gid=1910780252",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1890441180,
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUS4ec4SOPbdjYIevBr5sZnjXI3wOXu2hspyqs67l_8/edit#gid=1890441180"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "phone": "={{ $json.phone }}",
+            "id_launch": "={{ $json.id_launch }}"
+          },
+          "matchingColumns": [
+            "id_launch"
+          ],
+          "schema": [
+            {
+              "id": "id_launch",
+              "displayName": "id_launch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "user_id",
+              "displayName": "user_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ID Active",
+              "displayName": "ID Active",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_source",
+              "displayName": "utm_source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "utm_medium",
+              "displayName": "utm_medium",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "utm_campaign",
+              "displayName": "utm_campaign",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "utm_term",
+              "displayName": "utm_term",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "utm_content",
+              "displayName": "utm_content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "utm_pagina",
+              "displayName": "utm_pagina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "TAG",
+              "displayName": "TAG",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "subscription_date",
+              "displayName": "subscription_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        16,
+        608
+      ],
+      "id": "968e6b6f-03a8-42b2-b76c-db2ae78efb7a",
+      "name": "appendShhet6",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -560,
+        1664
+      ],
+      "id": "b1643862-9209-4b56-ac82-f97fef4b2a02",
+      "name": "Schedule Trigger4"
+    },
+    {
+      "parameters": {
+        "content": "## Leads Compradores",
+        "height": 528,
+        "width": 1904,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        1488
+      ],
+      "id": "73986063-3bef-43dd-b4a3-80214e58a13f",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM purchases_new\nWHERE export_sheets = \"N\" AND (status = \"paid\" OR status = \"Efetivado\") AND launch_tag = \"SSP-L16\" \nLIMIT 300",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -400,
+        1664
+      ],
+      "id": "662f7042-f209-40c6-acbd-642db309de89",
+      "name": "getPurchases",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "id_user",
+              "value": "={{ $json.user_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        160,
+        1712
+      ],
+      "id": "d301d249-0b88-4877-8feb-b90c9666550b",
+      "name": "getLead",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM launch_leads\nWHERE (user_id = {{ $json.id_user }} OR email = \"{{ $json.email }}\") AND launch_key = \"SSP-L16\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        320,
+        1712
+      ],
+      "id": "e53922e6-4a56-4b7c-9ea6-8b9952a7b656",
+      "name": "getLaunchLeads",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "84702755-cb18-4625-afaa-df5af7033d70",
+              "name": "id_launch",
+              "value": "={{ $node['searchLaunchLeads'].runIndex >= 0 ? $node['searchLaunchLeads'].json.id_launch :$('getLaunchLeads').item.json.id_launch }}",
+              "type": "number"
+            },
+            {
+              "id": "21f2fb42-e725-42bb-985d-769b6f923a9c",
+              "name": "user_id",
+              "value": "={{ $node['searchLaunchLeads'].runIndex >= 0 ? $node['searchLaunchLeads'].json.user_id : $('getLaunchLeads').item.json.user_id }}",
+              "type": "number"
+            },
+            {
+              "id": "c118ba06-c252-4b0b-aef8-241493d492c0",
+              "name": "ID Active",
+              "value": "={{  $node['searchLaunchLeads'].runIndex >= 0 ? $node['searchLaunchLeads'].json.contact_id_active : $('getLaunchLeads').item.json.contact_id_active }}",
+              "type": "number"
+            },
+            {
+              "id": "7a3ab14c-93fc-4cfc-8197-d9e557c87ae3",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "c621fa67-be86-47e0-9408-1591e31fa23e",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "1d9ac2ed-ec78-4afb-97d3-039c48011858",
+              "name": "utm_source",
+              "value": "={{ $node['searchLaunchLeads'].runIndex >= 0 ? $node['searchLaunchLeads'].json.utm_source : $('getLaunchLeads').item.json.utm_source }}",
+              "type": "string"
+            },
+            {
+              "id": "9b2f1416-5def-4711-a2a1-f7238a4e0646",
+              "name": "utm_medium",
+              "value": "={{ $node['searchLaunchLeads'].runIndex >= 0 ? $node['searchLaunchLeads'].json.utm_medium : $('getLaunchLeads').item.json.utm_medium }}",
+              "type": "string"
+            },
+            {
+              "id": "00d2d470-ab73-4a36-8620-7f1c9b0dff87",
+              "name": "utm_campaign",
+              "value": "={{ $node['searchLaunchLeads'].runIndex >= 0 ? $node['searchLaunchLeads'].json.utm_campaign : $('getLaunchLeads').item.json.utm_campaign }}",
+              "type": "string"
+            },
+            {
+              "id": "23fdbffe-ded2-4178-b95f-d738441557c7",
+              "name": "utm_term",
+              "value": "={{ $node['searchLaunchLeads'].runIndex >= 0 ? $node['searchLaunchLeads'].json.utm_term : $('getLaunchLeads').item.json.utm_term }}",
+              "type": "string"
+            },
+            {
+              "id": "e540b5e4-a5c8-40e9-b451-67273dad3355",
+              "name": "utm_content",
+              "value": "={{ $node['searchLaunchLeads'].runIndex >= 0 ? $node['searchLaunchLeads'].json.utm_content : $('getLaunchLeads').item.json.utm_content }}",
+              "type": "string"
+            },
+            {
+              "id": "952a575b-2551-40c9-adbe-bad7e81b957e",
+              "name": "utm_pagina",
+              "value": "={{ $node['searchLaunchLeads'].runIndex >= 0 ? $node['searchLaunchLeads'].json.utm_pagina : $('getLaunchLeads').item.json.utm_pagina }}",
+              "type": "string"
+            },
+            {
+              "id": "b030351f-bea9-457e-807d-53760ee4f5d8",
+              "name": "TAG",
+              "value": "={{ $node['searchLaunchLeads'].runIndex >= 0 ? $node['searchLaunchLeads'].json.launch_key : $('getLaunchLeads').item.json.launch_key }}",
+              "type": "string"
+            },
+            {
+              "id": "e174f39c-3a0e-44f3-9a04-b7b225e7345b",
+              "name": "subscription_date",
+              "value": "={{ $node['searchLaunchLeads'].runIndex >= 0 ? $node['searchLaunchLeads'].json.subscription_date : $('getLaunchLeads').item.json.subscription_date }}",
+              "type": "string"
+            },
+            {
+              "id": "8f4b4cf2-0b2f-41d6-998a-664873460d97",
+              "name": "phone",
+              "value": "={{ $json.phone || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "c31611a3-7624-4484-ad8a-97071ee1cb55",
+              "name": "platform",
+              "value": "={{ $('getPurchases').item.json.platform }}",
+              "type": "string"
+            },
+            {
+              "id": "4bf21464-0a23-47d0-9dad-825295a4e8ab",
+              "name": "payment_price",
+              "value": "={{ $('getPurchases').item.json.payment_price }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        912,
+        1792
+      ],
+      "id": "990d93b8-b123-4a8b-994c-4c7481f654ba",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1IUS4ec4SOPbdjYIevBr5sZnjXI3wOXu2hspyqs67l_8/edit?gid=1910780252#gid=1910780252",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 129429780,
+          "mode": "list",
+          "cachedResultName": "Leads Compradores",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUS4ec4SOPbdjYIevBr5sZnjXI3wOXu2hspyqs67l_8/edit#gid=129429780"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "id_launch",
+              "displayName": "id_launch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "user_id",
+              "displayName": "user_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID Active",
+              "displayName": "ID Active",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_source",
+              "displayName": "utm_source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_medium",
+              "displayName": "utm_medium",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_campaign",
+              "displayName": "utm_campaign",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_term",
+              "displayName": "utm_term",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_content",
+              "displayName": "utm_content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_pagina",
+              "displayName": "utm_pagina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TAG",
+              "displayName": "TAG",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subscription_date",
+              "displayName": "subscription_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "platform",
+              "displayName": "platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "payment_price",
+              "displayName": "payment_price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        0,
+        1536
+      ],
+      "id": "0316413c-8305-4733-a519-1d2944ac93a7",
+      "name": "appendShhet7",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "purchases_new",
+          "mode": "list",
+          "cachedResultName": "purchases_new"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_transaction",
+        "valueToMatchOn": "={{ $('getPurchases').item.json.id_transaction }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "export_sheets",
+              "value": "Y"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        160,
+        1536
+      ],
+      "id": "8252b42d-daa1-4cc5-afbb-2d21cba925f1",
+      "name": "update2LaunchLeads2",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "311d7572-e1cd-449e-bfce-12a7212f56e6",
+              "name": "id_transaction",
+              "value": "={{ $('getPurchases').item.json.id_transaction }}",
+              "type": "number"
+            },
+            {
+              "id": "e5690388-979a-4b79-8d42-346e09ed96c5",
+              "name": "name",
+              "value": "={{ $('getLead').item.json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "eed6f2ff-bfea-4927-b627-3991ae5f9d6d",
+              "name": "phone",
+              "value": "={{ $('getLead').item.json.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "6fa1cf07-e177-4063-8ccb-ccd26cd5ce7f",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        768,
+        1792
+      ],
+      "id": "51166ebe-d84b-4201-b25f-87b4768cc9b7",
+      "name": "idPurchases"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e06d9075-fb84-4b84-a98d-9d98aab525c7",
+              "leftValue": "={{ $node['getLaunchLeads'].json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        1712
+      ],
+      "id": "90e98b28-77de-48f8-99bf-15c79dde1681",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6fa1cf07-e177-4063-8ccb-ccd26cd5ce7f",
+              "name": "email",
+              "value": "={{ $('getLead').item.json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "3a96b062-9bc0-4fc0-94cc-d8de50126f35",
+              "name": "user_id",
+              "value": "={{ $('getLead').item.json.id_user }}",
+              "type": "string"
+            },
+            {
+              "id": "7ff99d6c-91c1-44c4-b62b-a246ec5d3415",
+              "name": "launch_key",
+              "value": "SSP-L16",
+              "type": "string"
+            },
+            {
+              "id": "82f71cc0-bd35-4ad9-9b3e-9fbe95a3f18f",
+              "name": "utm_source",
+              "value": "={{ $('getPurchases').item.json.utm_source }}",
+              "type": "string"
+            },
+            {
+              "id": "82ab2a33-9a30-4715-999c-1ba049eeaec5",
+              "name": "utm_medium",
+              "value": "={{ $('getPurchases').item.json.utm_medium }}",
+              "type": "string"
+            },
+            {
+              "id": "1395d944-8ac7-4d2e-aefd-c27328041b44",
+              "name": "utm_campaign",
+              "value": "={{ $('getPurchases').item.json.utm_campaign }}",
+              "type": "string"
+            },
+            {
+              "id": "06b06bc1-e50c-408b-beab-1706583031f5",
+              "name": "utm_term",
+              "value": "={{ $('getPurchases').item.json.utm_term }}",
+              "type": "string"
+            },
+            {
+              "id": "7b4efdf9-5320-449e-8ab3-fcba6bbadfc7",
+              "name": "utm_content",
+              "value": "={{ $('getPurchases').item.json.utm_content }}",
+              "type": "string"
+            },
+            {
+              "id": "f29ef9b9-e72c-405d-ac97-000aa146b75c",
+              "name": "subscription_date",
+              "value": "={{ $json.created_timestamp || $('getPurchases').item.json.approved_date }}",
+              "type": "string"
+            },
+            {
+              "id": "eb51eb52-1cf3-474f-915e-3790b953ae4d",
+              "name": "contact_id_active",
+              "value": "={{ $json.id || null}}",
+              "type": "string"
+            },
+            {
+              "id": "d06c5e88-fe9e-47fc-955c-cd3349a7f9a7",
+              "name": "is_sspl16",
+              "value": "={{ $json.created_timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "13f0c074-8e89-4ac2-8f3a-ebfa8381e73d",
+              "name": "lead_from_purchase",
+              "value": "Y",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        752,
+        1568
+      ],
+      "id": "4ef77326-ffb0-44f3-99d0-ffaef3998c05",
+      "name": "insertLead"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "additionalFields": {
+          "email": "={{ $('getLead').item.json.ext_id }}"
+        }
+      },
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        608,
+        1568
+      ],
+      "id": "f354b0e8-5f20-4d5f-bb5d-5953f7d4c319",
+      "name": "GetContact",
+      "alwaysOutputData": true,
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "jUAYQ9TSds25A9YC",
+          "name": "ActiveCampaign - Lucas Nunes"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "options": {
+          "detailedOutput": true
+        }
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        896,
+        1568
+      ],
+      "id": "520199d1-8fc7-488e-8aaf-ceb9859f41ff",
+      "name": "insert2LaunchLeads",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "id_launch",
+              "value": "={{ $json.data.insertId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1072,
+        1568
+      ],
+      "id": "97fe50d4-f61a-4e39-b5e3-81cdac51c202",
+      "name": "searchLaunchLeads",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -192,
+        1664
+      ],
+      "id": "46425df9-9f03-4e92-99e9-e0decdcb98ec",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me1",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        1712
+      ],
+      "id": "c5651a1a-864d-472a-81ed-d91693f0e89c"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-08T14:52:48.400Z",
+      "createdAt": "2025-09-08T14:52:48.400Z",
+      "role": "workflow:owner",
+      "workflowId": "V3ejqA2LK0Zxt4aF",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    },
+    "node:Schedule Trigger1": {
+      "recurrenceRules": []
+    },
+    "node:Schedule Trigger2": {
+      "recurrenceRules": []
+    },
+    "node:Schedule Trigger3": {
+      "recurrenceRules": []
+    },
+    "node:Schedule Trigger4": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 5,
+  "updatedAt": "2025-09-25T12:40:10.216Z",
+  "versionId": "3764f5a5-fe79-4a81-b4c7-c85896b2949f"
+}

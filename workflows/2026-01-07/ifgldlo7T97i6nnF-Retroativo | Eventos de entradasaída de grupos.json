@@ -1,0 +1,327 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buffer": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "InsertQueue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "InsertQueue": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-23T14:17:37.008Z",
+  "id": "ifgldlo7T97i6nnF",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Retroativo | Eventos de entrada/saída de grupos",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        16
+      ],
+      "id": "04b25267-d4d7-47b7-a6da-c83e5e2da640",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1D3AvhjuBAexclB5VTE47uj9Q5n1q1seVFgRHYWVbjgY/edit?pli=1&gid=1572832215#gid=1572832215",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1572832215,
+          "mode": "list",
+          "cachedResultName": "SendFlow - Histórico de atividade - 23-10-2025,_10-32-02",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1D3AvhjuBAexclB5VTE47uj9Q5n1q1seVFgRHYWVbjgY/edit#gid=1572832215"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -448,
+        16
+      ],
+      "id": "53ac75d1-e2b8-4372-bc49-5a95b41eeeed",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -80,
+        16
+      ],
+      "id": "7b499dac-108b-40f7-87b7-50eee869d2c7",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        160,
+        128
+      ],
+      "id": "7ab1c3c0-6d27-49fa-a99b-6df4506e333a"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      headers: {\n        host: \"webhook.aconcursos.com.br\",\n        \"user-agent\": \"axios/1.9.0\",\n        \"content-length\": \"386\",\n        accept: \"application/json, text/plain, */*\",\n        \"accept-encoding\": \"gzip, compress, deflate, br\",\n        \"content-type\": \"application/json\",\n        sendtok: \"28C98F38B34FEBEB7DB976B41D7392ED68DEB36737\",\n        \"x-forwarded-for\": \"137.131.172.56\",\n        \"x-forwarded-host\": \"webhook.aconcursos.com.br\",\n        \"x-forwarded-port\": \"443\",\n        \"x-forwarded-proto\": \"https\",\n        \"x-forwarded-server\": \"6ec702752e59\",\n        \"x-real-ip\": \"137.131.172.56\",\n      },\n      params: {},\n      query: {\n        launch: \"SSP-L18\",\n      },\n      body: {\n        id: `importSheets_${$input.first().json.row_number}_${$input.first().json[\"Posição\"]}`,\n        event: $input.first().json.Evento,\n        data: {\n          campaignName: $input.first().json.campaignName,\n          groupName: $input.first().json.groupName,\n          groupJid: $input.first().json.groupJid,\n          groupId: $input.first().json.groupId,\n          campaignId: $input.first().json.campaignId,\n          number: $input.first().json.number,\n          createdAt: $input.first().json.createdAt,\n        },\n        version: \"1.0.0\",\n      },\n      webhookUrl: \"https://webhook.aconcursos.com.br/webhook/sendflow-groups-2\",\n      executionMode: \"production\",\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        368,
+        128
+      ],
+      "id": "9ad28284-6800-4c87-899a-211905913a1f",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "maxItems": 2
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        16
+      ],
+      "id": "472e080f-e8fa-4c60-b994-20942f689e4d",
+      "name": "Limit",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "launch_groups_queue",
+          "mode": "list",
+          "cachedResultName": "launch_groups_queue"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "request_body",
+              "value": "={{ $node[\"Buffer\"].json['buffer'] ?? null }}"
+            },
+            {
+              "column": "insert_time",
+              "value": "={{ $now }}"
+            },
+            {
+              "column": "event_id",
+              "value": "={{ $node[\"Code\"].json[\"body\"][\"id\"] }}"
+            },
+            {
+              "column": "=event",
+              "value": "={{ $node[\"Code\"].json[\"body\"][\"event\"] }}"
+            },
+            {
+              "column": "launch",
+              "value": "={{ $node[\"Code\"].json[\"query\"][\"launch\"] ?? null }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2b40015b-c698-4400-8739-98ddd2db2822",
+      "name": "InsertQueue",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        944,
+        128
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "mySql": {
+          "id": "ea6BhhC0YnhuvJPD",
+          "name": "MySQL Recovery"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let body = $node['Code'].json;\nlet jsonBody = JSON.stringify(body);\nlet buffer = new Buffer(jsonBody).toString('base64');\n\nreturn {buffer}\n\n"
+      },
+      "id": "65c48689-91ff-4c08-8662-7bd3cceb3032",
+      "name": "Buffer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "34900341-ff8a-4b7e-ad24-e20ee0e1a220",
+              "leftValue": "={{ $node['Buffer'].json[\"buffer\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "60a72f9e-ccee-4c58-b7af-f79692cd375c",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        752,
+        128
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-10-23T14:17:37.008Z",
+      "createdAt": "2025-10-23T14:17:37.008Z",
+      "role": "workflow:owner",
+      "workflowId": "ifgldlo7T97i6nnF",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-23T14:44:16.102Z",
+  "versionId": "bfd95ce1-8d9d-4535-8601-da240ee03f83"
+}

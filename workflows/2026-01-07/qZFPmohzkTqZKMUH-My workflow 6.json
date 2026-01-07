@@ -1,0 +1,6758 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table": {
+      "main": [
+        [
+          {
+            "node": "Update rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-18T15:08:02.295Z",
+  "id": "qZFPmohzkTqZKMUH",
+  "isArchived": true,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 6",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "55e74758-5cc3-47a0-bebc-3f1afd2451b2",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "vw_funnels_queue_not_leads",
+          "mode": "list",
+          "cachedResultName": "vw_funnels_queue_not_leads"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        208,
+        0
+      ],
+      "id": "3d775257-e6d0-4ae1-b4dd-a14db6ac314a",
+      "name": "Select rows from a table",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "funnels_queue",
+          "mode": "list",
+          "cachedResultName": "funnels_queue"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_funnel_queue",
+        "valueToMatchOn": "={{ $json.id_funnel_queue }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "execution_time",
+              "value": "={{ null }}"
+            },
+            {
+              "column": "ignored_time",
+              "value": "={{ null }}"
+            },
+            {
+              "column": "tries_count",
+              "value": "0"
+            },
+            {
+              "column": "is_pending",
+              "value": "Y"
+            },
+            {
+              "column": "is_ignored",
+              "value": "N"
+            },
+            {
+              "column": "is_processing",
+              "value": "N"
+            },
+            {
+              "column": "action_source",
+              "value": "ActiveCampaign2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        416,
+        0
+      ],
+      "id": "a81e551f-af12-42d2-bb75-a7f5700c6d66",
+      "name": "Update rows in a table",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Select rows from a table": [
+      {
+        "json": {
+          "id_funnel_queue": 1,
+          "email": "leonardo+3@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 2,
+          "email": "teste-qualquer-2025001@gmail.cocm"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 4,
+          "email": "alysson.teste@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 6,
+          "email": "lorenzo.sarcinelli@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 13,
+          "email": "joaoteste12345@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 127,
+          "email": "tamaraborialibrelato@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 70743,
+          "email": "teste@teste.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 83560,
+          "email": "TESTE@TESTE2.COM"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 84382,
+          "email": "macmarcelo02@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 84458,
+          "email": "andrezamelogadelha@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 84473,
+          "email": "matheusback3@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 84478,
+          "email": "carlalinda.caroline.l.o@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 84500,
+          "email": "lp1190654@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 85065,
+          "email": "claudioassis771@gmail.cm"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 85338,
+          "email": "dayanedk.graciano@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 85526,
+          "email": "annamelldosanjos@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 85840,
+          "email": "leticias2medeiros@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 85930,
+          "email": "cleberaluizio43@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 85968,
+          "email": "mfcp4423@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 86101,
+          "email": "thomasbruce0209@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 86479,
+          "email": "elianeneves378@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 86527,
+          "email": "leandrodejesuslima16@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 86556,
+          "email": "albanetesilva326@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 86628,
+          "email": "everton.aldann@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 86788,
+          "email": "ericksantospb@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 86819,
+          "email": "cleiton.moreira498@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 87416,
+          "email": "publicipaulo@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 87420,
+          "email": "renatahurtadofilhos@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 87623,
+          "email": "dfrm200677@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 87746,
+          "email": "danielsimiao9@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 87817,
+          "email": "taniamaracosta1969@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 87842,
+          "email": "Luizbombom52@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 87956,
+          "email": "tailonvieira1@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 88163,
+          "email": "gui333br@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 88229,
+          "email": "andreamalagutt@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 88440,
+          "email": "davidlessa321@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 88838,
+          "email": "adrianocordeirodelima4@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 88933,
+          "email": "tiago.pariol@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 88974,
+          "email": "edvanandrade333@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 89187,
+          "email": "michelle.carminati@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 89689,
+          "email": "ana.akiri01@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 89849,
+          "email": "slu831250@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 89895,
+          "email": "comercial.allanmiranda@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 90078,
+          "email": "csiqueirademattos@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 90344,
+          "email": "thiagorodrigues.01@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 90384,
+          "email": "renan.silva.325@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 90406,
+          "email": "analuizasantosmoreira32@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 90519,
+          "email": "rfranciscocarlos750@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 90628,
+          "email": "carloscanal.cd2@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 90806,
+          "email": "lessatorresdiogo@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 90971,
+          "email": "cwpatriota@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 91311,
+          "email": "alerandro50@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 91439,
+          "email": "willallef01@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 91481,
+          "email": "allysson17silvino@gmail.con"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 91615,
+          "email": "uemersonsutero@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 91793,
+          "email": "andreiavn.43@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 91948,
+          "email": "klebercostario2018@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 92208,
+          "email": "rodriguesbezerra05@gamil.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 92298,
+          "email": "neileite1010@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 92366,
+          "email": "nandasousa4055@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 92382,
+          "email": "yuridamasceno8@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 92628,
+          "email": "fabiofilgueiras1982@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 92636,
+          "email": "andreluizdiorgenesesilva@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 92682,
+          "email": "xpetariadalis@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 92745,
+          "email": "thaisagaby@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 92799,
+          "email": "ribeiro.josiane001@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 93038,
+          "email": "cristkaua30@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 93074,
+          "email": "kmwr369@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 93318,
+          "email": "reginadebarrosmendes@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 93341,
+          "email": "mariaribeiro8481@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 93810,
+          "email": "viviane26.vgm@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 93925,
+          "email": "carlospaz.rodrigues@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 93963,
+          "email": "victto_21@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 94136,
+          "email": "vanderlonsts@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 94255,
+          "email": "vagnersantos96923@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 94760,
+          "email": "llarissahenrique18@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 94929,
+          "email": "emmerson05pitanga@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 95085,
+          "email": "enohiko@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 95165,
+          "email": "sarahguta28@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 95169,
+          "email": "nascimentorj1994@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 95183,
+          "email": "liviamenezes826@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 95371,
+          "email": "diogodovale88@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 95460,
+          "email": "dadivapaula23@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 95465,
+          "email": "danielantunes0033@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 95469,
+          "email": "rosimaramodenarosi@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 95558,
+          "email": "franneide467@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 95618,
+          "email": "rmquaresma33@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 95623,
+          "email": "jsrique@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 95672,
+          "email": "lipe38967@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 96084,
+          "email": "sueligalileu@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 96252,
+          "email": "silviasena99@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 96277,
+          "email": "gabrielbrees9@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 96313,
+          "email": "josimarmontenegro559@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 96350,
+          "email": "nisleyrocha1@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 96363,
+          "email": "privado.ops@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 96714,
+          "email": "j.darque.d.ferreira@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 96761,
+          "email": "gomesflaviogomes927@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 96942,
+          "email": "marlontanquinho12@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 97044,
+          "email": "engenheiro.andrecruz@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 97099,
+          "email": "rayanedias.santosdiabinha@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 97513,
+          "email": "tales1.8@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 97557,
+          "email": "negocioextra560@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 97727,
+          "email": "l.d.silva.souz@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 97826,
+          "email": "nathallysan7@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 98114,
+          "email": "bebe.lindinho05@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 98144,
+          "email": "andre.alves@adooh.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 98170,
+          "email": "oluan5000@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 98637,
+          "email": "ricfranc21@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 98658,
+          "email": "amandallau22@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 98837,
+          "email": "laidir.lima@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 98977,
+          "email": "felipealexandretoledo@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 99022,
+          "email": "isaegaga5@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 99150,
+          "email": "iannepantero@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 99356,
+          "email": "elis.0271@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 99423,
+          "email": "hercilenesilva@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 99474,
+          "email": "charlesferreira.nutri@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 99629,
+          "email": "tarsislepore@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 99695,
+          "email": "celiavictor12@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 99893,
+          "email": "arthurtrader2703@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 100026,
+          "email": "compositorelizeuteixeira@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 100214,
+          "email": "robsondasnevessacramentosom@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 100269,
+          "email": "tsilvareis77@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 100296,
+          "email": "sneto4317@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 100429,
+          "email": "daniloalmeida1986@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 100509,
+          "email": "italojesus2909@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 100567,
+          "email": "thamaramalcher@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 100600,
+          "email": "campost273@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 100751,
+          "email": "leandroassissantos524@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 100768,
+          "email": "jnetosoares1979@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 100990,
+          "email": "sppgaspar23@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 101049,
+          "email": "prluizbernardes@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 101411,
+          "email": "ricardorkramos@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 101443,
+          "email": "biel.cgmartins@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 101542,
+          "email": "donnruann2022@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 101663,
+          "email": "thamaraaaf@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 101733,
+          "email": "wallace_moreira_86@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 101828,
+          "email": "jjoaovittor5@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 101836,
+          "email": "rafayauh89@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 101840,
+          "email": "nivardoregis@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 102246,
+          "email": "ericklirio.12@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 102472,
+          "email": "mb11003945@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 102538,
+          "email": "eliezioteixeira531@gmai.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 102566,
+          "email": "julianathame4@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 102630,
+          "email": "estelaaraujo0111@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 102633,
+          "email": "rosangelacmonteiro98@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 102650,
+          "email": "silvacassimiro33@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 102901,
+          "email": "eldenmelo@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 103017,
+          "email": "rosaneconceicaogomes@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 103031,
+          "email": "vivianalsoa@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 103156,
+          "email": "viniciushenriqueferrreira310@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 103270,
+          "email": "naldcrs2006@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 103271,
+          "email": "ramos144@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 103375,
+          "email": "souinclusiva@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 103379,
+          "email": "www.ailtonsantos.com.br01@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 103428,
+          "email": "franciscoandredasilva635@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 103526,
+          "email": "edpwt@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 103693,
+          "email": "matheussilvamaia007@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 103700,
+          "email": "alexsergio2011@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 103821,
+          "email": "jccostaesilva31@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 103894,
+          "email": "fluminense.magno10@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 103932,
+          "email": "concurseiro.andreas@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 104125,
+          "email": "gjunior.bs@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 104276,
+          "email": "edinalvaf222@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 104311,
+          "email": "orleir.lima.ac2020@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 104618,
+          "email": "drfcell@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 104643,
+          "email": "marcosdouglas16@icloud.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 104901,
+          "email": "610mariabrito@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 104956,
+          "email": "reginalimagyna23@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 105010,
+          "email": "marcos.oliveira6025@icloud.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 105013,
+          "email": "eliascastro1794@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 105050,
+          "email": "danielcostadasilva108@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 105126,
+          "email": "willington.silva@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 105175,
+          "email": "denisemaratta@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 105180,
+          "email": "rolenecoelhoaguilar22112013@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 105233,
+          "email": "daviloopes2006@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 105546,
+          "email": "izaias.ksl@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 105628,
+          "email": "valdemir310885@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 105862,
+          "email": "lucianofranco255@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 105913,
+          "email": "soniarjandrade@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 106659,
+          "email": "gn406919@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 106864,
+          "email": "luismoreirat54@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 106947,
+          "email": "wesleysantosnav@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 107036,
+          "email": "lucasleite1k@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 107094,
+          "email": "silvaponcianojoaovitor@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 107261,
+          "email": "naniastorres@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 107516,
+          "email": "keomabruno1989@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 107560,
+          "email": "daianerocha629@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 107646,
+          "email": "augustocesarmoto1@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 107803,
+          "email": "thayanefferreira@yahoo.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 107904,
+          "email": "luxojoga123@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 108018,
+          "email": "tatyleosouza@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 108250,
+          "email": "adrianaarmaneli@yahoo.com.bt"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 108355,
+          "email": "dallaayoubb70@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 108475,
+          "email": "marcellalves1983@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 108539,
+          "email": "davidchevettematematica@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 108594,
+          "email": "maquinyy@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 108666,
+          "email": "renanbiango@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 108849,
+          "email": "marcelomemphiscv84@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 108953,
+          "email": "vasconcelosrafael836@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 109070,
+          "email": "marcusneves124@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 109196,
+          "email": "nejdjakejdjskwirid@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 109343,
+          "email": "rodovalmelo@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 109369,
+          "email": "elizabethsoares26@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 109407,
+          "email": "angelaalegna0@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 109442,
+          "email": "candidagbatista@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 109499,
+          "email": "gabeluiz5@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 109774,
+          "email": "darciogleiton9@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 110085,
+          "email": "meryhellen1989@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 110089,
+          "email": "pedrojoaoyz130@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 110094,
+          "email": "Igorhalla.ih@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 110181,
+          "email": "geliandessonarouchaserra@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 110306,
+          "email": "rodrigobeatriz1980@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 110318,
+          "email": "nazarecalvet@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 110476,
+          "email": "bryan.lucasfs@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 110585,
+          "email": "talysoncampos8@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 110949,
+          "email": "davidkluyvert99@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 111050,
+          "email": "modestolarissa23@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 111102,
+          "email": "jht.mkj@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 111355,
+          "email": "debyfranca7@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 111427,
+          "email": "DaniloBerto913@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 111476,
+          "email": "jotapedro14@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 111482,
+          "email": "mescolhido84@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 111767,
+          "email": "fernandaferreiraemflors@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 111839,
+          "email": "lucaswillianlourenco@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 111851,
+          "email": "marciooliveira15696@mail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 111948,
+          "email": "14vdias14@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 112052,
+          "email": "gabi.velloso.18@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 112246,
+          "email": "victor013579@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 112315,
+          "email": "fontourajgabriel@gmal.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 112325,
+          "email": "mauro.dpaes@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 112363,
+          "email": "hevertonsilva782@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 112417,
+          "email": "leonardojesuscornelio@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 112506,
+          "email": "pedro.lessa402@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 112602,
+          "email": "estefanierodrigues1670@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 112667,
+          "email": "melquizedeckjosedejesusjunior@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 112670,
+          "email": "joaoguilhermeap77@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 112818,
+          "email": "elzianeconceicao2006@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 112822,
+          "email": "virtual8869@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 112891,
+          "email": "marrodi92@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 113025,
+          "email": "farmarcus@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 113038,
+          "email": "brunofariasaguiar@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 113064,
+          "email": "aquinnoraffael05@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 113078,
+          "email": "scarlatfernanda933@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 113437,
+          "email": "matheussarah60@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 113569,
+          "email": "fabiana1993campos@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 113688,
+          "email": "malegui858@yahoo.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 113911,
+          "email": "michelramosho@icloud.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 113918,
+          "email": "janainaportela982@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 114082,
+          "email": "washingtonmedeirosjr@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 114139,
+          "email": "reginarafaellaf@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 114146,
+          "email": "soniaferreira82079@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 114214,
+          "email": "aninhasantooss05@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 114262,
+          "email": "jardelgomes921@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 114289,
+          "email": "brendavitoriasilvaassis06@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 114402,
+          "email": "lucasperes@vivario.org.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 114513,
+          "email": "windfast@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 114626,
+          "email": "98clisman@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 114638,
+          "email": "aldapacheco112@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 114771,
+          "email": "vitor14limaah@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 114987,
+          "email": "priscilaconde31@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 115131,
+          "email": "ea7774599@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 115153,
+          "email": "carlosfabiob86@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 115655,
+          "email": "rosangelareissantos2014.933@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 115911,
+          "email": "valmiramacedo00@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 116027,
+          "email": "gabriellameiramont@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 116292,
+          "email": "marcelfranco.oliveira@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 116297,
+          "email": "Afchelp346@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 116342,
+          "email": "juliobatistasantos31@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 116650,
+          "email": "Carla.n.c.dc@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 117262,
+          "email": "leandromelo738@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 117405,
+          "email": "christian_94_benites@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 117484,
+          "email": "mt8809692@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 117765,
+          "email": "zuherkhalil@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 118348,
+          "email": "velascoysabelli@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 118539,
+          "email": "Victorguedesvl@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 119149,
+          "email": "julianadeoliveiradias19792@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 119243,
+          "email": "gilsonmpf03@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 119336,
+          "email": "luana.asantos360@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 119517,
+          "email": "ricardotorresputy2017@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 119582,
+          "email": "renesouzalima45@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 119967,
+          "email": "mdocarmo453@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 120110,
+          "email": "antonioabramo8@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 120563,
+          "email": "hiago.bissalesfranco@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 120709,
+          "email": "jacivaldoconceicaodasilva76@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 120870,
+          "email": "marcosfree315@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 121162,
+          "email": "g.biela.a@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 121200,
+          "email": "wilsoncrbbatista@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 121496,
+          "email": "guilhermedivino767@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 121529,
+          "email": "henriquevaccali@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 121580,
+          "email": "kelenblessedvr@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 121650,
+          "email": "oscardelfino@51gm.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 122000,
+          "email": "nalberthc2020@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 122382,
+          "email": "marcelodossantoslima365@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 122528,
+          "email": "vivianeaguiar886@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 123218,
+          "email": "buchmann015@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 123319,
+          "email": "carlamayra72@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 123372,
+          "email": "sudrafael@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 123470,
+          "email": "claudiagomesmel@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 123484,
+          "email": "jersonvigia@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 123620,
+          "email": "brancozito@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 123633,
+          "email": "katsoaress@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 123747,
+          "email": "rosanapp2011@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 123847,
+          "email": "oganalex8@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 123911,
+          "email": "kaynasilva618@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 123959,
+          "email": "nayaralaismt@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 123990,
+          "email": "toinr7070@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 124216,
+          "email": "thalyssantana67@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 124225,
+          "email": "misionerolejosdelpago2@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 124550,
+          "email": "somovilpedro@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 124679,
+          "email": "moisesfariasfarias0976@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 124684,
+          "email": "onx310720@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 124695,
+          "email": "Marcelinocampos86@gmel.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 124721,
+          "email": "suma88elianabla9@icloud.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 124726,
+          "email": "taniaregina2299@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 124754,
+          "email": "tatiananeris731@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 124817,
+          "email": "tatarateto@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 125197,
+          "email": "mateussilvasousa2404@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 125268,
+          "email": "losbritoi@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 125303,
+          "email": "joaobessa3000@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 125477,
+          "email": "irisdalvasousa47@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 125552,
+          "email": "elaine.ribeiro81@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 125605,
+          "email": "erickvieiraek20@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 126441,
+          "email": "rejanebpcfisio@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 126537,
+          "email": "cauaalexander1012@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 127341,
+          "email": "ryanlindomar949@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 127388,
+          "email": "dasiovapereiraj762@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 127472,
+          "email": "daniel.h.almeida@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 128323,
+          "email": "isaacpalheta0511@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 128631,
+          "email": "cesarmarcosssantos@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 128654,
+          "email": "gabrielapereiracruz199825@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 129543,
+          "email": "dyogenes.benaya@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 129804,
+          "email": "daniellalvees2@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 129983,
+          "email": "luizclaudio.rm10@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 130343,
+          "email": "jacywesteff@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 130646,
+          "email": "thiagobrosnograu@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 130698,
+          "email": "maffeiyago@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 131099,
+          "email": "gomesdesouzaerisonwagner@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 131129,
+          "email": "fortunatod219@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 131316,
+          "email": "emanuelmartins431@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 131540,
+          "email": "josianealmeida548@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 131908,
+          "email": "joanadarccha@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 131946,
+          "email": "darlanpalma61@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 132047,
+          "email": "francinaracastro1990@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 132204,
+          "email": "monografias2008@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 132408,
+          "email": "maykeealine@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 132573,
+          "email": "markinholima777@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 132811,
+          "email": "arthuroliver402@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 132828,
+          "email": "richardcamargog2003@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 133086,
+          "email": "erikcoutinho@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 133543,
+          "email": "costajoaopaulo655@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 133699,
+          "email": "davidpgomes@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 133899,
+          "email": "thaismarinhomaciel@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 134466,
+          "email": "fs812066@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 134493,
+          "email": "cassio.nmt@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 134542,
+          "email": "gegeaquino3@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 134726,
+          "email": "izabelsviercoski@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 134773,
+          "email": "leonardo9498.lf@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 135118,
+          "email": "vs8526939@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 135128,
+          "email": "nicolesantosdora@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 135176,
+          "email": "millalima217@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 135299,
+          "email": "jos_zito@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 135324,
+          "email": "alexanderamaral1971@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 135650,
+          "email": "juniorindio12@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 135781,
+          "email": "th3664@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 135851,
+          "email": "brunnersoares@bol.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 135869,
+          "email": "luzivaniamoraes87@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 135995,
+          "email": "claudio-theodoro@hotmail.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 136016,
+          "email": "elizandra.brm@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 136039,
+          "email": "ferreiraleia495@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 136052,
+          "email": "lehbalaminut@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 136357,
+          "email": "dfontoura139@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 136420,
+          "email": "priguipsi@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 136434,
+          "email": "carolmilca34@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 136561,
+          "email": "agendaprclayton@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 136741,
+          "email": "ektiba@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 136748,
+          "email": "blenerhenrique94@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 136949,
+          "email": "adrianarodriguesmelo123@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 137135,
+          "email": "humbertozuk@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 137363,
+          "email": "raysoares789@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 137413,
+          "email": "priscilafurtadoleite185@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 137486,
+          "email": "lucassousaaviz@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 137487,
+          "email": "sidneyborges182@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 137639,
+          "email": "rayfranpereira1@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 138267,
+          "email": "rafael.alveswms@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 138313,
+          "email": "arthurmckiko@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 138385,
+          "email": "sp18899@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 138386,
+          "email": "lucasabento1@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 138393,
+          "email": "yanmarcelvaz@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 138423,
+          "email": "angelacirilodeoliveira@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 138634,
+          "email": "nicolasjuliosousa32@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 138827,
+          "email": "celsoreck@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 138988,
+          "email": "giliard.riquel2018@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 139046,
+          "email": "pedrofox2014@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 139116,
+          "email": "adriano.silva.net@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 139350,
+          "email": "karencunhadihh@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 139417,
+          "email": "marcosmichel3020@icloud.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 139428,
+          "email": "madeleinematias6@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 139511,
+          "email": "yanoliveiram@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 139543,
+          "email": "monica.cruz1977acn@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 139728,
+          "email": "niltonpmarkes@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 139893,
+          "email": "vf@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 139903,
+          "email": "marcoss6686@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 139916,
+          "email": "mikellanymonteiro@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 140062,
+          "email": "wellingtonselvagem5@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 140635,
+          "email": "sofiariviera2455c@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 140643,
+          "email": "ja9887751@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 140709,
+          "email": "042leuch@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 141019,
+          "email": "reginasou4@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 141056,
+          "email": "pedrohtosta@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 141083,
+          "email": "joaolucasab76@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 141604,
+          "email": "pedrohenriquefonseca@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 141610,
+          "email": "cesar@grupovia1.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 141640,
+          "email": "crys.o.ramos@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 141711,
+          "email": "lenildo_bjr@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 141901,
+          "email": "emanuelgomesmes@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 141915,
+          "email": "michelirsantos@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 141930,
+          "email": "windersonxp35@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 141972,
+          "email": "celiosantos8607@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 142067,
+          "email": "tendocarmo2016@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 142076,
+          "email": "rafaeltecnicotst@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 142188,
+          "email": "pauloraphael.ph01@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 142289,
+          "email": "welysonbaiano@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 142352,
+          "email": "lucasagmatos4@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 142587,
+          "email": "superamado@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 142630,
+          "email": "alefebastos79@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 142681,
+          "email": "lhima10@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 142707,
+          "email": "rafaellopees_2024@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 142860,
+          "email": "nftche299@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 143144,
+          "email": "nixkogomes28@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 143249,
+          "email": "vinyteotoniocmv83@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 143261,
+          "email": "matosjessicajosiane@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 143337,
+          "email": "joelciorodrigues@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 143727,
+          "email": "virocha345@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 143778,
+          "email": "deborahliviamsantos@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 143850,
+          "email": "zana214@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 143912,
+          "email": "josejefferson108@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 144044,
+          "email": "luhhurtado1234@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 144122,
+          "email": "lucatellivr6@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 144124,
+          "email": "wdsonoliveira9@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 144921,
+          "email": "queiroz169@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 145126,
+          "email": "welingtonoliveira300@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 145226,
+          "email": "mariaclaracunha817@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 145452,
+          "email": "pedrovisk992@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 145647,
+          "email": "samuell.sillva30@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 145740,
+          "email": "maiadesousa65@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 145826,
+          "email": "kaiomota457@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 145931,
+          "email": "denilsonsilva.dlcs83@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 146029,
+          "email": "robertodesouzatelles07@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 146042,
+          "email": "grmedeiros123@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 146099,
+          "email": "malirahenrique13@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 146153,
+          "email": "arielson0411@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 146189,
+          "email": "gabrielschagas@yahoo.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 146241,
+          "email": "euniiceloopes@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 146665,
+          "email": "ryan2003carvalho@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 146666,
+          "email": "fatimamariag1310@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 146672,
+          "email": "leomotopecasacessorios@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 146673,
+          "email": "fernandovitor3benem2019@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 146674,
+          "email": "leidianefandresilva@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 146676,
+          "email": "alexandredealencar08@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 146680,
+          "email": "edson671671@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 146977,
+          "email": "daniloede@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 147030,
+          "email": "robertaludmila5@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 147238,
+          "email": "patryckwilliahjc@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 147257,
+          "email": "liraanacl7@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 147283,
+          "email": "luizinhocsta1999@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 147287,
+          "email": "jaimesoua200@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 147702,
+          "email": "franciele.santos.84421941@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 147728,
+          "email": "viviancardoso978@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 147947,
+          "email": "arthur_ilhaa@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 147987,
+          "email": "eliseured10@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 148030,
+          "email": "reizia@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 148085,
+          "email": "denysfortuna@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 148393,
+          "email": "kmvieira692@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 148493,
+          "email": "icarojmota@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 148549,
+          "email": "andersons.costa@icloud.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 148661,
+          "email": "professoraesterbotelhosilva@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 148881,
+          "email": "svalero177@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 148980,
+          "email": "deniscunha2110@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 149104,
+          "email": "morticiacrispin013777@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 149167,
+          "email": "oliveirafrancisco460@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 149192,
+          "email": "franciscopereirapedrolucas@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 149294,
+          "email": "wendrelinternet@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 149296,
+          "email": "rafaamaia09@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 149406,
+          "email": "fabio.braaga202@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 149526,
+          "email": "nandomcb2013@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 149941,
+          "email": "matheushenrry14@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 149965,
+          "email": "marcellastuffs@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 150113,
+          "email": "joeserferreira606@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 150158,
+          "email": "ivanildofrancisco290973@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 150297,
+          "email": "thiagoluizrj580rj@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 150301,
+          "email": "santosadnna063@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 150305,
+          "email": "gil757283@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 150426,
+          "email": "vitor1909@live.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 150525,
+          "email": "silviarodrigues112011@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 150657,
+          "email": "joaovitoraraujodossantos0@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 150692,
+          "email": "kmichelschaves@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 150707,
+          "email": "pedromalheiro30@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 150774,
+          "email": "manoelumbelino200879@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 150999,
+          "email": "afcarvalho39@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 151261,
+          "email": "ricardomarriell82@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 151490,
+          "email": "vaguitoleand@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 151547,
+          "email": "pedrobastos312@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 151561,
+          "email": "bruniinhodiego22@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 151821,
+          "email": "sandronino2017@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 152005,
+          "email": "carolinadacostatorres86@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 152045,
+          "email": "herliz25@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 152427,
+          "email": "arthurrios426@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 152520,
+          "email": "heliodinz123@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 152587,
+          "email": "matheus25cravinho@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 152591,
+          "email": "wollace880@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 152628,
+          "email": "tbsthays@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 153013,
+          "email": "toniguz@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 153034,
+          "email": "thiagomedina75@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 153149,
+          "email": "ricardojuniorabrantes@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 153286,
+          "email": "denilsonmiller1998@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 153427,
+          "email": "francielsilvacosta@yahoo.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 153609,
+          "email": "nemirmendes00@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 153787,
+          "email": "kalineo51@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 153924,
+          "email": "cavalcanticleto@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 154185,
+          "email": "fmarcelo158@yahoo.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 154217,
+          "email": "rdiassilva65@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 154282,
+          "email": "rogeriosantos83303@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 154343,
+          "email": "lucianagims007@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 154590,
+          "email": "philipesilvazx@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 154808,
+          "email": "gutoagchapa@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 154866,
+          "email": "martiresmarinaldo@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 154888,
+          "email": "ronalprado.supervisor@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 154970,
+          "email": "beta20.ricardo@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 154977,
+          "email": "alexandredsilva15@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 155244,
+          "email": "rtakahashif@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 155307,
+          "email": "adrivan05silva@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 155418,
+          "email": "caroltorres23.ct@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 155594,
+          "email": "charleslinodesousa@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 155670,
+          "email": "rodrigomoraesgmp@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 155708,
+          "email": "eardo77147192@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 155769,
+          "email": "fabioantoniodavi3@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 155922,
+          "email": "milenajmbarbosa@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 156079,
+          "email": "cw.rodo@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 156237,
+          "email": "dasivacostaalexandre@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 156330,
+          "email": "romildovieiraurin@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 156358,
+          "email": "aparecidocoelho23@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 156389,
+          "email": "junior.lopes2@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 156517,
+          "email": "alailsonpereira41@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 156683,
+          "email": "kaikedaconceicao15@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 156883,
+          "email": "brasilbeta94@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 156939,
+          "email": "brendachiamo@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 156946,
+          "email": "denissondosreisfontes@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 157038,
+          "email": "warlleyfreitasdossantos@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 157077,
+          "email": "angelomarim@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 157122,
+          "email": "santosshirley380@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 157136,
+          "email": "giovanafigueiredo_2009@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 157335,
+          "email": "thiago.santos.17@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 157517,
+          "email": "jonataspinheiro02@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 157531,
+          "email": "zelaosax2@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 157732,
+          "email": "luciel.melo65@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 157865,
+          "email": "yan.dacruz.597@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 157948,
+          "email": "kvoliveira553@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 157950,
+          "email": "rui.ferreira.v@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 158211,
+          "email": "joseeulogio219@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 158468,
+          "email": "edsonsantosdaconceicao9@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 158477,
+          "email": "camila.rodriguesdc@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 158578,
+          "email": "madsonbru875@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 158835,
+          "email": "brunosalomao22@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 158980,
+          "email": "dmalavasi09@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 159031,
+          "email": "henrique.macario@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 159208,
+          "email": "nilza.carvalhoshiraishi@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 159279,
+          "email": "abinadabefelipe6@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 159773,
+          "email": "honoriolucia15@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 159984,
+          "email": "leonardoalvescavalcante21@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 160622,
+          "email": "victorviana.assimos@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 161511,
+          "email": "kittydantas75@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 161542,
+          "email": "alinygol-1@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 161612,
+          "email": "marcoass10@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 161668,
+          "email": "lucaseufrasio00@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 161741,
+          "email": "isiseliandro@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 161795,
+          "email": "valmirsg1980@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 162207,
+          "email": "vianabriglia@icloud.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 162361,
+          "email": "ja2854520@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 162701,
+          "email": "claudineimartins294@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 162733,
+          "email": "lipetsn21@hotmail.coml"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 162879,
+          "email": "silvanocavinato1995@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 162887,
+          "email": "joandarcluna935@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 163004,
+          "email": "jaddec2@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 163028,
+          "email": "danilsonrodrigues61@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 163159,
+          "email": "Youtooo290@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 163282,
+          "email": "aerton.aragao1976@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 163372,
+          "email": "tedy_alves32@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 163488,
+          "email": "brunomeliante@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 163698,
+          "email": "fabio200904@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 163893,
+          "email": "leidaantero@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 164044,
+          "email": "adotibr@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 164114,
+          "email": "hanninhavitoria@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 164176,
+          "email": "dapaixaoicaro@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 164264,
+          "email": "edilsondejesussantos500@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 164316,
+          "email": "telmanisio@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 164613,
+          "email": "fantoxemaluco@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 164616,
+          "email": "maxwellwesley2803@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 164975,
+          "email": "arthurlagares390@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 165188,
+          "email": "td2686872@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 165350,
+          "email": "alsantos.andreluiz@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 165466,
+          "email": "anihasutil@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 165497,
+          "email": "robertleao40@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 165526,
+          "email": "xand9101@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 165542,
+          "email": "gustavoveloso612@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 165619,
+          "email": "firofirofiro@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 165632,
+          "email": "burjackedu32@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 165675,
+          "email": "eduveloso009@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 165739,
+          "email": "renatopantoja567@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 165884,
+          "email": "gilvanilsonmatos@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 165926,
+          "email": "matheus.alves0598@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 165945,
+          "email": "fm1411366@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 166206,
+          "email": "elyssapaulamorais@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 166228,
+          "email": "rn6597268@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 166342,
+          "email": "miguelakilescandido2026@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 166443,
+          "email": "kleber_c1990@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 166561,
+          "email": "naiton9999@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 166594,
+          "email": "souzaedionete9@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 166683,
+          "email": "jhu.levita@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 166935,
+          "email": "fsmaga@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 166975,
+          "email": "catiaabione@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 167037,
+          "email": "chrissoaresbatista15@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 167099,
+          "email": "fernandoplay3@bol.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 167156,
+          "email": "js.anderson.ferreira@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 167166,
+          "email": "carlosmeira1974@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 167209,
+          "email": "athaide.carvalho@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 167299,
+          "email": "pedropbl3@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 167407,
+          "email": "maayycoons@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 167544,
+          "email": "faelassato@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 167680,
+          "email": "igortec.2001@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 167753,
+          "email": "lorrans242@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 168080,
+          "email": "d04784619@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 168393,
+          "email": "dannisilco@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 168532,
+          "email": "gersonantonio3004@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 168643,
+          "email": "felipe13juca@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 168807,
+          "email": "mateusguimaraesfeitosa@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 168881,
+          "email": "lucieneguarabu@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 168894,
+          "email": "arandalarissa18@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 168910,
+          "email": "alejandromachado2203@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 168943,
+          "email": "maisaruasferreira@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 168992,
+          "email": "marciocopque170@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 169263,
+          "email": "lucianoteamolunna@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 169285,
+          "email": "rosario.rodrigo@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 169336,
+          "email": "priscilla.carelli@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 169357,
+          "email": "evaldojmarques@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 169520,
+          "email": "luizfox50@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 169529,
+          "email": "anaj.guima@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 169565,
+          "email": "marinhomirella20@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 169651,
+          "email": "helyda10@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 169722,
+          "email": "lilianeazevedo835@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 169874,
+          "email": "magno2227@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 170022,
+          "email": "sausaeliete31@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 170124,
+          "email": "andrenery20@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 170139,
+          "email": "sharlenegomes1981@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 170155,
+          "email": "sousaeliete31@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 170338,
+          "email": "vazlucas489@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 170346,
+          "email": "manoelm.matos16@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 170508,
+          "email": "giovaneropelli@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 170545,
+          "email": "guilhermerocharet@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 170546,
+          "email": "moreirajeremiasnatalia@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 170566,
+          "email": "doracastro5415@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 170598,
+          "email": "karolinecarvalho861@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 170699,
+          "email": "marisvaldosantos948@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 171284,
+          "email": "escritorioadvinss6@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 171509,
+          "email": "fernandesbreno20194@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 171525,
+          "email": "tadeujosefranca@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 171805,
+          "email": "patrick-qtg@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 171810,
+          "email": "eurafa1820@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 171856,
+          "email": "ribeirodeliangela@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 171931,
+          "email": "joseanesantos689@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 172009,
+          "email": "helinholima51@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 172122,
+          "email": "marcio1114rodrigues@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 172140,
+          "email": "www.joao.98vitor@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 172218,
+          "email": "dhiego650.dds@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 172247,
+          "email": "agdalucena@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 172287,
+          "email": "wilalopes9@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 172388,
+          "email": "wleley23@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 172910,
+          "email": "kike.vr99@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 173155,
+          "email": "dailmasarges@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 173241,
+          "email": "ceciliamoura101@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 173266,
+          "email": "leonardovp1986@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 173301,
+          "email": "erikasouzanunes165@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 173346,
+          "email": "maciellvisuart@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 173670,
+          "email": "netoa5166@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 173720,
+          "email": "tiquinhomac@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 173743,
+          "email": "site.vemdasdigitais@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 173813,
+          "email": "oliveiramendessarah22@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 174144,
+          "email": "carvalhoray09@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 174161,
+          "email": "josuealves0804@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 174260,
+          "email": "diegovoynich9@gmaol.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 174346,
+          "email": "Silvajosue2pereiradarooocaff@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 174542,
+          "email": "luizhcc2000@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 174608,
+          "email": "henriquenunesoc@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 174659,
+          "email": "davizinhu2004@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 174960,
+          "email": "carla1lima@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 175041,
+          "email": "s96198693@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 175153,
+          "email": "juniorbarrosofc22@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 175240,
+          "email": "ademilsonmarinho79@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 175585,
+          "email": "marquinhossouza888@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 175608,
+          "email": "estevamborgers@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 175677,
+          "email": "jacksonluis015@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 175954,
+          "email": "yurekauapereira@hotmail.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 176147,
+          "email": "tkatylen493@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 176225,
+          "email": "biancakassy@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 176284,
+          "email": "lucassd488@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 176475,
+          "email": "lauraandradealves52@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 176709,
+          "email": "elvis_lina2@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 176975,
+          "email": "belquirianmendes@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 177161,
+          "email": "jessicavasconceloos@gmaill.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 177241,
+          "email": "jacksonmalwe@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 177247,
+          "email": "claudioluizclaudionacimentomot@gmeio.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 177257,
+          "email": "johnpedroheitorqueziafml123@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 177264,
+          "email": "rafaelbr87@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 177327,
+          "email": "juliana92andrade@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 177388,
+          "email": "leydes633@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 177482,
+          "email": "playvip13@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 177561,
+          "email": "stasilva010@gnail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 177731,
+          "email": "wellingtonabreu18@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178123,
+          "email": "luizaana28872@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178125,
+          "email": "jeanalves2024.1@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178130,
+          "email": "waaleskabrito1@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178131,
+          "email": "ozilmapaixao4@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178134,
+          "email": "lilybh24@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178135,
+          "email": "vivianegabrielle@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178139,
+          "email": "ruuangomesx01@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178145,
+          "email": "jorgewiilliam27@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178276,
+          "email": "emillie_marques@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178295,
+          "email": "anaclara1998_@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178308,
+          "email": "andressa_hrota@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178327,
+          "email": "rcostaderezende@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178502,
+          "email": "fabriciobarrosbrrs@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178548,
+          "email": "almeidajulia478@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178636,
+          "email": "everton123henrique88@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178664,
+          "email": "soaresrenier2@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178679,
+          "email": "cr51493801@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178684,
+          "email": "vitindomingos79@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178761,
+          "email": "lucasartemann@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 178857,
+          "email": "jotamila37@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 179044,
+          "email": "jadermathiasferreira69@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 179047,
+          "email": "carloshenriquejjj851@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 179109,
+          "email": "kellybittencourt19@hormail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 179150,
+          "email": "walquirias808@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 179420,
+          "email": "assissantiago49@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 179553,
+          "email": "leonardobala205@gmail.comleo"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 179601,
+          "email": "dayse48@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 179706,
+          "email": "carlosdaniel140927@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 179911,
+          "email": "alexandrersiqueira185@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 179951,
+          "email": "rochajanaina16@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 180150,
+          "email": "jadehsilva6@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 180157,
+          "email": "adilson.inspetor@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 180238,
+          "email": "medinaddx@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 180266,
+          "email": "maurosergiolopessantoss@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 180519,
+          "email": "wanderlene913@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 180586,
+          "email": "fabiobartosch@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 180610,
+          "email": "luciana.augusta@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 181167,
+          "email": "silas.bidy19@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 181173,
+          "email": "alceperolas@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 181600,
+          "email": "ataulfomontanha@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 181621,
+          "email": "ph91605004@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 181837,
+          "email": "reisguiba59@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 181855,
+          "email": "carlosjean13521@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 181887,
+          "email": "camilasilvagomes736@gmail.comc"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182065,
+          "email": "carla_priscila20@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182084,
+          "email": "christielen.c.m@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182233,
+          "email": "marcionunes74@live.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182293,
+          "email": "manuelaxavier@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182305,
+          "email": "Jhonataareis@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182345,
+          "email": "walterwsan@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182360,
+          "email": "rudsonlima22@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182440,
+          "email": "db.consultoria320@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182492,
+          "email": "mlibia456@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182511,
+          "email": "isaiaspaixao67@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182561,
+          "email": "brunocsantos538@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182714,
+          "email": "fernandafarma20230112@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182724,
+          "email": "jorge.menezes@aluno.senai.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182797,
+          "email": "aires2007leo@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182848,
+          "email": "kayomatos98@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 182934,
+          "email": "iago3270@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 183074,
+          "email": "gersonandrade601@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 183288,
+          "email": "siqueiraleandro005@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 183466,
+          "email": "duartetaisa075@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 183673,
+          "email": "marcossilva.vinicius2022@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 184091,
+          "email": "andersonbrandao45@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 184140,
+          "email": "arthurbitencourt1000@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 184317,
+          "email": "lucianomth8@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 184672,
+          "email": "evandromt39@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 184854,
+          "email": "limadenis94@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 184972,
+          "email": "thawane.sampaio@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 184978,
+          "email": "nirvanaaraujo14@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 185008,
+          "email": "analicelima.jor@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 185179,
+          "email": "icarogomess165@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 185271,
+          "email": "emanuel.elias.507@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 185345,
+          "email": "patty.araujo@icloud.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 185419,
+          "email": "alvespereiradayvid@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 185451,
+          "email": "ruanbsouza05@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 185753,
+          "email": "rejaneandrade7522@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 185928,
+          "email": "ayshasilva027@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 185980,
+          "email": "leibarg.lima@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 186024,
+          "email": "gustavodiasschultz@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 186289,
+          "email": "kauanlmeida00@icloud.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 186307,
+          "email": "betomoreira.crfm17@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 186315,
+          "email": "protiago19a@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 186334,
+          "email": "ytaloale.2121@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 186702,
+          "email": "joaovsmfisio@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 186717,
+          "email": "kennedysevalho@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 186834,
+          "email": "leandroalmeida1002@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 186881,
+          "email": "jarade171498@icloud.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 186926,
+          "email": "01guisouz@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 187138,
+          "email": "fernandosantosgestaorh@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 187574,
+          "email": "clenydoshow@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 188055,
+          "email": "tatyaneethayna@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 188338,
+          "email": "lucilenemesquita.lu@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 188392,
+          "email": "lucasleitao009@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 188406,
+          "email": "rodriguescardosonanivaldo@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 188461,
+          "email": "edmar-hermes@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 188666,
+          "email": "marynaqueirozdesingdebolos@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 188689,
+          "email": "ianribtor@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 188711,
+          "email": "sebastiaocarvalho118@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 188723,
+          "email": "namrenan@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 188729,
+          "email": "juvercioliveira422@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 188741,
+          "email": "mathsena@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 189214,
+          "email": "victoriajesus44@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 189301,
+          "email": "juliomanfrinato.adv@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 189600,
+          "email": "lh9475371@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 189621,
+          "email": "777antonio777rodrigues@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 189765,
+          "email": "jefersondasilvaramos@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 189822,
+          "email": "debora.ponte@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 189942,
+          "email": "darlissonmendes1@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 190030,
+          "email": "cristiansilvadelima26@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 190056,
+          "email": "raidsoncr7@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 190065,
+          "email": "thamiresgomes.contato@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 190236,
+          "email": "caiquegoes2@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 190307,
+          "email": "Leandrocostastarfit@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 190787,
+          "email": "abednegoadson@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 190929,
+          "email": "fmatheushenrique8@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 190940,
+          "email": "murilomachado961@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 191118,
+          "email": "leandrinhinhocpv28@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 191119,
+          "email": "viniup9@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 191213,
+          "email": "alan84220290@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 191252,
+          "email": "brunocontty7@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 191254,
+          "email": "igorniteroipendotiba@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 191478,
+          "email": "karinebarros1986@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 191644,
+          "email": "elbersouza161@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 191658,
+          "email": "desouzabarbosa.f@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 191747,
+          "email": "sandersonpontes36@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 191795,
+          "email": "joaovictor284202@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 191896,
+          "email": "washingtonnunes60@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 191900,
+          "email": "adilsonpromovesp@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 191988,
+          "email": "williamysjj@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 192143,
+          "email": "samaroni1967@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 192145,
+          "email": "318cristiana.santos1988@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 192169,
+          "email": "jrceeezaaaar@icloud.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 192251,
+          "email": "rosangelarocha121@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 192618,
+          "email": "982838354ac@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 192772,
+          "email": "pcaesar559@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 193276,
+          "email": "ccosta.lima10@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 193318,
+          "email": "ilzamosilva@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 193410,
+          "email": "amandajeniffer24@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 193554,
+          "email": "af09657545@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 193712,
+          "email": "alisson.bruno@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 193772,
+          "email": "lhenrique45828@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 193960,
+          "email": "antonia75lopes@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 194220,
+          "email": "anamonique202@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 194321,
+          "email": "josipfprf@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 194345,
+          "email": "carlacabral.rj@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 194380,
+          "email": "izaiassilva54@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 194539,
+          "email": "ygrms02@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 194953,
+          "email": "kaiqueoliveiramagalhaes588@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 195035,
+          "email": "danielsabaggg@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 195241,
+          "email": "felipekcastro@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 195254,
+          "email": "kaiofsss1999@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 195293,
+          "email": "nglauciane17@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 195390,
+          "email": "josemauriciolourencojunior7@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 195480,
+          "email": "perobellijoao14@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 195627,
+          "email": "isaiasdepaula130772@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 195929,
+          "email": "hemilisantos5@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 196158,
+          "email": "geisasantos80@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 196269,
+          "email": "johnnywendell3@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 196291,
+          "email": "gabilimas1998@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 196691,
+          "email": "arturpedro1212@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 196728,
+          "email": "xhikigayazx@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 196737,
+          "email": "nathyvnsantos502@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 196810,
+          "email": "yg9201637@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 197038,
+          "email": "s.monteiro1902@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 197715,
+          "email": "leilireneslima@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 197954,
+          "email": "sintiagraziele@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 198138,
+          "email": "thalita2tamiris@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 198298,
+          "email": "junio.stm6570@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 198878,
+          "email": "renatawanderleygama@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 199451,
+          "email": "sandramendessabino@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 199658,
+          "email": "arianavicente36@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 201275,
+          "email": "rosiane1983ane@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 202568,
+          "email": "gabyfelipe069@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 202661,
+          "email": "cryslaynev906@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 202888,
+          "email": "ilzania1978@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 203797,
+          "email": "ricardo2504@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 204779,
+          "email": "everaldomoreira43@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 204960,
+          "email": "lucaspint@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 206023,
+          "email": "nidiakelly.s@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 206412,
+          "email": "diegotpt06@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 206585,
+          "email": "matheusjf0609@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 206635,
+          "email": "jeronimosuely1@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 206690,
+          "email": "izabelmuniz887@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 207165,
+          "email": "moreiraluann89@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 207571,
+          "email": "thomasrodrigues_10@icloud.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 207799,
+          "email": "nataliameritello@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 208528,
+          "email": "ulissisrodrigues@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 208830,
+          "email": "suelencavalcante85@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 208848,
+          "email": "michaelrobertotrade@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 208993,
+          "email": "nethosilvahp@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 209021,
+          "email": "pauloalencar7@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 209497,
+          "email": "marlyy1968batista@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 209828,
+          "email": "aranascer@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 209963,
+          "email": "mk.calheiros2506@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 209995,
+          "email": "denilsonbarretodasilva.barreto@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 210208,
+          "email": "pedro.tricano@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 210363,
+          "email": "ingpimenta976@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 210491,
+          "email": "denilsonsanttos536@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 210589,
+          "email": "alexandrebentodegodoi555@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 210615,
+          "email": "julio.love.love@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 210680,
+          "email": "naraventura18@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 210798,
+          "email": "p.b.coelho.81@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 210841,
+          "email": "wellington.mt09@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 211300,
+          "email": "sthefannysoarex@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 211698,
+          "email": "maitaparejojosefrancisco@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 212064,
+          "email": "marcelosoaresdesouza2020@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 212595,
+          "email": "manda.mora@icloud.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 212765,
+          "email": "wevertonluacampos@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 212803,
+          "email": "selineoliveira02@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 213070,
+          "email": "antoniosousaf14@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 213112,
+          "email": "Vandersonrodrigues571@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 213560,
+          "email": "jandermatheus31@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 213745,
+          "email": "joabeviana790@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 213902,
+          "email": "jonatassa@acad.ifma.edu.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 214632,
+          "email": "fa.fa.moura@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 214670,
+          "email": "lucasfrade038@gmail.coml"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 214740,
+          "email": "ofc.marcosmendes@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 214750,
+          "email": "marcio.savio20@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 215098,
+          "email": "md3815465@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 215107,
+          "email": "robinsonluisnascimento@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 215308,
+          "email": "bosquinhocrz@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 215604,
+          "email": "suzyaraujon@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 215628,
+          "email": "zilaidedejesus599@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 215703,
+          "email": "t.uny.nha@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 216027,
+          "email": "fabioaugustonanda2022@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 216180,
+          "email": "duarte.bcd@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 216398,
+          "email": "kakailha26@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 216485,
+          "email": "dayanneconegundes@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 216580,
+          "email": "maigonunes6@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 216598,
+          "email": "lhervilin@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 216913,
+          "email": "mclegi7favela@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 216939,
+          "email": "laricoraini@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 216965,
+          "email": "wesleysilvacaragua@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 217205,
+          "email": "williamlimalevy0123@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 217398,
+          "email": "wilmondescesarr@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 217443,
+          "email": "eli.libra04@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 217506,
+          "email": "lurdianeviveiros@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 217845,
+          "email": "anderson.santos398@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 217919,
+          "email": "sterfan_19@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 218101,
+          "email": "professorafatima26@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 218219,
+          "email": "susigvn105@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 218655,
+          "email": "avana_castro@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 218692,
+          "email": "leizandralima1916@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 218750,
+          "email": "emanoelcaravelas@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 218877,
+          "email": "joaotavaresdealmeidaa@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 219162,
+          "email": "karlakwguimaraes@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 219436,
+          "email": "renata.cristiani@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 219501,
+          "email": "andersontobias482@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 219727,
+          "email": "romeuconceicao127805@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 219972,
+          "email": "fabiodutra.arq@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 220018,
+          "email": "vilmarsalles@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 220057,
+          "email": "darlonedsonsoares@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 220075,
+          "email": "marloncygainski@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 220338,
+          "email": "ulivieira@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 220436,
+          "email": "sandrina.fisio@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 220698,
+          "email": "carloslimacunha1@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 220775,
+          "email": "ale.silva28@outlook.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 221142,
+          "email": "marciosantos58632@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 221329,
+          "email": "moisescarmo84@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 221364,
+          "email": "rregisvansena@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 221775,
+          "email": "fialhoeliania@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 222159,
+          "email": "rafaelrodrigues9417@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 222236,
+          "email": "alairtonpereira.dev@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 222369,
+          "email": "evaniolucas2021@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 222620,
+          "email": "thiagosilva.c7@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 223288,
+          "email": "silassilaspregador@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 223327,
+          "email": "luisgustavo8806@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 223398,
+          "email": "erika.fonseca2017@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 223414,
+          "email": "camilafernandes0964@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 223442,
+          "email": "carlosbarbaresco157@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 223540,
+          "email": "mercioelpidio20@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 223677,
+          "email": "TATAA.28@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 223869,
+          "email": "bidiu1289@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 224305,
+          "email": "Freitas.hugo2018@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 224707,
+          "email": "piresanderson315@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 224869,
+          "email": "joaovictorsoaresdossantos453@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 224912,
+          "email": "frodrigues529@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 224969,
+          "email": "mochiluana9@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 225227,
+          "email": "luziete.ssouza@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 225354,
+          "email": "momiamoreterno@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 225526,
+          "email": "willkeleal@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 226019,
+          "email": "caioferm@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 226474,
+          "email": "karen18torres@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 226514,
+          "email": "ryanisidoro555@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 226796,
+          "email": "fabio2martins@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 226992,
+          "email": "fernandocomdeus@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 227056,
+          "email": "paulinho46244@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 227263,
+          "email": "c65941052@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 227596,
+          "email": "silvioadrianoenzo13@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 227653,
+          "email": "jplvalentim@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 227829,
+          "email": "arthon58@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 227896,
+          "email": "andrezinhos.tavares@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 228058,
+          "email": "guzmanbrazonangel8@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 228707,
+          "email": "neyrihone.medrado@estudante.ifto.edu.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 228711,
+          "email": "auri2015@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 228791,
+          "email": "nevescarvalhoneuma@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 228850,
+          "email": "carlito.arts@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 228938,
+          "email": "elviracristina_sol@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 229032,
+          "email": "geraldo-junior30@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 229125,
+          "email": "vandersantoswingler4@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 229438,
+          "email": "diegorodriguesdesouzaprados42@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 229660,
+          "email": "oliveiraceleste75@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 230340,
+          "email": "luismartinss0411@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 230473,
+          "email": "priscilainformatica89@yahoo.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 230632,
+          "email": "filipevet93@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 230740,
+          "email": "mateussilvasantos659@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 230841,
+          "email": "hs6526607@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 230955,
+          "email": "wilquesjuniorsantos@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 231081,
+          "email": "crtb3456@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 231082,
+          "email": "elizeufo2023@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 231149,
+          "email": "rodrigosoutomaior22@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 231251,
+          "email": "alan.bk.085@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 231305,
+          "email": "uildimario@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 231760,
+          "email": "joanaenfermeira1125@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 231781,
+          "email": "m-v-1983@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 231978,
+          "email": "st.st.sousa@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 232030,
+          "email": "dversono@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 232043,
+          "email": "jurema@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 232073,
+          "email": "brunohenriquesilva78@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 232087,
+          "email": "anapaularodriguespinna@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 232147,
+          "email": "charllyscostta986@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 232218,
+          "email": "genesdo@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 232246,
+          "email": "carmelodeusdedit@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 232304,
+          "email": "deivisoncamargo007@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 232402,
+          "email": "yodalistamayomejias12@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 232822,
+          "email": "gabimnascimento5@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 232964,
+          "email": "allizneg@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 232990,
+          "email": "tablovaz02@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 232998,
+          "email": "artifranc@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 233170,
+          "email": "jfkibon@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 233217,
+          "email": "jl_sousa81@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 233374,
+          "email": "jairguedes@yahoo.com.br"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 233711,
+          "email": "ramosjardel355@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 233859,
+          "email": "joaouchiha052@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 233864,
+          "email": "eliassjcampos1979@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 233994,
+          "email": "rodrigueslima250807@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 234383,
+          "email": "anavitoriacoppi@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 234655,
+          "email": "nicksonpedro386@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 234721,
+          "email": "matheuswallacee94@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 235160,
+          "email": "jonathanbuchaul@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 235388,
+          "email": "icarorodri@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 235625,
+          "email": "mariarosarioalves1969@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 235671,
+          "email": "magdatomageski@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 235820,
+          "email": "marymendes863@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 235892,
+          "email": "kheyrhoysvitor@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 236069,
+          "email": "janio.bom_sousa20@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 236601,
+          "email": "ramoscleison79@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 236958,
+          "email": "franciscorezequi@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 237002,
+          "email": "elisangelaarruda534@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 237315,
+          "email": "romariomaia1986@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 237455,
+          "email": "fm281033@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 237570,
+          "email": "andro_psa@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 237631,
+          "email": "alexandrofernandes1106@gmail.comcom"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 237719,
+          "email": "igoralves1212@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 238398,
+          "email": "geocunha21@icloud.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 238638,
+          "email": "renan.santosmartins24@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 238737,
+          "email": "coronel09092001@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 238750,
+          "email": "ronilsonpinto59@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 239193,
+          "email": "criscrislimaste@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 239417,
+          "email": "maradolces@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 239726,
+          "email": "souzaericlys@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 239733,
+          "email": "thiagoluis.m@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 239891,
+          "email": "lucianodaros6@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 240105,
+          "email": "uchoa9147@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 240297,
+          "email": "manonajara2@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 240630,
+          "email": "tpostvieira@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 240680,
+          "email": "lala.donadeise@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 240731,
+          "email": "lucas.domaraschi@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 240905,
+          "email": "thiagosantosccb79@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 240907,
+          "email": "alessandramgc@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 241152,
+          "email": "lenilsonpinheiro359@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 241499,
+          "email": "wallacekaufcenter@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 241603,
+          "email": "popobeoncy002@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 241787,
+          "email": "felipeazuos9@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 241959,
+          "email": "alberthmatheus155@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 242740,
+          "email": "wallacedasilvalucena@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 242783,
+          "email": "viviferreiraestetic@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 243143,
+          "email": "oxossie1312@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 243816,
+          "email": "isa.olliver@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 243934,
+          "email": "valdecilioalexandre@hotmail.com"
+        }
+      },
+      {
+        "json": {
+          "id_funnel_queue": 244030,
+          "email": "dimashenrique50@gmail.com"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-18T15:08:02.295Z",
+      "createdAt": "2025-09-18T15:08:02.295Z",
+      "role": "workflow:owner",
+      "workflowId": "qZFPmohzkTqZKMUH",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-17T14:19:27.306Z",
+  "versionId": "cdc0337c-809c-4e44-919c-0b381e5e9967"
+}

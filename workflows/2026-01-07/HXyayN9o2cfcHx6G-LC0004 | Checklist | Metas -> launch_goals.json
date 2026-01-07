@@ -1,0 +1,468 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T19:22:18.976Z",
+    "createdAt": "2025-11-26T19:22:18.976Z",
+    "versionId": "6cb997ae-fd58-4508-a3c2-c8f8cf552a98",
+    "workflowId": "HXyayN9o2cfcHx6G",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 30
+              }
+            ]
+          }
+        },
+        "id": "45d0339a-d784-47ce-a6b4-2d05756d9cdd",
+        "name": "Schedule Trigger",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -384,
+          32
+        ]
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=816370849#gid=816370849",
+            "mode": "url"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1235510725,
+            "mode": "list",
+            "cachedResultName": "Checklist Metas",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1235510725"
+          },
+          "options": {}
+        },
+        "id": "f1639a31-0454-457f-a4dc-d8fea53a0cee",
+        "name": "Google Sheets",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.2,
+        "position": [
+          -160,
+          32
+        ],
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "SN6RzeMl3gN9prB4",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "upsert",
+          "table": {
+            "__rl": true,
+            "value": "launch_goal",
+            "mode": "list",
+            "cachedResultName": "launch_goal"
+          },
+          "columnToMatchOn": "launch_tag",
+          "options": {}
+        },
+        "id": "4b151bf1-34d8-447a-8ff7-6bbeae60e571",
+        "name": "MySQL",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          272,
+          32
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "344bcdb3-a80b-4e48-844d-4394d4c5604d",
+                "name": "launch_tag",
+                "value": "={{ $node['Google Sheets'].json['LAUNCHTAG'] }}",
+                "type": "string"
+              },
+              {
+                "id": "0d3b78a4-11a6-415a-9eea-dc00a686c2eb",
+                "name": "projection",
+                "value": "={{ $node['Google Sheets'].json['Objetivo'] }}",
+                "type": "string"
+              },
+              {
+                "id": "86201891-fdd8-4787-af10-2e398aa49866",
+                "name": "general_budget",
+                "value": "={{ $node['Google Sheets'].json['Orçamento Geral'] }}",
+                "type": "number"
+              },
+              {
+                "id": "e4868757-62e2-4bc2-ad21-a3cc25049ea9",
+                "name": "total_organic_leads",
+                "value": "={{ $node['Google Sheets'].json['Total Leads Orgânicos'] }}",
+                "type": "number"
+              },
+              {
+                "id": "9689e570-77fa-4828-bba1-04ce51c8218f",
+                "name": "total_paid_leads",
+                "value": "={{ $node['Google Sheets'].json['Total Leads Pagos'] }}",
+                "type": "number"
+              },
+              {
+                "id": "4aafa787-ade7-494b-8739-9387fd714791",
+                "name": "total_unique_leads",
+                "value": "={{ $node['Google Sheets'].json['Total Leads Únicos'] }}",
+                "type": "number"
+              },
+              {
+                "id": "f719120c-2e23-42fe-81e8-4435721d900e",
+                "name": "average_cost_per_paid_lead",
+                "value": "={{ $node['Google Sheets'].json['Custo por lead médio pago'] }}",
+                "type": "number"
+              },
+              {
+                "id": "db6fa77f-5260-4f80-b94c-f2ccddf663e6",
+                "name": "group_entry_goal",
+                "value": "={{ $node['Google Sheets'].json['Meta de Entrada em Grupos'] }}",
+                "type": "number"
+              },
+              {
+                "id": "e5b498aa-4d12-4ef6-b993-253f78d61fae",
+                "name": "list_conversion_rate",
+                "value": "={{ $node['Google Sheets'].json['Taxa conversão lista'] }}",
+                "type": "number"
+              },
+              {
+                "id": "b5acd7f1-729c-4d4a-823e-3453129786f3",
+                "name": "revenue",
+                "value": "={{ $node['Google Sheets'].json['Faturamento'] }}",
+                "type": "number"
+              },
+              {
+                "id": "2b4e75fe-062f-4199-9b12-938fa9c02001",
+                "name": "commercial_budget",
+                "value": "={{ $json['Meta Faturamento Comercial'] }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "09df04be-8e31-4153-b8d3-fad670657227",
+        "name": "Edit Fields",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.3,
+        "position": [
+          48,
+          32
+        ]
+      },
+      {
+        "parameters": {
+          "content": "## mudar planilha\n",
+          "height": 231,
+          "width": 220
+        },
+        "id": "f0e79c28-3ddf-4a5d-bb8d-542121fde330",
+        "name": "Sticky Note",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -224,
+          -48
+        ]
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Google Sheets",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Sheets": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "MySQL",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "6cb997ae-fd58-4508-a3c2-c8f8cf552a98",
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-24T22:06:16.426Z",
+  "id": "HXyayN9o2cfcHx6G",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "LC0004 | Checklist | Metas -> launch_goals",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 30
+            }
+          ]
+        }
+      },
+      "id": "45d0339a-d784-47ce-a6b4-2d05756d9cdd",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -384,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=816370849#gid=816370849",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1235510725,
+          "mode": "list",
+          "cachedResultName": "Checklist Metas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1235510725"
+        },
+        "options": {}
+      },
+      "id": "f1639a31-0454-457f-a4dc-d8fea53a0cee",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        -160,
+        32
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "launch_goal",
+          "mode": "list",
+          "cachedResultName": "launch_goal"
+        },
+        "columnToMatchOn": "launch_tag",
+        "options": {}
+      },
+      "id": "4b151bf1-34d8-447a-8ff7-6bbeae60e571",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        272,
+        32
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "344bcdb3-a80b-4e48-844d-4394d4c5604d",
+              "name": "launch_tag",
+              "value": "={{ $node['Google Sheets'].json['LAUNCHTAG'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0d3b78a4-11a6-415a-9eea-dc00a686c2eb",
+              "name": "projection",
+              "value": "={{ $node['Google Sheets'].json['Objetivo'] }}",
+              "type": "string"
+            },
+            {
+              "id": "86201891-fdd8-4787-af10-2e398aa49866",
+              "name": "general_budget",
+              "value": "={{ $node['Google Sheets'].json['Orçamento Geral'] }}",
+              "type": "number"
+            },
+            {
+              "id": "e4868757-62e2-4bc2-ad21-a3cc25049ea9",
+              "name": "total_organic_leads",
+              "value": "={{ $node['Google Sheets'].json['Total Leads Orgânicos'] }}",
+              "type": "number"
+            },
+            {
+              "id": "9689e570-77fa-4828-bba1-04ce51c8218f",
+              "name": "total_paid_leads",
+              "value": "={{ $node['Google Sheets'].json['Total Leads Pagos'] }}",
+              "type": "number"
+            },
+            {
+              "id": "4aafa787-ade7-494b-8739-9387fd714791",
+              "name": "total_unique_leads",
+              "value": "={{ $node['Google Sheets'].json['Total Leads Únicos'] }}",
+              "type": "number"
+            },
+            {
+              "id": "f719120c-2e23-42fe-81e8-4435721d900e",
+              "name": "average_cost_per_paid_lead",
+              "value": "={{ $node['Google Sheets'].json['Custo por lead médio pago'] }}",
+              "type": "number"
+            },
+            {
+              "id": "db6fa77f-5260-4f80-b94c-f2ccddf663e6",
+              "name": "group_entry_goal",
+              "value": "={{ $node['Google Sheets'].json['Meta de Entrada em Grupos'] }}",
+              "type": "number"
+            },
+            {
+              "id": "e5b498aa-4d12-4ef6-b993-253f78d61fae",
+              "name": "list_conversion_rate",
+              "value": "={{ $node['Google Sheets'].json['Taxa conversão lista'] }}",
+              "type": "number"
+            },
+            {
+              "id": "b5acd7f1-729c-4d4a-823e-3453129786f3",
+              "name": "revenue",
+              "value": "={{ $node['Google Sheets'].json['Faturamento'] }}",
+              "type": "number"
+            },
+            {
+              "id": "2b4e75fe-062f-4199-9b12-938fa9c02001",
+              "name": "commercial_budget",
+              "value": "={{ $json['Meta Faturamento Comercial'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "09df04be-8e31-4153-b8d3-fad670657227",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        48,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## mudar planilha\n",
+        "height": 231,
+        "width": 220
+      },
+      "id": "f0e79c28-3ddf-4a5d-bb8d-542121fde330",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        -48
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-24T22:06:16.426Z",
+      "createdAt": "2025-08-24T22:06:16.426Z",
+      "role": "workflow:owner",
+      "workflowId": "HXyayN9o2cfcHx6G",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-18T22:39:16.242Z",
+  "versionId": "6cb997ae-fd58-4508-a3c2-c8f8cf552a98"
+}

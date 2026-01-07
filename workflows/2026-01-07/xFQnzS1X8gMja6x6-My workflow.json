@@ -1,0 +1,46 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {},
+  "createdAt": "2025-08-06T19:56:06.031Z",
+  "id": "xFQnzS1X8gMja6x6",
+  "isArchived": true,
+  "meta": null,
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "Client ID: 4e4117b6-a66f-4ade-945c-a7b1342f60a2\nClient Secret: 73cc7356-9219-4b4d-9054-83b8ce6318b5\nBasic: Basic NGU0MTE3YjYtYTY2Zi00YWRlLTk0NWMtYTdiMTM0MmY2MGEyOjczY2M3MzU2LTkyMTktNGI0ZC05MDU0LTgzYjhjZTYzMThiNQ==",
+        "height": 420,
+        "width": 580
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -160,
+        -200
+      ],
+      "typeVersion": 1,
+      "id": "75f74faa-7853-4bac-b7a4-dd25bb55e74d",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.031Z",
+      "createdAt": "2025-08-06T19:56:06.031Z",
+      "role": "workflow:owner",
+      "workflowId": "xFQnzS1X8gMja6x6",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-07T18:55:10.688Z",
+  "versionId": "f7f611f5-1f7f-4361-80fb-0f711d3845ed"
+}

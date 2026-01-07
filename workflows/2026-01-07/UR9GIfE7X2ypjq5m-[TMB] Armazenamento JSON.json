@@ -1,0 +1,238 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T19:22:18.976Z",
+    "createdAt": "2025-11-26T19:22:18.976Z",
+    "versionId": "d8bddd06-a604-41f8-b0b7-10339595331f",
+    "workflowId": "UR9GIfE7X2ypjq5m",
+    "nodes": [
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "jsons",
+                "value": "={{JSON.stringify($json.body)}}"
+              },
+              {
+                "name": "foi",
+                "value": "false"
+              },
+              {
+                "name": "tipo",
+                "value": "boleto-parcelado"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "38644667-d4c9-406f-987a-139dd7f5757c",
+        "name": "Set",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 1,
+        "position": [
+          224,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "TMB_Vendas",
+            "mode": "list",
+            "cachedResultName": "TMB_Vendas"
+          },
+          "options": {}
+        },
+        "id": "31cf61b5-5162-4f95-9fb2-25d2e2962060",
+        "name": "MySQL",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          448,
+          0
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "6cR89c3DkwiktSiW",
+            "name": "MySQL Vendas"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "vendas-tmb-all",
+          "options": {}
+        },
+        "id": "0e4d1e88-4eea-4b69-9539-076c32771150",
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 1.1,
+        "position": [
+          0,
+          0
+        ],
+        "webhookId": "c489c83b-94a0-4fbb-beeb-96a52f567aa2",
+        "retryOnFail": true,
+        "waitBetweenTries": 5000,
+        "maxTries": 5
+      }
+    ],
+    "connections": {
+      "Set": {
+        "main": [
+          [
+            {
+              "node": "MySQL",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Set",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "d8bddd06-a604-41f8-b0b7-10339595331f",
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-17T19:36:46.378Z",
+  "id": "UR9GIfE7X2ypjq5m",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[TMB] Armazenamento JSON",
+  "nodes": [
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "jsons",
+              "value": "={{JSON.stringify($json.body)}}"
+            },
+            {
+              "name": "foi",
+              "value": "false"
+            },
+            {
+              "name": "tipo",
+              "value": "boleto-parcelado"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "38644667-d4c9-406f-987a-139dd7f5757c",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "TMB_Vendas",
+          "mode": "list",
+          "cachedResultName": "TMB_Vendas"
+        },
+        "options": {}
+      },
+      "id": "31cf61b5-5162-4f95-9fb2-25d2e2962060",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        0
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "vendas-tmb-all",
+        "options": {}
+      },
+      "id": "0e4d1e88-4eea-4b69-9539-076c32771150",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "c489c83b-94a0-4fbb-beeb-96a52f567aa2",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "maxTries": 5
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-17T19:36:46.378Z",
+      "createdAt": "2025-09-17T19:36:46.378Z",
+      "role": "workflow:owner",
+      "workflowId": "UR9GIfE7X2ypjq5m",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-14T01:24:11.961Z",
+  "versionId": "d8bddd06-a604-41f8-b0b7-10339595331f"
+}

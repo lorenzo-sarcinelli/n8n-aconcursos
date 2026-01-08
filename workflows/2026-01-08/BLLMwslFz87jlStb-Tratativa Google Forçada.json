@@ -1,0 +1,218 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "GetLead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetLead": {
+      "main": [
+        [
+          {
+            "node": "tratativaGoogle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tratativaGoogle": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "UpdateLead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-11T12:41:09.106Z",
+  "id": "BLLMwslFz87jlStb",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Tratativa Google Forçada",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "=https://webhook.aconcursos.com.br/webhook/tratativa-google",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "s_ad_id",
+              "value": "={{ $node['GetLead'].json['utm_id'].split('|').slice(-1)[0] }}"
+            },
+            {
+              "name": "leadID",
+              "value": "={{ $node['GetLead'].json['user_id'] }}"
+            },
+            {
+              "name": "url",
+              "value": "={{ $node['GetLead'].json['utm_url'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        608,
+        0
+      ],
+      "id": "8728fa87-9576-4481-8b3e-ff3e769a81f5",
+      "name": "tratativaGoogle",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "*/4 * * * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        0
+      ],
+      "id": "130c1be0-bb06-4485-8013-52e3d549db89",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM launch_leads WHERE (utm_source = 'GoogleAds' OR utm_source = 'Google-ads') AND (utm_url IS NOT NULL AND utm_url <> '') AND google_verified = 'N' LIMIT 100",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        384,
+        0
+      ],
+      "id": "3b86c680-2a39-42c6-94fd-78cfcb95ae3e",
+      "name": "GetLead",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "columnToMatchOn": "id_launch",
+        "options": {
+          "detailedOutput": true
+        }
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1056,
+        0
+      ],
+      "id": "7d2f0856-e6d3-4138-ac53-9367fd760229",
+      "name": "UpdateLead",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d60eef5e-a108-4f7e-be79-73da975a94da",
+              "name": "id_launch",
+              "value": "={{ $('GetLead').item.json.id_launch }}",
+              "type": "string"
+            },
+            {
+              "id": "63916186-e189-468e-82b2-c8f922d01289",
+              "name": "google_verified",
+              "value": "Y",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "include": "except",
+        "excludeFields": "src",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        0
+      ],
+      "id": "57a6e15d-cecd-4fd3-bbd6-34dbfcec8303",
+      "name": "Set"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-11T12:41:09.106Z",
+      "createdAt": "2025-09-11T12:41:09.106Z",
+      "role": "workflow:owner",
+      "workflowId": "BLLMwslFz87jlStb",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-09-11T13:16:30.954Z",
+  "versionId": "74e28b10-a533-4150-98f1-660f1c178bb2"
+}

@@ -1,0 +1,283 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Buffer": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "InsertQueue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-13T22:13:48.516Z",
+  "id": "PiMnrOV1yIOOiIc9",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "XPT00001 | Interceptador Interceptante de Interceptados do LL",
+  "nodes": [
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "funnels_queue_captacao",
+          "mode": "list",
+          "cachedResultName": "funnels_queue_captacao"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "request_body",
+              "value": "={{ $node[\"Buffer\"].json['buffer'] ?? null }}"
+            },
+            {
+              "column": "insert_time",
+              "value": "={{$now }}"
+            },
+            {
+              "column": "action_type",
+              "value": "subscription"
+            },
+            {
+              "column": "action_source",
+              "value": "ActiveCampaign"
+            },
+            {
+              "column": "funnel_id",
+              "value": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"funnel_id\"] }}"
+            },
+            {
+              "column": "action_page",
+              "value": "={{\n(() => {\n  try {\n    let slug = $node?.['Webhook']?.json?.['body']?.['utm_slug'] || null;\n    let url  = $node?.['Webhook']?.json?.['body']?.['utm_url'] || null;\n\n    if (slug && typeof slug === \"string\" && slug.trim() !== \"\") {\n      return slug.trim();\n    }\n\n    if (url && typeof url === \"string\" && url.trim() !== \"\") {\n      return url.replace(/\\/$/, \"\").split(\"/\").pop();\n    }\n\n    return null; // fallback seguro\n  } catch (e) {\n    return null; // nunca estoura erro\n  }\n})()\n}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "480bd9ce-f65b-41ba-af61-c0ebe63849b8",
+      "name": "InsertQueue",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        160,
+        112
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let body = $node['Webhook'].json['body'];\nlet jsonBody = JSON.stringify(body);\nlet buffer = new Buffer(jsonBody).toString('base64');\n\nreturn {buffer}\n\n"
+      },
+      "id": "3c3c81b2-1495-47e5-a5df-4ad0ded5122b",
+      "name": "Buffer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -288,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "34900341-ff8a-4b7e-ad24-e20ee0e1a220",
+              "leftValue": "={{ $node['Buffer'].json[\"buffer\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "0eeae038-6770-4c06-8f93-471fee0d01bd",
+              "leftValue": "={{ $node[\"Webhook\"].json[\"body\"][\"utm_url\"] }}",
+              "rightValue": "vnds",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4176ad09-7b47-405f-afa2-c58df35ebc07",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "queue/captacao",
+        "options": {}
+      },
+      "id": "30c03eef-b22f-4d04-8a98-94ae39c65917",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -512,
+        112
+      ],
+      "webhookId": "f5876d37-4e87-46c4-9bb5-06119a0c1164"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.aconcursos.com.br",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+            "content-length": "1609",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+            "content-type": "application/json",
+            "dnt": "1",
+            "origin": "https://aconcursos.com.br",
+            "priority": "u=1, i",
+            "referer": "https://aconcursos.com.br/",
+            "sec-ch-ua": "\"Chromium\";v=\"142\", \"Google Chrome\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-site",
+            "x-forwarded-for": "200.165.178.38",
+            "x-forwarded-host": "webhook.aconcursos.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "6ec702752e59",
+            "x-real-ip": "200.165.178.38"
+          },
+          "params": {},
+          "query": {
+            "trigger_auth": "PRtqzMGKUfYHsGCqcLwZH1pouArtjtGbcJ0sOLpcbdVZWgvy8BrP4MU6m0eiw1nRUjf24Y3dAjOKRWmJewkptucO4ZuaNcrv8y9Q790n8mSrBllWzYgEnPP5hoxoNHRI",
+            "funnel_id": "HBL"
+          },
+          "body": {
+            "u": "30",
+            "f": "30",
+            "s": "",
+            "c": "0",
+            "m": "0",
+            "act": "sub",
+            "v": "2",
+            "or": "576c721eb30335a6326f47242653ef85",
+            "field[223]": "Youtube",
+            "field[224]": "Descricao",
+            "field[225]": "",
+            "field[226]": "",
+            "field[227]": "",
+            "field[228]": "",
+            "field[229]": "https://aconcursos.com.br/acelerador-semana-do-sistema-petrobras-v12/?utm_source=Youtube&utm_medium=Descricao",
+            "field[231]": "acelerador-semana-do-sistema-petrobras-v12",
+            "fullname": "jose vieira neto",
+            "email": "jovineserato@hotmail.com",
+            "phone": "(02) 19890-8425",
+            "full": "",
+            "field[1]": "Youtube",
+            "field[2]": "",
+            "field[3]": "Descricao",
+            "field[4]": "",
+            "field[5]": "",
+            "field[28]": "",
+            "field[24]": "acelerador-semana-do-sistema-petrobras-v12",
+            "field[33]": "acelerador-semana-do-sistema-petrobras-v12",
+            "field[29]": "https://aconcursos.com.br/acelerador-semana-do-sistema-petrobras-v12/?utm_source=Youtube&utm_medium=Descricao",
+            "utm_source": "Youtube",
+            "utm_medium": "Descricao",
+            "utm_content": "",
+            "utm_campaign": "",
+            "utm_term": "",
+            "utm_id": "",
+            "funnel_id": "HBL",
+            "utm_slug": "acelerador-semana-do-sistema-petrobras-v12",
+            "utm_url": "https://aconcursos.com.br/acelerador-semana-do-sistema-petrobras-v12/?utm_source=Youtube&utm_medium=Descricao",
+            "utm_platform": "",
+            "utm_referral": "https://hi.switchy.io/",
+            "browser": "Chrome",
+            "screen_resolution": "1920x1080",
+            "browser_language": "pt-BR",
+            "page_enter_time": "2025-11-13T22:22:46.796Z",
+            "form_start_time": "2025-11-13T22:22:47.845Z",
+            "form_submit_time": "2025-11-13T22:23:16.782Z",
+            "time_on_page_sec": 30,
+            "time_filling_form_sec": 29,
+            "trigger_auth": "PRtqzMGKUfYHsGCqcLwZH1pouArtjtGbcJ0sOLpcbdVZWgvy8BrP4MU6m0eiw1nRUjf24Y3dAjOKRWmJewkptucO4ZuaNcrv8y9Q790n8mSrBllWzYgEnPP5hoxoNHRI"
+          },
+          "webhookUrl": "https://webhook.aconcursos.com.br/webhook/queue/captacao",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T22:13:48.516Z",
+      "createdAt": "2025-11-13T22:13:48.516Z",
+      "role": "workflow:owner",
+      "workflowId": "PiMnrOV1yIOOiIc9",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-05T19:04:25.337Z",
+  "versionId": "55656ca9-cb15-4caa-9845-67c10e0f8b3d"
+}

@@ -1,0 +1,441 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "GetContacts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetContacts": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contact": {
+      "main": [
+        [
+          {
+            "node": "GetLaunchLead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetLaunchLead": {
+      "main": [
+        [
+          {
+            "node": "isNotEmpty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "isNotEmpty": {
+      "main": [
+        [
+          {
+            "node": "GetContact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetContact": {
+      "main": [
+        [
+          {
+            "node": "GetFieldValue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetFieldValue": {
+      "main": [
+        [
+          {
+            "node": "FixDateDay",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FixDateDay": {
+      "main": [
+        [
+          {
+            "node": "FixRealDate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SetDate2Contact": {
+      "main": [
+        [
+          {
+            "node": "SetDate2LaunchLeads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SetDate2LaunchLeads": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FixRealDate": {
+      "main": [
+        [
+          {
+            "node": "SetDate2Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-10T19:41:18.275Z",
+  "id": "d3dV2XktCKC2NOgC",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 5",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4ea4abf7-c79a-4e37-aa56-498135d5095f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "b8aa6aa3-fe27-4061-b0db-957fb5404f21",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "returnAll": true,
+        "additionalFields": {
+          "tagid": "315"
+        }
+      },
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "484afc0d-ad36-4be8-b350-1cb97f37fe59",
+      "name": "GetContacts",
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "jUAYQ9TSds25A9YC",
+          "name": "ActiveCampaign - Lucas Nunes"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Contact",
+      "typeVersion": 1,
+      "position": [
+        688,
+        112
+      ],
+      "id": "ea05ea10-24d4-4126-8798-f4f60bd072a3"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "contact_id_active",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "column": "launch_key",
+              "value": "SSP-L16"
+            },
+            {
+              "column": "utm_content",
+              "value": "manychat-disparoapi-5"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        896,
+        112
+      ],
+      "id": "8cd3b4f3-9af5-4b62-aacc-89b0923fe757",
+      "name": "GetLaunchLead",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f31c0cc3-c373-4663-bdd4-3d205ce768ec",
+              "leftValue": "={{ $json.id_launch.toString() ?? null }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1104,
+        112
+      ],
+      "id": "25b59b2b-2ed6-42c3-818f-01d1e94dc0b2",
+      "name": "isNotEmpty"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "contactId": "={{ $('Contact').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        -16
+      ],
+      "id": "2e8c5085-2138-477e-9e91-ca4cce02b0f0",
+      "name": "GetContact",
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "jUAYQ9TSds25A9YC",
+          "name": "ActiveCampaign - Lucas Nunes"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $node['GetContact'].json.fieldValues;\n\n// função que retorna o value pelo id do field\nfunction getFieldValueById(data, fieldId) {\n  const item = data.find(entry => entry.field === String(fieldId));\n  return item ? item.value : null;\n}\n\nreturn {value: getFieldValueById(data, 32)}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1664,
+        -16
+      ],
+      "id": "b21bc017-b60d-4ea8-a0de-49ab54e6ea46",
+      "name": "GetFieldValue"
+    },
+    {
+      "parameters": {
+        "jsCode": "function adjustIsoDateDay(isoString, newDay) {\n  // quebra em partes antes do offset\n  const [datePart, timePartWithOffset] = isoString.split(\"T\");\n  const [timePart] = timePartWithOffset.split(/[+-]/); // remove o offset\n  \n  const [year, month] = datePart.split(\"-\");\n  const pad = n => String(n).padStart(2, '0');\n  \n  return `${year}-${month}-${pad(newDay)}T${timePart}`;\n}\n\nlet old_date = $node['GetFieldValue'].json.value;\n\nreturn {date: adjustIsoDateDay(old_date, 9)}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1872,
+        -16
+      ],
+      "id": "47a86a83-2e54-407e-9b3f-60b85bf0c667",
+      "name": "FixDateDay"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "contactId": "={{ $('Contact').item.json.id }}",
+        "updateFields": {
+          "fieldValues": {
+            "property": [
+              {
+                "field": "32",
+                "value": "={{ $('FixDateDay').item.json.date }}"
+              },
+              {
+                "field": "43",
+                "value": "={{ $('FixRealDate').item.json.date }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        2320,
+        -16
+      ],
+      "id": "bc7554a2-448c-4a77-b3ed-c20972d17193",
+      "name": "SetDate2Contact",
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "jUAYQ9TSds25A9YC",
+          "name": "ActiveCampaign - Lucas Nunes"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_launch",
+        "valueToMatchOn": "={{ $('GetLaunchLead').item.json.id_launch }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "subscription_date",
+              "value": "={{ $('FixDateDay').item.json.date }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2544,
+        -16
+      ],
+      "id": "97de733c-7fcb-401b-9e90-12eca1d973fe",
+      "name": "SetDate2LaunchLeads",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "function adjustIsoDateDay(isoString, newDay) {\n  // quebra em partes antes do offset\n  const [datePart, timePartWithOffset] = isoString.split(\"T\");\n  const [timePart] = timePartWithOffset.split(/[+-]/); // remove o offset\n  \n  const [year, month] = datePart.split(\"-\");\n  const pad = n => String(n).padStart(2, '0');\n  \n  return `${year}-${month}-${pad(newDay)}T${timePart}`;\n}\n\nlet old_date = $node['GetFieldValue'].json.value;\n\nreturn {date: adjustIsoDateDay(old_date, 10)}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2080,
+        -16
+      ],
+      "id": "ee474513-01ad-4f01-847d-aa2706964ed5",
+      "name": "FixRealDate"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-10T19:41:18.275Z",
+      "createdAt": "2025-09-10T19:41:18.275Z",
+      "role": "workflow:owner",
+      "workflowId": "d3dV2XktCKC2NOgC",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-10T20:04:05.619Z",
+  "versionId": "230ccdbe-3c2a-4a62-8dec-b6a13f4714e8"
+}

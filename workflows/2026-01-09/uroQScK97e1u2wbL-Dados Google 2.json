@@ -1,0 +1,607 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Daily",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        []
+      ]
+    },
+    "Sort": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PrepareMultipleRequests": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily": {
+      "main": [
+        [
+          {
+            "node": "PrepareMultipleRequests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-26T15:05:17.670Z",
+  "id": "uroQScK97e1u2wbL",
+  "isArchived": false,
+  "meta": null,
+  "name": "Dados Google 2",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "=https://connectors.windsor.ai/google_ads?api_key=898b73329b7b7c2be8155ca083a37144a714&date_from={{$json.data}}&date_to={{$json.data}}&fields=ad_group_name,ad_name,campaign,clicks,impressions,date,spend,ad_id,ad_group_id,campaign_id,video_quartile25_rate,video_quartile50_rate,video_quartile75_rate,video_quartile100_rate,video_views",
+        "options": {}
+      },
+      "id": "09484dcf-8975-4e1f-8ff7-bd2dad8b8edf",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2016,
+        416
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "id": "d5414ea0-d74e-441d-8c9e-fedbb820fbcd",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        1088,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let data\nlet i = 1\nlet dias = []\nlet dataInicial = $now.toFormat('yyyy-MM-dd')\n\nif($now.hour < 6){\n  dataInicial = $now.minus({days:1}).toFormat('yyyy-MM-dd')\n //dataInicial = '2025-08-25'\n\n  while (data != dataInicial) {\n    data = $now.minus({days:1 * i}).toFormat('yyyy-MM-dd')\n    dias[dias.length] = data\n    i++\n  }\n}else{\n  dias[dias.length] = dataInicial\n}\n\nreturn {data:dias}\n// [object DragEvent]"
+      },
+      "id": "603ec981-2a40-473b-bf14-5af4a1121018",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1296,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "id": "aa3dab2d-eed2-41f4-a43f-c79585b76722",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "01450920-efcc-476e-90c7-6627b7653b63",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1808,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "id": "1643e2f6-77a8-47d1-b535-26548f03f76c",
+      "name": "Split Out1",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        400
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "id_data",
+              "stringValue": "={{ $json.campaign_id }}_{{ $json.ad_group_id }}_{{ $json.ad_id }}_{{ $json.date }}"
+            },
+            {
+              "name": "video_id",
+              "stringValue": "=https://www.youtube.com/watch?v={{ $json.video_id }}"
+            }
+          ]
+        },
+        "include": "except",
+        "excludeFields": "myNewField",
+        "options": {}
+      },
+      "id": "aeff1ea8-1a92-44aa-bec7-18e99dfeb9a8",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2800,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "reports_google2",
+          "mode": "list",
+          "cachedResultName": "reports_google2"
+        },
+        "columnToMatchOn": "id_data",
+        "options": {}
+      },
+      "id": "23584629-a26b-47f6-afe2-89e41eaed957",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        2992,
+        400
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $node['Aggregate'].json['data'];\n\nfunction sumSpendByCampaign(data) {\n  const result = data.reduce((acc, item) => {\n    if (!acc[item.campaign]) {\n      acc[item.campaign] = 0;\n    }\n    acc[item.campaign] += item.spend;\n    return acc;\n  }, {});\n\n  // Transformar em array ordenado por valor gasto (decrescente)\n  return Object.entries(result)\n    .map(([campaign, totalSpend]) => ({ campaign, totalSpend }))\n    .sort((a, b) => b.totalSpend - a.totalSpend);\n}\n\nconst groupedCampaigns = sumSpendByCampaign(data);\n\n\nreturn {groupedCampaigns}"
+      },
+      "id": "c0d5ce93-3cb1-4419-9140-68ca729de274",
+      "name": "Code1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2992,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0461d1af-7aa1-4766-8f97-81e5a209fafc",
+      "name": "Sort",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "03ed8d47-ba7d-4557-8d91-d0d15c48001c",
+              "leftValue": "={{ $json[\"data\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2240,
+        416
+      ],
+      "id": "0f6b7f35-d402-46f2-9b85-7de0230f661c",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "content": ",video_quartile25_rate,video_quartile50_rate,video_quartile75_rate,video_quartile100_rate,video_views"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2400,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "cfb5d217-c2f9-4efa-a2da-214032d1fa16",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2800,
+        240
+      ],
+      "id": "99ff93b0-29bb-47e7-ac9e-5f5372d2bb59",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.request }}",
+        "options": {}
+      },
+      "id": "7db35411-8455-4bc7-a32e-f57e55aa05c6",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2384,
+        32
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2800,
+        32
+      ],
+      "id": "f07ddc3a-b721-4db8-99a6-1f155fd41fa5",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "id": "ea4de4b9-0e9f-450d-9e10-b561add70920",
+      "name": "Split Out2",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2608,
+        32
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $node['Aggregate1'].json['data'];\n\nfunction sumSpendByCampaign(data) {\n  const result = data.reduce((acc, item) => {\n    if (!acc[item.campaign]) {\n      acc[item.campaign] = 0;\n    }\n    acc[item.campaign] += item.spend;\n    return acc;\n  }, {});\n\n  // Transformar em array ordenado por valor gasto (decrescente)\n  return Object.entries(result)\n    .map(([campaign, totalSpend]) => ({ campaign, totalSpend }))\n    .sort((a, b) => b.totalSpend - a.totalSpend);\n}\n\nconst groupedCampaigns = sumSpendByCampaign(data);\n\n\nreturn {groupedCampaigns}"
+      },
+      "id": "7be2b613-da90-4333-98c8-213464d93c79",
+      "name": "Code2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2992,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let dates = $node['Daily'].json['data'];\n\nif (!Array.isArray(dates)) {\n  dates = [dates];\n}\n\nlet apiKey = \"898b73329b7b7c2be8155ca083a37144a714\";\nlet baseUrl = \"https://connectors.windsor.ai/google_ads\";\nlet sumEndingDays = 1;\n\nlet fieldSets = [\n\n\n  \"campaign,clicks,impressions,date,spend,campaign_id,ad_name,ad_id,ad_group_id,ad_group_name,account_name,video_quartile25_rate,video_quartile50_rate,video_quartile75_rate,video_quartile100_rate,video_views\"\n\n  \n];\n\nlet requests = [];\n\ndates.forEach(d => {\n  let dateFrom = DateTime.fromISO(d);\n  let dateTo = dateFrom.plus({ days: sumEndingDays }).toFormat(\"yyyy-MM-dd\");\n\n  fieldSets.forEach(fields => {\n    let url = `${baseUrl}?api_key=${apiKey}&fields=${fields}&date_from=${d}&date_to=${dateTo}`;\n    requests.push({ request: url });\n  });\n});\nreturn requests;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1744,
+        16
+      ],
+      "id": "d32e6378-7a1c-44fb-9081-2bdc04e58959",
+      "name": "PrepareMultipleRequests"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        16
+      ],
+      "id": "00b5dbae-4987-4d62-bf59-1bf33f314fcd",
+      "name": "Daily",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1952,
+        16
+      ],
+      "id": "7dabab9c-e359-40ce-8948-5c7ae94a1a23",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        32
+      ],
+      "id": "b125a554-af7a-4ae3-9a0e-d0c7c54dfd15"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-26T15:05:17.670Z",
+      "createdAt": "2025-08-26T15:05:17.670Z",
+      "role": "workflow:owner",
+      "workflowId": "uroQScK97e1u2wbL",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-09-26T12:00:47.877Z",
+  "versionId": "39b7d07f-bf83-4216-a191-afd6737d07d9"
+}

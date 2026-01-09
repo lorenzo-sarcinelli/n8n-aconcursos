@@ -1,0 +1,1607 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "IF5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Get_produto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get_oferta": {
+      "main": [
+        [
+          {
+            "node": "IF_oferta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "MySQL1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL2": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get_produto": {
+      "main": [
+        [
+          {
+            "node": "IF_produto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set2": {
+      "main": [
+        [
+          {
+            "node": "MySQL2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF_produto": {
+      "main": [
+        [
+          {
+            "node": "Get_oferta",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF_oferta": {
+      "main": [
+        [
+          {
+            "node": "IF6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL3": {
+      "main": [
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get_user": {
+      "main": [
+        [
+          {
+            "node": "IF_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF_user": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set4": {
+      "main": [
+        [
+          {
+            "node": "MySQL3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL7": {
+      "main": [
+        [
+          {
+            "node": "Set6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set5": {
+      "main": [
+        [
+          {
+            "node": "MySQL7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set6": {
+      "main": [
+        [
+          {
+            "node": "MySQL8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL8": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get_produto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Get_oferta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "Get_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Date & Time1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "main": [
+        [
+          {
+            "node": "Set5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF5": {
+      "main": [
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "MySQL20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF6": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL20": {
+      "main": [
+        [
+          {
+            "node": "IF5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-17T19:42:37.906Z",
+  "id": "OuWCA859nS14dxgW",
+  "isArchived": true,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Json TMB -> SQL (transaction)",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "TMB_Vendas",
+          "mode": "list",
+          "cachedResultName": "TMB_Vendas"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "foi",
+              "value": "0"
+            },
+            {
+              "column": "tipo",
+              "value": "boleto-parcelado"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2e9c6abe-41ab-4b02-addf-688b5c012c73",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -2208,
+        448
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return JSON.parse($input.all()[0].json.jsons)"
+      },
+      "id": "45c650c9-a88f-46d7-be3d-1f8822240b89",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1760,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "offers",
+          "mode": "list",
+          "cachedResultName": "offers"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "offer_ext",
+              "value": "={{ $item(\"0\").$node[\"Code\"].json[\"code\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1ceade96-b711-47b5-b9ee-b26aaf5c586a",
+      "name": "Get_oferta",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -1104,
+        368
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "product_id",
+              "value": "={{ $('IF_produto').item.json.id_product }}"
+            },
+            {
+              "name": "offer_ext",
+              "value": "={{ $item(\"0\").$node[\"Code\"].json[\"code\"] }}"
+            },
+            {
+              "name": "offer_name",
+              "value": "={{ $('Code').item.json.titulo }}"
+            },
+            {
+              "name": "offer_price",
+              "value": "={{ $('Code').item.json.valor_principal }}"
+            },
+            {
+              "name": "update_time",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5947844c-c8f8-453a-82e0-dd489e5a22a3",
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -656,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "offers",
+          "mode": "list",
+          "cachedResultName": "offers"
+        },
+        "options": {}
+      },
+      "id": "55cc9b8c-7967-4b33-874e-cc7c5002eff3",
+      "name": "MySQL1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        384
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "products",
+          "mode": "list",
+          "cachedResultName": "products"
+        },
+        "options": {}
+      },
+      "id": "c62d5997-dad5-4097-bc52-0c81a92d6ca5",
+      "name": "MySQL2",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -880,
+        560
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "products",
+          "mode": "list",
+          "cachedResultName": "products"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "product_ext",
+              "value": "={{ $item(\"0\").$node[\"Code\"].json[\"lancamento_id\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6a17cda7-41d4-4f82-9067-3aeccd4ad300",
+      "name": "Get_produto",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -1536,
+        544
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "product_ext",
+              "value": "={{ $item(\"0\").$node[\"Code\"].json[\"lancamento_id\"] }}"
+            },
+            {
+              "name": "product_name",
+              "value": "={{ $node['Code'].json['lancamento'] }}"
+            },
+            {
+              "name": "product_price",
+              "value": "={{ $node['Code'].json['valor_principal'] }}"
+            },
+            {
+              "name": "update_time",
+              "value": "={{ $now }}"
+            },
+            {
+              "name": "platform",
+              "value": "TMB"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "76a8151b-f55e-4d2a-9a1d-b4aaa7a547e1",
+      "name": "Set2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -1104,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "e4d60140-8b65-45fe-b236-aa217ab5fa3d",
+      "name": "IF_produto",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -1328,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "29f167d4-e2ea-4cfc-bbb8-fe330a47ce4d",
+      "name": "IF_oferta",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        368
+      ]
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "options": {}
+      },
+      "id": "e363c2fd-705a-41d3-8999-27ea2517e6ce",
+      "name": "MySQL3",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        192
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "email",
+              "value": "={{ $item(\"0\").$node[\"Code\"].json[\"email\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fd94ad9c-9285-4c9b-b182-41f56313ae40",
+      "name": "Get_user",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        160
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "bb79fd8d-7000-4234-a2f5-1762303e1250",
+      "name": "IF_user",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "name",
+              "value": "={{ $('Code').item.json.cliente }}"
+            },
+            {
+              "name": "ext_id",
+              "value": "={{ $item(\"0\").$node[\"Code\"].json[\"email\"] }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $item(\"0\").$node[\"Code\"].json[\"email\"] }}"
+            },
+            {
+              "name": "phone",
+              "value": "={{ $('Code').item.json.telefone_ativo }}"
+            },
+            {
+              "name": "document",
+              "value": "={{ $('Code').item.json.documento }}"
+            },
+            {
+              "name": "update_time",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a2a5f0c1-2894-4aad-9015-9fe1f4435f59",
+      "name": "Set4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        0,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "transactions_new",
+          "mode": "list",
+          "cachedResultName": "transactions_new"
+        },
+        "options": {}
+      },
+      "id": "8c98a441-dd66-4b88-9ce7-e044dff9c21c",
+      "name": "MySQL7",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        0
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "ext_id",
+              "value": "={{ $('Code').item.json.pedido }}"
+            },
+            {
+              "name": "invoice_code",
+              "value": "={{ $('Code').item.json.id }}"
+            },
+            {
+              "name": "installments_number",
+              "value": "={{ $('Code').item.json.parcelas }}"
+            },
+            {
+              "name": "invoice_discount",
+              "value": "={{ $('Code').item.json.payment.discount_value }}"
+            },
+            {
+              "name": "invoice_id",
+              "value": "={{ $('Code').item.json.id }}"
+            },
+            {
+              "name": "invoice_increment_value",
+              "value": "={{ $('Code').item.json.invoice.increment_value }}"
+            },
+            {
+              "name": "invoice_payment_url",
+              "value": "={{ $('Code').item.json.checkout_url }}"
+            },
+            {
+              "name": "invoice_period_start",
+              "value": "={{ $('Date & Time').item.json.newDate }}"
+            },
+            {
+              "name": "invoice_period_end",
+              "value": "={{ $json.newDate }}"
+            },
+            {
+              "name": "invoice_subscription_id",
+              "value": "={{ $('Code').item.json.invoice.id }}"
+            },
+            {
+              "name": "invoice_status",
+              "value": "={{ $('Code').item.json.status_pedido }}"
+            },
+            {
+              "name": "invoice_type",
+              "value": "={{ $('Code').item.json.status_financeiro }}"
+            },
+            {
+              "name": "invoice_next_cycle",
+              "value": "={{ null }}"
+            },
+            {
+              "name": "subscriber_id",
+              "value": "={{ $('Code').item.json.email }}"
+            },
+            {
+              "name": "subscriber_internal_id",
+              "value": "={{ $('No Operation, do nothing').item.json.id_user }}"
+            },
+            {
+              "name": "subscriber_name",
+              "value": "={{ $('Code').item.json.cliente }}"
+            },
+            {
+              "name": "subscriber_email",
+              "value": "={{ $('Code').item.json.email }}"
+            },
+            {
+              "name": "subscriber_phone",
+              "value": "={{ $('Code').item.json.telefone_ativo }}"
+            },
+            {
+              "name": "subscriber_doc",
+              "value": "={{ $('Code').item.json.documento }}"
+            },
+            {
+              "name": "subscriber_status"
+            },
+            {
+              "name": "contact_address",
+              "value": "={{ $('Code').item.json.endereco_completo }}"
+            },
+            {
+              "name": "contact_address_city",
+              "value": "={{ $('Code').item.json.endereco_cidade }}"
+            },
+            {
+              "name": "contact_address_comp",
+              "value": "={{ $('Code').item.json.endereco_complemento }}"
+            },
+            {
+              "name": "contact_address_country",
+              "value": "={{ $('Code').item.json.endereco_pais }}"
+            },
+            {
+              "name": "contact_address_district",
+              "value": "={{ $('Code').item.json.endereco_bairro }}"
+            },
+            {
+              "name": "contact_address_number",
+              "value": "={{ $('Code').item.json.endereco_numero }}"
+            },
+            {
+              "name": "contact_address_state",
+              "value": "={{ $('Code').item.json.endereco_estado }}"
+            },
+            {
+              "name": "contact_address_full_name",
+              "value": "={{ $('Code').item.json.endereco_completo }}"
+            },
+            {
+              "name": "contact_address_zip_code",
+              "value": "={{ $('Code').item.json.endereco_cep }}"
+            },
+            {
+              "name": "product_id",
+              "value": "={{ $('IF_produto').item.json.id_product }}"
+            },
+            {
+              "name": "product_marketplace_id",
+              "value": "={{ $('IF_produto').item.json.product_ext }}"
+            },
+            {
+              "name": "product_name",
+              "value": "={{ $('IF_produto').item.json.product_name }}"
+            },
+            {
+              "name": "product_offer_id",
+              "value": "={{ $('IF_oferta').item.json.id_offer }}"
+            },
+            {
+              "name": "product_offer_name",
+              "value": "={{ $('IF_oferta').item.json.offer_name }}"
+            },
+            {
+              "name": "payment_method",
+              "value": "=Boleto parcelado"
+            },
+            {
+              "name": "payment_price",
+              "value": "={{ $('Code').item.json.valor_principal }}"
+            },
+            {
+              "name": "queue_json_id",
+              "value": "={{ $('IF5').item.json.id_sql }}"
+            },
+            {
+              "name": "utm_source",
+              "value": "={{ $('Code').item.json.utm_source }}"
+            },
+            {
+              "name": "utm_campaign",
+              "value": "={{ $('Code').item.json.utm_campaign }}"
+            },
+            {
+              "name": "utm_medium",
+              "value": "={{ $('Code').item.json.utm_medium }}"
+            },
+            {
+              "name": "utm_content",
+              "value": "={{ $('Code').item.json.utm_content }}"
+            },
+            {
+              "name": "utm_term",
+              "value": "="
+            },
+            {
+              "name": "commision_value",
+              "value": "={{ $('Code').item.json.valor_principal - $('Code').item.json.taxa_administracao }}"
+            },
+            {
+              "name": "platform",
+              "value": "TMB"
+            },
+            {
+              "name": "commission_affiliate",
+              "value": "={{ $('Code').item.json.payment.affiliate_value }}"
+            },
+            {
+              "name": "invoice_cycle",
+              "value": "1"
+            },
+            {
+              "name": "product_value",
+              "value": "={{ $('Code').item.json.valor_principal }}"
+            },
+            {
+              "name": "currency",
+              "value": "BRL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cd5a229b-a2fb-4495-ac0b-eb40a26e01eb",
+      "name": "Set5",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "id_sql",
+              "value": "={{ $('IF5').item.json.id_sql }}"
+            },
+            {
+              "name": "foi",
+              "value": "=1"
+            },
+            {
+              "name": "processada",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "414d2161-98bb-4c83-9b0d-a66e42eaa2e4",
+      "name": "Set6",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "TMB_Vendas",
+          "mode": "list",
+          "cachedResultName": "TMB_Vendas"
+        },
+        "columnToMatchOn": "id_sql",
+        "options": {}
+      },
+      "id": "76308c1c-e99c-4a66-8416-5ab3e77df123",
+      "name": "MySQL8",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1328,
+        0
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "unit": "seconds"
+      },
+      "id": "7509a249-1b5b-446a-94b9-dba270300818",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        560
+      ],
+      "webhookId": "5f436cff-44e6-442b-b8f0-f44ec40fd030"
+    },
+    {
+      "parameters": {
+        "unit": "seconds"
+      },
+      "id": "00c1f785-4e70-4955-a790-7caf9059029f",
+      "name": "Wait1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        384
+      ],
+      "webhookId": "7a02d984-ca47-469e-be0e-0df593302e88"
+    },
+    {
+      "parameters": {
+        "unit": "seconds"
+      },
+      "id": "a86fc56a-856b-43ff-b453-e7bf2c62725d",
+      "name": "Wait2",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        448,
+        192
+      ],
+      "webhookId": "62b24741-5650-4d92-b4b1-90869132bea9"
+    },
+    {
+      "parameters": {
+        "operation": "subtractFromDate",
+        "magnitude": "={{ $('Code').item.json.data_efetivado }}",
+        "timeUnit": "hours",
+        "options": {}
+      },
+      "id": "4111ac7a-66f4-4a79-b721-45969a2d7807",
+      "name": "Date & Time",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "addToDate",
+        "magnitude": "={{ $json.newDate }}",
+        "options": {}
+      },
+      "id": "7559ab19-f4a9-40b7-b0b8-a79150a17818",
+      "name": "Date & Time1",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "41dce5a2-2631-488c-9469-6268d7a76091",
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1552,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "26c8a607-2cd8-4f0d-bebd-bc96e27a84e2",
+      "name": "IF5",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -1984,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 30,
+        "unit": "minutes"
+      },
+      "id": "3ed856ca-c3ec-4ff0-89c4-b34dd58f3435",
+      "name": "Wait3",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        -1760,
+        352
+      ],
+      "webhookId": "3479c9a1-3ffe-44a2-a150-c6ff0d57b2aa"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "6eb04691-26d3-4ae3-82b2-e56a5e32ea1f",
+      "name": "HTTP Request3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -1536,
+        352
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "cfae8ef3-7f69-4901-bbeb-4a6c9e483fd1",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2416,
+        624
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $item(\"0\").$node[\"Code\"].json[\"email\"] }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "ee309ad4-7451-4f24-9bc4-9729b45a7b9f",
+      "name": "IF6",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        144
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "08fe6938-9472-4acc-a136-fc248210bc5d",
+      "name": "No Operation, do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "d89d5d0c-3686-4fa7-b765-cf8de1b8c97a",
+      "name": "HTTP Request4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -1536,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "TMB_Vendas",
+          "mode": "list",
+          "cachedResultName": "TMB_Vendas"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "id_sql",
+              "value": "17"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0398f075-d03d-4c6a-be9b-eed07cd7d3cc",
+      "name": "MySQL20",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -2208,
+        624
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "89e9f180-82a7-4bd7-b598-ad1dryhsfgjnsfghj",
+        "options": {}
+      },
+      "id": "26a7dcf5-c3c7-4d57-bc59-51915bab42eb",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -2416,
+        448
+      ],
+      "webhookId": "3a2fad47-2269-4e1d-9509-ad5832fe2f54"
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "ext_id",
+              "value": "={{ $('Code').item.json.pedido }}"
+            },
+            {
+              "name": "invoice_code",
+              "value": "={{ $('Code').item.json.id }}"
+            },
+            {
+              "name": "installments_number",
+              "value": "={{ $('Code').item.json.parcelas }}"
+            },
+            {
+              "name": "invoice_discount",
+              "value": "={{ $('Code').item.json.payment.discount_value }}"
+            },
+            {
+              "name": "invoice_id",
+              "value": "={{ $('Code').item.json.id }}"
+            },
+            {
+              "name": "invoice_increment_value",
+              "value": "={{ $('Code').item.json.invoice.increment_value }}"
+            },
+            {
+              "name": "invoice_payment_url",
+              "value": "={{ $('Code').item.json.checkout_url }}"
+            },
+            {
+              "name": "invoice_period_start",
+              "value": "={{ $('Date & Time').item.json.newDate }}"
+            },
+            {
+              "name": "invoice_period_end",
+              "value": "={{ $json.newDate }}"
+            },
+            {
+              "name": "invoice_subscription_id",
+              "value": "={{ $('Code').item.json.invoice.id }}"
+            },
+            {
+              "name": "invoice_status",
+              "value": "={{ $('Code').item.json.status_pedido }}"
+            },
+            {
+              "name": "invoice_type",
+              "value": "={{ $('Code').item.json.status_financeiro }}"
+            },
+            {
+              "name": "invoice_next_cycle",
+              "value": "={{ null }}"
+            },
+            {
+              "name": "subscriber_id",
+              "value": "={{ $('Code').item.json.email }}"
+            },
+            {
+              "name": "subscriber_internal_id",
+              "value": "={{ $('No Operation, do nothing').item.json.id_user }}"
+            },
+            {
+              "name": "subscriber_name",
+              "value": "={{ $('Code').item.json.cliente }}"
+            },
+            {
+              "name": "subscriber_email",
+              "value": "={{ $('Code').item.json.email }}"
+            },
+            {
+              "name": "subscriber_phone",
+              "value": "={{ $('Code').item.json.telefone_ativo }}"
+            },
+            {
+              "name": "subscriber_doc",
+              "value": "={{ $('Code').item.json.documento }}"
+            },
+            {
+              "name": "subscriber_status"
+            },
+            {
+              "name": "contact_address",
+              "value": "={{ $('Code').item.json.endereco_completo }}"
+            },
+            {
+              "name": "contact_address_city",
+              "value": "={{ $('Code').item.json.endereco_cidade }}"
+            },
+            {
+              "name": "contact_address_comp",
+              "value": "={{ $('Code').item.json.endereco_complemento }}"
+            },
+            {
+              "name": "contact_address_country",
+              "value": "={{ $('Code').item.json.endereco_pais }}"
+            },
+            {
+              "name": "contact_address_district",
+              "value": "={{ $('Code').item.json.endereco_bairro }}"
+            },
+            {
+              "name": "contact_address_number",
+              "value": "={{ $('Code').item.json.endereco_numero }}"
+            },
+            {
+              "name": "contact_address_state",
+              "value": "={{ $('Code').item.json.endereco_estado }}"
+            },
+            {
+              "name": "contact_address_full_name",
+              "value": "={{ $('Code').item.json.endereco_completo }}"
+            },
+            {
+              "name": "contact_address_zip_code",
+              "value": "={{ $('Code').item.json.endereco_cep }}"
+            },
+            {
+              "name": "product_id",
+              "value": "={{ $('IF_produto').item.json.id_product }}"
+            },
+            {
+              "name": "product_marketplace_id",
+              "value": "={{ $('IF_produto').item.json.product_ext }}"
+            },
+            {
+              "name": "product_name",
+              "value": "={{ $('IF_produto').item.json.product_name }}"
+            },
+            {
+              "name": "product_offer_id",
+              "value": "={{ $('IF_oferta').item.json.id_offer }}"
+            },
+            {
+              "name": "product_offer_name",
+              "value": "={{ $('IF_oferta').item.json.offer_name }}"
+            },
+            {
+              "name": "payment_method",
+              "value": "=Boleto parcelado"
+            },
+            {
+              "name": "payment_price",
+              "value": "={{ $('Code').item.json.valor_principal }}"
+            },
+            {
+              "name": "queue_json_id",
+              "value": "={{ $('IF5').item.json.id_sql }}"
+            },
+            {
+              "name": "utm_source",
+              "value": "={{ $('Code').item.json.utm_source }}"
+            },
+            {
+              "name": "utm_campaign",
+              "value": "={{ $('Code').item.json.utm_campaign }}"
+            },
+            {
+              "name": "utm_medium",
+              "value": "={{ $('Code').item.json.utm_medium }}"
+            },
+            {
+              "name": "utm_content",
+              "value": "={{ $('Code').item.json.utm_content }}"
+            },
+            {
+              "name": "utm_term",
+              "value": "="
+            },
+            {
+              "name": "commision_value",
+              "value": "={{ $('Code').item.json.valor_principal - $('Code').item.json.taxa_administracao }}"
+            },
+            {
+              "name": "platform",
+              "value": "TMB"
+            },
+            {
+              "name": "commission_affiliate",
+              "value": "={{ $('Code').item.json.payment.affiliate_value }}"
+            },
+            {
+              "name": "invoice_cycle",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9764e75d-e0cd-429d-a4c0-bc3f08ef6456",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -1760,
+        832
+      ]
+    }
+  ],
+  "pinData": {
+    "Code": [
+      {
+        "json": {
+          "produtor": "Familiariza Cursos e Treinamentos",
+          "lancamento": "Familiariza",
+          "provedor_negociado": "TMB",
+          "pedido": 1702434,
+          "status_pedido": "Efetivado",
+          "cliente": "josiane aparecida silva ",
+          "documento": "05806934900",
+          "email": "josiapdasilva@gmail.com",
+          "valor_principal": 2497,
+          "parcelas": 11,
+          "valor_entrada": 208.08,
+          "valor_parcela": 208.08,
+          "valor_total": 2497,
+          "taxa_administracao": 5,
+          "criado_em": "2025-08-25T00:00:00",
+          "data_efetivado": "2025-09-09T23:13:12.451062",
+          "titulo": "familiariza",
+          "code": "YUZ102447J6",
+          "endereco_completo": "Rua dos escoteiros , 26  - Colorado/PR CEP:86690-000 BR",
+          "telefones": "+44998119240",
+          "telefone_ativo": "+44998119240",
+          "lancamento_id": 22952,
+          "id_externo": null,
+          "risco_compartilhado_em": "2025-08-25T17:16:21.401841-03:00",
+          "avalista_nome": null,
+          "avalista_telefone": null,
+          "avalista_email": null,
+          "avalista_documento": null,
+          "avalista_data_nascimento": null,
+          "nascimento": "1987-05-19T00:00:00",
+          "id": 1702434,
+          "produtor_id": 7831,
+          "status_financeiro": "Adimplente",
+          "utm_source": "recuperacao",
+          "utm_medium": "priscilla",
+          "utm_content": "priscilla",
+          "utm_campaign": "mj21",
+          "melhor_dia_pagamento": 30,
+          "utm_last_source": "recuperacao",
+          "utm_last_medium": "rosangela",
+          "utm_last_content": "rosangela",
+          "utm_last_campaign": "mj21",
+          "endereco_pais": "BR",
+          "endereco_cep": "86690-000",
+          "endereco_estado": "PR",
+          "endereco_cidade": "Colorado",
+          "endereco_bairro": "Vale do Sol ",
+          "endereco_logradouro": "Rua dos escoteiros ",
+          "endereco_numero": "26",
+          "endereco_complemento": null
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-17T19:42:37.906Z",
+      "createdAt": "2025-09-17T19:42:37.906Z",
+      "role": "workflow:owner",
+      "workflowId": "OuWCA859nS14dxgW",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-09-18T13:06:15.198Z",
+  "versionId": "fb0f0d90-ac89-45bb-9935-cea66de09a56"
+}

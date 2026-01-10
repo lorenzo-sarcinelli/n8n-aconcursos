@@ -1,0 +1,76 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get many campaigns",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-01T14:57:30.577Z",
+  "id": "brMXd1U2hArUmvtu",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        64,
+        48
+      ],
+      "id": "76dc4a4b-217f-44af-ac10-be23c3eb352b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "additionalOptions": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.googleAds",
+      "typeVersion": 1,
+      "position": [
+        272,
+        48
+      ],
+      "id": "35c1d2eb-4774-4bbc-9462-eada721f812e",
+      "name": "Get many campaigns",
+      "credentials": {
+        "googleAdsOAuth2Api": {
+          "id": "ju1fmHQyQwjuByLj",
+          "name": "Google Ads account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-01T14:57:30.577Z",
+      "createdAt": "2025-09-01T14:57:30.577Z",
+      "role": "workflow:owner",
+      "workflowId": "brMXd1U2hArUmvtu",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-01T14:57:30.577Z",
+  "versionId": "824dded0-85c2-4e80-a0da-f21eac8bd6b0"
+}

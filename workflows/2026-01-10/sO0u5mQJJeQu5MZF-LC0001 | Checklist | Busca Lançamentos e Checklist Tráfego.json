@@ -1,0 +1,1904 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-09T12:42:26.343Z",
+    "createdAt": "2026-01-09T12:42:26.343Z",
+    "versionId": "76b80409-826e-42dc-b161-37d2998daf24",
+    "workflowId": "sO0u5mQJJeQu5MZF",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "cronExpression",
+                "expression": "0 25,55 * * * * "
+              }
+            ]
+          }
+        },
+        "id": "391635ff-b231-465d-902e-e486afd30915",
+        "name": "Trigger",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          768,
+          432
+        ]
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=816370849#gid=816370849",
+            "mode": "url"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 816370849,
+            "mode": "list",
+            "cachedResultName": "Checklist Tráfego",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=816370849"
+          },
+          "options": {}
+        },
+        "id": "57068f7b-f8ff-4b84-af83-ad577e521b1f",
+        "name": "Sheets",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.5,
+        "position": [
+          992,
+          432
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000,
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "SN6RzeMl3gN9prB4",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "id": "11798598-222d-43a4-b1a0-a327347ffd05",
+        "name": "Loop",
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          1200,
+          432
+        ]
+      },
+      {
+        "parameters": {},
+        "id": "6ef2e1cf-7ed3-45e6-8f66-7207dc8842af",
+        "name": "Item",
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          1424,
+          448
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "4a940d66-acc1-4d2b-b8a5-20003fbd6a23",
+                "leftValue": "={{ $node['SearchLaunchTag'].json }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "object",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "c9dc7176-2938-4ca7-9d9b-6cd4471c40aa",
+        "name": "LaunchExists",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          2080,
+          432
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT * FROM launch_checklist WHERE UPPER(launch_tag) = $1  ORDER BY `launch_checklist`.`launch_tag` DESC",
+          "options": {
+            "queryReplacement": "={{ $node['Item'].json[\"Launch tag\"].toString().toUpperCase() }}"
+          }
+        },
+        "id": "abc18556-153e-4c85-92a0-1b974efe208c",
+        "name": "SearchLaunchTag",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          1872,
+          432
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "upsert",
+          "table": {
+            "__rl": true,
+            "value": "launch_checklist",
+            "mode": "list",
+            "cachedResultName": "launch_checklist"
+          },
+          "dataMode": "defineBelow",
+          "columnToMatchOn": "launch_tag",
+          "valueToMatchOn": "={{ $node[\"Item\"].json[\"Launch tag\"] }}",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "lead_generation",
+                "value": "={{ $node[\"Item\"].json[\"Captação\"] }}"
+              },
+              {
+                "column": "attraction",
+                "value": "={{ $node[\"Item\"].json[\"Atração\"] }}"
+              },
+              {
+                "column": "reminder",
+                "value": "={{ $node[\"Item\"].json[\"Lembrete\"] }}"
+              },
+              {
+                "column": "cart",
+                "value": "={{ $node[\"Item\"].json[\"Carrinho\"] }}"
+              },
+              {
+                "column": "replays_and_cpls",
+                "value": "={{ $node[\"Item\"].json[\"Replays e CPLs\"] }}"
+              },
+              {
+                "column": "phase_01",
+                "value": "={{ $node[\"Item\"].json[\"Fase 1\"] }}"
+              },
+              {
+                "column": "phase_02",
+                "value": "={{ $node[\"Item\"].json[\"Fase 2\"] }}"
+              },
+              {
+                "column": "budget",
+                "value": "={{ $node[\"Item\"].json[\"Orçamento Total\"] }}"
+              },
+              {
+                "column": "total_budget",
+                "value": "={{ $node[\"Item\"].json[\"Orçamento Total\"] }}"
+              },
+              {
+                "column": "attraction_date",
+                "value": "={{ (() => { \n    const date = $node[\"Item\"].json[\"Data Considerando Atração\"];\n    return date.split('/').reverse().join('-');\n})();  }}"
+              },
+              {
+                "column": "lead_generation_start_date",
+                "value": "={{ (() => { \n    const date = $node[\"Item\"].json[\"Data de inicio Captação\"];\n    return date.split('/').reverse().join('-');\n})();  }}"
+              },
+              {
+                "column": "lead_generation_end_date",
+                "value": "={{ (() => { \n    const date = $node[\"Item\"].json[\"Data Final Capt\"];\n    return date.split('/').reverse().join('-');\n})();  }}"
+              },
+              {
+                "column": "cart_start_date",
+                "value": "={{ (() => { \n    const date = $node[\"Item\"].json[\"Data de Carrinho\"];\n    return date.split('/').reverse().join('-');\n})();  }}"
+              },
+              {
+                "column": "cart_end_date",
+                "value": "={{ (() => { \n    const date = $node[\"Item\"].json[\"Data Final\"];\n    return date.split('/').reverse().join('-');\n})();  }}"
+              },
+              {
+                "column": "lead_generation_tag",
+                "value": "={{ $node[\"Item\"].json[\"Padrão Captação\"] }}"
+              },
+              {
+                "column": "attraction_tag",
+                "value": "={{ $node[\"Item\"].json[\"Padrão Atração\"] }}"
+              },
+              {
+                "column": "reminder_tag",
+                "value": "={{ $node[\"Item\"].json[\"Padrão Lembrete\"] }}"
+              },
+              {
+                "column": "cart_tag",
+                "value": "={{ $node[\"Item\"].json[\"Padrão Carrinho\"] }}"
+              },
+              {
+                "column": "replays_and_cpls_tag",
+                "value": "={{ $node[\"Item\"].json[\"Padrão Replays e CPLs\"] }}"
+              },
+              {
+                "column": "phase_01_tag",
+                "value": "={{ $node[\"Item\"].json[\"Padrão Fase 1\"] }}"
+              },
+              {
+                "column": "phase_02_tag",
+                "value": "={{ $node[\"Item\"].json[\"Padrão Fase 2\"] }}"
+              },
+              {
+                "column": "insert_time",
+                "value": "={{ $now.toSQL() }}"
+              },
+              {
+                "column": "is_active",
+                "value": "={{\"Y\"}}"
+              },
+              {
+                "column": "hot_tag",
+                "value": "={{ $node[\"Item\"].json[\"Padrão Quente\"] }}"
+              },
+              {
+                "column": "cold_tag",
+                "value": "={{ $node[\"Item\"].json[\"Padrão Frio\"] }}"
+              },
+              {
+                "column": "type",
+                "value": "={{ $node[\"Item\"].json[\"Tipo\"] || null }}"
+              },
+              {
+                "column": "ticket_start_date",
+                "value": "={{ (() => { \n    const date = $node[\"Item\"].json[\"Data Início Ingresso (Triplo)\"];\n    return date.split('/').reverse().join('-');\n})();  }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "45bbecd4-3045-45f3-af1b-ce8ebca1341d",
+        "name": "CreateLaunchTag",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          2304,
+          432
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "let s = $node['SearchLaunchTag'].runIndex >= 0 && $node['SearchLaunchTag'].json['id_launch_checklist'] !== undefined ? $node['SearchLaunchTag'].json['id_launch_checklist'] : 0;\n\nlet c = $node['CreateLaunchTag'].runIndex >= 0 && $node['CreateLaunchTag'].json['data'] !== undefined && $node['CreateLaunchTag'].json['data']['insertId'] !== undefined ? $node['CreateLaunchTag'].json['data']['insertId'] : 0;\n\nreturn {id: c > 0 ? c : s}"
+        },
+        "id": "4aec228f-a5d6-4bcc-93e7-da4fc5193d22",
+        "name": "LaunchId",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2528,
+          432
+        ]
+      },
+      {
+        "parameters": {},
+        "id": "b1470d35-08e6-492f-bc4d-4354cf9b5472",
+        "name": "SearchCampaigns",
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          2752,
+          432
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE campaigns_bms SET launch_tag = $1 WHERE (UPPER(`Campanha`) LIKE $2 AND (launch_tag IS NULL OR launch_tag = ''))",
+          "options": {
+            "queryReplacement": "={{ $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() == '[DESAFIO 7 DIAS]' ? '[Desafio 7D]' : $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase()}},{{ $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() === \"PP\" ? \"[PP]\" : $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() }}%",
+            "detailedOutput": true
+          }
+        },
+        "id": "999543c7-22b7-4a55-b6a1-843c5fe96054",
+        "name": "UpdateCampaigns",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          2960,
+          432
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE campaigns_placements SET launch_tag = $1 WHERE (UPPER(`Campanha`) LIKE $2 AND (launch_tag IS NULL OR launch_tag = ''))",
+          "options": {
+            "queryReplacement": "={{ $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() }},{{ $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() === \"PP\" ? \"[PP]\" : $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() }}%",
+            "detailedOutput": true
+          }
+        },
+        "id": "bec5aed6-c296-4abd-be54-a91217fc15f2",
+        "name": "UpdatePlacements",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          3408,
+          432
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "respondWith": "text",
+          "responseBody": "={{ $node['Code'].json['output'] }}",
+          "options": {}
+        },
+        "id": "d200e8da-8cdb-46b2-b2b2-309feee07a2d",
+        "name": "Respond to Webhook",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.1,
+        "position": [
+          1200,
+          208
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "36881b56-85e4-4a6f-9127-108d24964681",
+                "leftValue": "={{ $node[\"Item\"].json[\"Launch tag\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "e19df7a2-8b3a-49b5-bdc5-47e984d19ceb",
+        "name": "isLaunchEmpty",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1648,
+          448
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "let ip = $node[\"Webhook\"].json[\"headers\"][\"x-real-ip\"];\n\n\n\n\n// Função para gerar o HTML como string\nfunction getHtmlPage() {\n    return `<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>⚠️ Explosão Psicodélica ⚠️</title>\n    <style>\n        body {\n            font-family: 'Arial', sans-serif;\n            background-color: #000;\n            color: #FF0000;\n            text-align: center;\n            margin: 0;\n            padding: 0;\n            overflow: hidden;\n        }\n\n        h1 {\n            font-size: 3em;\n            margin-top: 20px;\n            text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000, 0 0 30px #FF0000;\n        }\n\n        #countdown {\n            font-size: 5em;\n            font-weight: bold;\n            margin: 20px 0;\n            text-shadow: 0 0 10px #FFF, 0 0 20px #FFF;\n        }\n\n        p {\n            font-size: 1.5em;\n            margin: 20px;\n        }\n\n        .warning {\n            font-size: 2em;\n            color: #FFFF00;\n            text-shadow: 0 0 10px #FFFF00;\n        }\n\n        #explosion {\n            display: none;\n            font-size: 4em;\n            color: #FF4500;\n            text-shadow: 0 0 10px #FF4500, 0 0 20px #FF4500, 0 0 30px #FF4500;\n            position: absolute;\n            top: 50%;\n            left: 50%;\n            transform: translate(-50%, -50%) scale(1);\n            animation: kaboomEffect 2s infinite;\n        }\n\n        .stop-link {\n            display: inline-block;\n            padding: 15px 30px;\n            margin-top: 20px;\n            font-size: 1.5em;\n            font-weight: bold;\n            color: #FFF;\n            text-decoration: none;\n            background-color: #FF0000;\n            border-radius: 10px;\n            border: 2px solid #FFF;\n            animation: blink 1s infinite;\n            text-shadow: 0 0 10px #FFF, 0 0 20px #FFF;\n            cursor: pointer;\n            transition: transform 0.3s ease-in-out, background-color 0.3s;\n        }\n\n        .stop-link:hover {\n            transform: scale(1.2);\n            background-color: #FFFF00;\n            color: #000;\n        }\n\n        @keyframes blink {\n            0%, 100% {\n                background-color: #FF0000;\n            }\n            50% {\n                background-color: #0000FF;\n            }\n        }\n\n        @keyframes kaboomEffect {\n            0% {\n                transform: translate(-50%, -50%) scale(1) rotate(0deg);\n                color: #FF4500;\n                text-shadow: 0 0 10px #FF4500;\n            }\n            25% {\n                transform: translate(-50%, -50%) scale(1.2) rotate(45deg);\n                color: #FF00FF;\n                text-shadow: 0 0 20px #FF00FF;\n            }\n            50% {\n                transform: translate(-50%, -50%) scale(1.5) rotate(90deg);\n                color: #00FFFF;\n                text-shadow: 0 0 30px #00FFFF;\n            }\n            75% {\n                transform: translate(-50%, -50%) scale(1.2) rotate(135deg);\n                color: #FFFF00;\n                text-shadow: 0 0 20px #FFFF00;\n            }\n            100% {\n                transform: translate(-50%, -50%) scale(1) rotate(180deg);\n                color: #FF4500;\n                text-shadow: 0 0 10px #FF4500;\n            }\n        }\n\n        @keyframes bgPsychedelic {\n            0% {\n                background-color: #FF0000;\n            }\n            25% {\n                background-color: #00FF00;\n            }\n            50% {\n                background-color: #0000FF;\n            }\n            75% {\n                background-color: #FFFF00;\n            }\n            100% {\n                background-color: #FF00FF;\n            }\n        }\n    </style>\n</head>\n<body>\n    <h1>⚠️ Seu Computador Vai Explodir ⚠️</h1>\n    <p class=\"warning\">Evacue o ambiente imediatamente!</p>\n    <div id=\"countdown\">5</div>\n    <a href=\"#\" class=\"stop-link\" >CLIQUE AQUI PARA PARAR IMEDIATAMENTE</a>\n    <div id=\"explosion\">💥💥 KABOOM! 💥💥</div>\n\n    <script>\n        let countdownInterval;\n        let explosionOngoing = false;\n\n        function startCountdown() {\n            const countdownElement = document.getElementById('countdown');\n            const explosionElement = document.getElementById('explosion');\n            let timeLeft = 5;\n\n            countdownInterval = setInterval(() => {\n                timeLeft--;\n                countdownElement.textContent = timeLeft;\n\n                if (timeLeft <= 0 && !explosionOngoing) {\n                    clearInterval(countdownInterval);\n                    explosionOngoing = true;\n                    countdownElement.style.display = 'none'; // Esconde o contador\n                    explosionElement.style.display = 'block'; // Mostra o texto de explosão\n                    startPsychedelicEffect();\n\n                    // Dispara o som várias vezes\n                    setInterval(playExplosionSound, 200);\n                }\n            }, 300);\n        }\n\n        function playExplosionSound() {\n            const audio = new Audio('https://audio-previews.elements.envatousercontent.com/files/279863967/preview.mp3?response-content-disposition=attachment%3B+filename%3D%2276H365G-explosion.mp3%22');\n            audio.play();\n        }\n\n        function startPsychedelicEffect() {\n            document.body.style.animation = \"bgPsychedelic 0.3s infinite\";\n        }\n\n        \n\n        // Inicia a contagem regressiva ao carregar a página\n        window.onload = startCountdown;\n    </script>\n</body>\n</html>\n`;\n}\n\n\n// Verifica o IP e retorna o conteúdo apropriado\nlet response;\nif (\"177.158.243.144\" === ip) {\n    response = { output: getHtmlPage() };\n} else {\n    response = { output: \"started successfully\" };\n}\n\nreturn response;\n"
+        },
+        "id": "1b63e890-eec3-4ae2-88d2-43cb75d126d8",
+        "name": "Code",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          992,
+          208
+        ]
+      },
+      {
+        "parameters": {
+          "path": "force-checklist",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "id": "9ca978f9-eb03-44e3-a715-b658a8551bb4",
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          768,
+          208
+        ],
+        "webhookId": "9afea6a0-25e0-4722-a8f7-81f9687dd092",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE reports_google SET launch_tag = $1 WHERE (UPPER(`campaign`) LIKE $2 AND (launch_tag IS NULL OR launch_tag = ''))",
+          "options": {
+            "queryReplacement": "={{ $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() }},%{{ $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() === \"PP\" ? \"[PP]\" : $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() }}%",
+            "detailedOutput": true
+          }
+        },
+        "id": "2197f2ad-c0db-4e24-8c25-a985d4c95c93",
+        "name": "UpdateGoogle",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          3184,
+          432
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 6
+              }
+            ]
+          }
+        },
+        "id": "d56df568-4b72-421b-afcc-c84ad896a220",
+        "name": "Trigger1",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          768,
+          624
+        ],
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "421dc401-015e-450b-b8ad-3eb90bd042c8",
+                "leftValue": "={{ $json[\"Launch tag\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "b15f1898-209a-4b22-93a8-6c8444440349",
+                "leftValue": "={{ $json[\"Data de inicio Captação\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "bd7a5604-33a2-4e5b-8524-240bcdef6330",
+                "leftValue": "={{ $json[\"Data de Carrinho\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "58c6a484-d45b-4838-a800-0b035c208a5b",
+                "leftValue": "={{ $json[\"Launch tag\"] }}",
+                "rightValue": "[pp]",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEquals"
+                }
+              },
+              {
+                "id": "3845a8c8-85d1-4f0b-9b5d-f4107abf505a",
+                "leftValue": "={{ $json[\"Launch tag\"] }}",
+                "rightValue": "[EBPP]",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEquals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          1456,
+          720
+        ],
+        "id": "116716de-7e29-488f-b82d-39793d77ec9c",
+        "name": "Filter"
+      },
+      {
+        "parameters": {},
+        "id": "fce47eea-7eb8-4df6-b993-b4ef1725f112",
+        "name": "launch_schedule",
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          1232,
+          720
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://webhook.snp.trackinghighend.com/webhook/launch_schedule",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "=customer",
+                "value": "={{ $json.customer }}"
+              },
+              {
+                "name": "launch_tag",
+                "value": "={{ $json.launch_tag }}"
+              },
+              {
+                "name": "attraction_start_date",
+                "value": "={{ $json[\"attraction_start_date\"] }}"
+              },
+              {
+                "name": "lead_capture_start_date",
+                "value": "={{ $json[\"lead_capture_start_date\"] }}"
+              },
+              {
+                "name": "lead_capture_end_date",
+                "value": "={{ $json[\"lead_capture_end_date\"] }}"
+              },
+              {
+                "name": "cart_open_date",
+                "value": "={{ $json[\"cart_open_date\"] }}"
+              },
+              {
+                "name": "launch_end_date",
+                "value": "={{ $json[\"launch_end_date\"] }}"
+              },
+              {
+                "name": "category",
+                "value": "={{ $json.category }}"
+              },
+              {
+                "name": "launch_type",
+                "value": "={{ $json[\"launch_type\"] }}"
+              },
+              {
+                "name": "=ticket_start_date",
+                "value": "={{ $json[\"ticket_start_date\"] }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          1872,
+          720
+        ],
+        "id": "f12067e1-f8fa-4655-8f01-37bbb489a30d",
+        "name": "HTTP Request"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "b90f1054-8fbc-482e-83b2-dc7df295b496",
+                "name": "customer",
+                "value": "Lucas Nunes",
+                "type": "string"
+              },
+              {
+                "id": "c00e3625-f483-463b-943d-112100e2eba2",
+                "name": "category",
+                "value": "={{ $json.Categoria ? $json.Categoria : \"Geral\" }}",
+                "type": "string"
+              },
+              {
+                "id": "04c1f382-26b4-4606-a26e-e45019703c25",
+                "name": "launch_tag",
+                "value": "={{ $json[\"Launch tag\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "b3904326-dddc-41f7-8acc-a88a7c24b59d",
+                "name": "attraction_start_date",
+                "value": "={{ (() => {\n  const [day, month, year] = $json[\"Data Considerando Atração\"].split('/');\n  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;\n})() }}",
+                "type": "string"
+              },
+              {
+                "id": "90b14eae-050e-46c2-ba84-b5672fbc5c75",
+                "name": "lead_capture_start_date",
+                "value": "={{ (() => {\n  const [day,month, year] = $json[\"Data de inicio Captação\"].split('/');\n  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;\n})() }}",
+                "type": "string"
+              },
+              {
+                "id": "466348ba-4ecf-4245-b0af-8f1a105e88d2",
+                "name": "lead_capture_end_date",
+                "value": "={{ (() => {\n  const [day,month, year] = $json[\"Data Final Capt\"].split('/');\n  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;\n})() }}",
+                "type": "string"
+              },
+              {
+                "id": "b675d098-2009-4ad5-bb8e-348848f5d251",
+                "name": "cart_open_date",
+                "value": "={{ (() => {\n  const [day,month, year] = $json[\"Data de Carrinho\"].split('/');\n  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;\n})() }}",
+                "type": "string"
+              },
+              {
+                "id": "0ed6e16b-455c-42f9-8672-0938e2fce016",
+                "name": "launch_end_date",
+                "value": "={{ (() => {\n  const [day,month, year] = $json[\"Data Final\"].split('/');\n  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;\n})() }}",
+                "type": "string"
+              },
+              {
+                "id": "8eb28799-9213-45f9-948b-606ddce96926",
+                "name": "launch_type",
+                "value": "={{ $json.Tipo || null }}",
+                "type": "string"
+              },
+              {
+                "id": "c019f023-fb66-4c74-b01c-7dd2a18735ae",
+                "name": "ticket_start_date",
+                "value": "={{ (() => {\n  const [day,month, year] = $json[\"Data Início Ingresso (Triplo)\"].split('/');\n  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;\n})() }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1648,
+          720
+        ],
+        "id": "97fee320-f9b2-408e-a649-96afff6660e0",
+        "name": "Edit Fields"
+      }
+    ],
+    "connections": {
+      "Trigger": {
+        "main": [
+          [
+            {
+              "node": "Sheets",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Sheets": {
+        "main": [
+          [
+            {
+              "node": "Loop",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "launch_schedule",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Item",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Item": {
+        "main": [
+          [
+            {
+              "node": "isLaunchEmpty",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "LaunchExists": {
+        "main": [
+          [
+            {
+              "node": "CreateLaunchTag",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "CreateLaunchTag",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SearchLaunchTag": {
+        "main": [
+          [
+            {
+              "node": "LaunchExists",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "CreateLaunchTag": {
+        "main": [
+          [
+            {
+              "node": "LaunchId",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "LaunchId": {
+        "main": [
+          [
+            {
+              "node": "SearchCampaigns",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SearchCampaigns": {
+        "main": [
+          [
+            {
+              "node": "UpdateCampaigns",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "UpdateCampaigns": {
+        "main": [
+          [
+            {
+              "node": "UpdateGoogle",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "UpdatePlacements": {
+        "main": [
+          [
+            {
+              "node": "Loop",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "isLaunchEmpty": {
+        "main": [
+          [
+            {
+              "node": "SearchLaunchTag",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Loop",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Sheets",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "UpdateGoogle": {
+        "main": [
+          [
+            {
+              "node": "UpdatePlacements",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Trigger1": {
+        "main": [
+          [
+            {
+              "node": "Sheets",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "launch_schedule": {
+        "main": [
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "76b80409-826e-42dc-b161-37d2998daf24",
+  "connections": {
+    "Trigger": {
+      "main": [
+        [
+          {
+            "node": "Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "launch_schedule",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item": {
+      "main": [
+        [
+          {
+            "node": "isLaunchEmpty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LaunchExists": {
+      "main": [
+        [
+          {
+            "node": "CreateLaunchTag",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "CreateLaunchTag",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchLaunchTag": {
+      "main": [
+        [
+          {
+            "node": "LaunchExists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateLaunchTag": {
+      "main": [
+        [
+          {
+            "node": "LaunchId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LaunchId": {
+      "main": [
+        [
+          {
+            "node": "SearchCampaigns",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchCampaigns": {
+      "main": [
+        [
+          {
+            "node": "UpdateCampaigns",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UpdateCampaigns": {
+      "main": [
+        [
+          {
+            "node": "UpdateGoogle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UpdatePlacements": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "isLaunchEmpty": {
+      "main": [
+        [
+          {
+            "node": "SearchLaunchTag",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Sheets",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UpdateGoogle": {
+      "main": [
+        [
+          {
+            "node": "UpdatePlacements",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "launch_schedule": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.224Z",
+  "id": "sO0u5mQJJeQu5MZF",
+  "isArchived": false,
+  "meta": null,
+  "name": "LC0001 | Checklist | Busca Lançamentos e Checklist Tráfego",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 25,55 * * * * "
+            }
+          ]
+        }
+      },
+      "id": "391635ff-b231-465d-902e-e486afd30915",
+      "name": "Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        768,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=816370849#gid=816370849",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 816370849,
+          "mode": "list",
+          "cachedResultName": "Checklist Tráfego",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=816370849"
+        },
+        "options": {}
+      },
+      "id": "57068f7b-f8ff-4b84-af83-ad577e521b1f",
+      "name": "Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        992,
+        432
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "11798598-222d-43a4-b1a0-a327347ffd05",
+      "name": "Loop",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        432
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "6ef2e1cf-7ed3-45e6-8f66-7207dc8842af",
+      "name": "Item",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1424,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4a940d66-acc1-4d2b-b8a5-20003fbd6a23",
+              "leftValue": "={{ $node['SearchLaunchTag'].json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c9dc7176-2938-4ca7-9d9b-6cd4471c40aa",
+      "name": "LaunchExists",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2080,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM launch_checklist WHERE UPPER(launch_tag) = $1  ORDER BY `launch_checklist`.`launch_tag` DESC",
+        "options": {
+          "queryReplacement": "={{ $node['Item'].json[\"Launch tag\"].toString().toUpperCase() }}"
+        }
+      },
+      "id": "abc18556-153e-4c85-92a0-1b974efe208c",
+      "name": "SearchLaunchTag",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        1872,
+        432
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "launch_checklist",
+          "mode": "list",
+          "cachedResultName": "launch_checklist"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "launch_tag",
+        "valueToMatchOn": "={{ $node[\"Item\"].json[\"Launch tag\"] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "lead_generation",
+              "value": "={{ $node[\"Item\"].json[\"Captação\"] }}"
+            },
+            {
+              "column": "attraction",
+              "value": "={{ $node[\"Item\"].json[\"Atração\"] }}"
+            },
+            {
+              "column": "reminder",
+              "value": "={{ $node[\"Item\"].json[\"Lembrete\"] }}"
+            },
+            {
+              "column": "cart",
+              "value": "={{ $node[\"Item\"].json[\"Carrinho\"] }}"
+            },
+            {
+              "column": "replays_and_cpls",
+              "value": "={{ $node[\"Item\"].json[\"Replays e CPLs\"] }}"
+            },
+            {
+              "column": "phase_01",
+              "value": "={{ $node[\"Item\"].json[\"Fase 1\"] }}"
+            },
+            {
+              "column": "phase_02",
+              "value": "={{ $node[\"Item\"].json[\"Fase 2\"] }}"
+            },
+            {
+              "column": "budget",
+              "value": "={{ $node[\"Item\"].json[\"Orçamento Total\"] }}"
+            },
+            {
+              "column": "total_budget",
+              "value": "={{ $node[\"Item\"].json[\"Orçamento Total\"] }}"
+            },
+            {
+              "column": "attraction_date",
+              "value": "={{ (() => { \n    const date = $node[\"Item\"].json[\"Data Considerando Atração\"];\n    return date.split('/').reverse().join('-');\n})();  }}"
+            },
+            {
+              "column": "lead_generation_start_date",
+              "value": "={{ (() => { \n    const date = $node[\"Item\"].json[\"Data de inicio Captação\"];\n    return date.split('/').reverse().join('-');\n})();  }}"
+            },
+            {
+              "column": "lead_generation_end_date",
+              "value": "={{ (() => { \n    const date = $node[\"Item\"].json[\"Data Final Capt\"];\n    return date.split('/').reverse().join('-');\n})();  }}"
+            },
+            {
+              "column": "cart_start_date",
+              "value": "={{ (() => { \n    const date = $node[\"Item\"].json[\"Data de Carrinho\"];\n    return date.split('/').reverse().join('-');\n})();  }}"
+            },
+            {
+              "column": "cart_end_date",
+              "value": "={{ (() => { \n    const date = $node[\"Item\"].json[\"Data Final\"];\n    return date.split('/').reverse().join('-');\n})();  }}"
+            },
+            {
+              "column": "lead_generation_tag",
+              "value": "={{ $node[\"Item\"].json[\"Padrão Captação\"] }}"
+            },
+            {
+              "column": "attraction_tag",
+              "value": "={{ $node[\"Item\"].json[\"Padrão Atração\"] }}"
+            },
+            {
+              "column": "reminder_tag",
+              "value": "={{ $node[\"Item\"].json[\"Padrão Lembrete\"] }}"
+            },
+            {
+              "column": "cart_tag",
+              "value": "={{ $node[\"Item\"].json[\"Padrão Carrinho\"] }}"
+            },
+            {
+              "column": "replays_and_cpls_tag",
+              "value": "={{ $node[\"Item\"].json[\"Padrão Replays e CPLs\"] }}"
+            },
+            {
+              "column": "phase_01_tag",
+              "value": "={{ $node[\"Item\"].json[\"Padrão Fase 1\"] }}"
+            },
+            {
+              "column": "phase_02_tag",
+              "value": "={{ $node[\"Item\"].json[\"Padrão Fase 2\"] }}"
+            },
+            {
+              "column": "insert_time",
+              "value": "={{ $now.toSQL() }}"
+            },
+            {
+              "column": "is_active",
+              "value": "={{\"Y\"}}"
+            },
+            {
+              "column": "hot_tag",
+              "value": "={{ $node[\"Item\"].json[\"Padrão Quente\"] }}"
+            },
+            {
+              "column": "cold_tag",
+              "value": "={{ $node[\"Item\"].json[\"Padrão Frio\"] }}"
+            },
+            {
+              "column": "type",
+              "value": "={{ $node[\"Item\"].json[\"Tipo\"] || null }}"
+            },
+            {
+              "column": "ticket_start_date",
+              "value": "={{ (() => { \n    const date = $node[\"Item\"].json[\"Data Início Ingresso (Triplo)\"];\n    return date.split('/').reverse().join('-');\n})();  }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "45bbecd4-3045-45f3-af1b-ce8ebca1341d",
+      "name": "CreateLaunchTag",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        2304,
+        432
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let s = $node['SearchLaunchTag'].runIndex >= 0 && $node['SearchLaunchTag'].json['id_launch_checklist'] !== undefined ? $node['SearchLaunchTag'].json['id_launch_checklist'] : 0;\n\nlet c = $node['CreateLaunchTag'].runIndex >= 0 && $node['CreateLaunchTag'].json['data'] !== undefined && $node['CreateLaunchTag'].json['data']['insertId'] !== undefined ? $node['CreateLaunchTag'].json['data']['insertId'] : 0;\n\nreturn {id: c > 0 ? c : s}"
+      },
+      "id": "4aec228f-a5d6-4bcc-93e7-da4fc5193d22",
+      "name": "LaunchId",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2528,
+        432
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "b1470d35-08e6-492f-bc4d-4354cf9b5472",
+      "name": "SearchCampaigns",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2752,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE campaigns_bms SET launch_tag = $1 WHERE (UPPER(`Campanha`) LIKE $2 AND (launch_tag IS NULL OR launch_tag = ''))",
+        "options": {
+          "queryReplacement": "={{ $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() == '[DESAFIO 7 DIAS]' ? '[Desafio 7D]' : $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase()}},{{ $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() === \"PP\" ? \"[PP]\" : $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() }}%",
+          "detailedOutput": true
+        }
+      },
+      "id": "999543c7-22b7-4a55-b6a1-843c5fe96054",
+      "name": "UpdateCampaigns",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        2960,
+        432
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE campaigns_placements SET launch_tag = $1 WHERE (UPPER(`Campanha`) LIKE $2 AND (launch_tag IS NULL OR launch_tag = ''))",
+        "options": {
+          "queryReplacement": "={{ $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() }},{{ $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() === \"PP\" ? \"[PP]\" : $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() }}%",
+          "detailedOutput": true
+        }
+      },
+      "id": "bec5aed6-c296-4abd-be54-a91217fc15f2",
+      "name": "UpdatePlacements",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3408,
+        432
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $node['Code'].json['output'] }}",
+        "options": {}
+      },
+      "id": "d200e8da-8cdb-46b2-b2b2-309feee07a2d",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1200,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "36881b56-85e4-4a6f-9127-108d24964681",
+              "leftValue": "={{ $node[\"Item\"].json[\"Launch tag\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e19df7a2-8b3a-49b5-bdc5-47e984d19ceb",
+      "name": "isLaunchEmpty",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1648,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let ip = $node[\"Webhook\"].json[\"headers\"][\"x-real-ip\"];\n\n\n\n\n// Função para gerar o HTML como string\nfunction getHtmlPage() {\n    return `<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>⚠️ Explosão Psicodélica ⚠️</title>\n    <style>\n        body {\n            font-family: 'Arial', sans-serif;\n            background-color: #000;\n            color: #FF0000;\n            text-align: center;\n            margin: 0;\n            padding: 0;\n            overflow: hidden;\n        }\n\n        h1 {\n            font-size: 3em;\n            margin-top: 20px;\n            text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000, 0 0 30px #FF0000;\n        }\n\n        #countdown {\n            font-size: 5em;\n            font-weight: bold;\n            margin: 20px 0;\n            text-shadow: 0 0 10px #FFF, 0 0 20px #FFF;\n        }\n\n        p {\n            font-size: 1.5em;\n            margin: 20px;\n        }\n\n        .warning {\n            font-size: 2em;\n            color: #FFFF00;\n            text-shadow: 0 0 10px #FFFF00;\n        }\n\n        #explosion {\n            display: none;\n            font-size: 4em;\n            color: #FF4500;\n            text-shadow: 0 0 10px #FF4500, 0 0 20px #FF4500, 0 0 30px #FF4500;\n            position: absolute;\n            top: 50%;\n            left: 50%;\n            transform: translate(-50%, -50%) scale(1);\n            animation: kaboomEffect 2s infinite;\n        }\n\n        .stop-link {\n            display: inline-block;\n            padding: 15px 30px;\n            margin-top: 20px;\n            font-size: 1.5em;\n            font-weight: bold;\n            color: #FFF;\n            text-decoration: none;\n            background-color: #FF0000;\n            border-radius: 10px;\n            border: 2px solid #FFF;\n            animation: blink 1s infinite;\n            text-shadow: 0 0 10px #FFF, 0 0 20px #FFF;\n            cursor: pointer;\n            transition: transform 0.3s ease-in-out, background-color 0.3s;\n        }\n\n        .stop-link:hover {\n            transform: scale(1.2);\n            background-color: #FFFF00;\n            color: #000;\n        }\n\n        @keyframes blink {\n            0%, 100% {\n                background-color: #FF0000;\n            }\n            50% {\n                background-color: #0000FF;\n            }\n        }\n\n        @keyframes kaboomEffect {\n            0% {\n                transform: translate(-50%, -50%) scale(1) rotate(0deg);\n                color: #FF4500;\n                text-shadow: 0 0 10px #FF4500;\n            }\n            25% {\n                transform: translate(-50%, -50%) scale(1.2) rotate(45deg);\n                color: #FF00FF;\n                text-shadow: 0 0 20px #FF00FF;\n            }\n            50% {\n                transform: translate(-50%, -50%) scale(1.5) rotate(90deg);\n                color: #00FFFF;\n                text-shadow: 0 0 30px #00FFFF;\n            }\n            75% {\n                transform: translate(-50%, -50%) scale(1.2) rotate(135deg);\n                color: #FFFF00;\n                text-shadow: 0 0 20px #FFFF00;\n            }\n            100% {\n                transform: translate(-50%, -50%) scale(1) rotate(180deg);\n                color: #FF4500;\n                text-shadow: 0 0 10px #FF4500;\n            }\n        }\n\n        @keyframes bgPsychedelic {\n            0% {\n                background-color: #FF0000;\n            }\n            25% {\n                background-color: #00FF00;\n            }\n            50% {\n                background-color: #0000FF;\n            }\n            75% {\n                background-color: #FFFF00;\n            }\n            100% {\n                background-color: #FF00FF;\n            }\n        }\n    </style>\n</head>\n<body>\n    <h1>⚠️ Seu Computador Vai Explodir ⚠️</h1>\n    <p class=\"warning\">Evacue o ambiente imediatamente!</p>\n    <div id=\"countdown\">5</div>\n    <a href=\"#\" class=\"stop-link\" >CLIQUE AQUI PARA PARAR IMEDIATAMENTE</a>\n    <div id=\"explosion\">💥💥 KABOOM! 💥💥</div>\n\n    <script>\n        let countdownInterval;\n        let explosionOngoing = false;\n\n        function startCountdown() {\n            const countdownElement = document.getElementById('countdown');\n            const explosionElement = document.getElementById('explosion');\n            let timeLeft = 5;\n\n            countdownInterval = setInterval(() => {\n                timeLeft--;\n                countdownElement.textContent = timeLeft;\n\n                if (timeLeft <= 0 && !explosionOngoing) {\n                    clearInterval(countdownInterval);\n                    explosionOngoing = true;\n                    countdownElement.style.display = 'none'; // Esconde o contador\n                    explosionElement.style.display = 'block'; // Mostra o texto de explosão\n                    startPsychedelicEffect();\n\n                    // Dispara o som várias vezes\n                    setInterval(playExplosionSound, 200);\n                }\n            }, 300);\n        }\n\n        function playExplosionSound() {\n            const audio = new Audio('https://audio-previews.elements.envatousercontent.com/files/279863967/preview.mp3?response-content-disposition=attachment%3B+filename%3D%2276H365G-explosion.mp3%22');\n            audio.play();\n        }\n\n        function startPsychedelicEffect() {\n            document.body.style.animation = \"bgPsychedelic 0.3s infinite\";\n        }\n\n        \n\n        // Inicia a contagem regressiva ao carregar a página\n        window.onload = startCountdown;\n    </script>\n</body>\n</html>\n`;\n}\n\n\n// Verifica o IP e retorna o conteúdo apropriado\nlet response;\nif (\"177.158.243.144\" === ip) {\n    response = { output: getHtmlPage() };\n} else {\n    response = { output: \"started successfully\" };\n}\n\nreturn response;\n"
+      },
+      "id": "1b63e890-eec3-4ae2-88d2-43cb75d126d8",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        992,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "path": "force-checklist",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "9ca978f9-eb03-44e3-a715-b658a8551bb4",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        768,
+        208
+      ],
+      "webhookId": "9afea6a0-25e0-4722-a8f7-81f9687dd092",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE reports_google SET launch_tag = $1 WHERE (UPPER(`campaign`) LIKE $2 AND (launch_tag IS NULL OR launch_tag = ''))",
+        "options": {
+          "queryReplacement": "={{ $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() }},%{{ $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() === \"PP\" ? \"[PP]\" : $node[\"Item\"].json[\"Launch tag\"].toString().toUpperCase() }}%",
+          "detailedOutput": true
+        }
+      },
+      "id": "2197f2ad-c0db-4e24-8c25-a985d4c95c93",
+      "name": "UpdateGoogle",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3184,
+        432
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 6
+            }
+          ]
+        }
+      },
+      "id": "d56df568-4b72-421b-afcc-c84ad896a220",
+      "name": "Trigger1",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        768,
+        624
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "421dc401-015e-450b-b8ad-3eb90bd042c8",
+              "leftValue": "={{ $json[\"Launch tag\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "b15f1898-209a-4b22-93a8-6c8444440349",
+              "leftValue": "={{ $json[\"Data de inicio Captação\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "bd7a5604-33a2-4e5b-8524-240bcdef6330",
+              "leftValue": "={{ $json[\"Data de Carrinho\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "58c6a484-d45b-4838-a800-0b035c208a5b",
+              "leftValue": "={{ $json[\"Launch tag\"] }}",
+              "rightValue": "[pp]",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "3845a8c8-85d1-4f0b-9b5d-f4107abf505a",
+              "leftValue": "={{ $json[\"Launch tag\"] }}",
+              "rightValue": "[EBPP]",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1456,
+        720
+      ],
+      "id": "116716de-7e29-488f-b82d-39793d77ec9c",
+      "name": "Filter"
+    },
+    {
+      "parameters": {},
+      "id": "fce47eea-7eb8-4df6-b993-b4ef1725f112",
+      "name": "launch_schedule",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1232,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://webhook.snp.trackinghighend.com/webhook/launch_schedule",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "=customer",
+              "value": "={{ $json.customer }}"
+            },
+            {
+              "name": "launch_tag",
+              "value": "={{ $json.launch_tag }}"
+            },
+            {
+              "name": "attraction_start_date",
+              "value": "={{ $json[\"attraction_start_date\"] }}"
+            },
+            {
+              "name": "lead_capture_start_date",
+              "value": "={{ $json[\"lead_capture_start_date\"] }}"
+            },
+            {
+              "name": "lead_capture_end_date",
+              "value": "={{ $json[\"lead_capture_end_date\"] }}"
+            },
+            {
+              "name": "cart_open_date",
+              "value": "={{ $json[\"cart_open_date\"] }}"
+            },
+            {
+              "name": "launch_end_date",
+              "value": "={{ $json[\"launch_end_date\"] }}"
+            },
+            {
+              "name": "category",
+              "value": "={{ $json.category }}"
+            },
+            {
+              "name": "launch_type",
+              "value": "={{ $json[\"launch_type\"] }}"
+            },
+            {
+              "name": "=ticket_start_date",
+              "value": "={{ $json[\"ticket_start_date\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1872,
+        720
+      ],
+      "id": "f12067e1-f8fa-4655-8f01-37bbb489a30d",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b90f1054-8fbc-482e-83b2-dc7df295b496",
+              "name": "customer",
+              "value": "Lucas Nunes",
+              "type": "string"
+            },
+            {
+              "id": "c00e3625-f483-463b-943d-112100e2eba2",
+              "name": "category",
+              "value": "={{ $json.Categoria ? $json.Categoria : \"Geral\" }}",
+              "type": "string"
+            },
+            {
+              "id": "04c1f382-26b4-4606-a26e-e45019703c25",
+              "name": "launch_tag",
+              "value": "={{ $json[\"Launch tag\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "b3904326-dddc-41f7-8acc-a88a7c24b59d",
+              "name": "attraction_start_date",
+              "value": "={{ (() => {\n  const [day, month, year] = $json[\"Data Considerando Atração\"].split('/');\n  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;\n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "90b14eae-050e-46c2-ba84-b5672fbc5c75",
+              "name": "lead_capture_start_date",
+              "value": "={{ (() => {\n  const [day,month, year] = $json[\"Data de inicio Captação\"].split('/');\n  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;\n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "466348ba-4ecf-4245-b0af-8f1a105e88d2",
+              "name": "lead_capture_end_date",
+              "value": "={{ (() => {\n  const [day,month, year] = $json[\"Data Final Capt\"].split('/');\n  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;\n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "b675d098-2009-4ad5-bb8e-348848f5d251",
+              "name": "cart_open_date",
+              "value": "={{ (() => {\n  const [day,month, year] = $json[\"Data de Carrinho\"].split('/');\n  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;\n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "0ed6e16b-455c-42f9-8672-0938e2fce016",
+              "name": "launch_end_date",
+              "value": "={{ (() => {\n  const [day,month, year] = $json[\"Data Final\"].split('/');\n  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;\n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "8eb28799-9213-45f9-948b-606ddce96926",
+              "name": "launch_type",
+              "value": "={{ $json.Tipo || null }}",
+              "type": "string"
+            },
+            {
+              "id": "c019f023-fb66-4c74-b01c-7dd2a18735ae",
+              "name": "ticket_start_date",
+              "value": "={{ (() => {\n  const [day,month, year] = $json[\"Data Início Ingresso (Triplo)\"].split('/');\n  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1648,
+        720
+      ],
+      "id": "97fee320-f9b2-408e-a649-96afff6660e0",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.224Z",
+      "createdAt": "2025-08-06T19:56:06.224Z",
+      "role": "workflow:owner",
+      "workflowId": "sO0u5mQJJeQu5MZF",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-09T12:42:26.357Z",
+  "versionId": "76b80409-826e-42dc-b161-37d2998daf24"
+}

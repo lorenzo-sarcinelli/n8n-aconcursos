@@ -1,0 +1,3063 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-06T19:46:20.493Z",
+    "createdAt": "2026-01-06T19:46:20.493Z",
+    "versionId": "61875215-4879-49b6-80a6-591384cb0608",
+    "workflowId": "hJUXpSbRKBG4Fp4l",
+    "nodes": [
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "launch_checklist",
+            "mode": "list",
+            "cachedResultName": "launch_checklist"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          -416,
+          688
+        ],
+        "id": "0e5f0778-3eb2-4371-a9dc-a014bb3d6535",
+        "name": "searchLaunchChecklist",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "fieldsToAggregate": {
+            "fieldToAggregate": [
+              {
+                "fieldToAggregate": "launch_tag"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          -224,
+          688
+        ],
+        "id": "986d7b0d-3c4d-419b-8507-caec5c9a9116",
+        "name": "Aggregate"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $node[\"getQueueItem\"].json }}",
+                "operation": "isNotEmpty"
+              }
+            ]
+          }
+        },
+        "id": "001efad0-8cac-4e68-930c-c1ab3cde6c38",
+        "name": "IF1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          -1360,
+          640
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "launch_groups_queue",
+            "mode": "list",
+            "cachedResultName": "launch_groups_queue"
+          },
+          "limit": 1,
+          "where": {
+            "values": [
+              {
+                "column": "execution_time",
+                "condition": "IS NULL"
+              },
+              {
+                "column": "launch",
+                "value": "SSP-L20"
+              },
+              {
+                "column": "is_pending",
+                "value": "Y"
+              }
+            ]
+          },
+          "sort": {
+            "values": [
+              {
+                "column": "id_launch_queue"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "f471b271-6541-422b-8d95-bdfd93b7e86d",
+        "name": "getQueueItem",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          -1776,
+          640
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "upsert",
+          "table": {
+            "__rl": true,
+            "value": "group_data",
+            "mode": "list",
+            "cachedResultName": "group_data"
+          },
+          "columnToMatchOn": "date",
+          "options": {}
+        },
+        "id": "06f52b68-edf0-4974-becb-8949e1c96077",
+        "name": "upsert2GroupData",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          592,
+          688
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "launch_groups_queue",
+            "mode": "list",
+            "cachedResultName": "launch_groups_queue"
+          },
+          "dataMode": "defineBelow",
+          "columnToMatchOn": "id_launch_queue",
+          "valueToMatchOn": "={{ $node[\"getQueueItem\"].json[\"id_launch_queue\"] }}",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "execution_time",
+                "value": "={{ $now }}"
+              },
+              {
+                "column": "is_pending",
+                "value": "N"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          784,
+          816
+        ],
+        "id": "bc27e9c6-6bfb-4356-b3b1-8394f2a264b9",
+        "name": "update2Queue",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "launch_groups_queue",
+            "mode": "list",
+            "cachedResultName": "launch_groups_queue"
+          },
+          "dataMode": "defineBelow",
+          "columnToMatchOn": "id_launch_queue",
+          "valueToMatchOn": "={{ $node[\"getQueueItem\"].json[\"id_launch_queue\"] }}",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "execution_time",
+                "value": "={{ $now }}"
+              },
+              {
+                "column": "is_pending",
+                "value": "N"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          784,
+          256
+        ],
+        "id": "900e5a31-ace8-4be9-8511-eae452431d3a",
+        "name": "update2Queue1",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -2480,
+          928
+        ],
+        "id": "e57505ea-494f-41a4-8c7d-b2ca2c390b14",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "e2074c5e-5994-4f96-a14b-24b32fe3e103",
+                "leftValue": "={{ $json }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "object",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          400,
+          800
+        ],
+        "id": "f745d3d0-8a1e-471f-9563-f0083d11cf2b",
+        "name": "If1"
+      },
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -2480,
+          560
+        ],
+        "id": "b76be1cc-5faf-46ac-8218-a950c5b09163",
+        "name": "executeWorkflow",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "operation": "subtractFromDate",
+          "magnitude": "={{ $json.body.data.createdAt }}",
+          "timeUnit": "hours",
+          "duration": 3,
+          "outputFieldName": "date",
+          "options": {
+            "includeInputFields": true
+          }
+        },
+        "id": "4cd7bde5-c2e5-46f1-a067-29ff3343e02d",
+        "name": "CreatedAt1",
+        "type": "n8n-nodes-base.dateTime",
+        "typeVersion": 2,
+        "position": [
+          -992,
+          544
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "formatDate",
+          "date": "={{ $json.date }}",
+          "format": "custom",
+          "customFormat": "yyyy-MM-dd HH:mm",
+          "options": {}
+        },
+        "id": "cdc85f31-2927-4e77-be9d-8b501aa02e9f",
+        "name": "Date1",
+        "type": "n8n-nodes-base.dateTime",
+        "typeVersion": 2,
+        "position": [
+          -816,
+          544
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "02e245a9-b338-4fa9-a57f-934f2a80fc53",
+                "name": "group_id",
+                "value": "={{ $node[\"Buffer1\"].json[\"body\"][\"data\"][\"groupId\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "ef02442c-fd65-4b86-92a7-8bb947a93e45",
+                "name": "date",
+                "value": "={{ $json.formattedDate }}",
+                "type": "string"
+              },
+              {
+                "id": "3ba8c881-4159-4879-8d71-aaa3052bed67",
+                "name": "entry",
+                "value": "={{ $('CreatedAt1').item.json.body.event.includes('added') ? 'Y' : 'N' }}",
+                "type": "string"
+              },
+              {
+                "id": "0153e0c7-9b3d-47e3-ac08-43aaefe26d67",
+                "name": "person_number",
+                "value": "={{ $node[\"Buffer1\"].json[\"body\"][\"data\"][\"number\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "4dc421e1-d1a4-4e23-bcad-a076cdc98d04",
+                "name": "group_name",
+                "value": "={{ $node[\"Buffer1\"].json[\"body\"][\"data\"][\"groupName\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "97ff9243-d2b1-48a4-acdf-00a588fba144",
+                "name": "campaign_id",
+                "value": "={{ $node[\"Buffer1\"].json[\"body\"][\"data\"][\"campaignId\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "88b25525-541f-4328-bde2-0333cd90cf78",
+                "name": "campaign_name",
+                "value": "={{ $node[\"Buffer1\"].json[\"body\"][\"data\"][\"campaignName\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "215ffc7a-5b42-4f5c-9a15-8182b7a28d74",
+                "name": "launch_tag",
+                "value": "={{ $node[\"getQueueItem\"].json[\"launch\"] }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "24543ea6-6c27-4a09-b83b-1fafdcf84853",
+        "name": "Setter1",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -416,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "group_control_data",
+            "mode": "list",
+            "cachedResultName": "group_control_data"
+          },
+          "options": {}
+        },
+        "id": "589ffa70-5732-4ca8-8054-bd52fa79c015",
+        "name": "CreateLog1",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          592,
+          448
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT *\nFROM group_control_data\nWHERE person_number = $1\n  AND group_id      = $2\n  AND campaign_id   = $3\n  -- pega só o evento mais recente\n  AND date = (\n    SELECT MAX(date)\n    FROM group_control_data\n    WHERE person_number = $1\n      AND group_id      = $2\n      AND campaign_id   = $3\n  )\n  -- verifica se é o mesmo tipo de evento\n  AND entry = $4\nLIMIT 1",
+          "options": {
+            "queryReplacement": "={{ $('Setter1').item.json.person_number }},{{ $node[\"Buffer1\"].json[\"body\"][\"data\"][\"groupId\"] }},{{ $node[\"Buffer1\"].json[\"body\"][\"data\"][\"campaignId\"] }},{{ $('Setter1').item.json.entry }}"
+          }
+        },
+        "id": "e4a105c4-9e99-45a8-b715-eb4a876654d1",
+        "name": "LastEventExists1",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          -48,
+          352
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "7c2cf3bf-061c-4dba-b368-2e80784f20e3",
+                "leftValue": "={{ $node['LastEventExists1'].json[\"id_group_control_data\"] !== undefined && $node['LastEventExists1'].json[\"id_group_control_data\"] !== null && $node['LastEventExists1'].json[\"id_group_control_data\"] !== \"\" }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "d72e85f7-094f-4c0c-90c6-dd919df36dec",
+        "name": "ExistsSameEventType1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          160,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "group_control_data",
+            "mode": "list",
+            "cachedResultName": "group_control_data"
+          },
+          "dataMode": "defineBelow",
+          "columnToMatchOn": "id_group_control_data",
+          "valueToMatchOn": "={{ $node[\"LastEventExists1\"].json[\"id_group_control_data\"] }}",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "date",
+                "value": "={{ $node[\"LastEventExists1\"].json[\"date\"] }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "6a35e15b-c45c-4dd6-b2b7-3bf5ec638ecb",
+        "name": "UpdateLog1",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          416,
+          256
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "## Validação\nSe o último evento recebido, acerca de um número específico para o mesmo grupo e campanha, for do mesmo tipo, retorna o último registro para atualização.",
+          "height": 228,
+          "width": 300,
+          "color": 5
+        },
+        "id": "ef1248c2-acfc-44d3-882e-ea49324051af",
+        "name": "Sticky Note3",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -448,
+          80
+        ]
+      },
+      {
+        "parameters": {
+          "content": "## Conceito\nSe um lead entrou ou saiu de um grupo X e posteriormente recebemos o mesmo tipo de evento (entrou/saiu) e esse é o último evento, consideramos a nova data como verdadeira, pois um lead não deveria entrar ou sair do grupo duas vezes (seguidas)",
+          "height": 228,
+          "width": 411,
+          "color": 3
+        },
+        "id": "3eaa4b3d-673d-43b3-a9fc-dcb2a6b3cf09",
+        "name": "Sticky Note4",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "let setter =  $node['Setter1'].json\n\nreturn {\n  ...setter,\n  user_id: $node[\"SearchUser1\"].json['id_user'] ?? null,\n}"
+        },
+        "id": "c80723a8-31ed-4c4e-a740-0f29546a89ee",
+        "name": "RepeatSetter1",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          416,
+          448
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT *\nFROM users\nWHERE REPLACE(REPLACE(REPLACE(REPLACE(phone,'(',''),')',''),'-',''),' ','')\n      =\n      REPLACE(REPLACE(REPLACE(REPLACE($1,     '(',''),')',''),'-',''),' ','')\nLIMIT 1;",
+          "options": {
+            "queryReplacement": "={{ $json[\"person_number\"] }}"
+          }
+        },
+        "id": "67a932e7-f530-4ccd-bb49-b424466bb137",
+        "name": "SearchUser1",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          -224,
+          352
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "33a5569a-a43e-437e-a78d-f407a381d01b",
+                "leftValue": "={{ $('getQueueItem').item.json.event }}",
+                "rightValue": "campaign.metrics",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEquals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "9cc19968-be35-4bc1-a72c-2333cba31ab0",
+        "name": "If2",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -640,
+          544
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "3a559583-764a-4aa6-b665-9428ce7e8769",
+                "name": "clicksTotalCount",
+                "value": "={{ $('CreatedAt1').item.json.body.data.clicksTotalCount ?? 0 }}",
+                "type": "number"
+              },
+              {
+                "id": "6058d912-0e48-458e-9073-e4339dcc3958",
+                "name": "groupsFullAmount",
+                "value": "={{ $('CreatedAt1').item.json.body.data.groupsFullAmount ?? 0 }}",
+                "type": "number"
+              },
+              {
+                "id": "583f9040-8bfe-4809-917e-61fc2e81bbf7",
+                "name": "groupsOpenAmount",
+                "value": "={{ $('CreatedAt1').item.json.body.data.groupsOpenAmount ?? 0 }}",
+                "type": "number"
+              },
+              {
+                "id": "bffd8b60-da9b-48cb-861c-a892c793b3e1",
+                "name": "groupsTotalAmount",
+                "value": "={{ $('CreatedAt1').item.json.body.data.groupsTotalAmount ?? 0 }}",
+                "type": "number"
+              },
+              {
+                "id": "996c8955-8e4e-4546-aedd-c66b4f6bd2a6",
+                "name": "inputAmount",
+                "value": "={{ $('CreatedAt1').item.json.body.data.inputAmount ?? 0 }}",
+                "type": "number"
+              },
+              {
+                "id": "365595fe-1803-4690-8439-154fd784b67d",
+                "name": "outputAmount",
+                "value": "={{ $('CreatedAt1').item.json.body.data.outputAmount ?? 0 }}",
+                "type": "number"
+              },
+              {
+                "id": "fac6d6a4-3474-4f17-8c74-0b28ed688655",
+                "name": "participantsAmount",
+                "value": "={{ $('CreatedAt1').item.json.body.data.participantsAmount ?? 0 }}",
+                "type": "number"
+              },
+              {
+                "id": "713d3418-5477-4841-b103-302dfe636237",
+                "name": "campaignId",
+                "value": "={{ $('CreatedAt1').item.json.body.data.campaignId }}",
+                "type": "string"
+              },
+              {
+                "id": "1de81a51-94c2-4f1d-b723-6bbb06673249",
+                "name": "campaignName",
+                "value": "={{ $('CreatedAt1').item.json.body.data.campaignName || \"AV02BF25 2º Captação Aulão\"}}",
+                "type": "string"
+              },
+              {
+                "id": "91cd7cd0-ddd4-453a-9716-5fcafca89375",
+                "name": "input_on_date",
+                "value": "={{ $('CreatedAt1').item.json.body.data.inputDates[$now.format('dd/MM/yyyy')] ?? 0 }}",
+                "type": "string"
+              },
+              {
+                "id": "5f7723bf-17af-4cf1-b544-24868671ac02",
+                "name": "output_on_date",
+                "value": "={{ $('CreatedAt1').item.json.body.data.outputDates[$now.format('dd/MM/yyyy')]  ?? 0 }}",
+                "type": "string"
+              },
+              {
+                "id": "32803428-4add-460f-b085-5803ccafbfb2",
+                "name": "date",
+                "value": "={{ $('If2').item.json.formattedDate.split(' ')[0] }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "76b36801-1287-4cce-ab31-fc4d463c9644",
+        "name": "Edit Fields2",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          16,
+          800
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "let input = $input.first().json\nlet output = []\n\nfor (const item in input.inputDates) {\n  output.push({\n    ...input,\n    date:item,\n    input_on_date:input.inputDates[item],\n    output_on_date:input.outputDates[item],\n  })\n  delete output[output.length-1].inputDates\n  delete output[output.length-1].outputDates\n}\n\nfor (const item in input.outputDates) {\n  const jaExiste = output.some(obj => obj.date === item);\n  if(!jaExiste){\n    output.push({\n      ...input,\n      date:item,\n      input_on_date:input.inputDates[item],\n      output_on_date:input.outputDates[item],\n    })\n    delete output[output.length-1].inputDates\n    delete output[output.length-1].outputDates\n  }\n}\n\noutput.forEach(el=>{\n  el.date = formatarData(el.date)\n})\n\nfunction formatarData(dataStr) {\n  const [dia, mes, ano] = dataStr.split(\"/\");\n  return `${ano}-${mes.padStart(2, \"0\")}-${dia.padStart(2, \"0\")}`;\n}\n\nreturn output"
+        },
+        "id": "87f319e8-1eaa-4110-89e5-6c003e977e82",
+        "name": "Code2",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          176,
+          800
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "3a559583-764a-4aa6-b665-9428ce7e8769",
+                "name": "clicksTotalCount",
+                "value": "={{ $('CreatedAt1').item.json.body.data.clicksTotalCount ?? 0 }}",
+                "type": "number"
+              },
+              {
+                "id": "6058d912-0e48-458e-9073-e4339dcc3958",
+                "name": "groupsFullAmount",
+                "value": "={{ $('CreatedAt1').item.json.body.data.groupsFullAmount ?? 0 }}",
+                "type": "number"
+              },
+              {
+                "id": "583f9040-8bfe-4809-917e-61fc2e81bbf7",
+                "name": "groupsOpenAmount",
+                "value": "={{ $('CreatedAt1').item.json.body.data.groupsOpenAmount ?? 0 }}",
+                "type": "number"
+              },
+              {
+                "id": "bffd8b60-da9b-48cb-861c-a892c793b3e1",
+                "name": "groupsTotalAmount",
+                "value": "={{ $('CreatedAt1').item.json.body.data.groupsTotalAmount ?? 0 }}",
+                "type": "number"
+              },
+              {
+                "id": "996c8955-8e4e-4546-aedd-c66b4f6bd2a6",
+                "name": "inputAmount",
+                "value": "={{ $('CreatedAt1').item.json.body.data.inputAmount ?? 0 }}",
+                "type": "number"
+              },
+              {
+                "id": "365595fe-1803-4690-8439-154fd784b67d",
+                "name": "outputAmount",
+                "value": "={{ $('CreatedAt1').item.json.body.data.outputAmount ?? 0 }}",
+                "type": "number"
+              },
+              {
+                "id": "fac6d6a4-3474-4f17-8c74-0b28ed688655",
+                "name": "participantsAmount",
+                "value": "={{ $('CreatedAt1').item.json.body.data.participantsAmount ?? 0 }}",
+                "type": "number"
+              },
+              {
+                "id": "713d3418-5477-4841-b103-302dfe636237",
+                "name": "campaignId",
+                "value": "={{ $('CreatedAt1').item.json.body.data.campaignId }}",
+                "type": "string"
+              },
+              {
+                "id": "1de81a51-94c2-4f1d-b723-6bbb06673249",
+                "name": "campaignName",
+                "value": "={{ $('CreatedAt1').item.json.body.data.campaignName || \"AV02BF25 2º Captação Aulão\"}}",
+                "type": "string"
+              },
+              {
+                "id": "91cd7cd0-ddd4-453a-9716-5fcafca89375",
+                "name": "input_on_date",
+                "value": "={{ $('CreatedAt1').item.json.body.data.inputDates[$now.format('dd/MM/yyyy')] ?? 0 }}",
+                "type": "string"
+              },
+              {
+                "id": "5f7723bf-17af-4cf1-b544-24868671ac02",
+                "name": "output_on_date",
+                "value": "={{ $('CreatedAt1').item.json.body.data.outputDates[$now.format('dd/MM/yyyy')] ?? 0 }}",
+                "type": "string"
+              },
+              {
+                "id": "83edde29-3407-4369-bca5-c36e23d83235",
+                "name": "inputDates",
+                "value": "={{ $('CreatedAt1').item.json.body.data.inputDates }}",
+                "type": "object"
+              },
+              {
+                "id": "a531ff53-9e0e-4e01-b067-b0de91a33c09",
+                "name": "outputDates",
+                "value": "={{ $('CreatedAt1').item.json.body.data.outputDates }}",
+                "type": "object"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "e92cb67f-c1f4-4029-a364-c9585e47dd86",
+        "name": "Edit Fields3",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          16,
+          608
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "let input = $input.first().json\nlet checklist = $('Aggregate').first().json.launch_tag\nlet output = []\n\nfor (const item in input.inputDates) {\n  output.push({\n    clicksTotalCount: input.clicksTotalCount,\n    groupsFullAmount: input.groupsFullAmount,\n    groupsTotalAmount: input.groupsTotalAmount,\n    groupsOpenAmount: input.groupsOpenAmount,\n    inputAmount: input.inputAmount,\n    outputAmount: input.outputAmount,\n    participantsAmount: input.participantsAmount,\n    campaignId:input.campaignId,\n    campaignName:input.campaignName,\n    date:item,\n    input_on_date:input.inputDates[item] ?? 0,\n    output_on_date:input.outputDates[item] ?? 0,\n    launch_tag: getLaunchTags(input.campaignName, checklist)\n  })\n}\n\nfor (const item in input.outputDates) {\n  const jaExiste = output.some(obj => obj.date === item);\n  if(!jaExiste){\n    output.push({\n    clicksTotalCount: input.clicksTotalCount,\n    groupsFullAmount: input.groupsFullAmount,\n    groupsTotalAmount: input.groupsTotalAmount,\n    groupsOpenAmount: input.groupsOpenAmount,\n    inputAmount: input.inputAmount,\n    outputAmount: input.outputAmount,\n    participantsAmount: input.participantsAmount,\n    campaignId:input.campaignId,\n    campaignName:input.campaignName,\n    date:item,\n    input_on_date:input.inputDates[item] ?? 0,\n    output_on_date:input.outputDates[item] ?? 0,\n    launch_tag: getLaunchTags(input.campaignName, checklist)\n  })\n  }\n}\n\noutput.forEach(el=>{\n  el.date = formatarData(el.date)\n})\n\n// function formatarData(dataStr) {\n//   const [dia, mes, ano] = dataStr.split(\"/\");\n//   return `${ano}-${mes.padStart(2, \"0\")}-${dia.padStart(2, \"0\")}`;\n// }\nfunction formatarData(dataStr) {\n  if (!dataStr || typeof dataStr !== \"string\") return dataStr;\n\n  // já está no formato YYYY-MM-DD, só retornar\n  if (dataStr.includes(\"-\")) {\n    return dataStr;\n  }\n\n  // se vier no formato DD/MM/YYYY, converte\n  if (dataStr.includes(\"/\")) {\n    const [dia, mes, ano] = dataStr.split(\"/\");\n    return `${ano}-${mes.padStart(2, \"0\")}-${dia.padStart(2, \"0\")}`;\n  }\n\n  // formato desconhecido — devolve como veio\n  return dataStr;\n}\n\n\n\nfunction getLaunchTags(campaignName, checklist) {\n  if (!checklist || checklist.length === 0) return []\n\n  const nomeCampanha = campaignName.toLowerCase()\n  let tagEncontrada\n\n  for (let rawTag of checklist) {\n    if (!rawTag) continue\n\n    // garante que é string\n    // rawTag = String(rawTag).replace(/\\[|\\]/g, \"\").trim()\n\n    if (rawTag && nomeCampanha.includes(rawTag.toLowerCase())) {\n      tagEncontrada = rawTag\n    }\n  }\n\n  return tagEncontrada\n}\nreturn output"
+        },
+        "id": "b6aa7fbd-07a1-403d-8f01-0abb8a1ebf3e",
+        "name": "Code3",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          176,
+          608
+        ],
+        "alwaysOutputData": true,
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "controle-grupos-sendflow",
+          "options": {}
+        },
+        "id": "7609e609-3f53-4edc-8803-89b031b1055e",
+        "name": "Webhook1",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          -2480,
+          752
+        ],
+        "webhookId": "2c69eb7f-f1cb-41cf-b433-37926be4e14f",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "jsCode": "let request = $node[\"getQueueItem\"].json[\"request_body\"]\nlet bufferObj = Buffer.from(request, \"base64\");\nlet decodedString = bufferObj.toString(\"utf8\");\nlet json = JSON.parse(decodedString);\n\nif (json.body?.data?.createdAt?.includes(\"/\")) {\n  json.body.data.createdAt = json.body.data.createdAt.replace(\n    /(\\d{2})\\/(\\d{2})\\/(\\d{4})/,\n    \"$3-$2-$1\"\n  );\n}\n\nreturn json;"
+        },
+        "id": "19a60d35-2ad9-48f5-93f5-f714d47dbca6",
+        "name": "Buffer1",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1152,
+          544
+        ]
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "seconds",
+                "secondsInterval": 3
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -2480,
+          384
+        ],
+        "id": "2ba09801-b49a-4ed5-9431-0e1b7e5e05d6",
+        "name": "Schedule Trigger3"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE `group_control_data` SET `launch_tag`='SSP-L18' WHERE campaign_name LIKE '%SSP-L18%'",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          -1808,
+          160
+        ],
+        "id": "2d454b36-3987-4ab5-821d-80de3a4698d2",
+        "name": "MySQL3",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE `group_data` SET `launch_tag`='SSP-L17' WHERE campaignName LIKE '%SSP-L17%'",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          -1392,
+          160
+        ],
+        "id": "fcfc5d28-b174-4358-ba69-f1b3c2fa7b8c",
+        "name": "Execute a SQL query2",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "launch_groups_queue",
+            "mode": "list",
+            "cachedResultName": "launch_groups_queue"
+          },
+          "limit": 1,
+          "where": {
+            "values": [
+              {
+                "column": "id_launch_queue",
+                "value": "23717"
+              }
+            ]
+          },
+          "sort": {
+            "values": [
+              {
+                "column": "id_launch_queue"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "1a00ab54-ffad-4ecd-b373-29a594d23f25",
+        "name": "getQueueItem1",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          -1776,
+          448
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 3
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -2464,
+          160
+        ],
+        "id": "42d0bdfd-0cc0-44a8-84da-da36ae3a67a2",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE `group_data` SET `launch_tag`='SSP-L20' WHERE campaignName = 'JANEIRO'",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          -2208,
+          160
+        ],
+        "id": "8330c4a4-51b7-43b2-acc7-ea56f0cc68c1",
+        "name": "MySQL",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "#### SSP-L18 \n- group_data",
+          "height": 224,
+          "width": 150,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -2496,
+          80
+        ],
+        "id": "cd60d34d-ccce-4c14-8c2d-8e487886463e",
+        "name": "Sticky Note1"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE `group_data` SET `launch_tag`='SSP-L17' WHERE campaignName LIKE '%SSP-L17%'",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          -2016,
+          160
+        ],
+        "id": "7fd2a663-c1c6-4b32-b057-910072382675",
+        "name": "update2GroupData",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT COUNT(id) AS qt\nFROM execution_entity\nWHERE \"workflowId\" = '{{$workflow.id}}'\n AND \"status\" IN ('running', 'queued', 'new', 'waiting')  \n AND \"id\" <> {{ $execution.id }} \nAND finished = false",
+          "options": {}
+        },
+        "id": "22cd2265-112a-4106-99f4-a6088c221c7a",
+        "name": "SearchExecution",
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.5,
+        "position": [
+          -2208,
+          464
+        ],
+        "alwaysOutputData": true,
+        "executeOnce": true,
+        "credentials": {
+          "postgres": {
+            "id": "qkp1op2sP8ulJxQE",
+            "name": "N8N"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "6d32d062-f657-4ed5-bc0b-54a4f6eeb04f",
+                "leftValue": "={{ $json.qt }}",
+                "rightValue": 4,
+                "operator": {
+                  "type": "number",
+                  "operation": "lt"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          -2000,
+          464
+        ],
+        "id": "d048164b-e4ac-48b6-baf3-70c8c827e7f8",
+        "name": "Filter"
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "launch_groups_queue",
+            "mode": "list",
+            "cachedResultName": "launch_groups_queue"
+          },
+          "dataMode": "defineBelow",
+          "columnToMatchOn": "id_launch_queue",
+          "valueToMatchOn": "={{ $json[\"id_launch_queue\"] }}",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "is_pending",
+                "value": "P"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          -1568,
+          640
+        ],
+        "id": "f9952be6-f032-47c8-a03b-047a3c377818",
+        "name": "Update rows in a table",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "searchLaunchChecklist": {
+        "main": [
+          [
+            {
+              "node": "Aggregate",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Aggregate": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields3",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Edit Fields2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF1": {
+        "main": [
+          [
+            {
+              "node": "Buffer1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getQueueItem": {
+        "main": [
+          [
+            {
+              "node": "Update rows in a table",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "upsert2GroupData": {
+        "main": [
+          [
+            {
+              "node": "update2Queue",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "getQueueItem",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "upsert2GroupData",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "update2Queue",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "executeWorkflow": {
+        "main": [
+          [
+            {
+              "node": "SearchExecution",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "CreatedAt1": {
+        "main": [
+          [
+            {
+              "node": "Date1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Date1": {
+        "main": [
+          [
+            {
+              "node": "If2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Setter1": {
+        "main": [
+          [
+            {
+              "node": "SearchUser1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "CreateLog1": {
+        "main": [
+          [
+            {
+              "node": "update2Queue1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "LastEventExists1": {
+        "main": [
+          [
+            {
+              "node": "ExistsSameEventType1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "ExistsSameEventType1": {
+        "main": [
+          [
+            {
+              "node": "UpdateLog1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "RepeatSetter1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "UpdateLog1": {
+        "main": [
+          [
+            {
+              "node": "update2Queue1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "RepeatSetter1": {
+        "main": [
+          [
+            {
+              "node": "CreateLog1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SearchUser1": {
+        "main": [
+          [
+            {
+              "node": "LastEventExists1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If2": {
+        "main": [
+          [
+            {
+              "node": "Setter1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "searchLaunchChecklist",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields2": {
+        "main": [
+          [
+            {
+              "node": "Code2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code2": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields3": {
+        "main": [
+          [
+            {
+              "node": "Code3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code3": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook1": {
+        "main": [
+          [
+            {
+              "node": "getQueueItem",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Buffer1": {
+        "main": [
+          [
+            {
+              "node": "CreatedAt1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger3": {
+        "main": [
+          [
+            {
+              "node": "SearchExecution",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "MySQL3": {
+        "main": [
+          [
+            {
+              "node": "Execute a SQL query2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "MySQL",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "MySQL": {
+        "main": [
+          [
+            {
+              "node": "update2GroupData",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "update2GroupData": {
+        "main": [
+          [
+            {
+              "node": "MySQL3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SearchExecution": {
+        "main": [
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "getQueueItem",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update rows in a table": {
+        "main": [
+          [
+            {
+              "node": "IF1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "61875215-4879-49b6-80a6-591384cb0608",
+  "connections": {
+    "searchLaunchChecklist": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF1": {
+      "main": [
+        [
+          {
+            "node": "Buffer1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getQueueItem": {
+      "main": [
+        [
+          {
+            "node": "Update rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upsert2GroupData": {
+      "main": [
+        [
+          {
+            "node": "update2Queue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "getQueueItem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "upsert2GroupData",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "update2Queue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "executeWorkflow": {
+      "main": [
+        [
+          {
+            "node": "SearchExecution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreatedAt1": {
+      "main": [
+        [
+          {
+            "node": "Date1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setter1": {
+      "main": [
+        [
+          {
+            "node": "SearchUser1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateLog1": {
+      "main": [
+        [
+          {
+            "node": "update2Queue1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LastEventExists1": {
+      "main": [
+        [
+          {
+            "node": "ExistsSameEventType1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ExistsSameEventType1": {
+      "main": [
+        [
+          {
+            "node": "UpdateLog1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "RepeatSetter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UpdateLog1": {
+      "main": [
+        [
+          {
+            "node": "update2Queue1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RepeatSetter1": {
+      "main": [
+        [
+          {
+            "node": "CreateLog1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchUser1": {
+      "main": [
+        [
+          {
+            "node": "LastEventExists1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Setter1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "searchLaunchChecklist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Code3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code3": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "getQueueItem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buffer1": {
+      "main": [
+        [
+          {
+            "node": "CreatedAt1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger3": {
+      "main": [
+        [
+          {
+            "node": "SearchExecution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL3": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "update2GroupData",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update2GroupData": {
+      "main": [
+        [
+          {
+            "node": "MySQL3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchExecution": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "getQueueItem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update rows in a table": {
+      "main": [
+        [
+          {
+            "node": "IF1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-06T19:46:20.493Z",
+  "id": "hJUXpSbRKBG4Fp4l",
+  "isArchived": false,
+  "meta": null,
+  "name": "W0002 - 02",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "launch_checklist",
+          "mode": "list",
+          "cachedResultName": "launch_checklist"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -416,
+        688
+      ],
+      "id": "0e5f0778-3eb2-4371-a9dc-a014bb3d6535",
+      "name": "searchLaunchChecklist",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "launch_tag"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        688
+      ],
+      "id": "986d7b0d-3c4d-419b-8507-caec5c9a9116",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"getQueueItem\"].json }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "001efad0-8cac-4e68-930c-c1ab3cde6c38",
+      "name": "IF1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -1360,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "launch_groups_queue",
+          "mode": "list",
+          "cachedResultName": "launch_groups_queue"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "execution_time",
+              "condition": "IS NULL"
+            },
+            {
+              "column": "launch",
+              "value": "SSP-L20"
+            },
+            {
+              "column": "is_pending",
+              "value": "Y"
+            }
+          ]
+        },
+        "sort": {
+          "values": [
+            {
+              "column": "id_launch_queue"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f471b271-6541-422b-8d95-bdfd93b7e86d",
+      "name": "getQueueItem",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -1776,
+        640
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "group_data",
+          "mode": "list",
+          "cachedResultName": "group_data"
+        },
+        "columnToMatchOn": "date",
+        "options": {}
+      },
+      "id": "06f52b68-edf0-4974-becb-8949e1c96077",
+      "name": "upsert2GroupData",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        592,
+        688
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "launch_groups_queue",
+          "mode": "list",
+          "cachedResultName": "launch_groups_queue"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_launch_queue",
+        "valueToMatchOn": "={{ $node[\"getQueueItem\"].json[\"id_launch_queue\"] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "execution_time",
+              "value": "={{ $now }}"
+            },
+            {
+              "column": "is_pending",
+              "value": "N"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        784,
+        816
+      ],
+      "id": "bc27e9c6-6bfb-4356-b3b1-8394f2a264b9",
+      "name": "update2Queue",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "launch_groups_queue",
+          "mode": "list",
+          "cachedResultName": "launch_groups_queue"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_launch_queue",
+        "valueToMatchOn": "={{ $node[\"getQueueItem\"].json[\"id_launch_queue\"] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "execution_time",
+              "value": "={{ $now }}"
+            },
+            {
+              "column": "is_pending",
+              "value": "N"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        784,
+        256
+      ],
+      "id": "900e5a31-ace8-4be9-8511-eae452431d3a",
+      "name": "update2Queue1",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2480,
+        928
+      ],
+      "id": "e57505ea-494f-41a4-8c7d-b2ca2c390b14",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e2074c5e-5994-4f96-a14b-24b32fe3e103",
+              "leftValue": "={{ $json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        400,
+        800
+      ],
+      "id": "f745d3d0-8a1e-471f-9563-f0083d11cf2b",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -2480,
+        560
+      ],
+      "id": "b76be1cc-5faf-46ac-8218-a950c5b09163",
+      "name": "executeWorkflow",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "subtractFromDate",
+        "magnitude": "={{ $json.body.data.createdAt }}",
+        "timeUnit": "hours",
+        "duration": 3,
+        "outputFieldName": "date",
+        "options": {
+          "includeInputFields": true
+        }
+      },
+      "id": "4cd7bde5-c2e5-46f1-a067-29ff3343e02d",
+      "name": "CreatedAt1",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        -992,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.date }}",
+        "format": "custom",
+        "customFormat": "yyyy-MM-dd HH:mm",
+        "options": {}
+      },
+      "id": "cdc85f31-2927-4e77-be9d-8b501aa02e9f",
+      "name": "Date1",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        -816,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "02e245a9-b338-4fa9-a57f-934f2a80fc53",
+              "name": "group_id",
+              "value": "={{ $node[\"Buffer1\"].json[\"body\"][\"data\"][\"groupId\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "ef02442c-fd65-4b86-92a7-8bb947a93e45",
+              "name": "date",
+              "value": "={{ $json.formattedDate }}",
+              "type": "string"
+            },
+            {
+              "id": "3ba8c881-4159-4879-8d71-aaa3052bed67",
+              "name": "entry",
+              "value": "={{ $('CreatedAt1').item.json.body.event.includes('added') ? 'Y' : 'N' }}",
+              "type": "string"
+            },
+            {
+              "id": "0153e0c7-9b3d-47e3-ac08-43aaefe26d67",
+              "name": "person_number",
+              "value": "={{ $node[\"Buffer1\"].json[\"body\"][\"data\"][\"number\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4dc421e1-d1a4-4e23-bcad-a076cdc98d04",
+              "name": "group_name",
+              "value": "={{ $node[\"Buffer1\"].json[\"body\"][\"data\"][\"groupName\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "97ff9243-d2b1-48a4-acdf-00a588fba144",
+              "name": "campaign_id",
+              "value": "={{ $node[\"Buffer1\"].json[\"body\"][\"data\"][\"campaignId\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "88b25525-541f-4328-bde2-0333cd90cf78",
+              "name": "campaign_name",
+              "value": "={{ $node[\"Buffer1\"].json[\"body\"][\"data\"][\"campaignName\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "215ffc7a-5b42-4f5c-9a15-8182b7a28d74",
+              "name": "launch_tag",
+              "value": "={{ $node[\"getQueueItem\"].json[\"launch\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "24543ea6-6c27-4a09-b83b-1fafdcf84853",
+      "name": "Setter1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -416,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "group_control_data",
+          "mode": "list",
+          "cachedResultName": "group_control_data"
+        },
+        "options": {}
+      },
+      "id": "589ffa70-5732-4ca8-8054-bd52fa79c015",
+      "name": "CreateLog1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        592,
+        448
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM group_control_data\nWHERE person_number = $1\n  AND group_id      = $2\n  AND campaign_id   = $3\n  -- pega só o evento mais recente\n  AND date = (\n    SELECT MAX(date)\n    FROM group_control_data\n    WHERE person_number = $1\n      AND group_id      = $2\n      AND campaign_id   = $3\n  )\n  -- verifica se é o mesmo tipo de evento\n  AND entry = $4\nLIMIT 1",
+        "options": {
+          "queryReplacement": "={{ $('Setter1').item.json.person_number }},{{ $node[\"Buffer1\"].json[\"body\"][\"data\"][\"groupId\"] }},{{ $node[\"Buffer1\"].json[\"body\"][\"data\"][\"campaignId\"] }},{{ $('Setter1').item.json.entry }}"
+        }
+      },
+      "id": "e4a105c4-9e99-45a8-b715-eb4a876654d1",
+      "name": "LastEventExists1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -48,
+        352
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7c2cf3bf-061c-4dba-b368-2e80784f20e3",
+              "leftValue": "={{ $node['LastEventExists1'].json[\"id_group_control_data\"] !== undefined && $node['LastEventExists1'].json[\"id_group_control_data\"] !== null && $node['LastEventExists1'].json[\"id_group_control_data\"] !== \"\" }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d72e85f7-094f-4c0c-90c6-dd919df36dec",
+      "name": "ExistsSameEventType1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        160,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "group_control_data",
+          "mode": "list",
+          "cachedResultName": "group_control_data"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_group_control_data",
+        "valueToMatchOn": "={{ $node[\"LastEventExists1\"].json[\"id_group_control_data\"] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "date",
+              "value": "={{ $node[\"LastEventExists1\"].json[\"date\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6a35e15b-c45c-4dd6-b2b7-3bf5ec638ecb",
+      "name": "UpdateLog1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        416,
+        256
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Validação\nSe o último evento recebido, acerca de um número específico para o mesmo grupo e campanha, for do mesmo tipo, retorna o último registro para atualização.",
+        "height": 228,
+        "width": 300,
+        "color": 5
+      },
+      "id": "ef1248c2-acfc-44d3-882e-ea49324051af",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Conceito\nSe um lead entrou ou saiu de um grupo X e posteriormente recebemos o mesmo tipo de evento (entrou/saiu) e esse é o último evento, consideramos a nova data como verdadeira, pois um lead não deveria entrar ou sair do grupo duas vezes (seguidas)",
+        "height": 228,
+        "width": 411,
+        "color": 3
+      },
+      "id": "3eaa4b3d-673d-43b3-a9fc-dcb2a6b3cf09",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let setter =  $node['Setter1'].json\n\nreturn {\n  ...setter,\n  user_id: $node[\"SearchUser1\"].json['id_user'] ?? null,\n}"
+      },
+      "id": "c80723a8-31ed-4c4e-a740-0f29546a89ee",
+      "name": "RepeatSetter1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM users\nWHERE REPLACE(REPLACE(REPLACE(REPLACE(phone,'(',''),')',''),'-',''),' ','')\n      =\n      REPLACE(REPLACE(REPLACE(REPLACE($1,     '(',''),')',''),'-',''),' ','')\nLIMIT 1;",
+        "options": {
+          "queryReplacement": "={{ $json[\"person_number\"] }}"
+        }
+      },
+      "id": "67a932e7-f530-4ccd-bb49-b424466bb137",
+      "name": "SearchUser1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -224,
+        352
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "33a5569a-a43e-437e-a78d-f407a381d01b",
+              "leftValue": "={{ $('getQueueItem').item.json.event }}",
+              "rightValue": "campaign.metrics",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "9cc19968-be35-4bc1-a72c-2333cba31ab0",
+      "name": "If2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -640,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3a559583-764a-4aa6-b665-9428ce7e8769",
+              "name": "clicksTotalCount",
+              "value": "={{ $('CreatedAt1').item.json.body.data.clicksTotalCount ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "6058d912-0e48-458e-9073-e4339dcc3958",
+              "name": "groupsFullAmount",
+              "value": "={{ $('CreatedAt1').item.json.body.data.groupsFullAmount ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "583f9040-8bfe-4809-917e-61fc2e81bbf7",
+              "name": "groupsOpenAmount",
+              "value": "={{ $('CreatedAt1').item.json.body.data.groupsOpenAmount ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "bffd8b60-da9b-48cb-861c-a892c793b3e1",
+              "name": "groupsTotalAmount",
+              "value": "={{ $('CreatedAt1').item.json.body.data.groupsTotalAmount ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "996c8955-8e4e-4546-aedd-c66b4f6bd2a6",
+              "name": "inputAmount",
+              "value": "={{ $('CreatedAt1').item.json.body.data.inputAmount ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "365595fe-1803-4690-8439-154fd784b67d",
+              "name": "outputAmount",
+              "value": "={{ $('CreatedAt1').item.json.body.data.outputAmount ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "fac6d6a4-3474-4f17-8c74-0b28ed688655",
+              "name": "participantsAmount",
+              "value": "={{ $('CreatedAt1').item.json.body.data.participantsAmount ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "713d3418-5477-4841-b103-302dfe636237",
+              "name": "campaignId",
+              "value": "={{ $('CreatedAt1').item.json.body.data.campaignId }}",
+              "type": "string"
+            },
+            {
+              "id": "1de81a51-94c2-4f1d-b723-6bbb06673249",
+              "name": "campaignName",
+              "value": "={{ $('CreatedAt1').item.json.body.data.campaignName || \"AV02BF25 2º Captação Aulão\"}}",
+              "type": "string"
+            },
+            {
+              "id": "91cd7cd0-ddd4-453a-9716-5fcafca89375",
+              "name": "input_on_date",
+              "value": "={{ $('CreatedAt1').item.json.body.data.inputDates[$now.format('dd/MM/yyyy')] ?? 0 }}",
+              "type": "string"
+            },
+            {
+              "id": "5f7723bf-17af-4cf1-b544-24868671ac02",
+              "name": "output_on_date",
+              "value": "={{ $('CreatedAt1').item.json.body.data.outputDates[$now.format('dd/MM/yyyy')]  ?? 0 }}",
+              "type": "string"
+            },
+            {
+              "id": "32803428-4add-460f-b085-5803ccafbfb2",
+              "name": "date",
+              "value": "={{ $('If2').item.json.formattedDate.split(' ')[0] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "76b36801-1287-4cce-ab31-fc4d463c9644",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        16,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let input = $input.first().json\nlet output = []\n\nfor (const item in input.inputDates) {\n  output.push({\n    ...input,\n    date:item,\n    input_on_date:input.inputDates[item],\n    output_on_date:input.outputDates[item],\n  })\n  delete output[output.length-1].inputDates\n  delete output[output.length-1].outputDates\n}\n\nfor (const item in input.outputDates) {\n  const jaExiste = output.some(obj => obj.date === item);\n  if(!jaExiste){\n    output.push({\n      ...input,\n      date:item,\n      input_on_date:input.inputDates[item],\n      output_on_date:input.outputDates[item],\n    })\n    delete output[output.length-1].inputDates\n    delete output[output.length-1].outputDates\n  }\n}\n\noutput.forEach(el=>{\n  el.date = formatarData(el.date)\n})\n\nfunction formatarData(dataStr) {\n  const [dia, mes, ano] = dataStr.split(\"/\");\n  return `${ano}-${mes.padStart(2, \"0\")}-${dia.padStart(2, \"0\")}`;\n}\n\nreturn output"
+      },
+      "id": "87f319e8-1eaa-4110-89e5-6c003e977e82",
+      "name": "Code2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        176,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3a559583-764a-4aa6-b665-9428ce7e8769",
+              "name": "clicksTotalCount",
+              "value": "={{ $('CreatedAt1').item.json.body.data.clicksTotalCount ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "6058d912-0e48-458e-9073-e4339dcc3958",
+              "name": "groupsFullAmount",
+              "value": "={{ $('CreatedAt1').item.json.body.data.groupsFullAmount ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "583f9040-8bfe-4809-917e-61fc2e81bbf7",
+              "name": "groupsOpenAmount",
+              "value": "={{ $('CreatedAt1').item.json.body.data.groupsOpenAmount ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "bffd8b60-da9b-48cb-861c-a892c793b3e1",
+              "name": "groupsTotalAmount",
+              "value": "={{ $('CreatedAt1').item.json.body.data.groupsTotalAmount ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "996c8955-8e4e-4546-aedd-c66b4f6bd2a6",
+              "name": "inputAmount",
+              "value": "={{ $('CreatedAt1').item.json.body.data.inputAmount ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "365595fe-1803-4690-8439-154fd784b67d",
+              "name": "outputAmount",
+              "value": "={{ $('CreatedAt1').item.json.body.data.outputAmount ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "fac6d6a4-3474-4f17-8c74-0b28ed688655",
+              "name": "participantsAmount",
+              "value": "={{ $('CreatedAt1').item.json.body.data.participantsAmount ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "713d3418-5477-4841-b103-302dfe636237",
+              "name": "campaignId",
+              "value": "={{ $('CreatedAt1').item.json.body.data.campaignId }}",
+              "type": "string"
+            },
+            {
+              "id": "1de81a51-94c2-4f1d-b723-6bbb06673249",
+              "name": "campaignName",
+              "value": "={{ $('CreatedAt1').item.json.body.data.campaignName || \"AV02BF25 2º Captação Aulão\"}}",
+              "type": "string"
+            },
+            {
+              "id": "91cd7cd0-ddd4-453a-9716-5fcafca89375",
+              "name": "input_on_date",
+              "value": "={{ $('CreatedAt1').item.json.body.data.inputDates[$now.format('dd/MM/yyyy')] ?? 0 }}",
+              "type": "string"
+            },
+            {
+              "id": "5f7723bf-17af-4cf1-b544-24868671ac02",
+              "name": "output_on_date",
+              "value": "={{ $('CreatedAt1').item.json.body.data.outputDates[$now.format('dd/MM/yyyy')] ?? 0 }}",
+              "type": "string"
+            },
+            {
+              "id": "83edde29-3407-4369-bca5-c36e23d83235",
+              "name": "inputDates",
+              "value": "={{ $('CreatedAt1').item.json.body.data.inputDates }}",
+              "type": "object"
+            },
+            {
+              "id": "a531ff53-9e0e-4e01-b067-b0de91a33c09",
+              "name": "outputDates",
+              "value": "={{ $('CreatedAt1').item.json.body.data.outputDates }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e92cb67f-c1f4-4029-a364-c9585e47dd86",
+      "name": "Edit Fields3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        16,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let input = $input.first().json\nlet checklist = $('Aggregate').first().json.launch_tag\nlet output = []\n\nfor (const item in input.inputDates) {\n  output.push({\n    clicksTotalCount: input.clicksTotalCount,\n    groupsFullAmount: input.groupsFullAmount,\n    groupsTotalAmount: input.groupsTotalAmount,\n    groupsOpenAmount: input.groupsOpenAmount,\n    inputAmount: input.inputAmount,\n    outputAmount: input.outputAmount,\n    participantsAmount: input.participantsAmount,\n    campaignId:input.campaignId,\n    campaignName:input.campaignName,\n    date:item,\n    input_on_date:input.inputDates[item] ?? 0,\n    output_on_date:input.outputDates[item] ?? 0,\n    launch_tag: getLaunchTags(input.campaignName, checklist)\n  })\n}\n\nfor (const item in input.outputDates) {\n  const jaExiste = output.some(obj => obj.date === item);\n  if(!jaExiste){\n    output.push({\n    clicksTotalCount: input.clicksTotalCount,\n    groupsFullAmount: input.groupsFullAmount,\n    groupsTotalAmount: input.groupsTotalAmount,\n    groupsOpenAmount: input.groupsOpenAmount,\n    inputAmount: input.inputAmount,\n    outputAmount: input.outputAmount,\n    participantsAmount: input.participantsAmount,\n    campaignId:input.campaignId,\n    campaignName:input.campaignName,\n    date:item,\n    input_on_date:input.inputDates[item] ?? 0,\n    output_on_date:input.outputDates[item] ?? 0,\n    launch_tag: getLaunchTags(input.campaignName, checklist)\n  })\n  }\n}\n\noutput.forEach(el=>{\n  el.date = formatarData(el.date)\n})\n\n// function formatarData(dataStr) {\n//   const [dia, mes, ano] = dataStr.split(\"/\");\n//   return `${ano}-${mes.padStart(2, \"0\")}-${dia.padStart(2, \"0\")}`;\n// }\nfunction formatarData(dataStr) {\n  if (!dataStr || typeof dataStr !== \"string\") return dataStr;\n\n  // já está no formato YYYY-MM-DD, só retornar\n  if (dataStr.includes(\"-\")) {\n    return dataStr;\n  }\n\n  // se vier no formato DD/MM/YYYY, converte\n  if (dataStr.includes(\"/\")) {\n    const [dia, mes, ano] = dataStr.split(\"/\");\n    return `${ano}-${mes.padStart(2, \"0\")}-${dia.padStart(2, \"0\")}`;\n  }\n\n  // formato desconhecido — devolve como veio\n  return dataStr;\n}\n\n\n\nfunction getLaunchTags(campaignName, checklist) {\n  if (!checklist || checklist.length === 0) return []\n\n  const nomeCampanha = campaignName.toLowerCase()\n  let tagEncontrada\n\n  for (let rawTag of checklist) {\n    if (!rawTag) continue\n\n    // garante que é string\n    // rawTag = String(rawTag).replace(/\\[|\\]/g, \"\").trim()\n\n    if (rawTag && nomeCampanha.includes(rawTag.toLowerCase())) {\n      tagEncontrada = rawTag\n    }\n  }\n\n  return tagEncontrada\n}\nreturn output"
+      },
+      "id": "b6aa7fbd-07a1-403d-8f01-0abb8a1ebf3e",
+      "name": "Code3",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        176,
+        608
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "controle-grupos-sendflow",
+        "options": {}
+      },
+      "id": "7609e609-3f53-4edc-8803-89b031b1055e",
+      "name": "Webhook1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -2480,
+        752
+      ],
+      "webhookId": "2c69eb7f-f1cb-41cf-b433-37926be4e14f",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "let request = $node[\"getQueueItem\"].json[\"request_body\"]\nlet bufferObj = Buffer.from(request, \"base64\");\nlet decodedString = bufferObj.toString(\"utf8\");\nlet json = JSON.parse(decodedString);\n\nif (json.body?.data?.createdAt?.includes(\"/\")) {\n  json.body.data.createdAt = json.body.data.createdAt.replace(\n    /(\\d{2})\\/(\\d{2})\\/(\\d{4})/,\n    \"$3-$2-$1\"\n  );\n}\n\nreturn json;"
+      },
+      "id": "19a60d35-2ad9-48f5-93f5-f714d47dbca6",
+      "name": "Buffer1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1152,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds",
+              "secondsInterval": 3
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2480,
+        384
+      ],
+      "id": "2ba09801-b49a-4ed5-9431-0e1b7e5e05d6",
+      "name": "Schedule Trigger3"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE `group_control_data` SET `launch_tag`='SSP-L18' WHERE campaign_name LIKE '%SSP-L18%'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -1808,
+        160
+      ],
+      "id": "2d454b36-3987-4ab5-821d-80de3a4698d2",
+      "name": "MySQL3",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE `group_data` SET `launch_tag`='SSP-L17' WHERE campaignName LIKE '%SSP-L17%'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1392,
+        160
+      ],
+      "id": "fcfc5d28-b174-4358-ba69-f1b3c2fa7b8c",
+      "name": "Execute a SQL query2",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "launch_groups_queue",
+          "mode": "list",
+          "cachedResultName": "launch_groups_queue"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "id_launch_queue",
+              "value": "23717"
+            }
+          ]
+        },
+        "sort": {
+          "values": [
+            {
+              "column": "id_launch_queue"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1a00ab54-ffad-4ecd-b373-29a594d23f25",
+      "name": "getQueueItem1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -1776,
+        448
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 3
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2464,
+        160
+      ],
+      "id": "42d0bdfd-0cc0-44a8-84da-da36ae3a67a2",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE `group_data` SET `launch_tag`='SSP-L20' WHERE campaignName = 'JANEIRO'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -2208,
+        160
+      ],
+      "id": "8330c4a4-51b7-43b2-acc7-ea56f0cc68c1",
+      "name": "MySQL",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "#### SSP-L18 \n- group_data",
+        "height": 224,
+        "width": 150,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2496,
+        80
+      ],
+      "id": "cd60d34d-ccce-4c14-8c2d-8e487886463e",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE `group_data` SET `launch_tag`='SSP-L17' WHERE campaignName LIKE '%SSP-L17%'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -2016,
+        160
+      ],
+      "id": "7fd2a663-c1c6-4b32-b057-910072382675",
+      "name": "update2GroupData",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT COUNT(id) AS qt\nFROM execution_entity\nWHERE \"workflowId\" = '{{$workflow.id}}'\n AND \"status\" IN ('running', 'queued', 'new', 'waiting')  \n AND \"id\" <> {{ $execution.id }} \nAND finished = false",
+        "options": {}
+      },
+      "id": "22cd2265-112a-4106-99f4-a6088c221c7a",
+      "name": "SearchExecution",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -2208,
+        464
+      ],
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "postgres": {
+          "id": "qkp1op2sP8ulJxQE",
+          "name": "N8N"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6d32d062-f657-4ed5-bc0b-54a4f6eeb04f",
+              "leftValue": "={{ $json.qt }}",
+              "rightValue": 4,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -2000,
+        464
+      ],
+      "id": "d048164b-e4ac-48b6-baf3-70c8c827e7f8",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "launch_groups_queue",
+          "mode": "list",
+          "cachedResultName": "launch_groups_queue"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_launch_queue",
+        "valueToMatchOn": "={{ $json[\"id_launch_queue\"] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "is_pending",
+              "value": "P"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1568,
+        640
+      ],
+      "id": "f9952be6-f032-47c8-a03b-047a3c377818",
+      "name": "Update rows in a table",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-06T19:46:20.493Z",
+      "createdAt": "2026-01-06T19:46:20.493Z",
+      "role": "workflow:owner",
+      "workflowId": "hJUXpSbRKBG4Fp4l",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger3": {
+      "recurrenceRules": []
+    },
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 2,
+  "updatedAt": "2026-01-06T19:46:22.023Z",
+  "versionId": "61875215-4879-49b6-80a6-591384cb0608"
+}

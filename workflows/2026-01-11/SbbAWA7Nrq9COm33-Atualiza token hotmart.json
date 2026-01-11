@@ -1,0 +1,148 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.127Z",
+  "id": "SbbAWA7Nrq9COm33",
+  "isArchived": false,
+  "meta": null,
+  "name": "Atualiza token hotmart",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 12
+            }
+          ]
+        }
+      },
+      "id": "d7fe9507-587a-48c4-aca0-59343b722b3f",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -40,
+        -220
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api-sec-vlc.hotmart.com/security/oauth/token?grant_type=client_credentials",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "client_id",
+              "value": "4e4117b6-a66f-4ade-945c-a7b1342f60a2"
+            },
+            {
+              "name": "client_secret",
+              "value": "73cc7356-9219-4b4d-9054-83b8ce6318b5"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Basic NGU0MTE3YjYtYTY2Zi00YWRlLTk0NWMtYTdiMTM0MmY2MGEyOjczY2M3MzU2LTkyMTktNGI0ZC05MDU0LTgzYjhjZTYzMThiNQ=="
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6973f14a-12c9-443c-8a9d-e3cf10b3fb05",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        180,
+        -220
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "Variables",
+          "mode": "list",
+          "cachedResultName": "Variables"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "var_key",
+        "valueToMatchOn": "api_key_hotmart",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "var_value",
+              "value": "={{ $json.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "90dd52b1-37d6-44b1-a3d2-55399385c1e3",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        400,
+        -220
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "WgOjKmj2sJYs7KBj",
+          "name": "MySQL Hotmart"
+        }
+      }
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.127Z",
+      "createdAt": "2025-08-06T19:56:06.127Z",
+      "role": "workflow:owner",
+      "workflowId": "SbbAWA7Nrq9COm33",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-07T19:05:16.230Z",
+  "versionId": "a29d093f-c1f0-40b0-80fd-dfd7b056bd79"
+}

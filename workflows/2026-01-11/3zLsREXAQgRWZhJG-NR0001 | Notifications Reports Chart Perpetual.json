@@ -1,0 +1,177 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "GetPurchases": {
+      "main": [
+        [
+          {
+            "node": "CreateMessage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "GetPurchases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-09T14:07:01.035Z",
+  "id": "3zLsREXAQgRWZhJG",
+  "isArchived": false,
+  "meta": null,
+  "name": "NR0001 | Notifications Reports Chart Perpetual",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -576,
+        -16
+      ],
+      "id": "77862cfa-b095-4be6-9bfd-8e4b7d5c6439",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM vw_notifications_reports_purchases_week WHERE launch_tag = $1 AND status = 'approved'",
+        "options": {
+          "queryReplacement": "={{ $json.body.tag }}"
+        }
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1120,
+        624
+      ],
+      "id": "aba090cc-9975-4cc0-b82f-5b965cbe3e48",
+      "name": "GetPurchases"
+    },
+    {
+      "parameters": {
+        "content": "## Mensagem\n\nAqui está seu relatório:\n\nInvestimento\nreceita\ncac\nvendas principal\nvendas orderbump\nvendas upsell\ntaxa conversao ob\ntaxa conversao upsell\nSaldo (receita - investimento)\nROAS",
+        "height": 336,
+        "width": 448
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -160,
+        -80
+      ],
+      "typeVersion": 1,
+      "id": "e426aa55-ec96-4485-b206-05c22cb72c37",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsCode": "// === CONFIG ===\nconst daysWindow   = 7;                        // últimos N dias (inclui hoje)\nconst groupKey     = 'launch_tag';\nconst width        = 620;\nconst height       = 1080;\nconst bgColor      = 'white';\nconst chartVersion = '4';\nconst baseUrl      = 'https://quickchart.io/chart';\nconst pluginsParam = 'chartjs-plugin-datalabels'; // rótulos nos pontos\nconst timeZone     = 'America/Sao_Paulo';\nconst message      = $('Webhook').first().json.body.message;\n// === HELPERS ===\nconst N       = v => { const n = parseFloat(v); return Number.isFinite(n) ? n : 0; };\nconst round2  = v => Math.round((Number(v) || 0) * 100) / 100;  // <= arredonda para 2 casas\n\nfunction ymdFromString(ts, tz = timeZone) {\n  if (!ts) return '';\n  const s = String(ts).trim();\n  const m = /^(\\d{4}-\\d{2}-\\d{2})/.exec(s);\n  if (m) return m[1];\n  const d = new Date(s);\n  if (!Number.isFinite(d.getTime())) return '';\n  return d.toLocaleDateString('en-CA', { timeZone: tz }); // 'YYYY-MM-DD'\n}\nconst pad = n => (n < 10 ? '0' + n : '' + n);\nfunction addDaysYMD(ymd, delta) {\n  const [Y, M, D] = ymd.split('-').map(Number);\n  const dt = new Date(Y, M - 1, D, 12, 0, 0); // 12:00 evita DST\n  dt.setDate(dt.getDate() + delta);\n  return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`;\n}\nfunction lastNDays(endYmd, n) {\n  const out = [];\n  for (let i = n - 1; i >= 0; i--) out.push(addDaysYMD(endYmd, -i));\n  return out;\n}\nfunction todayYMD(tz = timeZone) {\n  return new Date().toLocaleDateString('en-CA', { timeZone: tz }); // YYYY-MM-DD\n}\nfunction labelBR(ymd) {\n  const [y,m,d] = ymd.split('-');\n  return `${d}/${m}`;\n}\n\n// === INPUT ===\nconst rows = $input.all().map(i => i.json);\n\n// === 1) AGREGA TUDO: tag -> dia -> { receita, spent(max) } ===\nconst byTag = new Map();\n\nfor (const r of rows) {\n  const tag = (r[groupKey] || 'SEM_TAG').toString().trim();\n  const day = ymdFromString(r.update_time);\n  if (!day) continue;\n\n  if (!byTag.has(tag)) byTag.set(tag, new Map());\n  const dayMap = byTag.get(tag);\n\n  if (!dayMap.has(day)) dayMap.set(day, { receita: 0, spent: 0 });\n  const cell = dayMap.get(day);\n\n  cell.receita += N(r.sale_price);           // soma bruta; arredondamos na saída\n  const s = N(r.spent);\n  if (s > cell.spent) cell.spent = s;        // dedupe investimento por (tag,dia) = maior seen\n}\n\n// Se não houver dados, retorna vazio\nif (!byTag.size) return [];\n\n// === 2) DEFINE JANELA: hoje-6 .. hoje (inclui HOJE dinamicamente) ===\nconst endDay = todayYMD();\nconst days   = lastNDays(endDay, daysWindow);\nconst labels = days.map(labelBR);\n\n// === 3) SAÍDA POR TAG: inclui imagem + dados (tudo arredondado 2 casas) ===\nconst GREEN  = 'rgba(34,197,94,1)';   // Receita\nconst ORANGE = 'rgba(249,115,22,1)';  // Investimento\nconst out = [];\n\nfor (const [tag, dayMap] of byTag.entries()) {\n  // séries na janela; arredondadas em 2 casas\n  const receitaSeriesRaw = days.map(d => (dayMap.get(d)?.receita ?? 0));\n  const investSeriesRaw  = days.map(d => (dayMap.get(d)?.spent   ?? 0));\n\n  const receitaSeries = receitaSeriesRaw.map(round2);\n  const investSeries  = investSeriesRaw.map(round2);\n\n  const totalReceita = round2(receitaSeries.reduce((a,b)=>a+b,0));\n  const totalInvest  = round2(investSeries.reduce((a,b)=>a+b,0));\n\n  const series = days.map((d, i) => ({\n    day: d,\n    label: labels[i],\n    receita: receitaSeries[i],\n    investimento: investSeries[i],\n  }));\n\n  // Config do Chart.js\n  const cfg = {\n    type: 'line',\n    data: {\n      labels,\n      datasets: [\n        {\n          label: 'Receita',\n          data: receitaSeries,\n          tension: 0.3,\n          borderWidth: 3,\n          borderColor: GREEN,\n          pointBackgroundColor: GREEN,\n          pointBorderColor: GREEN,\n          pointRadius: 3,\n          pointHoverRadius: 4,\n          fill: false,\n          spanGaps: true,\n        },\n        {\n          label: 'Investimento',\n          data: investSeries,\n          tension: 0.3,\n          borderWidth: 3,\n          borderColor: ORANGE,\n          pointBackgroundColor: ORANGE,\n          pointBorderColor: ORANGE,\n          pointRadius: 3,\n          pointHoverRadius: 4,\n          borderDash: [6, 6],\n          fill: false,\n          spanGaps: true,\n        },\n      ],\n    },\n    options: {\n      responsive: true,\n      plugins: {\n        title: { display: true, text: `${tag} — últimos ${daysWindow} dias (até ${labels[labels.length-1]})` },\n        legend: { position: 'top' },\n        tooltip: {\n          callbacks: {\n            label: (ctx) => `${ctx.dataset.label}: R$ ${(Number(ctx.parsed.y) || 0).toFixed(2)}`\n          }\n        },\n        // Rótulos em cada ponto (arredondados)\n        datalabels: {\n          display: (ctx) => Number.isFinite(ctx.parsed?.y) && ctx.parsed.y !== 0,\n          formatter: (value) => `R$ ${(Number(value) || 0).toFixed(2)}`,\n          align: 'top',\n          anchor: 'end',\n          clamp: true,\n          padding: 2,\n          backgroundColor: 'rgba(255,255,255,0.7)',\n          borderRadius: 4,\n          color: (ctx) => ctx.dataset.borderColor,\n          font: { size: 10, weight: '600' },\n        },\n      },\n      scales: {\n        y: {\n          beginAtZero: true,\n          grace: '10%',\n          ticks: {\n            // 2 casas nas marcações do eixo também\n            callback: (v) => `R$ ${(Number(v) || 0).toFixed(2)}`\n          }\n        }\n      }\n    }\n  };\n\n  const url =\n    `${baseUrl}?version=${chartVersion}&width=${width}&height=${height}` +\n    `&backgroundColor=${encodeURIComponent(bgColor)}` +\n    `&plugins=${encodeURIComponent(pluginsParam)}` +\n    `&c=${encodeURIComponent(JSON.stringify(cfg))}`;\n\n  out.push({\n    json: {\n      launch_tag: tag,\n      image: url,\n      message\n    }\n  });\n}\n\nreturn out;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -912,
+        624
+      ],
+      "id": "ee1f9f23-e49c-4289-919b-220e5960ef7a",
+      "name": "CreateMessage"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://webhook.pluglead.com/webhook/539e8d672c36380b5420e5d98e6e3a56",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"apiKey\": \"API_KEY\",\n  \"data\": {\n    \"user\": {\n      \"phoneNumber\": \"NUMERO_WHATSAPP\"\n    },\n    \"action\": {\n      \"type\": \"sendMessages\",\n      \"payload\": {\n        \"data\": {\n          \"messages\": [\n            {\n              \"type\": \"extendedTextMessage\",\n              \"message\": {\n                \"text\": \"SUA MENSAGEM\"\n              }\n            }\n          ]\n        }\n      }\n    }\n  },\n  \"event\": \"actionTrigger\"",
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "id": "c194bff0-1f46-4a3c-9cdf-d2aa976ac5ab",
+      "name": "SendtoSendflow",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        80,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "path": "notifications/chart",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1296,
+        624
+      ],
+      "id": "3876e841-503f-412a-916b-2ad9ee13862c",
+      "name": "Webhook",
+      "webhookId": "1d7cb32d-1efa-4781-9082-b3997957a05a"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.sv1.professorsalomaocursos.com.br",
+            "user-agent": "axios/1.8.3",
+            "content-length": "627",
+            "accept": "application/json,text/html,application/xhtml+xml,application/xml,text/*;q=0.9, image/*;q=0.8, */*;q=0.7",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "webhook.sv1.professorsalomaocursos.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "aac92803f7db",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "tag": "EBKUE25",
+            "message": "📊 *Relatório Diário*\n\n-------------\n*EBKUE25*\n-------------\n\n> Produto Principal\n- 🛒 Vendas (Principal): 8\n- 💵 Receita (Principal): R$ 105,20\n- 🧾 Ticket Médio (Principal): R$ 13,15\n- 🎯 CAC (Principal): R$ 15,27\n- 📊 ROAS (Principal): 0.86\n\n> Geral\n- 💰 Investimento: R$ 122,12\n- 📈 Receita (Total): R$ 417,75\n\n> Vendas por categoria\n- 🛒 Principal: 8\n- ➕ Orderbump: 7\n- 🔼 Upsell: 0\n\n> Conversões\n- 📊 Taxa Conversão OB: 87.50%\n- 📊 Taxa Conversão Upsell: 0.00%\n\n> Conclusões\n- 💵 Saldo: R$ 295,63\n- 📊 ROAS (Total): 3.42"
+          },
+          "webhookUrl": "https://webhook.sv1.professorsalomaocursos.com.br/webhook/notifications/chart",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-09T14:07:01.035Z",
+      "createdAt": "2025-12-09T14:07:01.035Z",
+      "role": "workflow:owner",
+      "workflowId": "3zLsREXAQgRWZhJG",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-09T14:07:01.035Z",
+  "versionId": "b361e222-4b1f-4740-a497-5efc63f08e23"
+}

@@ -1,0 +1,76 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get a contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-19T12:02:02.124Z",
+  "id": "SPEXsJhP6W6qDpHe",
+  "isArchived": true,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 13",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        48,
+        48
+      ],
+      "id": "8d0f6940-0b03-40af-92f2-05b1aae2d8c5",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "contactId": 344964
+      },
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        256,
+        48
+      ],
+      "id": "9a3e7ab1-67d6-4682-8884-dc215c3e34c1",
+      "name": "Get a contact",
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "fy3czEO2IaUXXxnk",
+          "name": "https://aceleraconcursos.activehosted.com/"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-19T12:02:02.124Z",
+      "createdAt": "2025-11-19T12:02:02.124Z",
+      "role": "workflow:owner",
+      "workflowId": "SPEXsJhP6W6qDpHe",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-19T12:14:23.304Z",
+  "versionId": "0d786509-93b2-4cb1-ba77-a71dbbd834d2"
+}

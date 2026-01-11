@@ -1,0 +1,287 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "SearchLeads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchLeads": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item": {
+      "main": [
+        [
+          {
+            "node": "GetContact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetContact": {
+      "main": [
+        [
+          {
+            "node": "PrepareStatement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PrepareStatement": {
+      "main": [
+        [
+          {
+            "node": "ExecuteUpdate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ExecuteUpdate": {
+      "main": [
+        [
+          {
+            "node": "ActiveCampaign",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ActiveCampaign": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.256Z",
+  "id": "etejnOYXNp0Y8Ak6",
+  "isArchived": true,
+  "meta": null,
+  "name": "Retroativo | UTMs DDM",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        60,
+        60
+      ],
+      "id": "bfe30557-ae24-48d2-8d1e-b1772fb867dd",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM launch_leads WHERE (utm_url IS NULL OR utm_url = '') AND DATE(subscription_date) >= '2025-04-24'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        280,
+        60
+      ],
+      "id": "5024c598-e5ed-4bcc-95a2-130dfc6ffd7b",
+      "name": "SearchLeads",
+      "credentials": {
+        "mySql": {
+          "id": "QpNGYbj9wAM31I5T",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Item",
+      "typeVersion": 1,
+      "position": [
+        720,
+        80
+      ],
+      "id": "f949e842-11ee-422d-90ea-78650ba780d7"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        500,
+        60
+      ],
+      "id": "3aefe6e9-0db7-47bd-93a9-82f890f93604",
+      "name": "Loop"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "contactId": "={{ $node['Item'].json[\"contact_id_active\"] }}"
+      },
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        940,
+        80
+      ],
+      "id": "34ceccaf-313d-4abb-ab1b-03df3bbf5a1d",
+      "name": "GetContact",
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "5uJmKNzZrBktOTYB",
+          "name": "https://faculdadelibanoedu.activehosted.com/"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let fields = $node['GetContact'].json[\"fieldValues\"];\nfunction extractUtm(fieldValues) {\n  const fieldMap = {\n    '64': 'utm_source',\n    '65': 'utm_medium',\n    '63': 'utm_campaign',\n    '66': 'utm_term',\n    '67': 'utm_content',\n    '68': 'utm_url'\n  };\n\n  const utm = {\n    utm_source: '',\n    utm_medium: '',\n    utm_campaign: '',\n    utm_term: '',\n    utm_content: '',\n    utm_url: ''\n  };\n\n  for (const item of fieldValues) {\n    const key = fieldMap[item.field];\n    if (key) {\n      utm[key] = item.value || '';\n    }\n  }\n\n  return utm;\n}\n\nconst id_launch = $node[\"Item\"].json[\"id_launch\"];\nconst utmObj = extractUtm(fields);\n\nreturn {...utmObj, id_launch};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1160,
+        80
+      ],
+      "id": "23b531df-90d4-45ef-8d37-3a6048ee7d86",
+      "name": "PrepareStatement"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "columnToMatchOn": "id_launch",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        1380,
+        80
+      ],
+      "id": "a584920c-98ed-4fbe-a7e4-81005262219c",
+      "name": "ExecuteUpdate",
+      "credentials": {
+        "mySql": {
+          "id": "QpNGYbj9wAM31I5T",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "contactId": "={{ $node[\"GetContact\"].json[\"contact\"][\"id\"] }}",
+        "updateFields": {
+          "fieldValues": {
+            "property": [
+              {
+                "field": "73",
+                "value": "={{ $node[\"PrepareStatement\"].json[\"utm_source\"] ?? null }}"
+              },
+              {
+                "field": "74",
+                "value": "={{ $node[\"PrepareStatement\"].json[\"utm_medium\"] ?? null }}"
+              },
+              {
+                "field": "75",
+                "value": "={{ $node[\"PrepareStatement\"].json[\"utm_campaign\"] ?? null }}"
+              },
+              {
+                "field": "76",
+                "value": "={{ $node[\"PrepareStatement\"].json[\"utm_term\"] ?? null }}"
+              },
+              {
+                "field": "77",
+                "value": "={{ $node[\"PrepareStatement\"].json[\"utm_content\"] ?? null }}"
+              },
+              {
+                "field": "78",
+                "value": "={{ $node[\"PrepareStatement\"].json[\"utm_url\"] ?? null }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        80
+      ],
+      "id": "e064c1bb-9382-46c1-b604-cd622b6b53c3",
+      "name": "ActiveCampaign",
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "5uJmKNzZrBktOTYB",
+          "name": "https://faculdadelibanoedu.activehosted.com/"
+        }
+      }
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.256Z",
+      "createdAt": "2025-08-06T19:56:06.256Z",
+      "role": "workflow:owner",
+      "workflowId": "etejnOYXNp0Y8Ak6",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-07T18:54:17.063Z",
+  "versionId": "34150da0-c92c-4c84-90eb-c0d722b23db1"
+}

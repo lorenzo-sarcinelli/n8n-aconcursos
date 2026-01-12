@@ -1,0 +1,639 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "itemSheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "itemSheet": {
+      "main": [
+        [
+          {
+            "node": "getProduct",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getProduct": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getOffer": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "getOffer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "itemSheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "itemSheet1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-17T21:38:31.643Z",
+  "id": "TXDU45xBfHKMFYym",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Atualiza Ofertas",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -880,
+        0
+      ],
+      "id": "d6eeb971-40b9-47f9-81b6-f6ecf8749532",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=862112112#gid=862112112",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 862112112,
+          "mode": "list",
+          "cachedResultName": "Oferta Deles",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=862112112"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -672,
+        0
+      ],
+      "id": "6f370ba2-9736-4a16-a3da-dee60e29b4e8",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -464,
+        0
+      ],
+      "id": "de5bb6f4-d7f3-4298-b583-e0dc50da51b4",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "products",
+          "mode": "list",
+          "cachedResultName": "products"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "product_name",
+              "value": "={{ $json.Produto}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -32,
+        144
+      ],
+      "id": "62969b94-5d6d-415c-8402-9c9bd5fe1898",
+      "name": "getProduct",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "itemSheet",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        144
+      ],
+      "id": "532bcbc2-18f4-498c-be43-6c32b89c6419"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8f9c997a-68c1-4ea0-8f53-2d5608b5bae0",
+              "name": "Nome do Produto",
+              "value": "={{ $('getProduct').item.json.product_name }}",
+              "type": "string"
+            },
+            {
+              "id": "0142fa7a-c3fb-4761-88c1-5f0ca6b7cf72",
+              "name": "ID do Produto",
+              "value": "={{ $('getProduct').item.json.product_ext }}",
+              "type": "string"
+            },
+            {
+              "id": "28ead1af-b599-48ee-8c9d-6c86efcca6bf",
+              "name": "Descrição Oferta",
+              "value": "={{ $json.offer_name }}",
+              "type": "string"
+            },
+            {
+              "id": "f57b7414-d110-4284-98dc-bee399f8ada8",
+              "name": "ID da Oferta",
+              "value": "={{ $json.offer_ext }}",
+              "type": "string"
+            },
+            {
+              "id": "568352bb-22b8-46da-8ae6-8b0f71099e18",
+              "name": "Plataforma",
+              "value": "={{ $('itemSheet').item.json.Oferta }}",
+              "type": "string"
+            },
+            {
+              "id": "724bd3be-08e0-4d16-83ef-72c9cd3b1b88",
+              "name": "Link",
+              "value": "={{ $('itemSheet').item.json.Link }}",
+              "type": "string"
+            },
+            {
+              "id": "d057f554-1a03-4f76-a2bb-fcfda9fc7d12",
+              "name": "Identificador",
+              "value": "={{ $('getProduct').item.json.product_ext }}_{{ $json.offer_ext }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        128
+      ],
+      "id": "d22a9afb-74ff-4d22-aae0-b13622b9c8df",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "offers",
+          "mode": "list",
+          "cachedResultName": "offers"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "product_id",
+              "value": "={{ $json.id_product }}"
+            },
+            {
+              "column": "offer_price",
+              "value": "={{ $json.product_price }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        416,
+        128
+      ],
+      "id": "3c76f468-557e-4bc5-9fe7-7e9bea7cceac",
+      "name": "getOffer",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=1142836013#gid=1142836013",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1142836013,
+          "mode": "list",
+          "cachedResultName": "Checklist Ofertas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1142836013"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "Identificador"
+          ],
+          "schema": [
+            {
+              "id": "Identificador",
+              "displayName": "Identificador",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "LaunchTag",
+              "displayName": "LaunchTag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Categoria",
+              "displayName": "Categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Plataforma",
+              "displayName": "Plataforma",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Descrição Oferta",
+              "displayName": "Descrição Oferta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nome do Produto",
+              "displayName": "Nome do Produto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID do Produto",
+              "displayName": "ID do Produto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID da Oferta",
+              "displayName": "ID da Oferta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Data Início das Vendas",
+              "displayName": "Data Início das Vendas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Data Término das Vendas",
+              "displayName": "Data Término das Vendas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fase",
+              "displayName": "Fase",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tag de Campanha",
+              "displayName": "Tag de Campanha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tag de Esteira",
+              "displayName": "Tag de Esteira",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Link",
+              "displayName": "Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        816,
+        128
+      ],
+      "id": "0e53b0e8-c85a-42e9-bb54-2901b8972d2d",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3554d199-1517-4088-87e3-02c6c542500b",
+              "leftValue": "={{$node['getProduct'].json}}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        128,
+        144
+      ],
+      "id": "ed37750e-3462-4b9a-9e6e-815e74705fae",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "itemSheet1",
+      "typeVersion": 1,
+      "position": [
+        416,
+        368
+      ],
+      "id": "4aae775d-0e95-4f7c-82de-cab5579440f4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "568352bb-22b8-46da-8ae6-8b0f71099e18",
+              "name": "Plataforma",
+              "value": "={{ $('itemSheet').item.json.Oferta }}",
+              "type": "string"
+            },
+            {
+              "id": "724bd3be-08e0-4d16-83ef-72c9cd3b1b88",
+              "name": "Link",
+              "value": "={{ $('itemSheet').item.json.Link }}",
+              "type": "string"
+            },
+            {
+              "id": "1c2e1280-638e-48a6-908d-0094bf66ee96",
+              "name": "Produto",
+              "value": "={{ $('itemSheet').item.json.Produto }}",
+              "type": "string"
+            },
+            {
+              "id": "e0565a48-ae77-4b10-bb89-54b7df00ce68",
+              "name": "ID",
+              "value": "={{ $('itemSheet').item.json.ID }}",
+              "type": "string"
+            },
+            {
+              "id": "2d058671-8678-417a-be14-610c66dd1fd7",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        608,
+        368
+      ],
+      "id": "7feea565-5bd5-44e7-be3d-cd05f94aefee",
+      "name": "Edit Fields1"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-17T21:38:31.643Z",
+      "createdAt": "2025-09-17T21:38:31.643Z",
+      "role": "workflow:owner",
+      "workflowId": "TXDU45xBfHKMFYym",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-18T12:19:32.467Z",
+  "versionId": "4f34a856-2bf1-4e4b-bf7d-1ea53330c036"
+}

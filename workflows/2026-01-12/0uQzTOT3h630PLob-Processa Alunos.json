@@ -1,0 +1,436 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "SearchExecution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetStudents": {
+      "main": [
+        [
+          {
+            "node": "Students",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Students": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leads": {
+      "main": [
+        [
+          {
+            "node": "GetStudents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "UpdateLaunch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UpdateLaunch": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetLeads": {
+      "main": [
+        [
+          {
+            "node": "Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "SearchExecution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "SearchExecution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchExecution": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "GetLeads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-15T13:01:12.171Z",
+  "id": "0uQzTOT3h630PLob",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Processa Alunos",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        224
+      ],
+      "id": "5db66192-eb2e-4ee2-bece-8c71ba6aa051",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT email,phone FROM student_products",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        464,
+        224
+      ],
+      "id": "f57770c9-8a5c-4910-8489-5a5843ab64fe",
+      "name": "GetStudents",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        688,
+        224
+      ],
+      "id": "84d7f77e-51ae-45c5-a894-1cd408b3478a",
+      "name": "Students"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        240,
+        224
+      ],
+      "id": "6e7cdc26-7468-49a8-9a93-4397f9eee617",
+      "name": "Leads"
+    },
+    {
+      "parameters": {
+        "jsCode": "const students = $node['Students'].json['data'];\nconst leads = $node['Leads'].json['data'];\n\n// Cria um set de emails e phones dos students para busca rápida\nconst studentEmails = new Set(students.map(s => s.email?.toLowerCase()));\nconst studentPhones = new Set(students.map(s => s.phone?.replace(/\\D/g, '')));\n\n// Processa cada lead\nconst result = leads.map(lead => {\n  const leadEmail = lead.email?.toLowerCase();\n  const leadPhone = lead.phone?.replace(/\\D/g, '');\n  \n  // Verifica se encontrou email ou phone nos students\n  const isOldStudent = studentEmails.has(leadEmail) || studentPhones.has(leadPhone) ? 'Y' : 'N';\n  \n  return {\n    id_launch: lead.id_launch,\n    is_old_student: isOldStudent,\n    student_verified: 'Y'\n  };\n});\n\nreturn result;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        912,
+        224
+      ],
+      "id": "58cb75e0-b785-4674-aa44-3ff0e72804fb",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "columnToMatchOn": "id_launch",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1136,
+        224
+      ],
+      "id": "15196dee-b6ed-46c7-ba70-0c40f97148f4",
+      "name": "UpdateLaunch",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT ll.id_launch, ll.user_id, u.email, u.phone FROM launch_leads ll \nLEFT JOIN users u ON u.id_user = ll.user_id\nWHERE launch_key = \"SSP-L18\" AND (student_verified = \"N\" OR student_verified IS NULL OR student_verified = \"\")\nLIMIT 1000",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        16,
+        224
+      ],
+      "id": "cc71642a-4ccb-4d39-a9b7-b2741b6f9ef4",
+      "name": "GetLeads",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1360,
+        224
+      ],
+      "id": "0c317227-fa2b-4c1b-b0cd-f5e3dfc50b02",
+      "name": "Wait",
+      "webhookId": "428aad6f-2d90-4527-9a47-7e129d0a32af"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "0uQzTOT3h630PLob",
+          "mode": "list",
+          "cachedResultName": "Processa Alunos"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1584,
+        224
+      ],
+      "id": "6449e8db-baa5-4242-9b89-9f9eea2440de",
+      "name": "Execute Workflow"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -656,
+        32
+      ],
+      "id": "7720b09d-bfa3-4970-a731-fde777a991a4",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 27,47 * * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -656,
+        416
+      ],
+      "id": "9b100d7c-ba2e-4839-813d-082e5e97137b",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT COUNT(id) AS qt\nFROM execution_entity\nWHERE \"workflowId\" = '{{$workflow.id}}'\n AND \"status\" IN ('running', 'queued', 'new', 'waiting')  \n AND \"id\" <> {{ $execution.id }} \nAND finished = false",
+        "options": {}
+      },
+      "id": "6db4fce9-bb7d-4bca-ad47-0fad18a01ab4",
+      "name": "SearchExecution",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -432,
+        224
+      ],
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "postgres": {
+          "id": "qkp1op2sP8ulJxQE",
+          "name": "N8N"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6d32d062-f657-4ed5-bc0b-54a4f6eeb04f",
+              "leftValue": "={{ $json.qt }}",
+              "rightValue": 2,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -208,
+        224
+      ],
+      "id": "b61f8198-1790-4990-ba95-419478151e7d",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "content": "# ESPAÇADO PARA 30 MINUTOS POR TER CONCLUÍDO",
+        "width": 512
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -288,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "f658b888-c961-4552-89b1-9cb454207a47",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-15T13:01:12.171Z",
+      "createdAt": "2025-11-15T13:01:12.171Z",
+      "role": "workflow:owner",
+      "workflowId": "0uQzTOT3h630PLob",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-03T13:34:58.305Z",
+  "versionId": "9d42dc19-07a2-4bbc-8a32-6294a949bcbd"
+}

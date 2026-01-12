@@ -1,0 +1,396 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-17T13:52:38.866Z",
+    "createdAt": "2025-12-17T13:52:38.866Z",
+    "versionId": "4a7a7aed-9661-453f-9547-d0369c395ddf",
+    "workflowId": "k6Jx7hQKbFw9jmNY",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "n8n-hotmart-queue",
+          "options": {}
+        },
+        "id": "515a66a3-3868-4a3a-975e-1db3504bc940",
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 1.1,
+        "position": [
+          -432,
+          96
+        ],
+        "webhookId": "bcdfbec8-055b-4aff-b96e-b423c5173ae8",
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000
+      },
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "Hotmart_Vendas",
+            "mode": "list",
+            "cachedResultName": "Hotmart_Vendas"
+          },
+          "options": {}
+        },
+        "id": "72504b47-f674-4157-86d7-ac5a9d802d4c",
+        "name": "MySQL",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          224,
+          96
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "6cR89c3DkwiktSiW",
+            "name": "MySQL Vendas"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "jsons",
+                "value": "={{JSON.stringify($json.body)}}"
+              },
+              {
+                "name": "foi",
+                "value": "false"
+              },
+              {
+                "name": "tipo",
+                "value": "assinatura"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "432d1344-adce-4f88-a98c-1fbc96d1d707",
+        "name": "Set1",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "jsons",
+                "value": "={{JSON.stringify($json.body)}}"
+              },
+              {
+                "name": "foi",
+                "value": "false"
+              },
+              {
+                "name": "tipo",
+                "value": "venda"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "1eccab22-daf2-4082-b04c-cb458225c979",
+        "name": "Set",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 1,
+        "position": [
+          0,
+          208
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $json.body.signature_status }}",
+                "operation": "isNotEmpty"
+              }
+            ]
+          }
+        },
+        "id": "53d5fdd3-7449-4ec0-828d-eacbae566bca",
+        "name": "IF1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          -208,
+          96
+        ]
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "IF1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set1": {
+        "main": [
+          [
+            {
+              "node": "MySQL",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set": {
+        "main": [
+          [
+            {
+              "node": "MySQL",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF1": {
+        "main": [
+          [
+            {
+              "node": "Set1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Set",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "4a7a7aed-9661-453f-9547-d0369c395ddf",
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "IF1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF1": {
+      "main": [
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-13T13:41:52.385Z",
+  "id": "k6Jx7hQKbFw9jmNY",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "V0000 - Armazenamento Vendas Hotmart",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "n8n-hotmart-queue",
+        "options": {}
+      },
+      "id": "515a66a3-3868-4a3a-975e-1db3504bc940",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        -432,
+        96
+      ],
+      "webhookId": "bcdfbec8-055b-4aff-b96e-b423c5173ae8",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "Hotmart_Vendas",
+          "mode": "list",
+          "cachedResultName": "Hotmart_Vendas"
+        },
+        "options": {}
+      },
+      "id": "72504b47-f674-4157-86d7-ac5a9d802d4c",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        96
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "jsons",
+              "value": "={{JSON.stringify($json.body)}}"
+            },
+            {
+              "name": "foi",
+              "value": "false"
+            },
+            {
+              "name": "tipo",
+              "value": "assinatura"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "432d1344-adce-4f88-a98c-1fbc96d1d707",
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "jsons",
+              "value": "={{JSON.stringify($json.body)}}"
+            },
+            {
+              "name": "foi",
+              "value": "false"
+            },
+            {
+              "name": "tipo",
+              "value": "venda"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1eccab22-daf2-4082-b04c-cb458225c979",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.body.signature_status }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "53d5fdd3-7449-4ec0-828d-eacbae566bca",
+      "name": "IF1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        96
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-10-13T13:41:52.385Z",
+      "createdAt": "2025-10-13T13:41:52.385Z",
+      "role": "workflow:owner",
+      "workflowId": "k6Jx7hQKbFw9jmNY",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-17T13:52:38.879Z",
+  "versionId": "4a7a7aed-9661-453f-9547-d0369c395ddf"
+}

@@ -1,0 +1,419 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T19:22:18.976Z",
+    "createdAt": "2025-11-26T19:22:18.976Z",
+    "versionId": "877f4564-5d43-45f5-855a-08c658a7a154",
+    "workflowId": "9mognAEDcjxUlkhW",
+    "nodes": [
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "funnels_queue",
+            "mode": "list",
+            "cachedResultName": "funnels_queue"
+          },
+          "dataMode": "defineBelow",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "request_body",
+                "value": "={{ $node[\"Buffer\"].json['buffer'] ?? null }}"
+              },
+              {
+                "column": "insert_time",
+                "value": "={{$now }}"
+              },
+              {
+                "column": "action_type",
+                "value": "subscription"
+              },
+              {
+                "column": "action_source",
+                "value": "={{ $('Webhook').item.json.query.source || \"ActiveCampaign\" }}"
+              },
+              {
+                "column": "funnel_id",
+                "value": "={{ $('Webhook').item.json.body['contact[fields][launchkey]'] || $('Webhook').item.json.query.funnel_id }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "23162951-a780-4872-a92c-c0f2f685b13a",
+        "name": "InsertQueue",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          672,
+          0
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000,
+        "credentials": {
+          "mySql": {
+            "id": "ea6BhhC0YnhuvJPD",
+            "name": "MySQL Recovery"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "let body = $node['Webhook'].json['body'];\nlet jsonBody = JSON.stringify(body);\nlet buffer = new Buffer(jsonBody).toString('base64');\n\nreturn {buffer}\n\n"
+        },
+        "id": "7e0c0647-3ab0-4fc0-b592-5f8d079b9bc5",
+        "name": "Buffer",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          224,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "34900341-ff8a-4b7e-ad24-e20ee0e1a220",
+                "leftValue": "={{ $node['Buffer'].json[\"buffer\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "da1dc4e4-177a-4793-94c1-c0d95d49e1d0",
+        "name": "Filter",
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2,
+        "position": [
+          448,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "launch-leads",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          0,
+          0
+        ],
+        "id": "f0a44660-81a2-4e31-8eb9-bb6664e30cad",
+        "name": "Webhook",
+        "webhookId": "15690192-d528-423b-b4a5-4a42014e402a"
+      }
+    ],
+    "connections": {
+      "Buffer": {
+        "main": [
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "InsertQueue",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Buffer",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "877f4564-5d43-45f5-855a-08c658a7a154",
+  "connections": {
+    "Buffer": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "InsertQueue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.127Z",
+  "id": "9mognAEDcjxUlkhW",
+  "isArchived": false,
+  "meta": null,
+  "name": "A0001 | Armazenamento Json Lançamento",
+  "nodes": [
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "funnels_queue",
+          "mode": "list",
+          "cachedResultName": "funnels_queue"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "request_body",
+              "value": "={{ $node[\"Buffer\"].json['buffer'] ?? null }}"
+            },
+            {
+              "column": "insert_time",
+              "value": "={{$now }}"
+            },
+            {
+              "column": "action_type",
+              "value": "subscription"
+            },
+            {
+              "column": "action_source",
+              "value": "={{ $('Webhook').item.json.query.source || \"ActiveCampaign\" }}"
+            },
+            {
+              "column": "funnel_id",
+              "value": "={{ $('Webhook').item.json.body['contact[fields][launchkey]'] || $('Webhook').item.json.query.funnel_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "23162951-a780-4872-a92c-c0f2f685b13a",
+      "name": "InsertQueue",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "mySql": {
+          "id": "ea6BhhC0YnhuvJPD",
+          "name": "MySQL Recovery"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let body = $node['Webhook'].json['body'];\nlet jsonBody = JSON.stringify(body);\nlet buffer = new Buffer(jsonBody).toString('base64');\n\nreturn {buffer}\n\n"
+      },
+      "id": "7e0c0647-3ab0-4fc0-b592-5f8d079b9bc5",
+      "name": "Buffer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "34900341-ff8a-4b7e-ad24-e20ee0e1a220",
+              "leftValue": "={{ $node['Buffer'].json[\"buffer\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "da1dc4e4-177a-4793-94c1-c0d95d49e1d0",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "launch-leads",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f0a44660-81a2-4e31-8eb9-bb6664e30cad",
+      "name": "Webhook",
+      "webhookId": "15690192-d528-423b-b4a5-4a42014e402a"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.aconcursos.com.br",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+            "content-length": "1239",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+            "cache-control": "no-cache",
+            "content-type": "application/json",
+            "origin": "https://aconcursos.com.br",
+            "pragma": "no-cache",
+            "priority": "u=1, i",
+            "referer": "https://aconcursos.com.br/",
+            "sec-ch-ua": "\"Not;A=Brand\";v=\"99\", \"Google Chrome\";v=\"139\", \"Chromium\";v=\"139\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"macOS\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-site",
+            "x-forwarded-for": "138.36.57.62",
+            "x-forwarded-host": "webhook.aconcursos.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "660043f7f463",
+            "x-real-ip": "138.36.57.62"
+          },
+          "params": {},
+          "query": {
+            "source": "elementor",
+            "trigger_auth": "khOFC26s5rvIT2QjUvfkM2CppZwxZ3LMvMfssBFrOc3MHkOd3lXJvX5cPwU3lTMNCYkuTgrTJePZbkQbS8rotYh1b8g9s7WqXPOm5bXPlZO3OGs6u6hm3JUdO5Kb2tnI",
+            "funnel_id": "SSP-L16"
+          },
+          "body": {
+            "post_id": "11258",
+            "form_id": "7cff2f9",
+            "referer_title": "Formulário | Elementor | Setembro 2025",
+            "queried_id": "11258",
+            "name": "teste",
+            "email": "teste@teste.com",
+            "phone": "11898956564",
+            "utm_source": "",
+            "utm_medium": "",
+            "utm_campaign": "",
+            "utm_term": "",
+            "utm_content": "",
+            "utm_id": "",
+            "field[1]": "",
+            "field[2]": "",
+            "field[3]": "",
+            "field[4]": "",
+            "field[5]": "",
+            "field[28]": "",
+            "field[24]": "",
+            "field[33]": "",
+            "field[29]": "https://aconcursos.com.br/?elementor_library=formulario-elementor-setembro-2025&preview_id=11258&preview_nonce=b19b2b4cd7&preview=true",
+            "funnel_id": "SSP-L16",
+            "utm_slug": "",
+            "utm_url": "https://aconcursos.com.br/?elementor_library=formulario-elementor-setembro-2025&preview_id=11258&preview_nonce=b19b2b4cd7&preview=true",
+            "utm_platform": "",
+            "utm_referral": "https://aconcursos.com.br/wp-admin/post.php?post=11258&action=elementor",
+            "browser": "Chrome",
+            "screen_resolution": "3360x1890",
+            "browser_language": "pt-BR",
+            "page_enter_time": "2025-09-03T16:45:19.291Z",
+            "form_start_time": "2025-09-03T16:45:20.294Z",
+            "form_submit_time": "2025-09-03T16:47:43.796Z",
+            "time_on_page_sec": 145,
+            "time_filling_form_sec": 144,
+            "trigger_auth": "khOFC26s5rvIT2QjUvfkM2CppZwxZ3LMvMfssBFrOc3MHkOd3lXJvX5cPwU3lTMNCYkuTgrTJePZbkQbS8rotYh1b8g9s7WqXPOm5bXPlZO3OGs6u6hm3JUdO5Kb2tnI"
+          },
+          "webhookUrl": "https://webhook.aconcursos.com.br/webhook/launch-leads",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.127Z",
+      "createdAt": "2025-08-06T19:56:06.127Z",
+      "role": "workflow:owner",
+      "workflowId": "9mognAEDcjxUlkhW",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-17T16:56:49.579Z",
+  "versionId": "877f4564-5d43-45f5-855a-08c658a7a154"
+}

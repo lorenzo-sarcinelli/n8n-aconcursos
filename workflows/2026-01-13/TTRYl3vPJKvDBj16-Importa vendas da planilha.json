@@ -1,0 +1,233 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "GetSales",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetSales": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item": {
+      "main": [
+        [
+          {
+            "node": "CreateUser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreatePurchase": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateUser": {
+      "main": [
+        [
+          {
+            "node": "CreatePurchase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-17T00:13:28.239Z",
+  "id": "TTRYl3vPJKvDBj16",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Importa vendas da planilha",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        80
+      ],
+      "id": "f5298395-cd21-48af-9ce4-152e6e010831",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1SGBr5fYJrET9y4HWzLRtbk_Wx8cfVwIQslma1ZpA9FQ/edit?gid=1446317917#gid=1446317917",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1446317917,
+          "mode": "list",
+          "cachedResultName": "Vendas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1SGBr5fYJrET9y4HWzLRtbk_Wx8cfVwIQslma1ZpA9FQ/edit#gid=1446317917"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        80
+      ],
+      "id": "cd6065e5-a66d-4d60-a6aa-815d452e990a",
+      "name": "GetSales",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "function toNumber(val) {\n  if (val === null || val === undefined || val === \"\") return null;\n  const n = Number(String(val).replace(\",\", \".\"));\n  return isNaN(n) ? null : n;\n}\n\nfunction toStringOrNull(val) {\n  if (!val || val === \"\" || val === \" \") return null;\n  return String(val).trim();\n}\n\nfunction cleanPhone(p) {\n  if (!p) return null;\n  return p.replace(/\\D+/g, \"\");\n}\n\nfunction convertDate(str) {\n  if (!str || str.trim() === \"\") return null;\n  try {\n    const [date, time] = str.split(\" \");\n    const [d, m, y] = date.split(\"/\");\n    return `${y}-${m}-${d} ${time}`;\n  } catch (e) {\n    return null;\n  }\n}\n\nconst items = $input.all();\nconst output = [];\n\nfor (const item of items) {\n  const data = item.json;\n\n  // NORMALIZANDO CAMPOS DO USER\n  const name = toStringOrNull(data[\"nome contato\"]);\n  const email = toStringOrNull(data[\"email contato\"]);\n  const phone = cleanPhone(data[\"telefone contato\"]);\n  const document = toStringOrNull(data[\"doc contato\"]);\n  const ext_id = toStringOrNull(data[\"id transação\"]);\n\n  // NORMALIZANDO CAMPOS DA PURCHASE\n  const product_id = toNumber(data[\"id produto\"]);\n  const offer_name = toStringOrNull(data[\"nome oferta\"]);\n\n  const payment_method = toStringOrNull(data[\"pagamento\"]);\n  const payment_price = toNumber(data[\"valor venda\"]);\n  const installments = toNumber(data[\"parcelas\"]);\n\n  const approved_date = convertDate(data[\"data aprovacao\"]);\n  const warranty_date = convertDate(data[\"data garantia\"]);\n  const order_date = convertDate(data[\"data pedido\"]);\n\n  const commision_value = toNumber(data[\"valor líquido\"]);\n  const commission_plataform = toNumber(data[\"valor afiliado\"]);\n  const commission_affiliate = toNumber(data[\"valor marketplace\"]);\n  const platform = toStringOrNull(data[\"nome marketplace\"]);\n  const currency = toStringOrNull(data[\"moeda\"]);\n\n  const utm_source = toStringOrNull(data[\"utm_source\"]);\n  const utm_medium = toStringOrNull(data[\"utm_medium\"]);\n  const utm_campaign = toStringOrNull(data[\"utm_campaign\"]);\n  const utm_term = toStringOrNull(data[\"utm_term\"]);\n  const utm_content = toStringOrNull(data[\"utm_content\"]);\n\n  const status = toStringOrNull(data[\"status\"]);\n  const installments_value = toNumber(data[\"valor parcelas\"]);\n\n  // -------------------------------------------------------\n  // 1) QUERY PARA INSERIR USER (INSERT IGNORE)\n  // -------------------------------------------------------\n  const userQuery = `\nINSERT IGNORE INTO users (\n    name,\n    ext_id,\n    email,\n    phone,\n    document,\n    contact_id_active,\n    contact_id_active_verified,\n    update_time\n) VALUES (\n    ${name ? `\"${name}\"` : \"NULL\"},\n    ${ext_id ? `\"${ext_id}\"` : \"NULL\"},\n    ${email ? `\"${email}\"` : \"NULL\"},\n    ${phone ? `\"${phone}\"` : \"NULL\"},\n    ${document ? `\"${document}\"` : \"NULL\"},\n    NULL,\n    \"N\",\n    NOW()\n);\n`.trim();\n\n  // -------------------------------------------------------\n  // 2) QUERY PARA INSERIR OU ATUALIZAR PURCHASE\n  // -------------------------------------------------------\n  const purchaseQuery = `\nINSERT INTO purchases_new_sheet (\n    ext_id,\n    product_id,\n    offer_id,\n    user_id,\n    payment_method,\n    payment_price,\n    installments,\n    approved_date,\n    warranty_expire_date,\n    order_date,\n    commision_value,\n    platform,\n    commission_plataform,\n    commission_affiliate,\n    currency,\n    utm_source,\n    utm_medium,\n    utm_campaign,\n    utm_term,\n    utm_content,\n    status,\n    installments_value,\n    purchase_type,\n    is_guru_imported\n) VALUES (\n    ${ext_id ? `\"${ext_id}\"` : \"NULL\"},\n    ${product_id ?? \"NULL\"},\n\n    (SELECT id_offer FROM offers\n        WHERE offer_name = ${offer_name ? `\"${offer_name}\"` : \"NULL\"}\n        LIMIT 1\n    ),\n\n    (SELECT id_user FROM users\n        WHERE \n            (${email ? `email = \"${email}\"` : \"0\"})\n            OR\n            (${phone ? `phone = \"${phone}\"` : \"0\"})\n        LIMIT 1\n    ),\n\n    ${payment_method ? `\"${payment_method}\"` : \"NULL\"},\n    ${payment_price ?? \"NULL\"},\n    ${installments ?? \"NULL\"},\n    ${approved_date ? `\"${approved_date}\"` : \"NULL\"},\n    ${warranty_date ? `\"${warranty_date}\"` : \"NULL\"},\n    ${order_date ? `\"${order_date}\"` : \"NULL\"},\n    ${commision_value ?? \"NULL\"},\n    ${platform ? `\"${platform}\"` : \"NULL\"},\n    ${commission_plataform ?? \"NULL\"},\n    ${commission_affiliate ?? \"NULL\"},\n    ${currency ? `\"${currency}\"` : \"NULL\"},\n\n    ${utm_source ? `\"${utm_source}\"` : \"NULL\"},\n    ${utm_medium ? `\"${utm_medium}\"` : \"NULL\"},\n    ${utm_campaign ? `\"${utm_campaign}\"` : \"NULL\"},\n    ${utm_term ? `\"${utm_term}\"` : \"NULL\"},\n    ${utm_content ? `\"${utm_content}\"` : \"NULL\"},\n\n    ${status ? `\"${status}\"` : \"NULL\"},\n    ${installments_value ?? \"NULL\"},\n    \"venda\",\n    \"Y\"\n)\nON DUPLICATE KEY UPDATE\n    product_id = VALUES(product_id),\n    offer_id = VALUES(offer_id),\n    user_id = VALUES(user_id),\n    payment_method = VALUES(payment_method),\n    payment_price = VALUES(payment_price),\n    installments = VALUES(installments),\n    approved_date = VALUES(approved_date),\n    warranty_expire_date = VALUES(warranty_expire_date),\n    order_date = VALUES(order_date),\n    commision_value = VALUES(commision_value),\n    platform = VALUES(platform),\n    commission_plataform = VALUES(commission_plataform),\n    commission_affiliate = VALUES(commission_affiliate),\n    currency = VALUES(currency),\n    utm_source = VALUES(utm_source),\n    utm_medium = VALUES(utm_medium),\n    utm_campaign = VALUES(utm_campaign),\n    utm_term = VALUES(utm_term),\n    utm_content = VALUES(utm_content),\n    status = VALUES(status),\n    installments_value = VALUES(installments_value),\n    purchase_type = VALUES(purchase_type),\n    is_guru_imported = VALUES(is_guru_imported);\n`.trim();\n\n  output.push({\n    json: {\n      user: userQuery,\n      purchase: purchaseQuery\n    }\n  });\n}\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        80
+      ],
+      "id": "6542b9d9-53d4-450f-b0a7-83005345879a",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        672,
+        80
+      ],
+      "id": "af6a567e-8a2b-4fdc-861e-ff80c64f6577",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Item",
+      "typeVersion": 1,
+      "position": [
+        896,
+        0
+      ],
+      "id": "1f1bc0da-121d-4a49-bdb0-10c9511401fd"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ $node['Item'].json.purchase }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1344,
+        80
+      ],
+      "id": "85376678-dd5f-43e7-a4ae-0b70ee80b2d5",
+      "name": "CreatePurchase",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ $node['Item'].json.user }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1120,
+        0
+      ],
+      "id": "15ab3422-fddf-4e0b-a90d-9da797c4189a",
+      "name": "CreateUser",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-17T00:13:28.239Z",
+      "createdAt": "2025-11-17T00:13:28.239Z",
+      "role": "workflow:owner",
+      "workflowId": "TTRYl3vPJKvDBj16",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-17T14:56:09.409Z",
+  "versionId": "312ca5b0-5ece-47f4-adea-58821d134ad9"
+}

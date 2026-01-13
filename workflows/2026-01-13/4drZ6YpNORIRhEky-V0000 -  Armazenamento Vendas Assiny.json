@@ -1,0 +1,568 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-17T13:53:11.582Z",
+    "createdAt": "2025-12-17T13:53:11.582Z",
+    "versionId": "6616b906-2201-4ff3-ab22-a9b0c1bd32c5",
+    "workflowId": "4drZ6YpNORIRhEky",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "sales-queue",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "5b44f912-16c3-454f-a216-46a469c0865f",
+        "name": "Webhook",
+        "webhookId": "d1532d36-98c6-43a2-96fc-e3ca687ca5cb",
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "64442097-7bd5-47bb-8f75-b79b2ca92d42",
+                "name": "order_bumps",
+                "value": "={{ $json.offer.order_bumps }}",
+                "type": "array"
+              },
+              {
+                "id": "2a4b3d7c-c5ea-4bcc-abba-63fa26d06dd5",
+                "name": "",
+                "value": "",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          224,
+          -208
+        ],
+        "id": "9f65943c-c259-4755-a70e-412cec15f98e",
+        "name": "Edit Fields",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "jsCode": "return $input.all()[0].json.body;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          16,
+          -208
+        ],
+        "id": "cba3f136-c1ad-4002-8c9c-69acd538c155",
+        "name": "Code"
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "data.offer.order_bumps",
+          "include": "allOtherFields",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          432,
+          -208
+        ],
+        "id": "9a0e239e-d43c-4a12-bc98-53b9945fc8bd",
+        "name": "Split Out"
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "jsons",
+                "value": "={{JSON.stringify($json.body)}}"
+              },
+              {
+                "name": "foi",
+                "value": "false"
+              },
+              {
+                "name": "tipo",
+                "value": "venda"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "9fdbacc8-cf3a-4ac6-871b-1d67cc277906",
+        "name": "Set1",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 1,
+        "position": [
+          224,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "Acon_Vendas",
+            "mode": "list",
+            "cachedResultName": "Acon_Vendas"
+          },
+          "options": {}
+        },
+        "id": "c9084f61-e1b7-4b07-9c5b-7e25fc3c01f0",
+        "name": "Insert rows in a table",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          448,
+          0
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "6cR89c3DkwiktSiW",
+            "name": "MySQL Vendas"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Set1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "Split Out",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set1": {
+        "main": [
+          [
+            {
+              "node": "Insert rows in a table",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "6616b906-2201-4ff3-ab22-a9b0c1bd32c5",
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T14:36:58.569Z",
+  "id": "4drZ6YpNORIRhEky",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "V0000 -  Armazenamento Vendas Assiny",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "sales-queue",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "5b44f912-16c3-454f-a216-46a469c0865f",
+      "name": "Webhook",
+      "webhookId": "d1532d36-98c6-43a2-96fc-e3ca687ca5cb",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "64442097-7bd5-47bb-8f75-b79b2ca92d42",
+              "name": "order_bumps",
+              "value": "={{ $json.offer.order_bumps }}",
+              "type": "array"
+            },
+            {
+              "id": "2a4b3d7c-c5ea-4bcc-abba-63fa26d06dd5",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        -208
+      ],
+      "id": "9f65943c-c259-4755-a70e-412cec15f98e",
+      "name": "Edit Fields",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all()[0].json.body;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        16,
+        -208
+      ],
+      "id": "cba3f136-c1ad-4002-8c9c-69acd538c155",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.offer.order_bumps",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        432,
+        -208
+      ],
+      "id": "9a0e239e-d43c-4a12-bc98-53b9945fc8bd",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "jsons",
+              "value": "={{JSON.stringify($json.body)}}"
+            },
+            {
+              "name": "foi",
+              "value": "false"
+            },
+            {
+              "name": "tipo",
+              "value": "venda"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9fdbacc8-cf3a-4ac6-871b-1d67cc277906",
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "Acon_Vendas",
+          "mode": "list",
+          "cachedResultName": "Acon_Vendas"
+        },
+        "options": {}
+      },
+      "id": "c9084f61-e1b7-4b07-9c5b-7e25fc3c01f0",
+      "name": "Insert rows in a table",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        0
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.aconcursos.com.br",
+            "user-agent": "go-resty/2.10.0 (https://github.com/go-resty/resty)",
+            "content-length": "2758",
+            "accept-encoding": "gzip",
+            "content-type": "application/json",
+            "x-forwarded-for": "34.67.146.135",
+            "x-forwarded-host": "webhook.aconcursos.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "660043f7f463",
+            "x-real-ip": "34.67.146.135"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "completed_purchase",
+            "data": {
+              "offer": {
+                "id": "35dcca66-b69d-40a9-4eb0-9ef2b387d448",
+                "name": "Oferta do Joao",
+                "type": "ENTRY",
+                "recurrence": null,
+                "amount": 500,
+                "amount_client": 500,
+                "amount_assiny": 500,
+                "amount_with_tax": 0,
+                "product": {
+                  "id": "75dcca66-b69d-40a9-4eb0-9ef2b387d44234",
+                  "name": "Produto do Joao",
+                  "producer_name": "Joao Pedro"
+                },
+                "order_bumps": [
+                  {
+                    "id": "61dcca66-b69d-40a9-4eb0-9ef2b387d44234",
+                    "name": "Order Bump do Joao",
+                    "product_price": 500,
+                    "type": "TRANSACTION",
+                    "checkout_type": "ORDERBUMP",
+                    "recurrence": "Mensal",
+                    "installments": 10,
+                    "product": {
+                      "id": "75dcca66-b69d-40a9-4eb0-9ef2b387d44234",
+                      "name": "Produto do Joao",
+                      "producer_name": "Joao Pedro"
+                    },
+                    "amount_client": 500,
+                    "amount_assiny": 500,
+                    "amount_with_tax": 500,
+                    "payment_type": "TRANSACTION"
+                  },
+                  {
+                    "id": "61dcca66-b69d-40a9-4eb0-9ef2b387d44234",
+                    "name": "Order Bump do Joao2",
+                    "product_price": 500,
+                    "type": "TRANSACTION",
+                    "checkout_type": "ORDERBUMP",
+                    "recurrence": "Mensal",
+                    "installments": 10,
+                    "product": {
+                      "id": "75dcca66-b69d-40a9-4eb0-9ef2b387d44234",
+                      "name": "Produto do Joao",
+                      "producer_name": "Joao Pedro"
+                    },
+                    "amount_client": 400,
+                    "amount_assiny": 400,
+                    "amount_with_tax": 400,
+                    "payment_type": "TRANSACTION"
+                  }
+                ]
+              },
+              "transaction": {
+                "id": "35dcca66-b69d-40a9-4eb0-9ef2b387d448",
+                "project": {
+                  "name": "Projeto do Joao",
+                  "id": "35dcca66-b69d-40a9-4eb0-9ef2b387d448",
+                  "organization": {
+                    "name": "Organizacão do Joao",
+                    "id": "35dcca66-b69d-40a9-4eb0-9ef2b387d448"
+                  }
+                },
+                "amount": 2500,
+                "fee_amount": 1200,
+                "net_amount": 3100,
+                "installments": 12,
+                "currency": "BRL",
+                "cycle": 1,
+                "created_at": "2025-08-06T14:41:44.504911664Z",
+                "updated_at": {
+                  "Time": "2025-08-06T14:41:44.504912958Z",
+                  "Valid": true
+                },
+                "status": "paid",
+                "payment_type": "PIX",
+                "additional_data": {
+                  "PIX": {
+                    "qr_code": "00020101021226822014br.gov.bcb.pix2560pix.stone.com.br/pix/v2/6c556e89-fe33-40b1-acb7-c7a41df2b1b4520400005303986540522.005802BR5914Conta primaria6014RIO DE JANEIRO62290525pacltyt7o93h8ux1fmtb0w3116304500D"
+                  }
+                },
+                "smart_installment": {
+                  "smart_installment_id": "7d5c610a-0dbe-49ae-8b13-04956524fa2e",
+                  "total_installments": 3,
+                  "next_charge": "2025-08-06T14:41:44.504918674Z",
+                  "current_installment": 1
+                },
+                "commissions": [
+                  {
+                    "user": "Rodrigo Gomes",
+                    "amount": 9601
+                  },
+                  {
+                    "user": "Guilherme Soeiro",
+                    "amount": 19202
+                  }
+                ]
+              },
+              "client": {
+                "id": "35dcca66-b69d-40a9-4eb0-9ef2b387d448",
+                "full_name": "Joao Pedro Campos",
+                "first_name": "Joao",
+                "last_name": "Campos",
+                "email": "joaopedro@gmail.com",
+                "phone": "+553195647246",
+                "document": "49094005085",
+                "address": {
+                  "street": "Rua do Joao Pedro",
+                  "number": "250",
+                  "complement": "Casa",
+                  "neighborhood": "bairro do joao",
+                  "city": "Sao Paulo",
+                  "state": "Sao Paulo",
+                  "country": "Brasil",
+                  "zipcode": "68906-535"
+                }
+              },
+              "metadata": {
+                "utm_campaign": "direct",
+                "utm_content": "direct",
+                "utm_medium": "direct",
+                "utm_source": "direct",
+                "utm_term": "direct",
+                "ip": "194.181.1.1",
+                "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                "url_parameters": {
+                  "fbclid": "",
+                  "fbp": "",
+                  "nodeId": "RrDjTg",
+                  "referrer": "direct",
+                  "utm_campaign": "direct",
+                  "utm_content": "direct",
+                  "utm_medium": "direct",
+                  "utm_source": "direct",
+                  "utm_term": "direct"
+                },
+                "funnel_id": "31b051b2-9640-462b-abfd-eedb3319ca1d",
+                "short_funnel_id": "ReDgTg",
+                "node_id": "ReFeTl",
+                "event_source_url": "https://pay.assiny.com.br/RJvfNh?nodeId=ReDgTg"
+              }
+            }
+          },
+          "webhookUrl": "https://webhook.aconcursos.com.br/webhook/sales-queue",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T14:36:58.569Z",
+      "createdAt": "2025-08-06T14:36:58.569Z",
+      "role": "workflow:owner",
+      "workflowId": "4drZ6YpNORIRhEky",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-17T13:53:11.590Z",
+  "versionId": "6616b906-2201-4ff3-ab22-a9b0c1bd32c5"
+}

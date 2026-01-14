@@ -1,0 +1,519 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "SearchLaunchLeads": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item": {
+      "main": [
+        [
+          {
+            "node": "SearchOnMeta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchOnMeta": {
+      "main": [
+        [
+          {
+            "node": "SearchOnGoogle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchOnGoogle": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Google->",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Meta->",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google->": {
+      "main": [
+        [
+          {
+            "node": "SetGoogle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meta->": {
+      "main": [
+        [
+          {
+            "node": "SetMeta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SetGoogle": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SetMeta": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "SearchLaunchLeads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-11T11:08:24.884Z",
+  "id": "oOyvSx7AY92VGMyQ",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Correção de UTM | Busca vazia e substitui por report/campaign",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM launch_leads WHERE (utm_source = 'Facebook-Ads' OR utm_source = 'GoogleAds') AND ((utm_campaign IS NULL OR utm_campaign = '') OR (utm_medium IS NULL OR utm_medium = '')) AND (ad_id IS NOT NULL AND ad_id <> '')",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        224,
+        176
+      ],
+      "id": "5ff7a082-78ef-47b5-b58d-0e6d5dffea9b",
+      "name": "SearchLaunchLeads",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Item",
+      "typeVersion": 1,
+      "position": [
+        672,
+        96
+      ],
+      "id": "61054505-bb72-4079-a8fe-26e579c89ccc"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        448,
+        168
+      ],
+      "id": "63b0c380-143c-409b-878a-8bc99fe2190f",
+      "name": "Loop"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "campaigns_bms",
+          "mode": "list",
+          "cachedResultName": "campaigns_bms"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "ad_id",
+              "value": "={{ $node['Item'].json.ad_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        896,
+        96
+      ],
+      "id": "9c8aee95-c63f-40f6-8738-61a6fbaddb03",
+      "name": "SearchOnMeta",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "reports_google",
+          "mode": "list",
+          "cachedResultName": "reports_google"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "ad_id",
+              "value": "={{ $node['Item'].json.ad_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1120,
+        96
+      ],
+      "id": "618699a2-1231-457b-bb32-b215ff604863",
+      "name": "SearchOnGoogle",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $node['SearchOnGoogle'].json.id_data !== undefined && $node['SearchOnGoogle'].json.id_data !== null }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "f415de65-4637-4277-9ff9-0c394393656a"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "GOOGLE"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2ce25cbc-be75-42ad-9597-33069ef01a78",
+                    "leftValue": "={{ $node['SearchOnMeta'].json.id_data !== undefined && $node['SearchOnMeta'].json.id_data !== null }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "META"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1344,
+        96
+      ],
+      "id": "2cf22313-15ae-4af9-9b28-e835689f53bc",
+      "name": "Switch"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1568,
+        0
+      ],
+      "id": "f6200276-f3d1-4b1e-9556-768e29137ed0",
+      "name": "Google->"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_launch",
+        "valueToMatchOn": "={{ $('Item').item.json.id_launch }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "utm_source",
+              "value": "GoogleAds"
+            },
+            {
+              "column": "utm_medium",
+              "value": "={{ $('SearchOnGoogle').item.json.ad_group_name }}"
+            },
+            {
+              "column": "utm_campaign",
+              "value": "={{ $('SearchOnGoogle').item.json.campaign }}"
+            },
+            {
+              "column": "utm_content",
+              "value": "={{ $('SearchOnGoogle').item.json.ad_name }}"
+            },
+            {
+              "column": "utm_term",
+              "value": "youtube"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1792,
+        0
+      ],
+      "id": "36abac42-08e2-4a8e-ae4d-970f122814b5",
+      "name": "SetGoogle",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1568,
+        192
+      ],
+      "id": "255b812b-2cce-46b2-90ff-b86f244f2399",
+      "name": "Meta->"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_launch",
+        "valueToMatchOn": "={{ $('Item').item.json.id_launch }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "utm_source",
+              "value": "Facebook-Ads"
+            },
+            {
+              "column": "utm_medium",
+              "value": "={{ $('SearchOnMeta').item.json.Conjunto }}"
+            },
+            {
+              "column": "utm_campaign",
+              "value": "={{ $('SearchOnMeta').item.json.Campanha }}"
+            },
+            {
+              "column": "utm_content",
+              "value": "={{ $('SearchOnMeta').item.json.ad }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1792,
+        192
+      ],
+      "id": "0e139ccf-87f5-4677-84a7-f19c13b0f225",
+      "name": "SetMeta",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2016,
+        192
+      ],
+      "id": "8b072ea4-13a6-4733-856d-7023780235e8",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 */2 * * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        176
+      ],
+      "id": "063c8dfa-0be0-448a-a386-2570a93011bf",
+      "name": "Schedule Trigger"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-11T11:08:24.884Z",
+      "createdAt": "2025-09-11T11:08:24.884Z",
+      "role": "workflow:owner",
+      "workflowId": "oOyvSx7AY92VGMyQ",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-10T13:07:24.936Z",
+  "versionId": "7f7eebe3-70b9-46eb-9d84-c32b58fac080"
+}

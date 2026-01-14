@@ -1,0 +1,328 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T19:22:18.976Z",
+    "createdAt": "2025-11-26T19:22:18.976Z",
+    "versionId": "d2880168-de5a-4f47-a43f-c91b4e87916c",
+    "workflowId": "zvNBLn9jBft7THqU",
+    "nodes": [
+      {
+        "parameters": {
+          "jsCode": "let body = $node['Webhook'].json['body'];\nlet jsonBody = JSON.stringify(body);\nlet buffer = new Buffer(jsonBody).toString('base64');\n\nreturn {buffer}\n\n"
+        },
+        "id": "5e4061a1-c2b8-4574-9a0c-aec3695b498c",
+        "name": "Buffer",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1420,
+          540
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "34900341-ff8a-4b7e-ad24-e20ee0e1a220",
+                "leftValue": "={{ $node['Buffer'].json[\"buffer\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "7a98fbc6-1b58-440a-bbb5-099fb61f503f",
+        "name": "Filter",
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2,
+        "position": [
+          1640,
+          540
+        ]
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "perpetual-leads",
+          "options": {}
+        },
+        "id": "576895fb-ac3a-4ff2-9ab0-a34ac169458f",
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          1200,
+          540
+        ],
+        "webhookId": "f5876d37-4e87-46c4-9bb5-06119a0c1164"
+      },
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "perpetual_queue",
+            "mode": "list",
+            "cachedResultName": "perpetual_queue"
+          },
+          "dataMode": "defineBelow",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "request_body",
+                "value": "={{ $node[\"Buffer\"].json['buffer'] ?? null }}"
+              },
+              {
+                "column": "insert_time",
+                "value": "={{$now }}"
+              },
+              {
+                "column": "action_type",
+                "value": "subscription"
+              },
+              {
+                "column": "action_source",
+                "value": "ActiveCampaign"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "18b7be99-2198-4625-8148-9feefc02fc33",
+        "name": "InsertQueue",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          1860,
+          540
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "QpNGYbj9wAM31I5T",
+            "name": "MySQL infoproduct"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Buffer": {
+        "main": [
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "InsertQueue",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Buffer",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "d2880168-de5a-4f47-a43f-c91b4e87916c",
+  "connections": {
+    "Buffer": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "InsertQueue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.085Z",
+  "id": "zvNBLn9jBft7THqU",
+  "isArchived": false,
+  "meta": null,
+  "name": "A0001 - Armazenamento Json Leads Perpetual",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "let body = $node['Webhook'].json['body'];\nlet jsonBody = JSON.stringify(body);\nlet buffer = new Buffer(jsonBody).toString('base64');\n\nreturn {buffer}\n\n"
+      },
+      "id": "5e4061a1-c2b8-4574-9a0c-aec3695b498c",
+      "name": "Buffer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1420,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "34900341-ff8a-4b7e-ad24-e20ee0e1a220",
+              "leftValue": "={{ $node['Buffer'].json[\"buffer\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "7a98fbc6-1b58-440a-bbb5-099fb61f503f",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        1640,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "perpetual-leads",
+        "options": {}
+      },
+      "id": "576895fb-ac3a-4ff2-9ab0-a34ac169458f",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        540
+      ],
+      "webhookId": "f5876d37-4e87-46c4-9bb5-06119a0c1164"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "perpetual_queue",
+          "mode": "list",
+          "cachedResultName": "perpetual_queue"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "request_body",
+              "value": "={{ $node[\"Buffer\"].json['buffer'] ?? null }}"
+            },
+            {
+              "column": "insert_time",
+              "value": "={{$now }}"
+            },
+            {
+              "column": "action_type",
+              "value": "subscription"
+            },
+            {
+              "column": "action_source",
+              "value": "ActiveCampaign"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "18b7be99-2198-4625-8148-9feefc02fc33",
+      "name": "InsertQueue",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1860,
+        540
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "QpNGYbj9wAM31I5T",
+          "name": "MySQL infoproduct"
+        }
+      }
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.085Z",
+      "createdAt": "2025-08-06T19:56:06.085Z",
+      "role": "workflow:owner",
+      "workflowId": "zvNBLn9jBft7THqU",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-14T11:49:05.808Z",
+  "versionId": "d2880168-de5a-4f47-a43f-c91b4e87916c"
+}

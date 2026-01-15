@@ -1,0 +1,927 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "IF1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split In Batches": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "MySQL4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL1": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL2": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF2": {
+      "main": [
+        [
+          {
+            "node": "MySQL1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "MySQL2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF1": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "IF2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL4": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.211Z",
+  "id": "SlZVLHC4RDo591Y2",
+  "isArchived": false,
+  "meta": null,
+  "name": "A0003 - Pesquisa Launch",
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1a_cYAo_HlcGlokNE4x5QTpswQzJcBkV_c6-kvJzXZPs/edit?gid=97939572#gid=97939572",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 97939572,
+          "mode": "list",
+          "cachedResultName": "Respostas ao formulário 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1a_cYAo_HlcGlokNE4x5QTpswQzJcBkV_c6-kvJzXZPs/edit#gid=97939572"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "foi"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3bf199ad-3144-4e32-896b-5e0f56cade5f",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        0,
+        640
+      ],
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "C4g4MSS3cOVbWTVv",
+          "name": "Google Sheets xorugas@alinesenatore.com.br"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "20f3e57c-32ee-4efc-9144-c98cbbfbe6ed",
+      "name": "Split In Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        448,
+        624
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "email",
+              "value": "={{ $json['Digite abaixo, o e-mail cadastrado para participar do Curso Incorporação Imobiliária a Custo Zero em 2025:'] }}"
+            },
+            {
+              "column": "launch_key",
+              "value": "PICO0225"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "15d47ce9-81be-466a-ae76-627b3ca1e257",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        608
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "survey_answers",
+          "mode": "list",
+          "cachedResultName": "survey_answers"
+        },
+        "options": {}
+      },
+      "id": "21383f52-ba4e-4489-a7c2-4bee8d349f5e",
+      "name": "MySQL1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1760,
+        592
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "survey_answers",
+          "mode": "list",
+          "cachedResultName": "survey_answers"
+        },
+        "columnToMatchOn": "answers_1",
+        "options": {}
+      },
+      "id": "d49c50f7-ee53-421a-94e1-0a74bb446d9f",
+      "name": "MySQL2",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1760,
+        784
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1a_cYAo_HlcGlokNE4x5QTpswQzJcBkV_c6-kvJzXZPs/edit?gid=97939572#gid=97939572",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 97939572,
+          "mode": "list",
+          "cachedResultName": "Respostas ao formulário 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1a_cYAo_HlcGlokNE4x5QTpswQzJcBkV_c6-kvJzXZPs/edit#gid=97939572"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "Digite abaixo, o e-mail cadastrado para participar do Curso Incorporação Imobiliária a Custo Zero em 2025:"
+          ],
+          "schema": [
+            {
+              "id": "Carimbo de data/hora",
+              "displayName": "Carimbo de data/hora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Digite abaixo, o e-mail cadastrado para participar do Curso Incorporação Imobiliária a Custo Zero em 2025:",
+              "displayName": "Digite abaixo, o e-mail cadastrado para participar do Curso Incorporação Imobiliária a Custo Zero em 2025:",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Qual é o seu sexo?",
+              "displayName": "Qual é o seu sexo?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Qual sua faixa etária?",
+              "displayName": "Qual sua faixa etária?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Qual é o seu nível de renda/salário hoje na sua atuação?",
+              "displayName": "Qual é o seu nível de renda/salário hoje na sua atuação?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Você já me conhecia antes de se inscrever para participar do CURSO GRATUITO: Incorporação Imobiliária a CUSTO ZERO?",
+              "displayName": "Você já me conhecia antes de se inscrever para participar do CURSO GRATUITO: Incorporação Imobiliária a CUSTO ZERO?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Há quanto tempo você me conhece?",
+              "displayName": "Há quanto tempo você me conhece?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Por onde você se cadastrou para o Curso Incorporação Imobiliária a Custo Zero?",
+              "displayName": "Por onde você se cadastrou para o Curso Incorporação Imobiliária a Custo Zero?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Qual das opções abaixo mais te representa atualmente?",
+              "displayName": "Qual das opções abaixo mais te representa atualmente?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Por que você quer aprender mais sobre Incorporação Imobiliária a custo zero?",
+              "displayName": "Por que você quer aprender mais sobre Incorporação Imobiliária a custo zero?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Quanto de experiência você tem na área?",
+              "displayName": "Quanto de experiência você tem na área?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Qual é o maior desafio, hoje, na sua profissão?",
+              "displayName": "Qual é o maior desafio, hoje, na sua profissão?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Quais são os seus maiores medos?",
+              "displayName": "Quais são os seus maiores medos?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Qual o seu maior sonho?",
+              "displayName": "Qual o seu maior sonho?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "O que lhe impede de realizar esse sonho?",
+              "displayName": "O que lhe impede de realizar esse sonho?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Se você tivesse a oportunidade de ter 1 hora de consultoria comigo, quais são as 3 perguntas que você me faria?",
+              "displayName": "Se você tivesse a oportunidade de ter 1 hora de consultoria comigo, quais são as 3 perguntas que você me faria?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Existe algum tema específico que você gostaria que fosse tratado nas aulas do Curso Incorporação Imobiliária a Custo Zero? Aproveite esse espaço para colocar as suas melhores sugestões.*\nSua resposta\n",
+              "displayName": "Existe algum tema específico que você gostaria que fosse tratado nas aulas do Curso Incorporação Imobiliária a Custo Zero? Aproveite esse espaço para colocar as suas melhores sugestões.*\nSua resposta\n",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "O Curso gratuito Incorporação Imobiliária a Custo Zero, antecede a abertura de vagas para o CIE - Curso Incorporação de Edifícios. Você teria interesse em se aprofundar nesse assunto, e se tornar meu aluno para ter o meu acompanhamento pessoal, caso goste do que vou lhe apresentar durante as aulas?",
+              "displayName": "O Curso gratuito Incorporação Imobiliária a Custo Zero, antecede a abertura de vagas para o CIE - Curso Incorporação de Edifícios. Você teria interesse em se aprofundar nesse assunto, e se tornar meu aluno para ter o meu acompanhamento pessoal, caso goste do que vou lhe apresentar durante as aulas?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Qual é o seu nível de comprometimento em participar do Curso Gratuito Incorporação Imobiliária a Custo Zero",
+              "displayName": "Qual é o seu nível de comprometimento em participar do Curso Gratuito Incorporação Imobiliária a Custo Zero",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "foi",
+              "displayName": "foi",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {
+          "locationDefine": {
+            "values": {
+              "firstDataRow": "={{ $node[\"Google Sheets\"].json[\"row_number\"] }}"
+            }
+          }
+        }
+      },
+      "id": "8e0587ff-3d45-4986-8529-d70d4ea99325",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        880,
+        800
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "C4g4MSS3cOVbWTVv",
+          "name": "Google Sheets xorugas@alinesenatore.com.br"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://webhook.incorporacaoimobiliaria.eng.br/webhook/07f45914-e830-4914-838d-dae725f48197",
+        "options": {}
+      },
+      "id": "93d71e68-73d5-47a3-a836-df5146e5a6a3",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1760,
+        992
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "minutes"
+      },
+      "id": "7ba8c2bd-2c98-4d98-8a8a-48b622b5f973",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        448,
+        992
+      ],
+      "webhookId": "5ce52d93-7841-4615-9e7e-680b216e0f95"
+    },
+    {
+      "parameters": {},
+      "id": "58fc910e-fe8d-4068-8867-d7c7c3f5a793",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "limit"
+      },
+      "id": "f5f9519b-996a-4dfe-9d3d-81f6c158e8f5",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        1328,
+        992
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 10,
+        "unit": "seconds"
+      },
+      "id": "d4638791-01b4-472d-b0ed-54d3593a77f2",
+      "name": "Wait1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        1552,
+        992
+      ],
+      "webhookId": "90562986-cfee-4acc-abae-7eba01ceb013"
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "Digite abaixo, o e-mail cadastrado para participar do Curso Incorporação Imobiliária a Custo Zero em 2025:",
+              "value": "={{ $node['Google Sheets'].json[\"Digite abaixo, o e-mail cadastrado para participar do Curso Incorporação Imobiliária a Custo Zero em 2025:\"] }}"
+            },
+            {
+              "name": "foi",
+              "value": "Sim"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0838d80a-34c7-481d-911b-8a6c6a51001b",
+      "name": "Set2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        672,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"MySQL4\"].json }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "f1ab97dd-856d-4996-9cf5-fc8df5c9069d",
+      "name": "IF2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1552,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "9bdfa037-03fc-41fa-aeab-7bec53526579",
+      "name": "IF1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        224,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "user_id",
+              "value": "={{ $node['MySQL'].json.user_id ?? 0}}"
+            },
+            {
+              "name": "lauch_key",
+              "value": "PICO0225"
+            },
+            {
+              "name": "form_id",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ff93cfa3-3d86-4185-b871-92d8e0f1cdd4",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1328,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let json = {}\nlet i = 1\n\nfor(key in $node[\"Split In Batches\"].json){\n  if(![\"row_number\" ,\"Timestamp\",\"foi\"].includes(key)){\n    json['answers_'+ i] = $node[\"Split In Batches\"].json[key]\n    i++\n  }\n}\n\nreturn json"
+      },
+      "id": "19ddb5e2-3142-401b-b68e-add98b922e42",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "survey_answers",
+          "mode": "list",
+          "cachedResultName": "survey_answers"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "answers_2",
+              "value": "={{ $('Split In Batches').item.json[\"Digite abaixo, o e-mail cadastrado para participar do Curso Incorporação Imobiliária a Custo Zero em 2025:\"] }}"
+            },
+            {
+              "column": "lauch_key",
+              "value": "PICO0225"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "83a11921-9a76-4cc6-87b9-d3aba997471f",
+      "name": "MySQL4",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        880,
+        608
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://webhook.incorporacaoimobiliaria.eng.br/webhook/96d8aac3-2367-4668-aa56-009b3c536785",
+        "options": {}
+      },
+      "id": "6c043fae-5183-41e6-9b80-7971f4c9cf94",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1760,
+        1168
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "96d8aac3-2367-4668-aa56-009b3c536785",
+        "options": {}
+      },
+      "id": "97c62261-d689-437a-8dcd-d54ed7e7822a",
+      "name": "Webhook1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        832
+      ],
+      "webhookId": "96d8aac3-2367-4668-aa56-009b3c536785"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "07f45914-e830-4914-838d-dae725f48197",
+        "options": {}
+      },
+      "id": "b6000dab-7d36-42e4-84ed-ebd3f43d9f76",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        480
+      ],
+      "webhookId": "07f45914-e830-4914-838d-dae725f48197"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.211Z",
+      "createdAt": "2025-08-06T19:56:06.211Z",
+      "role": "workflow:owner",
+      "workflowId": "SlZVLHC4RDo591Y2",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-13T17:57:29.359Z",
+  "versionId": "70637e8a-e2b7-47c2-8948-5244f823c1d9"
+}

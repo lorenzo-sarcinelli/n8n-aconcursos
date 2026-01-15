@@ -1,0 +1,502 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T19:22:18.976Z",
+    "createdAt": "2025-11-26T19:22:18.976Z",
+    "versionId": "9ee59ccb-bd06-4f21-983f-788762f52432",
+    "workflowId": "4JSNwf7RZ8Z0HAGO",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 30
+              }
+            ]
+          }
+        },
+        "id": "bb70cb56-04e0-4ca9-9059-bd1ec0b56265",
+        "name": "Schedule Trigger",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          1040,
+          624
+        ]
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=816370849#gid=816370849",
+            "mode": "url"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1142836013,
+            "mode": "list",
+            "cachedResultName": "Checklist Ofertas",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1142836013"
+          },
+          "options": {}
+        },
+        "id": "1de9ac9b-3141-4a5d-9cf6-960dc9a01b2b",
+        "name": "Google Sheets",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.2,
+        "position": [
+          1264,
+          624
+        ],
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "SN6RzeMl3gN9prB4",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "upsert",
+          "table": {
+            "__rl": true,
+            "value": "purchases_key",
+            "mode": "list",
+            "cachedResultName": "purchases_key"
+          },
+          "columnToMatchOn": "offer_id",
+          "options": {}
+        },
+        "id": "f622bbe2-d909-4477-8039-0878219b6718",
+        "name": "MySQL",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          1920,
+          624
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "72110feb-12f4-4ce0-8044-ced1538e0df1",
+                "name": "launch_tag",
+                "value": "={{ $node['Google Sheets'].json['LaunchTag'] }}",
+                "type": "string"
+              },
+              {
+                "id": "0d3b78a4-11a6-415a-9eea-dc00a686c2eb",
+                "name": "product_type",
+                "value": "={{ $node['Google Sheets'].json['Descrição Oferta'] }}",
+                "type": "string"
+              },
+              {
+                "id": "86201891-fdd8-4787-af10-2e398aa49866",
+                "name": "product_id",
+                "value": "={{ $node['Google Sheets'].json['ID do Produto'] }}",
+                "type": "string"
+              },
+              {
+                "id": "e4868757-62e2-4bc2-ad21-a3cc25049ea9",
+                "name": "offer_id",
+                "value": "={{ $node['Google Sheets'].json['ID da Oferta'] }}",
+                "type": "string"
+              },
+              {
+                "id": "9689e570-77fa-4828-bba1-04ce51c8218f",
+                "name": "date_start",
+                "value": "={{ $node['Code'].json['Data Início das Vendas'] }}",
+                "type": "string"
+              },
+              {
+                "id": "4aafa787-ade7-494b-8739-9387fd714791",
+                "name": "date_end",
+                "value": "={{ $node['Code'].json['Data Término das Vendas'] }}",
+                "type": "string"
+              },
+              {
+                "id": "f719120c-2e23-42fe-81e8-4435721d900e",
+                "name": "category",
+                "value": "={{ $node['Code'].json['Categoria'] }}",
+                "type": "string"
+              },
+              {
+                "id": "1ee59a46-82e3-4650-8d22-613dc1038737",
+                "name": "phase",
+                "value": "={{ $node['Code'].json['Fase'] }}",
+                "type": "string"
+              },
+              {
+                "id": "c39cf653-50e1-4401-b482-6d0eb7662637",
+                "name": "campaign_tag",
+                "value": "={{ $node['Code'].json['Tag de Campanha'] }}",
+                "type": "string"
+              },
+              {
+                "id": "16b8f206-7790-4582-b6c6-2493d245bf69",
+                "name": "tracking_tag",
+                "value": "={{ $node['Code'].json['Tag de Esteira'] }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "071f97cb-7031-4de5-ba65-77ba09d74038",
+        "name": "Edit Fields",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.3,
+        "position": [
+          1712,
+          624
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "function datas(dataOriginal) {\n  var partes = dataOriginal.split('/');\n  var dia = partes[0];\n  var mes = partes[1];\n  var ano = partes[2];\n  return ano + '-' + mes + '-' + dia;\n}\n\n$input.all().forEach(el=>{  \n  el.json['Data Início das Vendas'] = datas(el.json['Data Início das Vendas'])\n  el.json['Data Término das Vendas'] = datas(el.json['Data Término das Vendas'])\n})\n\nreturn $input.all();"
+        },
+        "id": "a6d4da1d-bb7c-4894-aac9-b71bc88be578",
+        "name": "Code",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1488,
+          624
+        ]
+      },
+      {
+        "parameters": {
+          "content": "## mudar planilha\n",
+          "height": 271,
+          "width": 220
+        },
+        "id": "9da84479-a9e2-468a-ad04-817362060935",
+        "name": "Sticky Note",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          1200,
+          512
+        ]
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Google Sheets",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Sheets": {
+        "main": [
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "MySQL",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "9ee59ccb-bd06-4f21-983f-788762f52432",
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.266Z",
+  "id": "4JSNwf7RZ8Z0HAGO",
+  "isArchived": false,
+  "meta": null,
+  "name": "LC0002 | Checklist | Ofertas -> purchases_key",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 30
+            }
+          ]
+        }
+      },
+      "id": "bb70cb56-04e0-4ca9-9059-bd1ec0b56265",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        624
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=816370849#gid=816370849",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1142836013,
+          "mode": "list",
+          "cachedResultName": "Checklist Ofertas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1142836013"
+        },
+        "options": {}
+      },
+      "id": "1de9ac9b-3141-4a5d-9cf6-960dc9a01b2b",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        1264,
+        624
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "purchases_key",
+          "mode": "list",
+          "cachedResultName": "purchases_key"
+        },
+        "columnToMatchOn": "offer_id",
+        "options": {}
+      },
+      "id": "f622bbe2-d909-4477-8039-0878219b6718",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1920,
+        624
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "72110feb-12f4-4ce0-8044-ced1538e0df1",
+              "name": "launch_tag",
+              "value": "={{ $node['Google Sheets'].json['LaunchTag'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0d3b78a4-11a6-415a-9eea-dc00a686c2eb",
+              "name": "product_type",
+              "value": "={{ $node['Google Sheets'].json['Descrição Oferta'] }}",
+              "type": "string"
+            },
+            {
+              "id": "86201891-fdd8-4787-af10-2e398aa49866",
+              "name": "product_id",
+              "value": "={{ $node['Google Sheets'].json['ID do Produto'] }}",
+              "type": "string"
+            },
+            {
+              "id": "e4868757-62e2-4bc2-ad21-a3cc25049ea9",
+              "name": "offer_id",
+              "value": "={{ $node['Google Sheets'].json['ID da Oferta'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9689e570-77fa-4828-bba1-04ce51c8218f",
+              "name": "date_start",
+              "value": "={{ $node['Code'].json['Data Início das Vendas'] }}",
+              "type": "string"
+            },
+            {
+              "id": "4aafa787-ade7-494b-8739-9387fd714791",
+              "name": "date_end",
+              "value": "={{ $node['Code'].json['Data Término das Vendas'] }}",
+              "type": "string"
+            },
+            {
+              "id": "f719120c-2e23-42fe-81e8-4435721d900e",
+              "name": "category",
+              "value": "={{ $node['Code'].json['Categoria'] }}",
+              "type": "string"
+            },
+            {
+              "id": "1ee59a46-82e3-4650-8d22-613dc1038737",
+              "name": "phase",
+              "value": "={{ $node['Code'].json['Fase'] }}",
+              "type": "string"
+            },
+            {
+              "id": "c39cf653-50e1-4401-b482-6d0eb7662637",
+              "name": "campaign_tag",
+              "value": "={{ $node['Code'].json['Tag de Campanha'] }}",
+              "type": "string"
+            },
+            {
+              "id": "16b8f206-7790-4582-b6c6-2493d245bf69",
+              "name": "tracking_tag",
+              "value": "={{ $node['Code'].json['Tag de Esteira'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "071f97cb-7031-4de5-ba65-77ba09d74038",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1712,
+        624
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "function datas(dataOriginal) {\n  var partes = dataOriginal.split('/');\n  var dia = partes[0];\n  var mes = partes[1];\n  var ano = partes[2];\n  return ano + '-' + mes + '-' + dia;\n}\n\n$input.all().forEach(el=>{  \n  el.json['Data Início das Vendas'] = datas(el.json['Data Início das Vendas'])\n  el.json['Data Término das Vendas'] = datas(el.json['Data Término das Vendas'])\n})\n\nreturn $input.all();"
+      },
+      "id": "a6d4da1d-bb7c-4894-aac9-b71bc88be578",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1488,
+        624
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## mudar planilha\n",
+        "height": 271,
+        "width": 220
+      },
+      "id": "9da84479-a9e2-468a-ad04-817362060935",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        512
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.266Z",
+      "createdAt": "2025-08-06T19:56:06.266Z",
+      "role": "workflow:owner",
+      "workflowId": "4JSNwf7RZ8Z0HAGO",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-17T21:36:45.200Z",
+  "versionId": "9ee59ccb-bd06-4f21-983f-788762f52432"
+}

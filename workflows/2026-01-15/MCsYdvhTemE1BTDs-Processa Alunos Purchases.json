@@ -1,0 +1,1009 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "SearchExecution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetStudents": {
+      "main": [
+        [
+          {
+            "node": "Students",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Students": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "UpdatePurchases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "SearchExecution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "SearchExecution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchExecution": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "GetPurchases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetPurchases": {
+      "main": [
+        [
+          {
+            "node": "Purchases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UpdatePurchases": {
+      "main": [
+        [
+          {
+            "node": "GetUsersFromPurchases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Purchases": {
+      "main": [
+        [
+          {
+            "node": "GetStudents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetUsersFromPurchases": {
+      "main": [
+        [
+          {
+            "node": "AggUserPurchases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetUserFromLL": {
+      "main": [
+        [
+          {
+            "node": "ids_LL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AggUserPurchases": {
+      "main": [
+        [
+          {
+            "node": "GetUserFromLL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ids_LL": {
+      "main": [
+        [
+          {
+            "node": "matchUserID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "GetUser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetUser": {
+      "main": [
+        [
+          {
+            "node": "GetPurchase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetPurchase": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "matchUserID": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-18T21:20:07.724Z",
+  "id": "MCsYdvhTemE1BTDs",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Processa Alunos Purchases",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1472,
+        352
+      ],
+      "id": "c79c5342-2d59-4b53-84a8-9a87b22061d0",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT email,phone FROM student_products",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -336,
+        352
+      ],
+      "id": "0b891fb5-4ac8-4e8c-af1f-ec41bc2b3e59",
+      "name": "GetStudents",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        352
+      ],
+      "id": "df1a1069-1d94-4df8-8505-3fa08f1942bc",
+      "name": "Students"
+    },
+    {
+      "parameters": {
+        "jsCode": "const students = $node['Students'].json['data'];\nconst purchases = $node['Purchases'].json['data'];\n\n// Cria um set de emails e phones dos students para busca rápida\nconst studentEmails = new Set(students.map(s => s.email?.toLowerCase()));\nconst studentPhones = new Set(students.map(s => s.phone?.replace(/\\D/g, '')));\n\n// Processa cada lead\nconst result = purchases.map(purchase => {\n  const leadEmail = purchase.email?.toLowerCase();\n  const leadPhone = purchase.phone?.replace(/\\D/g, '');\n  \n  // Verifica se encontrou email ou phone nos students\n  const isOldStudent = studentEmails.has(leadEmail) || studentPhones.has(leadPhone) ? 'Y' : 'N';\n  \n  return {\n    id_transaction: purchase.id_transaction,\n    is_student: isOldStudent,\n    student_verified: 'Y'\n  };\n});\n\nreturn result;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        96,
+        352
+      ],
+      "id": "6efc25ce-a7d8-42f2-8eff-657f1e880965",
+      "name": "Code"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        592
+      ],
+      "id": "55499e77-041f-4195-94c3-80f1ef0dd5f7",
+      "name": "Wait",
+      "webhookId": "428aad6f-2d90-4527-9a47-7e129d0a32af"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "MCsYdvhTemE1BTDs",
+          "mode": "list",
+          "cachedResultName": "Processa Alunos Purchases"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        592
+      ],
+      "id": "428c505a-1e12-4956-ac3b-ab83d75c3599",
+      "name": "Execute Workflow"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1472,
+        144
+      ],
+      "id": "e103036e-484d-4a5c-b655-d3de59589aa8",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 */30 * * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1472,
+        560
+      ],
+      "id": "54a63954-6ee2-4a33-9bd9-34dbf2819974",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT COUNT(id) AS qt\nFROM execution_entity\nWHERE \"workflowId\" = '{{$workflow.id}}'\n AND \"status\" IN ('running', 'queued', 'new', 'waiting')  \n AND \"id\" <> {{ $execution.id }} \nAND finished = false",
+        "options": {}
+      },
+      "id": "0143a982-4a6d-4ba5-8a27-ea242e5316bd",
+      "name": "SearchExecution",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -1136,
+        352
+      ],
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "postgres": {
+          "id": "qkp1op2sP8ulJxQE",
+          "name": "N8N"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6d32d062-f657-4ed5-bc0b-54a4f6eeb04f",
+              "leftValue": "={{ $json.qt }}",
+              "rightValue": 2,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -944,
+        352
+      ],
+      "id": "3968d301-f1c0-44eb-b018-caedfde5ee5f",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "content": "### Fluxo para verificação de student na purchases_new",
+        "height": 80,
+        "width": 304,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1152,
+        224
+      ],
+      "typeVersion": 1,
+      "id": "bb81090f-1534-47e0-bf82-cbd4c46255c4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT pn.*, u.email, u.phone FROM purchases_new pn \nLEFT JOIN users u ON u.id_user = pn.user_id\nWHERE launch_tag = \"SSP-L18\" \n  AND pn.student_verified = \"N\"\n  AND pn.launch_verified = \"Y\"\nLIMIT 1000;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -752,
+        352
+      ],
+      "id": "abd1cd94-13e7-4fbb-905c-c01a16577121",
+      "name": "GetPurchases",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "purchases_new",
+          "mode": "list",
+          "cachedResultName": "purchases_new"
+        },
+        "columnToMatchOn": "id_transaction",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        304,
+        352
+      ],
+      "id": "fcbbbbe1-6bc7-4672-9be3-c49ee248c21e",
+      "name": "UpdatePurchases",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -544,
+        352
+      ],
+      "id": "ef847de5-0a74-471e-ae2d-d4918ca1f76b",
+      "name": "Purchases"
+    },
+    {
+      "parameters": {
+        "jsCode": "const idsString = $input.item.json.user_ids;\n\n// Divide por vírgula e converte para número\nconst idsArray = idsString.split(',').map(id => Number(id));\n\nreturn [\n  {\n    json: {\n      ids: idsArray\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        720
+      ],
+      "id": "ad388a8d-08c5-4cc6-941a-3f66c4768ddb",
+      "name": "ids_LL"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT user_id FROM purchases_new \nWHERE launch_tag = \"SSP-L18\" \n  AND student_verified = \"Y\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1152,
+        720
+      ],
+      "id": "bec22e1b-ead7-414f-aa5d-a631f390cfaf",
+      "name": "GetUsersFromPurchases",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SET SESSION group_concat_max_len = 1000000;\n\nSELECT * FROM vw_user_ids_ssp_l18;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -752,
+        720
+      ],
+      "id": "4e5e9916-1df7-49ae-b7e3-7aa6e46b88d3",
+      "name": "GetUserFromLL",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -944,
+        720
+      ],
+      "id": "f7156c74-dbf2-42ef-b044-3a9004c40868",
+      "name": "AggUserPurchases"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        32,
+        736
+      ],
+      "id": "44fc1b18-f50e-487f-8c46-8bb487fa9a43",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        272,
+        832
+      ],
+      "id": "90bfdd3c-87c3-4a6f-ae79-22a1c276813e"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "id_user",
+              "value": "={{ $json.user_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        448,
+        832
+      ],
+      "id": "5070b36d-c9e6-4019-943b-6a39dd20593f",
+      "name": "GetUser",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "purchases_new",
+          "mode": "list",
+          "cachedResultName": "purchases_new"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "user_id",
+              "value": "={{ $json[\"id_user\"] }}"
+            },
+            {
+              "column": "launch_tag",
+              "value": "SSP-L18"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        624,
+        832
+      ],
+      "id": "7fb64cad-48c2-4749-8d00-faed29e43488",
+      "name": "GetPurchase",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a9ae9f57-3c14-490d-9fc2-009440b3901c",
+              "name": "user_id",
+              "value": "={{ $node[\"GetUser\"].json[\"id_user\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "8e96e8ea-0760-44e5-b42d-4ef8fc71a4b4",
+              "name": "email",
+              "value": "={{ $node[\"GetUser\"].json[\"email\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "ff575fb6-7b16-4d18-a20d-c16fe7eb2ac1",
+              "name": "launch_key",
+              "value": "={{ $json[\"launch_tag\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "8c4c58a1-ac4d-4802-9493-172709ce41c4",
+              "name": "contact_id_active",
+              "value": "={{ $node[\"GetUser\"].json[\"contact_id_active\"] || null }}",
+              "type": "string"
+            },
+            {
+              "id": "2de6ec3b-c99c-49fd-b249-c038a58b02b5",
+              "name": "subscription_date",
+              "value": "={{ $json[\"approved_date\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "2ce1fbb5-a7e5-4b5a-8d7c-0bf49e74c69f",
+              "name": "student_verified",
+              "value": "N",
+              "type": "string"
+            },
+            {
+              "id": "3588ce1f-9308-4b23-99c4-a8e98ae0de13",
+              "name": "is_old_student",
+              "value": "N",
+              "type": "string"
+            },
+            {
+              "id": "bb641503-e202-486a-b033-72aa1f5baf08",
+              "name": "is_student_by_purchases",
+              "value": "Y",
+              "type": "string"
+            },
+            {
+              "id": "2ab19692-b7c6-45ac-a350-2871a0163559",
+              "name": "is_sspl18",
+              "value": "={{ $json[\"approved_date\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "1004f7fc-01df-4f0a-891a-b56aa791bd74",
+              "name": "utm_source",
+              "value": "leadantigo",
+              "type": "string"
+            },
+            {
+              "id": "3e167674-30fd-4b1f-8f8f-f5ce0a7bbc7b",
+              "name": "utm_medium",
+              "value": "leadantigo",
+              "type": "string"
+            },
+            {
+              "id": "6587a85b-6cff-411b-ae5e-ba96ea12ff0d",
+              "name": "utm_campaign",
+              "value": "leadantigo",
+              "type": "string"
+            },
+            {
+              "id": "a9aa3156-b48a-403b-8463-0afe1805ef11",
+              "name": "utm_campaign",
+              "value": "leadantigo",
+              "type": "string"
+            },
+            {
+              "id": "5a8c3880-b3d1-4892-9330-0bc677101608",
+              "name": "utm_content",
+              "value": "leadantigo",
+              "type": "string"
+            },
+            {
+              "id": "b66c3955-322e-49e9-8083-893d070543c0",
+              "name": "utm_pagina",
+              "value": "leadantigo",
+              "type": "string"
+            },
+            {
+              "id": "f3546aee-eb8b-4c1c-8fdc-8929954e9ecd",
+              "name": "utm_url",
+              "value": "leadantigo",
+              "type": "string"
+            },
+            {
+              "id": "080a748e-5b82-42a4-8640-30b728e27bfe",
+              "name": "temperature",
+              "value": "ORGÂNICO",
+              "type": "string"
+            },
+            {
+              "id": "fda263e8-be70-4568-a81f-b2686d1f85e3",
+              "name": "score_platform",
+              "value": "ORGÂNICO",
+              "type": "string"
+            },
+            {
+              "id": "1134c7c3-c827-4d20-8c1c-33f170c9e0b3",
+              "name": "utm_term",
+              "value": "leadantigo",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        816,
+        832
+      ],
+      "id": "9438d7fb-9397-46c7-8bf5-69705f153d66",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Pega o array de IDs que devem ser EXCLUÍDOS (do node ids_LL)\nconst idsToExclude = $('ids_LL').first().json.ids;\n\n// 2. Pega o array de objetos de usuários (do node AggUserPurchases)\nconst usersToCheck = $('AggUserPurchases').first().json.data;\n\n// 3. Cria um Set para busca rápida dos IDs a serem excluídos\nconst excludeSet = new Set(idsToExclude);\n\n// 4. Filtra mantendo apenas quem NÃO está no Set (Resultado Bruto)\nconst filteredPurchases = usersToCheck.filter(user => !excludeSet.has(user.user_id));\n\n// 5. Novo Set para rastrear IDs que JÁ foram adicionados ao resultado final\nconst uniqueUserIds = new Set();\n\n// 6. Array final para armazenar apenas o primeiro objeto de cada ID\nconst uniqueUsersResult = [];\n\n// 7. Loop para desduplicar e retornar apenas um registro por user_id\nfor (const item of filteredPurchases) {\n    if (!uniqueUserIds.has(item.user_id)) {\n        // Se o ID ainda não está no Set, adicionamos o ID no Set\n        uniqueUserIds.add(item.user_id);\n        \n        // E adicionamos o objeto (item) no array de resultados\n        uniqueUsersResult.push(item);\n    }\n}\n\n// 8. Retorna a lista desduplicada no formato n8n\nreturn uniqueUsersResult.map(item => ({ json: item }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        720
+      ],
+      "id": "504ff00d-96f6-46bd-9bb5-0ca0725fa3db",
+      "name": "matchUserID",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "### Fluxo para inserção de students by purchases na launch_leads",
+        "height": 80,
+        "width": 288,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1152,
+        608
+      ],
+      "typeVersion": 1,
+      "id": "3967dcbf-c84a-481d-87ed-2aaebfbc7acf",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1024,
+        832
+      ],
+      "id": "13e80d7e-1210-4742-a397-ba1b91daa20f",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        272,
+        592
+      ],
+      "id": "27dcaad8-841a-458e-8d62-bf5b1cea384c",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "84195dac-8014-487b-a180-bd660c4037e8",
+              "leftValue": "={{ $node[\"matchUserID\"].json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -192,
+        720
+      ],
+      "id": "36854b5e-8766-45c5-a58e-ae71269e57a1",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "content": "## Lógica da segunda etapa\n\n- Utiliza a view vw_user_ids_ssp_l18 \npara fazer um array com todos os user_id presentes na launch_leads\n- Verifica quais user_id da purchases_new não dão match com esse array criado;\n- É realizada a criação do registro na launch_leads com a data de compra como subscription_date e a flag \"is_student_by_purchases\" = \"Y\"",
+        "height": 384,
+        "width": 256,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        880,
+        368
+      ],
+      "id": "cefa14f8-4a42-469b-a8de-e7ba5c5b27af",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-18T21:20:07.724Z",
+      "createdAt": "2025-11-18T21:20:07.724Z",
+      "role": "workflow:owner",
+      "workflowId": "MCsYdvhTemE1BTDs",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-03T13:34:58.905Z",
+  "versionId": "e0c9fe0f-9a3d-4b3e-8c31-8cbf465d4dfb"
+}

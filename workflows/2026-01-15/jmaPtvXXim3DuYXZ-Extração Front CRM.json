@@ -1,0 +1,503 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "WTS Chat2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WTS Chat2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WTS Chat3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "WTS Chat3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "MySQL1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.226Z",
+  "id": "jmaPtvXXim3DuYXZ",
+  "isArchived": true,
+  "meta": null,
+  "name": "Extração Front CRM",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "9042fa75-4114-48f8-839e-4cea52379da6",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        -500,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4ea18c7c-0bd1-4525-876e-3f3991461fb8",
+              "name": "page",
+              "value": "={{ $json.page ?? 1 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "369e45f4-7f54-404b-b3fe-375ae3c2b6e3",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -280,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "content": "ID DANIELA: 567dd84e-c93d-4975-b065-ace9e0d99aed\n\nID DAYANE: e9e61496-e655-460b-82fb-d6d8a6c246c8\n\nID TATIANA:\nb9ab4b4b-adaf-49c6-8ce9-00dccdfb674a\n\nID VANESSA :5ef0bd6e-c5ba-4b84-b3e0-8b66cf7c25e2\n",
+        "height": 292.8071011557252,
+        "width": 329.28770006751625
+      },
+      "id": "0664ebf3-9a33-4def-adb4-2153f7b08c71",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "triggerAtMinute": 5
+            },
+            {
+              "field": "hours",
+              "triggerAtMinute": 35
+            }
+          ]
+        }
+      },
+      "id": "2a6b00b1-fdbb-43b7-be3f-d787663e9c79",
+      "name": "Schedule Trigger1",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        -500,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "session",
+        "departmentId": "0990b2a7-bb70-4c61-9d0e-adb4b7240230",
+        "updatedAtAfter": "={{ $now.minus({days:2}) }}",
+        "pageNumber": "={{ $json.page }}",
+        "pageSize": 100
+      },
+      "id": "8a00c366-a9a5-4d08-8a02-44f2b009d659",
+      "name": "WTS Chat2",
+      "type": "n8n-nodes-wts.wtsChat",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        380
+      ],
+      "credentials": {
+        "wtsApi": {
+          "id": "fwg9OmtIO4xFKF4F",
+          "name": "WTS account xorugasempresa@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getContactById",
+        "contactId": "={{ $json.contactId }}"
+      },
+      "id": "b35ad170-71dd-4718-8ff5-009c0816525c",
+      "name": "WTS Chat3",
+      "type": "n8n-nodes-wts.wtsChat",
+      "typeVersion": 1,
+      "position": [
+        400,
+        500
+      ],
+      "credentials": {
+        "wtsApi": {
+          "id": "fwg9OmtIO4xFKF4F",
+          "name": "WTS account xorugasempresa@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "front_crm",
+          "mode": "list",
+          "cachedResultName": "front_crm"
+        },
+        "columnToMatchOn": "id",
+        "options": {}
+      },
+      "id": "1c8c6f92-7600-4607-8c72-166d39833939",
+      "name": "MySQL1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        1060,
+        420
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "YxguAsKrWwFmGTZb",
+          "name": "MySQL Json Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "ddb34b5e-bbcd-4725-a940-417e6fdc90fc",
+      "name": "Loop Over Items1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        160,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "47d42fbb-4269-4165-92d9-c579380b00f0",
+              "name": "id_user",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "d3825b18-09fd-4b96-97f9-ad547b58079a",
+              "name": "createdAt_user",
+              "value": "={{ $json.createdAt }}",
+              "type": "string"
+            },
+            {
+              "id": "73a7f14f-4a92-4438-81b1-61de846640b8",
+              "name": "updatedAt_user",
+              "value": "={{ $json.updatedAt }}",
+              "type": "string"
+            },
+            {
+              "id": "4e6315ed-ce61-4830-8fb8-d424da35f3a2",
+              "name": "companyId_user",
+              "value": "={{ $json.companyId }}",
+              "type": "string"
+            },
+            {
+              "id": "eae7ff1a-e40b-4fd2-b72c-342f081780fe",
+              "name": "phoneNumber_user",
+              "value": "={{ $json.phoneNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "8cdf4715-c01c-4eba-afff-dc3dbd803d06",
+              "name": "name_user",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "0c93530d-593d-46eb-a15c-bde7fb40e938",
+              "name": "email_user",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "35d9bccd-2365-41e5-a9bc-b3e415164f7b",
+              "name": "nameWhatsapp_user",
+              "value": "={{ $json.nameWhatsapp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "99f08e60-4c90-480e-9ab8-b29bde31eb22",
+      "name": "Edit Fields3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        620,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "c8594eb4-b65a-4374-83e6-9b7be224abdd",
+      "name": "Merge1",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        840,
+        420
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "3e46780e-9596-4349-82ed-cf174afad9a0",
+      "name": "Limit1",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        400,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "71643fb6-5330-464f-a2aa-11fcf8a53bc1",
+              "name": "page",
+              "value": "={{ parseInt($('Edit Fields2').item.json.page) + 1}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c6fda3da-e80c-43a7-8132-b25161c9fdcd",
+      "name": "Edit Fields4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        620,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "l4bz1Ktf9DQ2Szi4",
+          "mode": "list",
+          "cachedResultName": "Extração Front CRM"
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "id": "7b3564a9-1cea-4599-8e01-6b7794cfcd63",
+      "name": "Execute Workflow1",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.1,
+      "position": [
+        1060,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "panel",
+        "updatedAtAfter": "={{ $now.minus({days:2}) }}",
+        "pageNumber": "={{ $json.page }}",
+        "pageSize": 100
+      },
+      "id": "b41047ff-1f85-48ab-b888-2b59758ead35",
+      "name": "WTS Chat4",
+      "type": "n8n-nodes-wts.wtsChat",
+      "typeVersion": 1,
+      "position": [
+        -280,
+        160
+      ],
+      "credentials": {
+        "wtsApi": {
+          "id": "fwg9OmtIO4xFKF4F",
+          "name": "WTS account xorugasempresa@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 31
+      },
+      "id": "35e25a92-f96c-46b0-ba2f-50692fde6873",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        840,
+        240
+      ],
+      "webhookId": "671e974c-b449-4572-9a22-95bc5b389063"
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.226Z",
+      "createdAt": "2025-08-06T19:56:06.226Z",
+      "role": "workflow:owner",
+      "workflowId": "jmaPtvXXim3DuYXZ",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-07T18:54:24.940Z",
+  "versionId": "8673ffab-2528-4346-9645-241f49d58b62"
+}

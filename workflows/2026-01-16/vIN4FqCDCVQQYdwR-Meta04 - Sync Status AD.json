@@ -1,0 +1,30 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {},
+  "createdAt": "2026-01-16T16:34:00.532Z",
+  "id": "vIN4FqCDCVQQYdwR",
+  "isArchived": false,
+  "meta": null,
+  "name": "Meta04 - Sync Status AD",
+  "nodes": [],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-16T16:34:00.532Z",
+      "createdAt": "2026-01-16T16:34:00.532Z",
+      "role": "workflow:owner",
+      "workflowId": "vIN4FqCDCVQQYdwR",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-16T16:34:00.532Z",
+  "versionId": "baec18fe-12fa-4bd4-a8df-9513808d3ab4"
+}

@@ -1,0 +1,347 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "GetProducts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetProducts": {
+      "main": [
+        [
+          {
+            "node": "Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetStudent": {
+      "main": [
+        [
+          {
+            "node": "Students",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Products": {
+      "main": [
+        [
+          {
+            "node": "GetUsers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Students": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetUsers": {
+      "main": [
+        [
+          {
+            "node": "Users",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Users": {
+      "main": [
+        [
+          {
+            "node": "GetStudent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Insert or update rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert or update rows in a table": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-13T16:35:57.329Z",
+  "id": "fb8gClv1RdH6xgN3",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Processamento de alunos",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b7341dd8-b8c5-4aef-80a4-2fa5c25f6489",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/17h5D1xX1gVs_GEKcacdJ2R5Gx0OFrFTO5Ygz360kqPU/edit?usp=sharing",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Consolidado total",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17h5D1xX1gVs_GEKcacdJ2R5Gx0OFrFTO5Ygz360kqPU/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1120,
+        0
+      ],
+      "id": "372d4222-dd0e-4887-81bc-d04497c3de32",
+      "name": "GetStudent",
+      "executeOnce": true,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "products",
+          "mode": "list",
+          "cachedResultName": "products"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "065b1378-4cfe-4115-8083-a9cdfa803668",
+      "name": "GetProducts",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1344,
+        0
+      ],
+      "id": "d5cc5904-1f4c-4da7-af74-395ee59dc7d7",
+      "name": "Students"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        448,
+        0
+      ],
+      "id": "ff282dbd-3ba4-42f0-a9b7-a68491f54a6f",
+      "name": "Products"
+    },
+    {
+      "parameters": {
+        "jsCode": "const products = $node['Products'].json['data'];\nconst students = $node['Students'].json['data'];\n\n// Normaliza strings para comparar melhor\nfunction normalize(str) {\n  if (!str) return \"\";\n  return String(str).trim().toLowerCase();\n}\n\nconst result = [];\n\nfor (const student of students) {\n  const studentProduct = normalize(student[\"Produto\"]);\n  const studentPlatform = normalize(student[\"Plataforma\"]);\n\n  // Encontrar o produto correspondente\n  const matchedProduct = products.find(p => \n    normalize(p.product_name) === studentProduct &&\n    normalize(p.platform) === studentPlatform\n  );\n\n  result.push({\n    json: {\n      id_student: student[\"row_number\"] || null,\n      product_id: matchedProduct ? matchedProduct.id_product : null,\n      user_id: null, // Você não forneceu user_id — deixei preparado\n      name: student[\"Nome\"] || null,\n      email: student[\"Email\"] || null,\n      phone: student[\"Telefone\"] || null,\n      product_name: student[\"Produto\"] || null,\n      is_lifetime: student[\"Vitalicio\"] === \"Sim\" ? \"Y\" : \"N\",\n    }\n  });\n}\n\nreturn result;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1568,
+        0
+      ],
+      "id": "2b534986-b58d-4cfe-a444-55a11d16d0c4",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        672,
+        0
+      ],
+      "id": "1a9e2e40-cbde-4b50-aed8-61ebfc614939",
+      "name": "GetUsers",
+      "executeOnce": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        896,
+        0
+      ],
+      "id": "766742b9-3cd0-4de6-8ae9-e83305a5010a",
+      "name": "Users",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "student_products",
+          "mode": "list",
+          "cachedResultName": "student_products"
+        },
+        "columnToMatchOn": "email",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1792,
+        0
+      ],
+      "id": "ac498508-545e-4440-8d47-61874b83aec7",
+      "name": "Insert or update rows in a table",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE student_products sp\nJOIN users u \n    ON sp.email = u.email\nSET sp.user_id = u.id_user\nWHERE sp.user_id IS NULL;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2016,
+        0
+      ],
+      "id": "9b6a2af2-ea97-4f5d-a151-fd65db21d549",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T16:35:57.329Z",
+      "createdAt": "2025-11-13T16:35:57.329Z",
+      "role": "workflow:owner",
+      "workflowId": "fb8gClv1RdH6xgN3",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-13T17:13:28.480Z",
+  "versionId": "84ea9f08-8cf1-49c7-9c2a-3d00e7221d07"
+}

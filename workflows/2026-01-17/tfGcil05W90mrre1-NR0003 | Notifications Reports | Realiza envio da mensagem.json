@@ -1,0 +1,266 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger2": {
+      "main": [
+        [
+          {
+            "node": "GetView2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insights2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetView2": {
+      "main": [
+        [
+          {
+            "node": "insights2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "insights",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insights": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "EnviaMSG1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-10T14:11:15.706Z",
+  "id": "tfGcil05W90mrre1",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "NR0003 | Notifications Reports | Realiza envio da mensagem",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://webhook.umcliquedigital.com/group/0ba0211699f1cf3721a94c303d304a64",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "variavel1",
+              "value": "={{ $json[\"message\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8124a9d9-ea2d-4007-b795-f646ab5dcafc",
+      "name": "EnviaMSG1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1312,
+        304
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "content": "Até o momento temos *720* vendas, cumprimos *19.2%* da meta de R$ 4.900.000,00. Faltam R$ 3.959.160,00 para atingir os 100% do faturamento esperado. Precisamos de *28* vendas por dia até 28/02/2026.\n\nAlgumas métricas e feedbacks:\n🔹 Vendas no dia: *49* - 🟢 75.0% acima da meta de 28\n🔹 Faturamento no dia: *R$ 71.553,00*\n\n🔹 Vendas totais: *720* - 🔴 80.8% abaixo da meta\n🔹 Faturamento total: *R$ 940.840,00* - 🔴 80.8% abaixo da meta\n🔹 Taxa de Conversão Acumulada: 2.72%\n\n🔹 Vendas Principal Hubla: *668*\n🔹 Faturamento Principal Hubla: *R$ 857.796,00*\n🔹 Vendas Principal TMB: *52*\n🔹 Faturamento Principal TMB: *R$ 83.044,00*\n\n🔹 Investimento Capt: *R$ 243.660,34*, R$ 17.339,66 abaixo do orçamento inicial.\n🔹 Investimento Total: *R$ 279.573,16*, restam R$ 52.426,84 de saldo.\n🔹 Roas Capt: *3.86*\n🔹 Roas: *3.37*\n🔹 Leads Totais do Lançamento: *26476*",
+        "height": 464,
+        "width": 576,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -224,
+        -48
+      ],
+      "typeVersion": 1,
+      "id": "5bf9958a-ea73-419b-b5ea-9cfa0bad053c",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "### Relatório Hoje - Carrinho Aberto",
+        "height": 240,
+        "width": 256,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        384,
+        64
+      ],
+      "typeVersion": 1,
+      "id": "7cf76b17-0d12-41bd-be12-3d040843760e",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 0 12,21 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        464,
+        144
+      ],
+      "id": "8f105944-e028-457f-8fcd-f45dbd3a71bb",
+      "name": "Schedule Trigger2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- ETAPA 1: Pegar os dados ---\n// $items[0].json refere-se ao primeiro (e único) item que veio do node 'GetView2'\nconst data = $node[\"GetView2\"].json;\n\n// --- ETAPA 2: Funções Auxiliares ---\n// (Para formatar números, datas e calcular metas)\n\n/**\n * Formata um número para a moeda BRL (R$)\n */\nconst formatBRL = (value) => {\n  const number = parseFloat(value);\n  if (isNaN(number)) return \"R$ 0,00\";\n\n  return number.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });\n};\n\n/**\n * Formata uma data \"YYYY-MM-DD...\" para \"DD/MM/AA\"\n */\nconst formatDate = (dateString) => {\n  try {\n    const [year, month, day] = dateString.split('T')[0].split('-');\n    return `${day}/${month}/${year}`;\n  } catch (e) {\n    return dateString;\n  }\n};\n\n/**\n * Calcula a diferença (Ex: \"X% acima/abaixo da meta\")\n * @param {boolean} reverse - Se true, \"acima\" é ruim (Ex: CPL)\n * @param {boolean} incluirMetaNoTexto - Se true, adiciona \"de XXX\" ao texto\n */\nconst getDiff = (current, goal, reverse = false, incluirMetaNoTexto = false) => {\n  const currentVal = parseFloat(current);\n  const goalVal = parseFloat(goal);\n\n  if (isNaN(currentVal) || isNaN(goalVal) || goalVal === 0) {\n    return \"\"; \n  }\n\n  const diff = ((currentVal - goalVal) / goalVal) * 100;\n  const diffAbs = Math.abs(diff).toFixed(1);\n\n  let text;\n  let emoji; \n\n  if (diff > 0) {\n    text = `${diffAbs}% ${reverse ? 'acima' : 'acima'} da meta`;\n    emoji = reverse ? '🔴' : '🟢';\n  } else if (diff < 0) {\n    text = `${diffAbs}% ${reverse ? 'abaixo' : 'abaixo'} da meta`;\n    emoji = reverse ? '🟢' : '🔴';\n  } else {\n    text = \"em linha com a meta\";\n    emoji = '⚪️';\n  }\n  \n  if (incluirMetaNoTexto && goalVal > 0) {\n    text += ` de ${parseInt(goalVal)}`; \n  }\n\n  return `${emoji} ${text}`;\n};\n\n\n// --- ETAPA 3: Cálculos Intermediários ---\n// (Coisas que o template pede mas não estão prontas no JSON)\n\nconst percentMetaFat = (parseFloat(data.faturamento_total) / parseFloat(data.goal_faturamento_total)) * 100;\nconst gapMeta = formatBRL(data.gap_meta_vs_faturamento);\nconst dataFim = formatDate((data.data_final_carrinho).split(\" \")[0]);\nconst projVendasDia = parseInt(data.projecao_vendas_dia_para_meta);\nconst gapInvest = parseFloat(data.budget_invest_capt) - parseFloat(data.gasto_total_capt);\nconst gapInvestTotal = parseFloat(data.budget_invest_total) - parseFloat(data.gasto_total_launch);\nconst taxaConvesaoAcumulada = parseFloat(data.quantidade_vendas) / parseFloat(data.leads_totais)\n\n\nconst meta_faturamento_num = parseFloat(data.goal_faturamento_total);\nconst ticket_medio_num = parseFloat(data.ticket_medio_prod_principal);\nlet meta_vendas_totais = 0;\nif (ticket_medio_num > 0) {\n  meta_vendas_totais = meta_faturamento_num / ticket_medio_num;\n}\n\n// *** NOVO CÁLCULO PARA O FATURAMENTO DO DIA ***\nlet texto_extra_fat_dia = \"\"; // Inicializa a string extra\nconst faturamento_dia_real = parseFloat(data.faturamento_dia);\nconst meta_vendas_dia_num = parseInt(data.projecao_vendas_dia_para_meta);\n\n// Calcula a meta de faturamento do dia (Meta Vendas Dia * Ticket Médio)\nconst meta_faturamento_dia = meta_vendas_dia_num * ticket_medio_num;\n\n// Compara o faturamento real com a meta de faturamento\nif (faturamento_dia_real < meta_faturamento_dia) {\n  // Se for menor, calcula o gap de VENDAS (não de faturamento)\n  const vendas_dia_real_num = parseInt(data.quantidade_vendas_dia);\n  const vendas_faltantes = meta_vendas_dia_num - vendas_dia_real_num;\n  \n  if (vendas_faltantes > 0) {\n    texto_extra_fat_dia = `, precisamos vender mais ${vendas_faltantes} produtos principais`;\n  }\n}\n\n\n// --- ETAPA 4: Montagem da Mensagem Final ---\n// (Usamos ` (crase) para um template string de múltiplas linhas)\n\nconst mensagem = `Até o momento temos *${parseInt(data.quantidade_vendas)}* vendas, cumprimos *${percentMetaFat.toFixed(1)}%* da meta de ${formatBRL(data.goal_faturamento_total)}. Faltam ${gapMeta} para atingir os 100% do faturamento esperado. Precisamos de *${projVendasDia}* vendas por dia até ${dataFim}.\n\nAlgumas métricas e feedbacks:\n🔹 Vendas no dia: *${parseInt(data.quantidade_vendas_dia)}* - ${getDiff(data.quantidade_vendas_dia, data.projecao_vendas_dia_para_meta, false, true)}\n🔹 Faturamento no dia: *${formatBRL(data.faturamento_dia)}*${texto_extra_fat_dia}\n\n🔹 Vendas totais: *${parseInt(data.quantidade_vendas)}* - ${getDiff(data.quantidade_vendas, meta_vendas_totais)}\n🔹 Faturamento total: *${formatBRL(data.faturamento_total)}* - ${getDiff(data.faturamento_total, data.goal_faturamento_total)}\n🔹 Taxa de Conversão Acumulada: *${(taxaConvesaoAcumulada * 100).toFixed(2)}%*\n\n🔹 Vendas Principal Hubla: *${parseInt(data.quantidade_vendas_principal_hubla)}*\n🔹 Faturamento Principal Hubla: *${formatBRL(data.faturamento_principal_hubla)}*\n🔹 Vendas Principal TMB: *${parseInt(data.quantidade_vendas_principal_tmb)}*\n🔹 Faturamento Principal TMB: *${formatBRL(data.faturamento_principal_tmb)}*\n\n🔹 Investimento Capt: *${formatBRL(data.gasto_total_capt)}*, ${formatBRL(gapInvest)} abaixo do orçamento inicial.\n🔹 Investimento Total: *${formatBRL(data.gasto_total_launch)}*, restam ${formatBRL(gapInvestTotal)} de saldo.\n🔹 Roas Capt: *${parseFloat(data.roas_vs_capt_total).toFixed(2)}*\n🔹 Roas: *${parseFloat(data.roas_vs_invest_total).toFixed(2)}*\n🔹 Leads Totais do Lançamento: *${parseInt(data.leads_totais)}*\n`;\n\n// Se estiver em um node 'Code', use 'return'\nreturn {\n  json: {\n    mensagem_report: mensagem\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        144
+      ],
+      "id": "6b066e78-4e6b-40b9-8598-a0efc109cac3",
+      "name": "insights2"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM vw_notifications_reports_launch_cart_open_bi_3",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        688,
+        144
+      ],
+      "id": "6533f4d2-ea6c-4010-a114-59ffd2c8c1e0",
+      "name": "GetView2",
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "23b717cd-5ef7-4339-8f55-52a83d80d049",
+              "name": "message",
+              "value": "={{ $json.mensagem_report }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1088,
+        144
+      ],
+      "id": "242c813f-3dfc-43c7-97fd-f5aad27d3d15",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- ETAPA 1: Pegar os dados ---\n// $items[0].json refere-se ao primeiro (e único) item que veio do node 'GetView2'\nconst data = $node[\"GetView2\"].json;\n\n// --- ETAPA 2: Funções Auxiliares ---\n// (Para formatar números, datas e calcular metas)\n\n/**\n * Formata um número para a moeda BRL (R$)\n */\nconst formatBRL = (value) => {\n  const number = parseFloat(value);\n  if (isNaN(number)) return \"R$ 0,00\";\n\n  return number.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });\n};\n\n/**\n * Formata uma data \"YYYY-MM-DD...\" para \"DD/MM/AA\"\n */\nconst formatDate = (dateString) => {\n  try {\n    const [year, month, day] = dateString.split('T')[0].split('-');\n    return `${day}/${month}/${year}`;\n  } catch (e) {\n    return dateString;\n  }\n};\n\n/**\n * Calcula a diferença (Ex: \"X% acima/abaixo da meta\")\n * @param {boolean} reverse - Se true, \"acima\" é ruim (Ex: CPL)\n * @param {boolean} incluirMetaNoTexto - Se true, adiciona \"de XXX\" ao texto\n */\nconst getDiff = (current, goal, reverse = false, incluirMetaNoTexto = false) => {\n  const currentVal = parseFloat(current);\n  const goalVal = parseFloat(goal);\n\n  if (isNaN(currentVal) || isNaN(goalVal) || goalVal === 0) {\n    return \"\";\n  }\n\n  const diff = ((currentVal - goalVal) / goalVal) * 100;\n  const diffAbs = Math.abs(diff).toFixed(1);\n\n  let text;\n  let emoji;\n\n  if (diff > 0) {\n    text = `${diffAbs}% ${reverse ? 'acima' : 'acima'} da meta`;\n    emoji = reverse ? '🔴' : '🟢';\n  } else if (diff < 0) {\n    text = `${diffAbs}% ${reverse ? 'abaixo' : 'abaixo'} da meta`;\n    emoji = reverse ? '🟢' : '🔴';\n  } else {\n    text = \"em linha com a meta\";\n    emoji = '⚪️';\n  }\n\n  if (incluirMetaNoTexto && goalVal > 0) {\n    text += ` de ${parseInt(goalVal)}`;\n  }\n\n  return `${emoji} ${text}`;\n};\n\n/**\n * *** NOVA FUNÇÃO ***\n * Calcula a diferença (Ex: \"X% acima/abaixo da projeção\")\n * @param {number} current - O valor atual.\n * @param {number} goal - O valor de projeção/meta.\n * @param {string} textLabel - O texto para a comparação (ex: \"da projeção de vendas\")\n * @param {boolean} reverse - Se true, \"acima\" é ruim (Ex: CPL)\n */\nconst getDiffProjecao = (current, goal, textLabel, reverse = false) => {\n  const currentVal = parseFloat(current);\n  const goalVal = parseFloat(goal);\n\n  if (isNaN(currentVal) || isNaN(goalVal) || goalVal === 0) {\n    return \"\"; // Retorna vazio se não puder comparar\n  }\n\n  const diff = ((currentVal - goalVal) / goalVal) * 100;\n  const diffAbs = Math.abs(diff).toFixed(1);\n\n  let text;\n  let emoji;\n\n  if (diff > 0) {\n    text = `${diffAbs}% acima ${textLabel}`;\n    emoji = reverse ? '🔴' : '🟢';\n  } else if (diff < 0) {\n    text = `${diffAbs}% abaixo ${textLabel}`;\n    emoji = reverse ? '🟢' : '🔴';\n  } else {\n    text = `em linha com ${textLabel}`;\n    emoji = '⚪️';\n  }\n\n  return `${emoji} ${text}`;\n};\n\n\n// --- ETAPA 3: Cálculos Intermediários ---\n// (Coisas que o template pede mas não estão prontas no JSON)\n\nconst percentMetaFat = (parseFloat(data.faturamento_total) / parseFloat(data.goal_faturamento_total)) * 100;\nconst gapMeta = formatBRL(data.gap_meta_vs_faturamento);\nconst dataFim = formatDate((data.data_final_carrinho).split(\" \")[0]);\nconst projVendasDia = parseInt(data.projecao_vendas_dia_para_meta);\nconst gapInvest = parseFloat(data.budget_invest_capt) - parseFloat(data.gasto_total_capt);\nconst gapInvestTotal = parseFloat(data.budget_invest_total) - parseFloat(data.gasto_total_launch);\nconst taxaConvesaoAcumulada = parseFloat(data.quantidade_vendas) / parseFloat(data.leads_totais)\n\n\nconst meta_faturamento_num = parseFloat(data.goal_faturamento_total);\nconst ticket_medio_num = parseFloat(data.ticket_medio_prod_principal);\nlet meta_vendas_totais = 0;\nif (ticket_medio_num > 0) {\n  meta_vendas_totais = meta_faturamento_num / ticket_medio_num;\n}\n\n// *** NOVO CÁLCULO PARA O FATURAMENTO DO DIA ***\nlet texto_extra_fat_dia = \"\"; // Inicializa a string extra\nconst faturamento_dia_real = parseFloat(data.faturamento_dia);\nconst meta_vendas_dia_num = parseInt(data.projecao_vendas_dia_para_meta);\n\n// Calcula a meta de faturamento do dia (Meta Vendas Dia * Ticket Médio)\nconst meta_faturamento_dia = meta_vendas_dia_num * ticket_medio_num;\n\n// Compara o faturamento real com a meta de faturamento\nif (faturamento_dia_real < meta_faturamento_dia) {\n  // Se for menor, calcula o gap de VENDAS (não de faturamento)\n  const vendas_dia_real_num = parseInt(data.quantidade_vendas_dia);\n  const vendas_faltantes = meta_vendas_dia_num - vendas_dia_real_num;\n\n  if (vendas_faltantes > 0) {\n    texto_extra_fat_dia = `, precisamos vender mais ${vendas_faltantes} produtos principais`;\n  }\n}\n\n\n// --- ETAPA 4: Montagem da Mensagem Final ---\n// (Usamos ` (crase) para um template string de múltiplas linhas)\n\n// *** NOVOS CÁLCULOS PARA A MENSAGEM (LÓGICA ATUALIZADA) ***\nconst projVendasAcumulado = parseFloat(data.vendas_totais_necessarias_para_hoje_acumulado);\nconst textoVendasTotais = getDiffProjecao(\n  data.quantidade_vendas, \n  projVendasAcumulado, \n  \"do acumulado previsto\"\n);\n\nconst projFatAcumulado = parseFloat(data.faturamento_acumulado_meta_para_HOJE);\nconst textoFatTotal = getDiffProjecao(\n  data.faturamento_total, \n  projFatAcumulado, \n  \"da projeção\"\n);\n\n\n// *** MONTAGEM DA MENSAGEM ***\nconst mensagem = `Até o momento temos *${parseInt(data.quantidade_vendas)}* vendas, cumprimos *${percentMetaFat.toFixed(1)}%* da meta de ${formatBRL(data.goal_faturamento_total)}. Faltam ${gapMeta} para atingir os 100% do faturamento esperado. Precisamos de *${projVendasDia}* vendas por dia até ${dataFim}.\n\nAlgumas métricas e feedbacks:\n🔹 Vendas no dia: *${parseInt(data.quantidade_vendas_dia)}* - ${getDiff(data.quantidade_vendas_dia, data.projecao_vendas_dia_para_meta, false, true)}\n🔹 Faturamento no dia: *${formatBRL(data.faturamento_dia)}*${texto_extra_fat_dia}\n\n🔹 Vendas totais: *${parseInt(data.quantidade_vendas)}* - ${textoVendasTotais} de ${$input.first().json.vendas_totais_necessarias_para_hoje_acumulado}\n🔹 Faturamento total: *${formatBRL(data.faturamento_total)}* - ${textoFatTotal} de ${formatBRL(data.faturamento_acumulado_meta_para_HOJE)}\n🔹 Taxa de Conversão Acumulada: *${(taxaConvesaoAcumulada * 100).toFixed(2)}%*\n\n🔹 Vendas Principal Hubla: *${parseInt(data.quantidade_vendas_principal_hubla)}*\n🔹 Faturamento Principal Hubla: *${formatBRL(data.faturamento_principal_hubla)}*\n🔹 Vendas Principal TMB: *${parseInt(data.quantidade_vendas_principal_tmb)}*\n🔹 Faturamento Principal TMB: *${formatBRL(data.faturamento_principal_tmb)}*\n\n🔹 Investimento Capt: *${formatBRL(data.gasto_total_capt)}*, ${formatBRL(gapInvest)} abaixo do orçamento inicial.\n🔹 Investimento Total: *${formatBRL(data.gasto_total_launch)}*, restam ${formatBRL(gapInvestTotal)} de saldo.\n🔹 Roas Capt: *${parseFloat(data.roas_vs_capt_total).toFixed(2)}*\n🔹 Roas: *${parseFloat(data.roas_vs_invest_total).toFixed(2)}*\n🔹 Leads Totais do Lançamento: *${parseInt(data.leads_totais)}*\n`;\n\n// Se estiver em um node 'Code', use 'return'\nreturn {\n  json: {\n    mensagem_report: mensagem\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        304
+      ],
+      "id": "3071fefb-13aa-4a63-8aba-d416f07f0c22",
+      "name": "insights"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "23b717cd-5ef7-4339-8f55-52a83d80d049",
+              "name": "message",
+              "value": "={{ $json.mensagem_report }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1088,
+        304
+      ],
+      "id": "b0e576f9-d007-4629-8c66-6ff2fca5eb97",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-10T14:11:15.706Z",
+      "createdAt": "2025-12-10T14:11:15.706Z",
+      "role": "workflow:owner",
+      "workflowId": "tfGcil05W90mrre1",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-10T14:29:32.841Z",
+  "versionId": "c05d89f7-913f-4c47-bf78-24d2dbc9aa87"
+}

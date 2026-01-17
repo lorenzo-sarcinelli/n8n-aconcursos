@@ -1,0 +1,403 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "GetPurchases": {
+      "main": [
+        [
+          {
+            "node": "CreateMessage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateMessage": {
+      "main": [
+        [
+          {
+            "node": "Chart",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "GetPurchasesYesterday",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetPurchasesYesterday": {
+      "main": [
+        [
+          {
+            "node": "CreateMessageYesterday",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateMessageYesterday": {
+      "main": [
+        [
+          {
+            "node": "SendMessageGrupoProjeto2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chart": {
+      "main": [
+        [
+          {
+            "node": "SendMessageGrupoProjeto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "GetPurchases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-09T14:05:00.638Z",
+  "id": "OM0Y6LeUJGOLX9vq",
+  "isArchived": false,
+  "meta": null,
+  "name": "NR0001 | Notifications Reports Perpetual",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        176,
+        160
+      ],
+      "id": "fb183df9-5f52-487b-adfb-4c9a6e72f43c",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM vw_notifications_reports_purchases WHERE DATE(update_time) = DATE(CURRENT_TIMESTAMP) AND launch_tag IN ('EBKDIE25', 'EBKUE25', 'PS25', 'NAP25') AND status = 'approved'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        768,
+        416
+      ],
+      "id": "85a14c51-aece-4b4a-aadd-146e2820db6c",
+      "name": "GetPurchases"
+    },
+    {
+      "parameters": {
+        "content": "## Mensagem\n\nAqui está seu relatório:\n\nInvestimento\nreceita\ncac\nvendas principal\nvendas orderbump\nvendas upsell\ntaxa conversao ob\ntaxa conversao upsell\nSaldo (receita - investimento)\nROAS",
+        "height": 336,
+        "width": 576
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        128,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "a9c29d3c-eceb-4a85-af62-d49cb2c64693",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsCode": "// === CONFIG ===\nconst split = true;                        // true = 1 mensagem por launch_tag | false = 1 mensagem consolidada\nconst outputKey = 'message';               // mude para 'mensagem' se preferir\nconst groupKey = 'launch_tag';             // chave de agrupamento\nconst investmentStrategy = 'byLaunchTag';  // 'byLaunchTag' | 'byCampaign'\n\n// === HELPERS ===\nconst BRL = v => (Number(v)||0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });\nconst PCT = v => `${(Number(v)||0).toFixed(2)}%`;\nconst N   = v => { const n = parseFloat(v); return Number.isFinite(n) ? n : 0; };\n\nconst items = $input.all().map(i => i.json);\n\n// Agrupa por launch_tag\nconst byTag = new Map();\n/*\n  tag -> {\n    receita: number,              // total (todas categorias)\n    receitaPrincipal: number,     // SOMENTE principal\n    principal: number,\n    orderbump: number,\n    upsell: number,\n    // para 'byCampaign'\n    campaigns: Map(utm_campaign -> spent),\n    // para 'byLaunchTag'\n    spentValues: Set(spent)\n  }\n*/\nfor (const row of items) {\n  const tag = (row[groupKey] || 'SEM_TAG').toString().trim();\n  if (!byTag.has(tag)) {\n    byTag.set(tag, {\n      receita: 0,\n      receitaPrincipal: 0,\n      principal: 0,\n      orderbump: 0,\n      upsell: 0,\n      campaigns: new Map(),\n      spentValues: new Set(),\n    });\n  }\n  const agg = byTag.get(tag);\n\n  const price = N(row.sale_price);\n  const cat = (row.category || '').toUpperCase();\n\n  // Receita total\n  agg.receita += price;\n\n  // Contagens + receita do principal\n  if (cat === 'PRINCIPAL') {\n    agg.principal++;\n    agg.receitaPrincipal += price;  // só principal\n  } else if (cat === 'ORDERBUMP') {\n    agg.orderbump++;\n  } else if (cat === 'UPSELL') {\n    agg.upsell++;\n  }\n\n  // Investimento\n  const spent = N(row.spent);\n  if (investmentStrategy === 'byCampaign') {\n    const camp = (row.utm_campaign || '').trim();\n    if (camp && !agg.campaigns.has(camp)) {\n      agg.campaigns.set(camp, spent);\n    } else if (camp) {\n      const prev = agg.campaigns.get(camp) || 0;\n      if (spent > prev) agg.campaigns.set(camp, spent);\n    }\n  } else {\n    // byLaunchTag: considerar 1x por tag; se vier repetido, usamos o MAIOR\n    if (spent > 0) agg.spentValues.add(spent);\n  }\n}\n\n// Ordena tags por receita desc (ajuste se quiser por investimento/alfabética)\nconst tagsOrdenadas = [...byTag.entries()].sort((a, b) => b[1].receita - a[1].receita);\n\nfunction investimentoDoAgg(agg) {\n  if (investmentStrategy === 'byCampaign') {\n    return [...agg.campaigns.values()].reduce((a, b) => a + b, 0);\n  } else {\n    if (!agg.spentValues.size) return 0;\n    let max = 0;\n    for (const v of agg.spentValues) if (v > max) max = v;\n    return max;\n  }\n}\n\nfunction montaBloco(tag, agg, incluirTitulo = true) {\n  const investimento = investimentoDoAgg(agg);\n  const vendasTotais = agg.principal + agg.orderbump + agg.upsell;\n\n  // --- MÉTRICAS DO PRODUTO PRINCIPAL ---\n  const vendasPrincipal = agg.principal;\n  const receitaPrincipal = agg.receitaPrincipal;\n  const ticketMedioPrincipal = vendasPrincipal > 0 ? (receitaPrincipal / vendasPrincipal) : 0;\n  const cacPrincipal = vendasPrincipal > 0 ? (investimento / vendasPrincipal) : 0;      // CAC só do principal\n  const roasPrincipal = investimento > 0 ? (receitaPrincipal / investimento) : 0;\n\n  // --- MÉTRICAS GERAIS ---\n  const taxaOb = vendasPrincipal > 0 ? (agg.orderbump / vendasPrincipal) * 100 : 0;\n  const taxaUpsell = vendasPrincipal > 0 ? (agg.upsell / vendasPrincipal) * 100 : 0;\n  const saldo = agg.receita - investimento;\n  const roasTotal = investimento > 0 ? agg.receita / investimento : 0;\n\n  const header = incluirTitulo ? `-------------\\n*${tag}*\\n-------------\\n` : '';\n  return [\n    header,\n\n    `> Produto Principal`,\n    `- 🛒 Vendas (Principal): ${vendasPrincipal}`,\n    `- 💵 Receita (Principal): ${BRL(receitaPrincipal)}`,\n    `- 🧾 Ticket Médio (Principal): ${BRL(ticketMedioPrincipal)}`,\n    `- 🎯 CAC (Principal): ${BRL(cacPrincipal)}`,\n    `- 📊 ROAS (Principal): ${roasPrincipal.toFixed(2)}`,\n\n    ``,\n    `> Geral`,\n    `- 💰 Investimento: ${BRL(investimento)}`,\n    `- 📈 Receita (Total): ${BRL(agg.receita)}`,\n\n    ``,\n    `> Vendas por categoria`,\n    `- 🛒 Principal: ${agg.principal}`,\n    `- ➕ Orderbump: ${agg.orderbump}`,\n    `- 🔼 Upsell: ${agg.upsell}`,\n\n    ``,\n    `> Conversões`,\n    `- 📊 Taxa Conversão OB: ${PCT(taxaOb)}`,\n    `- 📊 Taxa Conversão Upsell: ${PCT(taxaUpsell)}`,\n\n    ``,\n    `> Conclusões`,\n    `- 💵 Saldo: ${BRL(saldo)}`,\n    `- 📊 ROAS (Total): ${roasTotal.toFixed(2)}`\n  ].join('\\n').trim();\n}\n\n// === OUTPUT ===\nif (split) {\n  // um item por launch_tag\n  const out = [];\n  for (const [tag, agg] of tagsOrdenadas) {\n    const corpo = `📊 *Relatório Diário*\\n\\n${montaBloco(tag, agg, true)}`;\n    out.push({ json: { [outputKey]: corpo, [groupKey]: tag } });\n  }\n  return out;\n} else {\n  // uma única mensagem com todas as tags\n  const linhas = ['📊 *Relatório Diário por Launch Tag*'];\n  for (const [tag, agg] of tagsOrdenadas) {\n    linhas.push(montaBloco(tag, agg, true));\n  }\n  const corpo = linhas.join('\\n\\n').trim();\n  return [{ json: { [outputKey]: corpo } }];\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        992,
+        416
+      ],
+      "id": "9eb0a0ed-60b1-4cc0-a1d8-436fbb614d86",
+      "name": "CreateMessage"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://webhook.pluglead.com/webhook/539e8d672c36380b5420e5d98e6e3a56",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"apiKey\": \"API_KEY\",\n  \"data\": {\n    \"user\": {\n      \"phoneNumber\": \"NUMERO_WHATSAPP\"\n    },\n    \"action\": {\n      \"type\": \"sendMessages\",\n      \"payload\": {\n        \"data\": {\n          \"messages\": [\n            {\n              \"type\": \"extendedTextMessage\",\n              \"message\": {\n                \"text\": \"SUA MENSAGEM\"\n              }\n            }\n          ]\n        }\n      }\n    }\n  },\n  \"event\": \"actionTrigger\"",
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "id": "58324985-1ca1-4314-8968-55827ea8eb6f",
+      "name": "SendtoSendflow",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        544,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 0 7 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        544,
+        672
+      ],
+      "id": "566c8ed7-2293-4ca6-84cf-95bd1ffb97a3",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM vw_notifications_reports_purchases_yesterday WHERE launch_tag IN ('EBKDIE25', 'EBKUE25', 'PS25', 'NAP25') AND status = 'approved'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        768,
+        672
+      ],
+      "id": "19515108-82cd-4324-85f0-6349844281c7",
+      "name": "GetPurchasesYesterday"
+    },
+    {
+      "parameters": {
+        "jsCode": "// === CONFIG ===\nconst split = true;                        // true = 1 mensagem por launch_tag | false = 1 mensagem consolidada\nconst outputKey = 'message';               // mude para 'mensagem' se preferir\nconst groupKey = 'launch_tag';             // chave de agrupamento\nconst investmentStrategy = 'byLaunchTag';  // 'byLaunchTag' | 'byCampaign'\n\n// === HELPERS ===\nconst BRL = v => (Number(v)||0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });\nconst PCT = v => `${(Number(v)||0).toFixed(2)}%`;\nconst N   = v => { const n = parseFloat(v); return Number.isFinite(n) ? n : 0; };\n\nconst items = $input.all().map(i => i.json);\n\n// Agrupa por launch_tag\nconst byTag = new Map();\n/*\n  tag -> {\n    receita: number,              // total (todas categorias)\n    receitaPrincipal: number,     // SOMENTE principal\n    principal: number,\n    orderbump: number,\n    upsell: number,\n    // para 'byCampaign'\n    campaigns: Map(utm_campaign -> spent),\n    // para 'byLaunchTag'\n    spentValues: Set(spent)\n  }\n*/\nfor (const row of items) {\n  const tag = (row[groupKey] || 'SEM_TAG').toString().trim();\n  if (!byTag.has(tag)) {\n    byTag.set(tag, {\n      receita: 0,\n      receitaPrincipal: 0,\n      principal: 0,\n      orderbump: 0,\n      upsell: 0,\n      campaigns: new Map(),\n      spentValues: new Set(),\n    });\n  }\n  const agg = byTag.get(tag);\n\n  const price = N(row.sale_price);\n  const cat = (row.category || '').toUpperCase();\n\n  // Receita total\n  agg.receita += price;\n\n  // Contagens + receita do principal\n  if (cat === 'PRINCIPAL') {\n    agg.principal++;\n    agg.receitaPrincipal += price;  // só principal\n  } else if (cat === 'ORDERBUMP') {\n    agg.orderbump++;\n  } else if (cat === 'UPSELL') {\n    agg.upsell++;\n  }\n\n  // Investimento\n  const spent = N(row.spent);\n  if (investmentStrategy === 'byCampaign') {\n    const camp = (row.utm_campaign || '').trim();\n    if (camp && !agg.campaigns.has(camp)) {\n      agg.campaigns.set(camp, spent);\n    } else if (camp) {\n      const prev = agg.campaigns.get(camp) || 0;\n      if (spent > prev) agg.campaigns.set(camp, spent);\n    }\n  } else {\n    // byLaunchTag: considerar 1x por tag; se vier repetido, usamos o MAIOR\n    if (spent > 0) agg.spentValues.add(spent);\n  }\n}\n\n// Ordena tags por receita desc (ajuste se quiser por investimento/alfabética)\nconst tagsOrdenadas = [...byTag.entries()].sort((a, b) => b[1].receita - a[1].receita);\n\nfunction investimentoDoAgg(agg) {\n  if (investmentStrategy === 'byCampaign') {\n    return [...agg.campaigns.values()].reduce((a, b) => a + b, 0);\n  } else {\n    if (!agg.spentValues.size) return 0;\n    let max = 0;\n    for (const v of agg.spentValues) if (v > max) max = v;\n    return max;\n  }\n}\n\nfunction montaBloco(tag, agg, incluirTitulo = true) {\n  const investimento = investimentoDoAgg(agg);\n  const vendasTotais = agg.principal + agg.orderbump + agg.upsell;\n\n  // --- MÉTRICAS DO PRODUTO PRINCIPAL ---\n  const vendasPrincipal = agg.principal;\n  const receitaPrincipal = agg.receitaPrincipal;\n  const ticketMedioPrincipal = vendasPrincipal > 0 ? (receitaPrincipal / vendasPrincipal) : 0;\n  const cacPrincipal = vendasPrincipal > 0 ? (investimento / vendasPrincipal) : 0;      // CAC só do principal\n  const roasPrincipal = investimento > 0 ? (receitaPrincipal / investimento) : 0;\n\n  // --- MÉTRICAS GERAIS ---\n  const taxaOb = vendasPrincipal > 0 ? (agg.orderbump / vendasPrincipal) * 100 : 0;\n  const taxaUpsell = vendasPrincipal > 0 ? (agg.upsell / vendasPrincipal) * 100 : 0;\n  const saldo = agg.receita - investimento;\n  const roasTotal = investimento > 0 ? agg.receita / investimento : 0;\n\n  const header = incluirTitulo ? `-------------\\n*${tag}*\\n-------------\\n` : '';\n  return [\n    header,\n\n    `> Produto Principal`,\n    `- 🛒 Vendas (Principal): ${vendasPrincipal}`,\n    `- 💵 Receita (Principal): ${BRL(receitaPrincipal)}`,\n    `- 🧾 Ticket Médio (Principal): ${BRL(ticketMedioPrincipal)}`,\n    `- 🎯 CAC (Principal): ${BRL(cacPrincipal)}`,\n    `- 📊 ROAS (Principal): ${roasPrincipal.toFixed(2)}`,\n\n    ``,\n    `> Geral`,\n    `- 💰 Investimento: ${BRL(investimento)}`,\n    `- 📈 Receita (Total): ${BRL(agg.receita)}`,\n\n    ``,\n    `> Vendas por categoria`,\n    `- 🛒 Principal: ${agg.principal}`,\n    `- ➕ Orderbump: ${agg.orderbump}`,\n    `- 🔼 Upsell: ${agg.upsell}`,\n\n    ``,\n    `> Conversões`,\n    `- 📊 Taxa Conversão OB: ${PCT(taxaOb)}`,\n    `- 📊 Taxa Conversão Upsell: ${PCT(taxaUpsell)}`,\n\n    ``,\n    `> Conclusões`,\n    `- 💵 Saldo: ${BRL(saldo)}`,\n    `- 📊 ROAS (Total): ${roasTotal.toFixed(2)}`\n  ].join('\\n').trim();\n}\n\n// === OUTPUT ===\nif (split) {\n  // um item por launch_tag\n  const out = [];\n  for (const [tag, agg] of tagsOrdenadas) {\n    const corpo = `📊 *Relatório de Ontem*\\n\\n${montaBloco(tag, agg, true)}`;\n    out.push({ json: { [outputKey]: corpo, [groupKey]: tag } });\n  }\n  return out;\n} else {\n  // uma única mensagem com todas as tags\n  const linhas = ['📊 *Relatório de Ontem por Lançamento*'];\n  for (const [tag, agg] of tagsOrdenadas) {\n    linhas.push(montaBloco(tag, agg, true));\n  }\n  const corpo = linhas.join('\\n\\n').trim();\n  return [{ json: { [outputKey]: corpo } }];\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        992,
+        672
+      ],
+      "id": "d6f259c5-cb55-4466-99b7-a737bb510a77",
+      "name": "CreateMessageYesterday"
+    },
+    {
+      "parameters": {
+        "content": "Relatório Hoje",
+        "height": 240,
+        "width": 256
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        336
+      ],
+      "typeVersion": 1,
+      "id": "102eaf44-df42-45e0-85a5-e4819869346f",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "Relatório Ontem",
+        "height": 240,
+        "width": 256
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        592
+      ],
+      "typeVersion": 1,
+      "id": "31ea18aa-e4e9-4759-beac-2b10cfcc53dc",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "url": "https://webhook.sv1.professorsalomaocursos.com.br/webhook/notifications/chart",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "tag",
+              "value": "={{ $json.launch_tag }}"
+            },
+            {
+              "name": "message",
+              "value": "={{ $json.message }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1216,
+        416
+      ],
+      "id": "ab91caa8-4198-4eaa-87aa-5752727c5bca",
+      "name": "Chart"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://grupoxflow.uazapi.com/send/text",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "0eb8c71d-a821-48bb-b5bb-5817ecc40b26"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"120363398388256573@g.us\",\n  \"text\": {{$json.message.toJsonString()}}\n}",
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "id": "e4fcfb8e-2af9-44a8-90d8-3335ac1c1d61",
+      "name": "SendMessage1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2320,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 0 21 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        544,
+        416
+      ],
+      "id": "d7e5e442-7979-4415-b1cc-e6061e2b0156",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://grupoxflow.uazapi.com/send/media",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "0eb8c71d-a821-48bb-b5bb-5817ecc40b26"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"120363398388256573@g.us\",\n  \"type\": \"image\",\n  \"file\": \"{{$json.image.toString().replaceAll(\"1080\",\"620\")}}\",\n  \"text\": {{$json.message.toJsonString()}}\n}",
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "id": "25ad43b9-bcbe-4653-932c-e4a7dcf119d0",
+      "name": "SendMessageGrupoProjeto",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1440,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://grupoxflow.uazapi.com/send/text",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "0eb8c71d-a821-48bb-b5bb-5817ecc40b26"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"120363398388256573@g.us\",\n  \"text\": {{$json.message.toJsonString()}}\n}",
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "id": "bfa2c5bf-94a5-4f42-9da5-60bc21935b94",
+      "name": "SendMessageGrupoProjeto2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1216,
+        672
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-09T14:05:00.638Z",
+      "createdAt": "2025-12-09T14:05:00.638Z",
+      "role": "workflow:owner",
+      "workflowId": "OM0Y6LeUJGOLX9vq",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-09T14:05:00.638Z",
+  "versionId": "91360701-b7d9-49a2-9384-99b6f3f15a84"
+}

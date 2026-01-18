@@ -1,0 +1,2270 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-15T01:01:51.157Z",
+    "createdAt": "2026-01-15T01:01:51.157Z",
+    "versionId": "33f5b093-ba1f-4b93-990a-08422f659aed",
+    "workflowId": "tAscB7pTyFjA3bH6",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 20
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          -1152,
+          32
+        ],
+        "id": "c661e034-cab4-4f83-b156-6ea57e06cf7a",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          -208,
+          32
+        ],
+        "id": "c62efbcc-5292-40fe-b0a3-b3e15fb96f61",
+        "name": "Loop Over Items"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "name": "Replace Me",
+        "typeVersion": 1,
+        "position": [
+          0,
+          112
+        ],
+        "id": "b7ac7138-569b-4422-a98d-5fac8933efe4"
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "offers",
+            "mode": "list",
+            "cachedResultName": "offers"
+          },
+          "returnAll": true,
+          "where": {
+            "values": [
+              {
+                "column": "id_offer",
+                "value": "={{ $node[\"Replace Me\"].json[\"offer_id\"] }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          160,
+          112
+        ],
+        "id": "878b7112-4ca4-4bfb-9f30-352b1d2ce0ee",
+        "name": "getOffer",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "532acfb3-5920-4c35-9db8-3438121e891b",
+                "name": "offer_name",
+                "value": "={{ $node[\"getOffer\"].json[\"offer_name\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "f8363fbe-f291-4a97-a478-dc367d6162f7",
+                "name": "offer_price",
+                "value": "={{ $node[\"getOffer\"].json[\"offer_price\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "3c50622d-c30d-453f-946f-66ccf1b2db9f",
+                "name": "product_ext",
+                "value": "={{ $node[\"getProduct\"].json[\"product_ext\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "a3a01028-b772-48f8-8556-7d0c4f124495",
+                "name": "product_name",
+                "value": "={{ $node[\"getProduct\"].json[\"product_name\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "a6603a01-f762-4e17-9a73-bf552be171f0",
+                "name": "offer_ext",
+                "value": "={{ $('getOffer').item.json.offer_ext }}",
+                "type": "string"
+              },
+              {
+                "id": "0ebab777-04e9-455d-8e33-536d0532a756",
+                "name": "platform",
+                "value": "={{ $node[\"Replace Me\"].json[\"platform\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "a5c4474f-0a7f-4c10-81d9-d00b767daa61",
+                "name": "quantity",
+                "value": "={{ $node[\"Replace Me\"].json[\"count(*)\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "918ba731-11ee-4a05-9368-65b24f727c9e",
+                "name": "pending_offer",
+                "value": "Y",
+                "type": "string"
+              },
+              {
+                "id": "34f1f143-db0d-41fe-9c77-af06909a144d",
+                "name": "update_time",
+                "value": "={{ $now }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          672,
+          112
+        ],
+        "id": "1517ae03-c62f-46d5-a54f-b08aace6008a",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "products",
+            "mode": "list",
+            "cachedResultName": "products"
+          },
+          "returnAll": true,
+          "where": {
+            "values": [
+              {
+                "column": "id_product",
+                "value": "={{ $json[\"product_id\"] }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          336,
+          112
+        ],
+        "id": "41e9a375-e7ca-4070-8e29-850a2ad59e78",
+        "name": "getProduct",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT offer_id, platform, count(*)\nFROM purchases_new\nWHERE offer_validation_check <> \"Y\"\nAND date(order_date) >= \"2025-12-01\"\nGROUP BY offer_id",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          -576,
+          32
+        ],
+        "id": "cd017473-2dd0-463c-8d98-c547b6584604",
+        "name": "getOffers_mismatch",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "fieldsToAggregate": {
+            "fieldToAggregate": [
+              {
+                "fieldToAggregate": "offer_id"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          -768,
+          32
+        ],
+        "id": "8825e034-d675-4d3e-b658-292ae7ca809a",
+        "name": "Aggregate"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "a3608de9-538b-4036-852b-e0af84791d1d",
+                "leftValue": "={{ $('Aggregate').item.json.offer_id }}",
+                "rightValue": "={{ $json.offer_id }}",
+                "operator": {
+                  "type": "array",
+                  "operation": "notContains",
+                  "rightType": "any"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          -384,
+          32
+        ],
+        "id": "31927c25-da6e-45c7-b903-ffe0345c3677",
+        "name": "Filter"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT offer_id, platform, count(*)\nFROM purchases_new\nWHERE offer_validation_check = \"Y\"\nAND date(order_date) >= \"2025-12-01\"\nGROUP BY offer_id",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          -960,
+          32
+        ],
+        "id": "027b8885-b915-4cdc-8c0c-c3c8759a06ac",
+        "name": "getOffers",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "upsert",
+          "table": {
+            "__rl": true,
+            "value": "offer_overview",
+            "mode": "list",
+            "cachedResultName": "offer_overview"
+          },
+          "columnToMatchOn": "offer_ext",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          848,
+          112
+        ],
+        "id": "1cbe1649-a3d5-4562-bd3e-ec5d1dba0463",
+        "name": "upsert2OfferOverview",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "532acfb3-5920-4c35-9db8-3438121e891b",
+                "name": "Descrição Oferta",
+                "value": "={{ $node[\"getOffer\"].json[\"offer_name\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "f8363fbe-f291-4a97-a478-dc367d6162f7",
+                "name": "Preço da Oferta",
+                "value": "={{ $node[\"getOffer\"].json[\"offer_price\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "3c50622d-c30d-453f-946f-66ccf1b2db9f",
+                "name": "ID do Produto",
+                "value": "={{ $node[\"getProduct\"].json[\"product_ext\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "a3a01028-b772-48f8-8556-7d0c4f124495",
+                "name": "Nome do Produto",
+                "value": "={{ $node[\"getProduct\"].json[\"product_name\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "a6603a01-f762-4e17-9a73-bf552be171f0",
+                "name": "ID da Oferta",
+                "value": "={{ $('getOffer').item.json.offer_ext }}",
+                "type": "string"
+              },
+              {
+                "id": "0ebab777-04e9-455d-8e33-536d0532a756",
+                "name": "Plataforma",
+                "value": "={{ $node[\"Replace Me\"].json[\"platform\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "a5c4474f-0a7f-4c10-81d9-d00b767daa61",
+                "name": "Quantidade Vendas",
+                "value": "={{ $node[\"Replace Me\"].json[\"count(*)\"] }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1024,
+          112
+        ],
+        "id": "7dd7122c-8b88-4011-b015-f603b93958b3",
+        "name": "Edit Fields1"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "name": "Sheets",
+        "typeVersion": 1,
+        "position": [
+          0,
+          -64
+        ],
+        "id": "86a9f498-7237-4838-b90c-6e454c7c832a"
+      },
+      {
+        "parameters": {
+          "operation": "appendOrUpdate",
+          "documentId": {
+            "__rl": true,
+            "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=2141827541#gid=2141827541",
+            "mode": "url"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 2141827541,
+            "mode": "list",
+            "cachedResultName": "Ofertas Não Mapeadas",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=2141827541"
+          },
+          "columns": {
+            "mappingMode": "autoMapInputData",
+            "value": {},
+            "matchingColumns": [
+              "ID da Oferta"
+            ],
+            "schema": [
+              {
+                "id": "Plataforma",
+                "displayName": "Plataforma",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Descrição Oferta",
+                "displayName": "Descrição Oferta",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Nome do Produto",
+                "displayName": "Nome do Produto",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "ID do Produto",
+                "displayName": "ID do Produto",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "ID da Oferta",
+                "displayName": "ID da Oferta",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Data da venda mais antiga",
+                "displayName": "Data da venda mais antiga",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Quantidade Vendas",
+                "displayName": "Quantidade Vendas",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Preço da Oferta",
+                "displayName": "Preço da Oferta",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          160,
+          -64
+        ],
+        "id": "69303272-03f1-4c01-93e4-572a5850f361",
+        "name": "upsert2Sheets",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "SN6RzeMl3gN9prB4",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "fieldsToAggregate": {
+            "fieldToAggregate": [
+              {
+                "fieldToAggregate": "ID da Oferta",
+                "renameField": true,
+                "outputFieldName": "offer_ext"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          320,
+          -64
+        ],
+        "id": "703adb07-01b5-47f8-b101-5b15add55710",
+        "name": "Aggregate1"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT * FROM offer_overview \nWHERE offer_ext not in ({{ $json[\"offer_ext\"].map(id => `'${id}'`).join(\",\") }})\nAND pending_offer = \"Y\"",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          496,
+          -64
+        ],
+        "id": "ec052980-13f9-4727-b29d-9172647fd29c",
+        "name": "Execute a SQL query",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "name": "excludeSheet",
+        "typeVersion": 1,
+        "position": [
+          672,
+          -240
+        ],
+        "id": "d2c0aaa9-4a02-4881-a5f6-a651ddefe8c8"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "name": "updatePendingTable",
+        "typeVersion": 1,
+        "position": [
+          672,
+          -64
+        ],
+        "id": "36f46895-650d-4c06-8669-c66ab0c1884e"
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "offer_overview",
+            "mode": "list",
+            "cachedResultName": "offer_overview"
+          },
+          "dataMode": "defineBelow",
+          "columnToMatchOn": "offer_ext",
+          "valueToMatchOn": "={{ $json[\"offer_ext\"] }}",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "update_time",
+                "value": "={{$now}}"
+              },
+              {
+                "column": "pending_offer",
+                "value": "N"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          848,
+          -64
+        ],
+        "id": "1892e301-23cb-4e8c-b27f-8a88404d42e1",
+        "name": "Update rows in a table",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "documentId": {
+            "__rl": true,
+            "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=2141827541#gid=2141827541",
+            "mode": "url"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 2141827541,
+            "mode": "list",
+            "cachedResultName": "Ofertas Não Mapeadas",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=2141827541"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Descrição Oferta": "=",
+              "Nome do Produto": "=",
+              "ID do Produto": "=",
+              "Plataforma": "=",
+              "ID da Oferta": "=",
+              "Quantidade Vendas": "=",
+              "Preço da Oferta": "=",
+              "row_number": "={{ $json.row_number }}"
+            },
+            "matchingColumns": [
+              "row_number"
+            ],
+            "schema": [
+              {
+                "id": "Descrição Oferta",
+                "displayName": "Descrição Oferta",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Nome do Produto",
+                "displayName": "Nome do Produto",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "ID do Produto",
+                "displayName": "ID do Produto",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "ID da Oferta",
+                "displayName": "ID da Oferta",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Plataforma",
+                "displayName": "Plataforma",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Quantidade Vendas",
+                "displayName": "Quantidade Vendas",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Preço da Oferta",
+                "displayName": "Preço da Oferta",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "row_number",
+                "displayName": "row_number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "readOnly": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          1216,
+          -240
+        ],
+        "id": "29a3b4f9-033f-431f-8389-b4c0725149de",
+        "name": "update2Sheets",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "SN6RzeMl3gN9prB4",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=2141827541#gid=2141827541",
+            "mode": "url"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 2141827541,
+            "mode": "list",
+            "cachedResultName": "Ofertas Não Mapeadas",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=2141827541"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          832,
+          -240
+        ],
+        "id": "cbe92818-7c23-474f-9f83-f65df3740c62",
+        "name": "Get row(s) in sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "SN6RzeMl3gN9prB4",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "c33532a2-f4eb-4af8-b7e8-8c3e13cfd8a3",
+                "leftValue": "={{ $('Aggregate1').item.json.offer_ext }}",
+                "rightValue": "={{ $json[\"ID da Oferta\"] }}",
+                "operator": {
+                  "type": "array",
+                  "operation": "notContains",
+                  "rightType": "any"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          1024,
+          -240
+        ],
+        "id": "859a20d0-c426-4285-bad3-79fc96b3f550",
+        "name": "Filter1"
+      },
+      {
+        "parameters": {
+          "content": "## Funcionalidade\n\n- Gestão de ofertas com pendências.\n- Verifica se o offer_id está presente na purchases_key através de procedure;\n- Puxa todos os registros com flag \"Y\" para coluna offer_validation_check;\n- Registra as pendências em tabela \"offer_overview\", bem como registra as ofertas não mapeadas no checklist do cliente, na aba:\nhttps://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=2141827541#gid=2141827541\n- A partir do momento em que a oferta é colocada no checklist, a próxima vez em que a procedure rodar, já vai atualizar a oferta;\n- Neste caso, o registro receberá \"N\" para a flag \"pending_offer\", na tabela \"offer_overview\" e será excluída a linha da planilha do sheets\n",
+          "height": 416,
+          "width": 528,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -976,
+          -464
+        ],
+        "id": "4a0d2f7f-61f4-4307-a7b4-b61190447374",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "content": "#### Atualiza pendências dos registros",
+          "height": 80,
+          "width": 528,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          672,
+          -368
+        ],
+        "id": "30a0da10-2a24-445f-b156-3e4ac9c53ad2",
+        "name": "Sticky Note1"
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "purchases_new",
+            "mode": "list",
+            "cachedResultName": "purchases_new"
+          },
+          "limit": 1,
+          "where": {
+            "values": [
+              {
+                "column": "offer_id",
+                "value": "={{ $node[\"getOffer\"].json[\"id_offer\"] }}"
+              }
+            ]
+          },
+          "sort": {
+            "values": [
+              {
+                "column": "order_date"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          496,
+          112
+        ],
+        "id": "45cda5b5-818e-4d47-9896-fe44f2b61f23",
+        "name": "Select rows from a table",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "getOffers",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [
+            {
+              "node": "Sheets",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Replace Me",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Replace Me": {
+        "main": [
+          [
+            {
+              "node": "getOffer",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getOffer": {
+        "main": [
+          [
+            {
+              "node": "getProduct",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getProduct": {
+        "main": [
+          [
+            {
+              "node": "Select rows from a table",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getOffers_mismatch": {
+        "main": [
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Aggregate": {
+        "main": [
+          [
+            {
+              "node": "getOffers_mismatch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getOffers": {
+        "main": [
+          [
+            {
+              "node": "Aggregate",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "upsert2OfferOverview",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "upsert2OfferOverview": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields1": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Sheets": {
+        "main": [
+          [
+            {
+              "node": "upsert2Sheets",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "upsert2Sheets": {
+        "main": [
+          [
+            {
+              "node": "Aggregate1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Aggregate1": {
+        "main": [
+          [
+            {
+              "node": "Execute a SQL query",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Execute a SQL query": {
+        "main": [
+          [
+            {
+              "node": "excludeSheet",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "updatePendingTable",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "updatePendingTable": {
+        "main": [
+          [
+            {
+              "node": "Update rows in a table",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "excludeSheet": {
+        "main": [
+          [
+            {
+              "node": "Get row(s) in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get row(s) in sheet": {
+        "main": [
+          [
+            {
+              "node": "Filter1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter1": {
+        "main": [
+          [
+            {
+              "node": "update2Sheets",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Select rows from a table": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "33f5b093-ba1f-4b93-990a-08422f659aed",
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "getOffers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "getOffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getOffer": {
+      "main": [
+        [
+          {
+            "node": "getProduct",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getProduct": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getOffers_mismatch": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "getOffers_mismatch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getOffers": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "upsert2OfferOverview",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upsert2OfferOverview": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sheets": {
+      "main": [
+        [
+          {
+            "node": "upsert2Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upsert2Sheets": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "excludeSheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "updatePendingTable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "updatePendingTable": {
+      "main": [
+        [
+          {
+            "node": "Update rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "excludeSheet": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "update2Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-16T03:09:25.823Z",
+  "id": "tAscB7pTyFjA3bH6",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Mapeamento de Ofertas",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 20
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1152,
+        32
+      ],
+      "id": "c661e034-cab4-4f83-b156-6ea57e06cf7a",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -208,
+        32
+      ],
+      "id": "c62efbcc-5292-40fe-b0a3-b3e15fb96f61",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        0,
+        112
+      ],
+      "id": "b7ac7138-569b-4422-a98d-5fac8933efe4"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "offers",
+          "mode": "list",
+          "cachedResultName": "offers"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "id_offer",
+              "value": "={{ $node[\"Replace Me\"].json[\"offer_id\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        160,
+        112
+      ],
+      "id": "878b7112-4ca4-4bfb-9f30-352b1d2ce0ee",
+      "name": "getOffer",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "532acfb3-5920-4c35-9db8-3438121e891b",
+              "name": "offer_name",
+              "value": "={{ $node[\"getOffer\"].json[\"offer_name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "f8363fbe-f291-4a97-a478-dc367d6162f7",
+              "name": "offer_price",
+              "value": "={{ $node[\"getOffer\"].json[\"offer_price\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "3c50622d-c30d-453f-946f-66ccf1b2db9f",
+              "name": "product_ext",
+              "value": "={{ $node[\"getProduct\"].json[\"product_ext\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "a3a01028-b772-48f8-8556-7d0c4f124495",
+              "name": "product_name",
+              "value": "={{ $node[\"getProduct\"].json[\"product_name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "a6603a01-f762-4e17-9a73-bf552be171f0",
+              "name": "offer_ext",
+              "value": "={{ $('getOffer').item.json.offer_ext }}",
+              "type": "string"
+            },
+            {
+              "id": "0ebab777-04e9-455d-8e33-536d0532a756",
+              "name": "platform",
+              "value": "={{ $node[\"Replace Me\"].json[\"platform\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "a5c4474f-0a7f-4c10-81d9-d00b767daa61",
+              "name": "quantity",
+              "value": "={{ $node[\"Replace Me\"].json[\"count(*)\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "918ba731-11ee-4a05-9368-65b24f727c9e",
+              "name": "pending_offer",
+              "value": "Y",
+              "type": "string"
+            },
+            {
+              "id": "34f1f143-db0d-41fe-9c77-af06909a144d",
+              "name": "update_time",
+              "value": "={{ $now }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        112
+      ],
+      "id": "1517ae03-c62f-46d5-a54f-b08aace6008a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "products",
+          "mode": "list",
+          "cachedResultName": "products"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "id_product",
+              "value": "={{ $json[\"product_id\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        336,
+        112
+      ],
+      "id": "41e9a375-e7ca-4070-8e29-850a2ad59e78",
+      "name": "getProduct",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT offer_id, platform, count(*)\nFROM purchases_new\nWHERE offer_validation_check <> \"Y\"\nAND date(order_date) >= \"2025-12-01\"\nGROUP BY offer_id",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -576,
+        32
+      ],
+      "id": "cd017473-2dd0-463c-8d98-c547b6584604",
+      "name": "getOffers_mismatch",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "offer_id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -768,
+        32
+      ],
+      "id": "8825e034-d675-4d3e-b658-292ae7ca809a",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a3608de9-538b-4036-852b-e0af84791d1d",
+              "leftValue": "={{ $('Aggregate').item.json.offer_id }}",
+              "rightValue": "={{ $json.offer_id }}",
+              "operator": {
+                "type": "array",
+                "operation": "notContains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -384,
+        32
+      ],
+      "id": "31927c25-da6e-45c7-b903-ffe0345c3677",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT offer_id, platform, count(*)\nFROM purchases_new\nWHERE offer_validation_check = \"Y\"\nAND date(order_date) >= \"2025-12-01\"\nGROUP BY offer_id",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -960,
+        32
+      ],
+      "id": "027b8885-b915-4cdc-8c0c-c3c8759a06ac",
+      "name": "getOffers",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "offer_overview",
+          "mode": "list",
+          "cachedResultName": "offer_overview"
+        },
+        "columnToMatchOn": "offer_ext",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        848,
+        112
+      ],
+      "id": "1cbe1649-a3d5-4562-bd3e-ec5d1dba0463",
+      "name": "upsert2OfferOverview",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "532acfb3-5920-4c35-9db8-3438121e891b",
+              "name": "Descrição Oferta",
+              "value": "={{ $node[\"getOffer\"].json[\"offer_name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "f8363fbe-f291-4a97-a478-dc367d6162f7",
+              "name": "Preço da Oferta",
+              "value": "={{ $node[\"getOffer\"].json[\"offer_price\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "3c50622d-c30d-453f-946f-66ccf1b2db9f",
+              "name": "ID do Produto",
+              "value": "={{ $node[\"getProduct\"].json[\"product_ext\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "a3a01028-b772-48f8-8556-7d0c4f124495",
+              "name": "Nome do Produto",
+              "value": "={{ $node[\"getProduct\"].json[\"product_name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "a6603a01-f762-4e17-9a73-bf552be171f0",
+              "name": "ID da Oferta",
+              "value": "={{ $('getOffer').item.json.offer_ext }}",
+              "type": "string"
+            },
+            {
+              "id": "0ebab777-04e9-455d-8e33-536d0532a756",
+              "name": "Plataforma",
+              "value": "={{ $node[\"Replace Me\"].json[\"platform\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "a5c4474f-0a7f-4c10-81d9-d00b767daa61",
+              "name": "Quantidade Vendas",
+              "value": "={{ $node[\"Replace Me\"].json[\"count(*)\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1024,
+        112
+      ],
+      "id": "7dd7122c-8b88-4011-b015-f603b93958b3",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Sheets",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -64
+      ],
+      "id": "86a9f498-7237-4838-b90c-6e454c7c832a"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=2141827541#gid=2141827541",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2141827541,
+          "mode": "list",
+          "cachedResultName": "Ofertas Não Mapeadas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=2141827541"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "ID da Oferta"
+          ],
+          "schema": [
+            {
+              "id": "Plataforma",
+              "displayName": "Plataforma",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Descrição Oferta",
+              "displayName": "Descrição Oferta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nome do Produto",
+              "displayName": "Nome do Produto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID do Produto",
+              "displayName": "ID do Produto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID da Oferta",
+              "displayName": "ID da Oferta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data da venda mais antiga",
+              "displayName": "Data da venda mais antiga",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quantidade Vendas",
+              "displayName": "Quantidade Vendas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Preço da Oferta",
+              "displayName": "Preço da Oferta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        160,
+        -64
+      ],
+      "id": "69303272-03f1-4c01-93e4-572a5850f361",
+      "name": "upsert2Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "ID da Oferta",
+              "renameField": true,
+              "outputFieldName": "offer_ext"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        320,
+        -64
+      ],
+      "id": "703adb07-01b5-47f8-b101-5b15add55710",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM offer_overview \nWHERE offer_ext not in ({{ $json[\"offer_ext\"].map(id => `'${id}'`).join(\",\") }})\nAND pending_offer = \"Y\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        496,
+        -64
+      ],
+      "id": "ec052980-13f9-4727-b29d-9172647fd29c",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "excludeSheet",
+      "typeVersion": 1,
+      "position": [
+        672,
+        -240
+      ],
+      "id": "d2c0aaa9-4a02-4881-a5f6-a651ddefe8c8"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "updatePendingTable",
+      "typeVersion": 1,
+      "position": [
+        672,
+        -64
+      ],
+      "id": "36f46895-650d-4c06-8669-c66ab0c1884e"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "offer_overview",
+          "mode": "list",
+          "cachedResultName": "offer_overview"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "offer_ext",
+        "valueToMatchOn": "={{ $json[\"offer_ext\"] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "update_time",
+              "value": "={{$now}}"
+            },
+            {
+              "column": "pending_offer",
+              "value": "N"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        848,
+        -64
+      ],
+      "id": "1892e301-23cb-4e8c-b27f-8a88404d42e1",
+      "name": "Update rows in a table",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=2141827541#gid=2141827541",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2141827541,
+          "mode": "list",
+          "cachedResultName": "Ofertas Não Mapeadas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=2141827541"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Descrição Oferta": "=",
+            "Nome do Produto": "=",
+            "ID do Produto": "=",
+            "Plataforma": "=",
+            "ID da Oferta": "=",
+            "Quantidade Vendas": "=",
+            "Preço da Oferta": "=",
+            "row_number": "={{ $json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Descrição Oferta",
+              "displayName": "Descrição Oferta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nome do Produto",
+              "displayName": "Nome do Produto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID do Produto",
+              "displayName": "ID do Produto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID da Oferta",
+              "displayName": "ID da Oferta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Plataforma",
+              "displayName": "Plataforma",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quantidade Vendas",
+              "displayName": "Quantidade Vendas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Preço da Oferta",
+              "displayName": "Preço da Oferta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1216,
+        -240
+      ],
+      "id": "29a3b4f9-033f-431f-8389-b4c0725149de",
+      "name": "update2Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=2141827541#gid=2141827541",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2141827541,
+          "mode": "list",
+          "cachedResultName": "Ofertas Não Mapeadas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=2141827541"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        832,
+        -240
+      ],
+      "id": "cbe92818-7c23-474f-9f83-f65df3740c62",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c33532a2-f4eb-4af8-b7e8-8c3e13cfd8a3",
+              "leftValue": "={{ $('Aggregate1').item.json.offer_ext }}",
+              "rightValue": "={{ $json[\"ID da Oferta\"] }}",
+              "operator": {
+                "type": "array",
+                "operation": "notContains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        -240
+      ],
+      "id": "859a20d0-c426-4285-bad3-79fc96b3f550",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "content": "## Funcionalidade\n\n- Gestão de ofertas com pendências.\n- Verifica se o offer_id está presente na purchases_key através de procedure;\n- Puxa todos os registros com flag \"Y\" para coluna offer_validation_check;\n- Registra as pendências em tabela \"offer_overview\", bem como registra as ofertas não mapeadas no checklist do cliente, na aba:\nhttps://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=2141827541#gid=2141827541\n- A partir do momento em que a oferta é colocada no checklist, a próxima vez em que a procedure rodar, já vai atualizar a oferta;\n- Neste caso, o registro receberá \"N\" para a flag \"pending_offer\", na tabela \"offer_overview\" e será excluída a linha da planilha do sheets\n",
+        "height": 416,
+        "width": 528,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -976,
+        -464
+      ],
+      "id": "4a0d2f7f-61f4-4307-a7b4-b61190447374",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "#### Atualiza pendências dos registros",
+        "height": 80,
+        "width": 528,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        672,
+        -368
+      ],
+      "id": "30a0da10-2a24-445f-b156-3e4ac9c53ad2",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "purchases_new",
+          "mode": "list",
+          "cachedResultName": "purchases_new"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "offer_id",
+              "value": "={{ $node[\"getOffer\"].json[\"id_offer\"] }}"
+            }
+          ]
+        },
+        "sort": {
+          "values": [
+            {
+              "column": "order_date"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        496,
+        112
+      ],
+      "id": "45cda5b5-818e-4d47-9896-fe44f2b61f23",
+      "name": "Select rows from a table",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-16T03:09:25.823Z",
+      "createdAt": "2025-12-16T03:09:25.823Z",
+      "role": "workflow:owner",
+      "workflowId": "tAscB7pTyFjA3bH6",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-15T01:01:51.171Z",
+  "versionId": "33f5b093-ba1f-4b93-990a-08422f659aed"
+}

@@ -1,0 +1,436 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "FunctionItem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FunctionItem": {
+      "main": [
+        [
+          {
+            "node": "Date & Time3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time3": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists3": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "Item Lists3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.109Z",
+  "id": "GjftQGS52II5xc4d",
+  "isArchived": false,
+  "meta": null,
+  "name": "Placement 3 (NOVO)",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"HTTP Request\"].json[\"data\"] }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        },
+        "combineOperation": "any"
+      },
+      "id": "d5cb0fd7-1b1a-4296-aba3-6ebf7897deb1",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -288,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "id": "3b17ded2-597b-423f-ac55-20eecb8ae8fa",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        -176
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "functionCode": "let placement = 'verificar' + $json[\"device_platform\"] + $json[\"publisher_platform\"] + $json[\"platform_position\"]\nconst unique = $json[\"device_platform\"] + $json[\"publisher_platform\"] + $json[\"platform_position\"]\n\nif($json[\"device_platform\"] == \"mobile_app\"){\n  if($json[\"publisher_platform\"] == \"instagram\"){\n    if($json[\"platform_position\"] == \"instagram_reels\"){\n      placement = 'Instagram_Reels'\n    }\n    if($json[\"platform_position\"] == \"feed\"){\n      placement = 'Instagram_Feed'\n    }\n    if($json[\"platform_position\"] == \"instagram_explore\"){\n      placement = 'Instagram_Explore'\n    }\n    if($json[\"platform_position\"] == \"instagram_stories\"){\n      placement = 'Instagram_Stories'\n    }\n    if($json[\"platform_position\"] == \"instagram_stories\"){\n      placement = 'Instagram_Stories'\n    }\n  }\n\n  if($json[\"publisher_platform\"] == \"facebook\"){\n    if($json[\"platform_position\"] == \"facebook_reels\"){\n      placement = 'Facebook_Reels'\n    }\n    if($json[\"platform_position\"] == \"feed\"){\n      placement = 'Facebook_Mobile_Feed'\n    }\n    \n    if($json[\"platform_position\"] == \"facebook_stories\"){\n      placement = 'Facebook_Stories'\n    }\n    if($json[\"platform_position\"] == \"video_feeds\"){\n      // placement = \n    }\n    if($json[\"platform_position\"] == \"search\"){\n      placement = 'Facebook_Search'\n    }    \n  }\n}\n\nconst json = {\n  \"an\": [\n    \"verificardesktopaudience_networkan_classic\",\n    \"verificarmobile_appaudience_networkan_classic\"\n  ],\n  \"Instagram_Feed\": [\n    \"verificardesktopinstagramfeed\",\n    \"verificarmobile_webinstagramfeed\",\n    \"verificarmobile_appinstagraminstragram_profile_feed\"\n  ],\n  \"Others\": [\n    \"verificarunknownunknownunknown\"\n  ],\n  \"Facebook_Mobile_Feed\": [\n    \"verificarmobile_webfacebookfeed\",\n    \"verificarmobile_appfacebookvideo_feeds\",\n    \"verificarmobile_appfacebookmainstream_video\",\n    \"verificarmobile_appfacebookfacebook_reels_overlay\",\n    \"verificarmobile_appaudience_networkrewarded_video\"\n  ],\n  \"Instagram_Explore_Grid_Home\": [\n    \"verificarmobile_appinstagraminstragram_explore_grid_home\"\n  ],\n  \"Facebook_Right_Column\": [\n    \"verificardesktopfacebookright_hand_column\"\n  ],\n  \"Facebook_Instream_Video\": [\n    \"verificardesktopfacebookinstream_video\"\n  ],\n  \"Messenger_Inbox\": [\n    \"verificarmobile_appmessengermessenger_inbox\",\n    \"verificarmobile_appmessengermessenger_stories\"\n  ],\n  \"Facebook_Marketplace\": [\n    \"verificarmobile_appfacebookmarketplace\",\n    \"verificardesktopfacebookmarketplace\"\n  ],\n  \"Facebook_Desktop_Feed\": [\n    \"verificardesktopfacebookfeed\",\n    \"verificardeskstopappaudience_networkrewarded_video\",\n    \"verificardesktopfacebooksearch\"\n  ],\n  \"Facebook_Mobile_Reels\":[\n    \"facebook_reels\"\n  ],\n  \"Facebook_Feed\":[\n    \"verificarmobile_appfacebook_profile_feed\"\n  ]\n}\n\nfor(el in json){\n  json[el].forEach(array=>{\n    placement == array ? placement = el : ''\n    placement.includes('verificar') ? placement = 'Others' : ''\n  })\n}\n\nreturn {'Placement':placement,unique:unique};"
+      },
+      "id": "e6f6d33b-5257-4754-a5da-712f66cc8f91",
+      "name": "FunctionItem",
+      "type": "n8n-nodes-base.functionItem",
+      "typeVersion": 1,
+      "position": [
+        160,
+        -176
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "value": "={{ $node[\"Item Lists\"].json[\"date_start\"] }}",
+        "dataPropertyName": "Data",
+        "custom": true,
+        "toFormat": "Y-MM-DD",
+        "options": {
+          "fromFormat": "Y-MM-DD"
+        }
+      },
+      "id": "15bb1ab0-a8ef-4efb-ba76-186e1b70b6a4",
+      "name": "Date & Time3",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 1,
+      "position": [
+        384,
+        -176
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.next }}",
+        "options": {}
+      },
+      "id": "d2c85cbe-9117-4029-b9d7-d6defa0de7c3",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        -496,
+        -160
+      ],
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "operation": "limit"
+      },
+      "id": "d753547e-06ed-4394-8f7b-7f32a9b747a7",
+      "name": "Item Lists3",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        -176
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "campaigns_placements",
+          "mode": "list",
+          "cachedResultName": "campaigns_placements"
+        },
+        "columnToMatchOn": "id_data",
+        "options": {}
+      },
+      "id": "197f01c9-cc84-483b-90c4-24607d7cf2f6",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        832,
+        -176
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "5b2e4244-edd7-48a8-9dc3-70eed1364491",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "507f9f85-aa9a-4a0d-a523-4698cdc3a1cb",
+              "leftValue": "={{ $node[\"IF\"].json[\"paging\"][\"next\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "774e54d9-e54b-44e8-9e0f-3ad1943def0c",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        1264,
+        -176
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "Conjunto",
+              "value": "={{ $node[\"Item Lists\"].json[\"adset_name\"] }}"
+            },
+            {
+              "name": "AD",
+              "value": "={{ $node[\"Item Lists\"].json[\"ad_name\"] }}"
+            },
+            {
+              "name": "Gasto",
+              "value": "={{ $node[\"Item Lists\"].json[\"spend\"] }}"
+            },
+            {
+              "name": "Clicks",
+              "value": "={{ $node[\"Item Lists\"].json[\"inline_link_clicks\"] }}"
+            },
+            {
+              "name": "Campanha",
+              "value": "={{ $node[\"Item Lists\"].json[\"campaign_name\"] }}"
+            },
+            {
+              "name": "Impressoes",
+              "value": "={{ $node[\"Item Lists\"].json[\"impressions\"] }}"
+            },
+            {
+              "name": "BM",
+              "value": "={{ $item(\"0\").$node[\"Execute Workflow Trigger\"].json[\"BM\"] }}"
+            },
+            {
+              "name": "id_data",
+              "value": "={{ $node[\"Item Lists\"].json[\"ad_id\"] }}_{{ $node['Date & Time3'].json.Data }}_{{ $node['Date & Time3'].json.unique }}"
+            },
+            {
+              "name": "Data",
+              "value": "={{ $node[\"Date & Time3\"].json[\"Data\"] }}"
+            },
+            {
+              "name": "Placement",
+              "value": "={{ $node[\"Date & Time3\"].json[\"Placement\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9aa461ca-1f01-4129-a7b8-951ae868f3e4",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        608,
+        -176
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8e4fe063-7dd4-46a9-9f8b-660b14f829f8",
+              "name": "next",
+              "value": "={{ $('HTTP Request').item.json.paging.next }}",
+              "type": "string"
+            },
+            {
+              "id": "9e24779d-d72f-4426-9314-d9fce70a7f74",
+              "name": "BM",
+              "value": "={{ $('Execute Workflow Trigger').item.json.BM }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "82e835be-670f-41d0-869b-fc8c14160d6d",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1488,
+        -176
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "GjftQGS52II5xc4d",
+          "mode": "list",
+          "cachedResultName": "Placement 3 (NOVO)"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1712,
+        -176
+      ],
+      "id": "01dd8950-8660-43ab-a0b0-f84b2cd55b58",
+      "name": "Execute Workflow"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.109Z",
+      "createdAt": "2025-08-06T19:56:06.109Z",
+      "role": "workflow:owner",
+      "workflowId": "GjftQGS52II5xc4d",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-31T12:00:57.375Z",
+  "versionId": "17d5f031-6eba-47c1-9be0-5981ea3253cb"
+}

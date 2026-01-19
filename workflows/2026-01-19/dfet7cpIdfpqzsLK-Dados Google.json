@@ -1,0 +1,585 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "GetDates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        []
+      ]
+    },
+    "SeparateDates": {
+      "main": [
+        [
+          {
+            "node": "OrganizeDates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OrganizeDates": {
+      "main": [
+        [
+          {
+            "node": "LoopDates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetDates": {
+      "main": [
+        [
+          {
+            "node": "SeparateDates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily": {
+      "main": [
+        [
+          {
+            "node": "PrepareMultipleRequests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PrepareMultipleRequests": {
+      "main": [
+        [
+          {
+            "node": "LoopRequests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PrimaryRequest": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RequestItem": {
+      "main": [
+        [
+          {
+            "node": "PrimaryRequest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "isNotEmpty": {
+      "main": [
+        [
+          {
+            "node": "SeparateData",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SeparateData": {
+      "main": [
+        [
+          {
+            "node": "Setter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setter": {
+      "main": [
+        [
+          {
+            "node": "UpsertData",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UpsertData": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LoopDates": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Daily",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        [
+          {
+            "node": "LoopRequests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LoopRequests": {
+      "main": [
+        [
+          {
+            "node": "LoopDates",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "RequestItem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "isNotEmpty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.177Z",
+  "id": "dfet7cpIdfpqzsLK",
+  "isArchived": false,
+  "meta": null,
+  "name": "Dados Google",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 3
+            }
+          ]
+        }
+      },
+      "id": "47876eec-9b1e-4874-a364-c936a2032f3d",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        1232,
+        -288
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  item.json.myNewField = encodeURI(item.json.search_term)\n}\n\nreturn $input.all();"
+      },
+      "id": "def71ea9-f058-4856-beed-0e505f36bfcb",
+      "name": "Code1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4240,
+        -544
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "=https://connectors.windsor.ai/google_ads?api_key=0e5a53bd687343b5b3b36d05686a9e83f48d&date_from=2024-12-03&date_to=2024-12-03&fields=account_name,ad_group_name,ad_name,campaign,clicks,impressions,date,spend,ad_id,ad_group_id,campaign_id,video_quartile25_rate,video_quartile50_rate,video_quartile75_rate,video_quartile100_rate,video_views",
+        "options": {}
+      },
+      "id": "a39c8d58-2967-4ddd-bdb9-5ee24f6f7ee3",
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2144,
+        -48
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "content": ",video_quartile25_rate,video_quartile50_rate,video_quartile75_rate,video_quartile100_rate,video_views"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2448,
+        -16
+      ],
+      "typeVersion": 1,
+      "id": "6016e389-4408-427a-912a-890762a2d516",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### NOVA EXTRAÇÃO GOOGLE AMANTEIGADA"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1232,
+        -496
+      ],
+      "typeVersion": 1,
+      "id": "03cb3e01-20cb-4247-a9e1-6464adcd811c",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "id": "b4f0475a-d4d8-452e-8414-45e2082750c6",
+      "name": "SeparateDates",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        -288
+      ]
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2022574d-5be5-4460-99a6-1fa2a598b6a4",
+      "name": "OrganizeDates",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        1904,
+        -288
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let dias = []\nlet now = $now\nlet dataInicial = now.toFormat(\"yyyy-MM-dd\")\n\n// Se for antes das 6h, usa ontem como ponto de partida\nif (now.hour < 6) {\n  dataInicial = now.minus({ days: 1 }).toFormat(\"yyyy-MM-dd\")\n}\n\n// --- Caso queira fixar manualmente uma data inicial ---\n// dataInicial = \"2025-06-17\"\n\n// Transforma em objetos DateTime para comparação\nlet startDate = now\nlet targetDate = DateTime.fromISO(dataInicial)\n\n// Se a data inicial for anterior ao hoje, gera todas as datas até ela\nif (targetDate < startDate) {\n  let cursor = startDate\n  while (cursor >= targetDate) {\n    dias.unshift(cursor.toFormat(\"yyyy-MM-dd\"))\n    cursor = cursor.minus({ days: 1 })\n  }\n} else {\n  // Se a data inicial for hoje ou no futuro, só retorna ela\n  dias.push(dataInicial)\n}\n\nreturn { data: dias }\n"
+      },
+      "id": "dd4e3d85-1b56-4fee-a4ec-e6c063b6bcd4",
+      "name": "GetDates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1456,
+        -288
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2352,
+        -272
+      ],
+      "id": "162bb628-cbab-4a03-b35c-2f8e4134dd02",
+      "name": "Daily",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "let dates = $node['Daily'].json['data'];\n\nif (!Array.isArray(dates)) {\n  dates = [dates];\n}\n\nlet apiKey = \"898b73329b7b7c2be8155ca083a37144a714\";\nlet baseUrl = \"https://connectors.windsor.ai/google_ads\";\nlet sumEndingDays = 1;\n\nlet fieldSets = [\n\n\"campaign,clicks,impressions,date,spend,campaign_id,ad_name,ad_id,ad_group_id,ad_group_name,account_name,video_quartile25_rate,video_quartile50_rate,video_quartile75_rate,video_quartile100_rate,video_views\"\n\n  \n];\n\nlet requests = [];\n\ndates.forEach(d => {\n  let dateFrom = DateTime.fromISO(d);\n  let dateTo = dateFrom.plus({ days: sumEndingDays }).toFormat(\"yyyy-MM-dd\");\n\n  fieldSets.forEach(fields => {\n    let url = `${baseUrl}?api_key=${apiKey}&fields=${fields}&date_from=${d}&date_to=${dateTo}`;\n    requests.push({ request: url });\n  });\n});\nreturn requests;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2576,
+        -272
+      ],
+      "id": "248f0443-b0b8-482b-b63e-7efe183c057f",
+      "name": "PrepareMultipleRequests"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.request }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0, proxy-revalidate, private"
+            },
+            {
+              "name": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "name": "Expires",
+              "value": "0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8e2a3ba7-d8b5-487d-adc3-9a3e3b022da7",
+      "name": "PrimaryRequest",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3248,
+        -256
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "RequestItem",
+      "typeVersion": 1,
+      "position": [
+        3024,
+        -256
+      ],
+      "id": "609fe457-efa9-416a-ab8d-5ee96903f544"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "03ed8d47-ba7d-4557-8d91-d0d15c48001c",
+              "leftValue": "={{ $json[\"data\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3696,
+        -256
+      ],
+      "id": "8a599b74-db11-4c7e-a45e-6b11f02932a3",
+      "name": "isNotEmpty"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "id": "2173e10d-0515-4b73-88fe-fd3c72308e46",
+      "name": "SeparateData",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3920,
+        -352
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "id_data",
+              "stringValue": "={{ $json.campaign_id }}_{{ $json.ad_group_id }}_{{ $json.ad_id }}_{{ $json.date }}"
+            },
+            {
+              "name": "video_id",
+              "stringValue": "={{ $json.video_id !== undefined && $json.video_id !== null ? \"https://www.youtube.com/watch?v=\" + $json.video_id : null }}"
+            }
+          ]
+        },
+        "include": "except",
+        "excludeFields": "myNewField",
+        "options": {}
+      },
+      "id": "2b3c59a5-6522-46ae-adc7-e8069a61bc5b",
+      "name": "Setter",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        4144,
+        -352
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "reports_google",
+          "mode": "list",
+          "cachedResultName": "reports_google"
+        },
+        "columnToMatchOn": "id_data",
+        "options": {}
+      },
+      "id": "39bfed22-1b50-47b3-a152-d4a9a35db734",
+      "name": "UpsertData",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        4368,
+        -352
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": "={{ ($node['LoopDates'].runIndex >= 0 && $node['LoopDates'].context['done']) ?? false }}"
+        }
+      },
+      "id": "6d674a93-243a-411b-81af-721133eb54ad",
+      "name": "LoopDates",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2128,
+        -288
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        4592,
+        -240
+      ],
+      "id": "dfff45ff-0635-44cb-a48c-790d935a1280",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": "={{ $node['LoopRequests'].context['done'] ?? false }}"
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2800,
+        -272
+      ],
+      "id": "d684b819-0479-4186-9013-f91f635bc8f9",
+      "name": "LoopRequests"
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3472,
+        -256
+      ],
+      "id": "fc3d3924-0325-48ca-b31a-3b30e681a75d",
+      "name": "Wait",
+      "webhookId": "45b47515-c459-4d2c-abe5-44e98cb9fcfa"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.177Z",
+      "createdAt": "2025-08-06T19:56:06.177Z",
+      "role": "workflow:owner",
+      "workflowId": "dfet7cpIdfpqzsLK",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-09T12:02:16.507Z",
+  "versionId": "4363992e-1981-428a-b583-c0c46068c03d"
+}

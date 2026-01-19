@@ -1,0 +1,622 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-16T18:12:13.975Z",
+    "createdAt": "2026-01-16T18:12:13.975Z",
+    "versionId": "98d35d66-2c8e-4ef3-a675-e37fb5b9bc37",
+    "workflowId": "vIN4FqCDCVQQYdwR",
+    "nodes": [
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=1122812575#gid=1122812575",
+            "mode": "url"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1122812575,
+            "mode": "list",
+            "cachedResultName": "BM's",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1122812575"
+          },
+          "filtersUI": {
+            "values": [
+              {
+                "lookupColumn": "Status",
+                "lookupValue": "Funcionando"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "9098fa62-9e80-4a48-a21b-b709307dc40f",
+        "name": "GetAccountID",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 3,
+        "position": [
+          -1888,
+          -496
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000,
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "SN6RzeMl3gN9prB4",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT \n    BM as account,\n    ad_id, \n    ad as ad_name,\n    status_campaign\nFROM campaigns_bms \nWHERE DATE(data) = DATE(NOW())\nGROUP BY ad_id;",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          -1328,
+          -496
+        ],
+        "id": "ab512e5c-2a5c-48dd-86a1-f963db74e177",
+        "name": "AdsIdSelect",
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "## Select IDS Do Dia",
+          "height": 240,
+          "width": 224
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -1392,
+          -576
+        ],
+        "id": "3edf5590-923a-4d6d-a6f2-0ae04f02e8ae",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "url": "=https://graph.facebook.com/v24.0/{{ $node['GroupUsersAndAds'].json.ad_id }}",
+          "options": {},
+          "queryParametersUi": {
+            "parameter": [
+              {
+                "name": "access_token",
+                "value": "={{ $node['GroupUsersAndAds'].json.Token }}"
+              },
+              {
+                "name": "fields",
+                "value": "name,status,effective_status,adset_id,updated_time"
+              }
+            ]
+          }
+        },
+        "id": "f16ea0d6-edad-4fa6-b871-3c806d7f347c",
+        "name": "GetAdsInfo",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 2,
+        "position": [
+          -560,
+          -496
+        ],
+        "retryOnFail": false
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "campaigns_bms",
+            "mode": "list",
+            "cachedResultName": "campaigns_bms"
+          },
+          "dataMode": "defineBelow",
+          "columnToMatchOn": "ad_id",
+          "valueToMatchOn": "={{ $node['GroupUsersAndAds'].json.ad_id }}",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "status_ad",
+                "value": "={{ $node['GetAdsInfo'].json.status.toUpperCase() }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          -320,
+          -496
+        ],
+        "id": "fe50a643-6b22-494f-a0dc-a861d5055303",
+        "name": "UpdateAdStatus",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "aggregate": "aggregateAllItemData",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          -1632,
+          -496
+        ],
+        "id": "43b724fd-cb7f-4761-bcfd-449b6ca4c941",
+        "name": "GetAllAccounts"
+      },
+      {
+        "parameters": {
+          "aggregate": "aggregateAllItemData",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          -1040,
+          -496
+        ],
+        "id": "6689868d-afbb-4763-a4bc-878d4a3f8daf",
+        "name": "GetAllAds"
+      },
+      {
+        "parameters": {
+          "jsCode": "const UsersAdsAccounts = $node['GetAllAccounts'].json.data;\nconst AllSelectedAds = $node['GetAllAds'].json.data;\n\nconst accountMap = {};\n\nUsersAdsAccounts.forEach(account => {\n  accountMap[account['Nome Conta Anuncio']] = account;\n});\n\nconst mergedData = AllSelectedAds.map(ad => {\n  const matchingAccount = accountMap[ad.account];\n  return {\n    ...ad,\n    ...matchingAccount\n  };\n});\n\nreturn mergedData;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -800,
+          -496
+        ],
+        "id": "5e15ea13-056b-48c4-864e-fe09f60c1431",
+        "name": "GroupUsersAndAds"
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "cronExpression",
+                "expression": "0 8 */1 * * *"
+              }
+            ]
+          }
+        },
+        "id": "24d130a5-3f2e-46c0-a884-2d8a4b62f73c",
+        "name": "StartWorkflow",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1,
+        "position": [
+          -2112,
+          -496
+        ]
+      }
+    ],
+    "connections": {
+      "GetAccountID": {
+        "main": [
+          [
+            {
+              "node": "GetAllAccounts",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AdsIdSelect": {
+        "main": [
+          [
+            {
+              "node": "GetAllAds",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "GetAdsInfo": {
+        "main": [
+          [
+            {
+              "node": "UpdateAdStatus",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "UpdateAdStatus": {
+        "main": [
+          []
+        ]
+      },
+      "GetAllAccounts": {
+        "main": [
+          [
+            {
+              "node": "AdsIdSelect",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "GetAllAds": {
+        "main": [
+          [
+            {
+              "node": "GroupUsersAndAds",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "GroupUsersAndAds": {
+        "main": [
+          [
+            {
+              "node": "GetAdsInfo",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "StartWorkflow": {
+        "main": [
+          [
+            {
+              "node": "GetAccountID",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "98d35d66-2c8e-4ef3-a675-e37fb5b9bc37",
+  "connections": {
+    "GetAccountID": {
+      "main": [
+        [
+          {
+            "node": "GetAllAccounts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AdsIdSelect": {
+      "main": [
+        [
+          {
+            "node": "GetAllAds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetAdsInfo": {
+      "main": [
+        [
+          {
+            "node": "UpdateAdStatus",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UpdateAdStatus": {
+      "main": [
+        []
+      ]
+    },
+    "GetAllAccounts": {
+      "main": [
+        [
+          {
+            "node": "AdsIdSelect",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetAllAds": {
+      "main": [
+        [
+          {
+            "node": "GroupUsersAndAds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GroupUsersAndAds": {
+      "main": [
+        [
+          {
+            "node": "GetAdsInfo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "StartWorkflow": {
+      "main": [
+        [
+          {
+            "node": "GetAccountID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-16T16:34:00.532Z",
+  "id": "vIN4FqCDCVQQYdwR",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Meta04 - Sync Status AD",
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=1122812575#gid=1122812575",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1122812575,
+          "mode": "list",
+          "cachedResultName": "BM's",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1122812575"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Funcionando"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9098fa62-9e80-4a48-a21b-b709307dc40f",
+      "name": "GetAccountID",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        -1888,
+        -496
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n    BM as account,\n    ad_id, \n    ad as ad_name,\n    status_campaign\nFROM campaigns_bms \nWHERE DATE(data) = DATE(NOW())\nGROUP BY ad_id;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1328,
+        -496
+      ],
+      "id": "ab512e5c-2a5c-48dd-86a1-f963db74e177",
+      "name": "AdsIdSelect",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Select IDS Do Dia",
+        "height": 240,
+        "width": 224
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1392,
+        -576
+      ],
+      "id": "3edf5590-923a-4d6d-a6f2-0ae04f02e8ae",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v24.0/{{ $node['GroupUsersAndAds'].json.ad_id }}",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "access_token",
+              "value": "={{ $node['GroupUsersAndAds'].json.Token }}"
+            },
+            {
+              "name": "fields",
+              "value": "name,status,effective_status,adset_id,updated_time"
+            }
+          ]
+        }
+      },
+      "id": "f16ea0d6-edad-4fa6-b871-3c806d7f347c",
+      "name": "GetAdsInfo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        -496
+      ],
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "campaigns_bms",
+          "mode": "list",
+          "cachedResultName": "campaigns_bms"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "ad_id",
+        "valueToMatchOn": "={{ $node['GroupUsersAndAds'].json.ad_id }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "status_ad",
+              "value": "={{ $node['GetAdsInfo'].json.status.toUpperCase() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -320,
+        -496
+      ],
+      "id": "fe50a643-6b22-494f-a0dc-a861d5055303",
+      "name": "UpdateAdStatus",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -1632,
+        -496
+      ],
+      "id": "43b724fd-cb7f-4761-bcfd-449b6ca4c941",
+      "name": "GetAllAccounts"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -1040,
+        -496
+      ],
+      "id": "6689868d-afbb-4763-a4bc-878d4a3f8daf",
+      "name": "GetAllAds"
+    },
+    {
+      "parameters": {
+        "jsCode": "const UsersAdsAccounts = $node['GetAllAccounts'].json.data;\nconst AllSelectedAds = $node['GetAllAds'].json.data;\n\nconst accountMap = {};\n\nUsersAdsAccounts.forEach(account => {\n  accountMap[account['Nome Conta Anuncio']] = account;\n});\n\nconst mergedData = AllSelectedAds.map(ad => {\n  const matchingAccount = accountMap[ad.account];\n  return {\n    ...ad,\n    ...matchingAccount\n  };\n});\n\nreturn mergedData;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -800,
+        -496
+      ],
+      "id": "5e15ea13-056b-48c4-864e-fe09f60c1431",
+      "name": "GroupUsersAndAds"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 */1 * * *"
+            }
+          ]
+        }
+      },
+      "id": "24d130a5-3f2e-46c0-a884-2d8a4b62f73c",
+      "name": "StartWorkflow",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2112,
+        -496
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-16T16:34:00.532Z",
+      "createdAt": "2026-01-16T16:34:00.532Z",
+      "role": "workflow:owner",
+      "workflowId": "vIN4FqCDCVQQYdwR",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:StartWorkflow": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-16T18:13:21.224Z",
+  "versionId": "98d35d66-2c8e-4ef3-a675-e37fb5b9bc37"
+}

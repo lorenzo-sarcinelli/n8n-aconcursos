@@ -1,0 +1,125 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.121Z",
+  "id": "7X4ngLMJAqcnAiCR",
+  "isArchived": true,
+  "meta": null,
+  "name": "V0000 - [Interno] Armazenamento Json -> SQL",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "n8n-vendas-libano",
+        "options": {}
+      },
+      "id": "7c398e27-e842-4efe-ac5d-48463792cd75",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        500
+      ],
+      "webhookId": "bcdfbec8-055b-4aff-b96e-b423c5173ae8"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "Libano_Vendas",
+          "mode": "list",
+          "cachedResultName": "Libano_Vendas"
+        },
+        "options": {}
+      },
+      "id": "8f2ca5c6-2343-4682-ad7c-47152cafbca8",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1440,
+        500
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "2KjWB8MkfROc4OzW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "jsons",
+              "value": "={{JSON.stringify($json.body)}}"
+            },
+            {
+              "name": "foi",
+              "value": "false"
+            },
+            {
+              "name": "tipo",
+              "value": "venda"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a3f839e2-c982-433b-ae83-25b087e5e4ad",
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        1220,
+        500
+      ]
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.121Z",
+      "createdAt": "2025-08-06T19:56:06.121Z",
+      "role": "workflow:owner",
+      "workflowId": "7X4ngLMJAqcnAiCR",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-06T20:10:07.953Z",
+  "versionId": "3304bb7c-69be-479e-b629-88ad8603ec6d"
+}

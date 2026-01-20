@@ -1,0 +1,423 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T19:22:18.976Z",
+    "createdAt": "2025-11-26T19:22:18.976Z",
+    "versionId": "8ce7ec53-a50f-4c3b-938f-d17565a223dc",
+    "workflowId": "1UDVljcdg00WTAAF",
+    "nodes": [
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "survey_queue",
+            "mode": "list",
+            "cachedResultName": "survey_queue"
+          },
+          "dataMode": "defineBelow",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "request_body",
+                "value": "={{ $node[\"Buffer\"].json['buffer'] ?? null }}"
+              },
+              {
+                "column": "insert_time",
+                "value": "={{$now }}"
+              },
+              {
+                "column": "action_type",
+                "value": "subscription"
+              },
+              {
+                "column": "action_source",
+                "value": "=ActiveCampaign"
+              },
+              {
+                "column": "launch_tag",
+                "value": "={{ $('Webhook').item.json.body[\"contact[fields][launchkey]\"] }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "c58554e9-2a4a-44ef-83ae-072ef6da876d",
+        "name": "InsertQueue",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          48,
+          144
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "let body = $node['Webhook'].json['body'];\nlet jsonBody = JSON.stringify(body);\nlet buffer = new Buffer(jsonBody).toString('base64');\n\nreturn {buffer}\n\n"
+        },
+        "id": "9d8e8d9b-79ef-4bed-8d39-523665c7080c",
+        "name": "Buffer",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -400,
+          144
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "34900341-ff8a-4b7e-ad24-e20ee0e1a220",
+                "leftValue": "={{ $node['Buffer'].json[\"buffer\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "437c872c-639c-43e7-b774-2111ddf89fb1",
+        "name": "Filter",
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2,
+        "position": [
+          -176,
+          144
+        ]
+      },
+      {
+        "parameters": {
+          "content": "#### Insere o json da pesquisa na tabela \"survey_queue\"",
+          "height": 300,
+          "width": 154,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          16,
+          0
+        ],
+        "id": "4629c243-dcaa-4ea6-84a5-c9016d6f4189",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "survey-queue",
+          "options": {}
+        },
+        "id": "f0dab531-361c-41be-88be-d2510a871827",
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          -624,
+          144
+        ],
+        "webhookId": "3f178c46-6feb-46f9-a41e-a589d9a0dc91"
+      }
+    ],
+    "connections": {
+      "Buffer": {
+        "main": [
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "InsertQueue",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Buffer",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "8ce7ec53-a50f-4c3b-938f-d17565a223dc",
+  "connections": {
+    "Buffer": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "InsertQueue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-02T11:07:05.706Z",
+  "id": "1UDVljcdg00WTAAF",
+  "isArchived": false,
+  "meta": null,
+  "name": "A0006 | Pesquisa | Active | Armazena JSON",
+  "nodes": [
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "survey_queue",
+          "mode": "list",
+          "cachedResultName": "survey_queue"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "request_body",
+              "value": "={{ $node[\"Buffer\"].json['buffer'] ?? null }}"
+            },
+            {
+              "column": "insert_time",
+              "value": "={{$now }}"
+            },
+            {
+              "column": "action_type",
+              "value": "subscription"
+            },
+            {
+              "column": "action_source",
+              "value": "=ActiveCampaign"
+            },
+            {
+              "column": "launch_tag",
+              "value": "={{ $('Webhook').item.json.body[\"contact[fields][launchkey]\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c58554e9-2a4a-44ef-83ae-072ef6da876d",
+      "name": "InsertQueue",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        48,
+        144
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let body = $node['Webhook'].json['body'];\nlet jsonBody = JSON.stringify(body);\nlet buffer = new Buffer(jsonBody).toString('base64');\n\nreturn {buffer}\n\n"
+      },
+      "id": "9d8e8d9b-79ef-4bed-8d39-523665c7080c",
+      "name": "Buffer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "34900341-ff8a-4b7e-ad24-e20ee0e1a220",
+              "leftValue": "={{ $node['Buffer'].json[\"buffer\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "437c872c-639c-43e7-b774-2111ddf89fb1",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        -176,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "content": "#### Insere o json da pesquisa na tabela \"survey_queue\"",
+        "height": 300,
+        "width": 154,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        16,
+        0
+      ],
+      "id": "4629c243-dcaa-4ea6-84a5-c9016d6f4189",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "survey-queue",
+        "options": {}
+      },
+      "id": "f0dab531-361c-41be-88be-d2510a871827",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -624,
+        144
+      ],
+      "webhookId": "3f178c46-6feb-46f9-a41e-a589d9a0dc91"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.aconcursos.com.br",
+            "user-agent": "GuzzleHttp/7",
+            "content-length": "2118",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-forwarded-for": "52.2.43.221",
+            "x-forwarded-host": "webhook.aconcursos.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "6ec702752e59",
+            "x-real-ip": "52.2.43.221",
+            "accept-encoding": "gzip"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "contact[id]": "275455",
+            "contact[email]": "takaro1504@gmail.com",
+            "contact[first_name]": "José Victor Ribeiro De Sousa",
+            "contact[last_name]": "Victor Ribeiro De Sousa",
+            "contact[phone]": "+5518988242664",
+            "contact[orgname]": "",
+            "contact[customer_acct_name]": "",
+            "contact[tags]": "SSP-L17-CONTROLE, SSP-L17, SSP-L17-PESQUISA",
+            "contact[ip4]": "143.208.112.137",
+            "contact[fields][sspl17source]": "Facebook-Ads",
+            "contact[fields][sspl17slug]": "acelerador-semana-do-sistema-petrobras-v13",
+            "contact[fields][sspl17url]": "https://aconcursos.com.br/acelerador-semana-do-sistema-petrobras-v13/?utm_source=Facebook-Ads&utm_medium=%7B%7Badset.name%7D%7D&utm_content=%7B%7Bad.name%7D%7D&utm_campaign=%7B%7Bcampaign.name%7D%7D&utm_term=%7B%7Bplacement%7D%7D&utm_id=%7B%7Bcampaign.id%7D%7D%7C%7B%7Badset.id%7D%7D%7C%7B%7Bad.id%7D%7D",
+            "contact[fields][sspl17id]": "{{campaign.id}}|{{adset.id}}|{{ad.id}}",
+            "contact[fields][sspl17content]": "{{ad.name}}",
+            "contact[fields][sspl17term]": "{{placement}}",
+            "contact[fields][sspl17campaign]": "{{campaign.name}}",
+            "contact[fields][sspl17medium]": "{{adset.name}}",
+            "contact[fields][launchkey]": "SSP-L17",
+            "contact[fields][sspl17datacadastro]": "2025-10-17",
+            "contact[fields][qual_a_sua_idade]": "23-27",
+            "contact[fields][voc_pcd]": "Não",
+            "contact[fields][voc_pretende_seguir_na_carreira_tcnica_ou_superior]": "Técnica",
+            "contact[fields][selecione_abaixo_qual_a_deficincia_que_voc_possui]": "",
+            "contact[fields][qual_sua_faixa_de_renda_mensal]": "R$1.000 a R$3.000",
+            "contact[fields][qual_sua_situao_profissional_atualmente]": "Funcionário de empresa privada",
+            "contact[fields][qual_seu_grau_de_escolaridade]": "Ensino médio completo",
+            "contact[fields][quando_voc_pensa_no_concurso_da_petrobras_qual_sua_dvida_nmero_um]": "Quando me inscrever e como estudar ",
+            "contact[fields][qual_a_sua_maior_dificuldade_na_hora_de_estudar_hoje]": "Direção ",
+            "seriesid": "138"
+          },
+          "webhookUrl": "https://webhook.aconcursos.com.br/webhook/survey-queue",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-10-02T11:07:05.706Z",
+      "createdAt": "2025-10-02T11:07:05.706Z",
+      "role": "workflow:owner",
+      "workflowId": "1UDVljcdg00WTAAF",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-17T19:43:49.126Z",
+  "versionId": "8ce7ec53-a50f-4c3b-938f-d17565a223dc"
+}

@@ -1,0 +1,498 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T19:22:18.976Z",
+    "createdAt": "2025-11-26T19:22:18.976Z",
+    "versionId": "abcde352-2189-4961-8291-ea77d9d2d026",
+    "workflowId": "IiYh8dIG35oX7KDw",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 30
+              }
+            ]
+          }
+        },
+        "id": "88f0d933-10ee-448f-aab4-b329a8171435",
+        "name": "Schedule Trigger",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          0,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=778161559#gid=778161559",
+            "mode": "url"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 778161559,
+            "mode": "list",
+            "cachedResultName": "Dados ApiOficial",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=778161559"
+          },
+          "options": {}
+        },
+        "id": "200c488f-5616-4bb6-929a-2fd761cbcfc1",
+        "name": "Google Sheets",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.2,
+        "position": [
+          224,
+          0
+        ],
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "SN6RzeMl3gN9prB4",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "upsert",
+          "table": {
+            "__rl": true,
+            "value": "api_data",
+            "mode": "list",
+            "cachedResultName": "api_data"
+          },
+          "columnToMatchOn": "launch_tag",
+          "options": {}
+        },
+        "id": "f7607a87-5d76-4db9-b146-dda70f78ce86",
+        "name": "MySQL",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          880,
+          0
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "efc12922-0bf5-4c8c-a9dd-9e2f3bf743f0",
+                "name": "launch_tag",
+                "value": "={{ $json.LaunchTag }}",
+                "type": "string"
+              },
+              {
+                "id": "2e6c187a-1519-4f55-a50d-d85b4dc13ca3",
+                "name": "date",
+                "value": "={{ $json.Data }}",
+                "type": "string"
+              },
+              {
+                "id": "796db58b-e591-49e5-be24-c5abd30b1dc6",
+                "name": "api_spent_value",
+                "value": "={{ $json['Valor Gasto API (em R$)'] }}",
+                "type": "string"
+              },
+              {
+                "id": "f4456b91-e763-4d88-97ee-cc0ac5c4d4d2",
+                "name": "cost_per_unit",
+                "value": "={{ $json['Custo por Unidade (em R$)'] }}",
+                "type": "string"
+              },
+              {
+                "id": "3d17c163-a770-4c39-b0be-6c9a8e285cff",
+                "name": "total_sent",
+                "value": "={{ $json['Envios Totais'] }}",
+                "type": "string"
+              },
+              {
+                "id": "7113331b-9402-4b2e-8f1c-b6491eb5f2aa",
+                "name": "total_received",
+                "value": "={{ $json['Envios Recebidos'] }}",
+                "type": "string"
+              },
+              {
+                "id": "596c8ad2-1ad3-4e38-b2ce-b31973b0a195",
+                "name": "total_opens",
+                "value": "={{ $json['Aberturas Totais'] }}",
+                "type": "string"
+              },
+              {
+                "id": "7cc712e0-ef92-4ba1-bf5d-c9b0806eb267",
+                "name": "total_clicks",
+                "value": "={{ $json['Cliques Totais'] }}",
+                "type": "string"
+              },
+              {
+                "id": "2108239c-31c8-43da-8b1c-7e9b0794d5fe",
+                "name": "category",
+                "value": "={{ $json.Categoria }}",
+                "type": "string"
+              },
+              {
+                "id": "90be820f-dae8-4257-8afe-e0594798559f",
+                "name": "message_type",
+                "value": "={{ $json['Modalidade Mensagem'] }}",
+                "type": "string"
+              },
+              {
+                "id": "d46045c8-8898-4d80-a1e0-495ce67f50de",
+                "name": "message_name",
+                "value": "={{ $json['Nome do Disparo'] }}",
+                "type": "string"
+              },
+              {
+                "id": "64174bca-4f50-4e15-840d-50cc338d2945",
+                "name": "utm_content",
+                "value": "={{ $json['utm_content'] }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "1a1b6e8e-1e5b-4fca-8c1b-edde23ded06d",
+        "name": "Edit Fields",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.3,
+        "position": [
+          672,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "function datas(dataOriginal) {\n  var partes = dataOriginal.split('/');\n  var dia = partes[0];\n  var mes = partes[1];\n  var ano = partes[2];\n  return ano + '-' + mes + '-' + dia;\n}\n\n$input.all().forEach(el=>{  \n  el.json['Data'] = datas(el.json['Data'])\n  // el.json['Data Término das Vendas'] = datas(el.json['Data Término das Vendas'])\n})\n\nreturn $input.all();"
+        },
+        "id": "7945f7e2-64e8-40f6-98f5-cfdecbc5cca7",
+        "name": "Code",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          448,
+          0
+        ]
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Google Sheets",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Sheets": {
+        "main": [
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "MySQL",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "abcde352-2189-4961-8291-ea77d9d2d026",
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-03T17:14:59.926Z",
+  "id": "IiYh8dIG35oX7KDw",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Integração Dados API Oficial",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 30
+            }
+          ]
+        }
+      },
+      "id": "88f0d933-10ee-448f-aab4-b329a8171435",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=778161559#gid=778161559",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 778161559,
+          "mode": "list",
+          "cachedResultName": "Dados ApiOficial",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=778161559"
+        },
+        "options": {}
+      },
+      "id": "200c488f-5616-4bb6-929a-2fd761cbcfc1",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        224,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "api_data",
+          "mode": "list",
+          "cachedResultName": "api_data"
+        },
+        "columnToMatchOn": "launch_tag",
+        "options": {}
+      },
+      "id": "f7607a87-5d76-4db9-b146-dda70f78ce86",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        0
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "efc12922-0bf5-4c8c-a9dd-9e2f3bf743f0",
+              "name": "launch_tag",
+              "value": "={{ $json.LaunchTag }}",
+              "type": "string"
+            },
+            {
+              "id": "2e6c187a-1519-4f55-a50d-d85b4dc13ca3",
+              "name": "date",
+              "value": "={{ $json.Data }}",
+              "type": "string"
+            },
+            {
+              "id": "796db58b-e591-49e5-be24-c5abd30b1dc6",
+              "name": "api_spent_value",
+              "value": "={{ $json['Valor Gasto API (em R$)'] }}",
+              "type": "string"
+            },
+            {
+              "id": "f4456b91-e763-4d88-97ee-cc0ac5c4d4d2",
+              "name": "cost_per_unit",
+              "value": "={{ $json['Custo por Unidade (em R$)'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3d17c163-a770-4c39-b0be-6c9a8e285cff",
+              "name": "total_sent",
+              "value": "={{ $json['Envios Totais'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7113331b-9402-4b2e-8f1c-b6491eb5f2aa",
+              "name": "total_received",
+              "value": "={{ $json['Envios Recebidos'] }}",
+              "type": "string"
+            },
+            {
+              "id": "596c8ad2-1ad3-4e38-b2ce-b31973b0a195",
+              "name": "total_opens",
+              "value": "={{ $json['Aberturas Totais'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7cc712e0-ef92-4ba1-bf5d-c9b0806eb267",
+              "name": "total_clicks",
+              "value": "={{ $json['Cliques Totais'] }}",
+              "type": "string"
+            },
+            {
+              "id": "2108239c-31c8-43da-8b1c-7e9b0794d5fe",
+              "name": "category",
+              "value": "={{ $json.Categoria }}",
+              "type": "string"
+            },
+            {
+              "id": "90be820f-dae8-4257-8afe-e0594798559f",
+              "name": "message_type",
+              "value": "={{ $json['Modalidade Mensagem'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d46045c8-8898-4d80-a1e0-495ce67f50de",
+              "name": "message_name",
+              "value": "={{ $json['Nome do Disparo'] }}",
+              "type": "string"
+            },
+            {
+              "id": "64174bca-4f50-4e15-840d-50cc338d2945",
+              "name": "utm_content",
+              "value": "={{ $json['utm_content'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1a1b6e8e-1e5b-4fca-8c1b-edde23ded06d",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        672,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "function datas(dataOriginal) {\n  var partes = dataOriginal.split('/');\n  var dia = partes[0];\n  var mes = partes[1];\n  var ano = partes[2];\n  return ano + '-' + mes + '-' + dia;\n}\n\n$input.all().forEach(el=>{  \n  el.json['Data'] = datas(el.json['Data'])\n  // el.json['Data Término das Vendas'] = datas(el.json['Data Término das Vendas'])\n})\n\nreturn $input.all();"
+      },
+      "id": "7945f7e2-64e8-40f6-98f5-cfdecbc5cca7",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-03T17:14:59.926Z",
+      "createdAt": "2025-09-03T17:14:59.926Z",
+      "role": "workflow:owner",
+      "workflowId": "IiYh8dIG35oX7KDw",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-09-12T19:57:30.725Z",
+  "versionId": "abcde352-2189-4961-8291-ea77d9d2d026"
+}

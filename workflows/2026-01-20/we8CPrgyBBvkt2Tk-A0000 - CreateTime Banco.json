@@ -1,0 +1,635 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "ActiveCampaign",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "MySQL1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ActiveCampaign": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "MySQL1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "MySQL2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit1": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.279Z",
+  "id": "we8CPrgyBBvkt2Tk",
+  "isArchived": false,
+  "meta": null,
+  "name": "A0000 - CreateTime Banco",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "limit": 100,
+        "where": {
+          "values": [
+            {
+              "column": "contact_id_active",
+              "condition": "IS NULL"
+            },
+            {
+              "column": "contact_id_active_verified",
+              "value": "N"
+            }
+          ]
+        },
+        "options": {
+          "outputColumns": [
+            "insert_time",
+            "id_user",
+            "email"
+          ]
+        }
+      },
+      "id": "c3e66626-cc33-4003-bf97-806bc6e8df7f",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -848,
+        544
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "012fc2b9-624c-41ba-b08f-705625113bae",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -400,
+        560
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "b1d657a0-3fee-43da-8ce4-935bd7586698",
+      "name": "Replace Me",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        576
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ee0b129b-4ed2-4097-8860-3b13b5c0b7f0",
+              "name": "create_time",
+              "value": "={{ $json.created_timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "ee273914-154d-4ae4-8975-23cdebf63d95",
+              "name": "id_user",
+              "value": "={{ $('MySQL').item.json.id_user }}",
+              "type": "string"
+            },
+            {
+              "id": "81dbc2f5-bb25-4028-85c6-1d843ad4826d",
+              "name": "contact_id_active",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "0e9a16a9-b99a-47c6-b545-077a8bcbfad7",
+              "name": "contact_id_active_verified",
+              "value": "Y",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b9c0c5ef-62ee-45d2-97bf-be08c270d0d5",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        704,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 1,
+        "additionalFields": {
+          "email": "={{ $('MySQL').item.json.email }}"
+        }
+      },
+      "id": "b3109c4d-959f-4cf4-8a76-a9dd404f9ca9",
+      "name": "ActiveCampaign",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        48,
+        576
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "5uJmKNzZrBktOTYB",
+          "name": "https://faculdadelibanoedu.activehosted.com/"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "f89e09a9-d05a-499c-b64f-3c7c1ad2b35b",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "fa6e5bf6-fe0e-41df-9169-341f21a46095",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        480,
+        576
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ee0b129b-4ed2-4097-8860-3b13b5c0b7f0",
+              "name": "create_time",
+              "value": "={{ $('Replace Me').item.json.insert_time }}",
+              "type": "string"
+            },
+            {
+              "id": "ee273914-154d-4ae4-8975-23cdebf63d95",
+              "name": "id_user",
+              "value": "={{ $('MySQL').item.json.id_user }}",
+              "type": "string"
+            },
+            {
+              "id": "ba0cf215-540b-4e22-8128-454ba4c7e808",
+              "name": "contact_id_active_verified",
+              "value": "Y",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "14106c18-ac2a-4ed8-9da1-e4d63b1bf144",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        704,
+        672
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "columnToMatchOn": "id_user",
+        "options": {}
+      },
+      "id": "f031cd67-39d6-41ec-bf17-5d662bdfeba3",
+      "name": "MySQL1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        928,
+        672
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 3
+            }
+          ]
+        }
+      },
+      "id": "2c86310a-4381-4754-897f-3e77748d81c2",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1056,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "4048fb8f-9651-4d42-a76c-308a4b429a06",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        272,
+        576
+      ],
+      "webhookId": "278010f6-38b6-4d70-b621-92279ca0b335",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        224
+      ],
+      "id": "5ed50345-65ec-4eb2-a726-247c2cbc3290",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE `users` SET `contact_id_active_verified`='N' WHERE 1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -176,
+        224
+      ],
+      "id": "78e9507f-ecc5-4cbb-837f-1b4a74e4b640",
+      "name": "MySQL2",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8833a3c6-1b71-4a0f-9bf2-2bc26986eecf",
+              "leftValue": "={{ $json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -624,
+        544
+      ],
+      "id": "9a536346-bab7-4314-8a4d-08264a2a2e6c",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "={{ $workflow.id }}",
+          "mode": "id"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        48,
+        400
+      ],
+      "id": "594bffc4-82de-4a90-9627-9fd66a292f7b",
+      "name": "Execute Workflow"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        400
+      ],
+      "id": "7adccdc6-3493-422e-87ae-31f921003b9f",
+      "name": "Limit1"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1056,
+        368
+      ],
+      "id": "0f44cce3-d716-41cf-b38b-30d44bf5caf5",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "contact_id_active",
+              "condition": "IS NULL"
+            },
+            {
+              "column": "contact_id_active_verified",
+              "value": "N"
+            }
+          ]
+        },
+        "options": {
+          "outputColumns": [
+            "insert_time"
+          ]
+        }
+      },
+      "id": "0957fa3c-0eb5-45cd-95c9-944734e17573",
+      "name": "MySQL3",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -848,
+        368
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.279Z",
+      "createdAt": "2025-08-06T19:56:06.279Z",
+      "role": "workflow:owner",
+      "workflowId": "we8CPrgyBBvkt2Tk",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-11T21:01:19.949Z",
+  "versionId": "396c8353-76da-45c4-95ef-8c86e8079287"
+}

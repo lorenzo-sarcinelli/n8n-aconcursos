@@ -1,0 +1,372 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-02T18:21:57.219Z",
+    "createdAt": "2025-12-02T18:21:57.219Z",
+    "versionId": "f95c212e-3857-4a65-8ebf-8ce4b06d672f",
+    "workflowId": "l2C86vqJunC9CDJA",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 32
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          0,
+          0
+        ],
+        "id": "e75b0dd6-6241-464b-94a6-5bf24eca5d78",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "https://docs.google.com/spreadsheets/d/1Z0X6kGENBmy-kH6FvJHb3Kpb6SQ_J39Tl9w_Bw9U4vs/edit?gid=1958248444#gid=1958248444",
+            "mode": "url"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1958248444,
+            "mode": "list",
+            "cachedResultName": "AULA INTRODUTORIA",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Z0X6kGENBmy-kH6FvJHb3Kpb6SQ_J39Tl9w_Bw9U4vs/edit#gid=1958248444"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          208,
+          0
+        ],
+        "id": "c754a234-2d36-4300-8859-fd3d96eeeb60",
+        "name": "GetRows",
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000,
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "SN6RzeMl3gN9prB4",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "4753d637-b401-4f71-a69f-f333b39da5a3",
+                "name": "date",
+                "value": "={{ \n  (() => {\n    const raw = $node[\"GetRows\"].json[\"dia\"];   // ex: \"05/11\"\n    \n    // Se vier nulo, undefined ou vazio → retorna data padrão\n    if (!raw) return \"2025-12-02\";\n\n    const parts = raw.split(\"/\");\n    \n    // Se não tiver exatamente DD/MM → retorna padrão\n    if (parts.length !== 2) return \"2025-12-02\";\n\n    const [dd, mm] = parts;\n\n    // Validação simples antes de montar\n    if (!dd || !mm) return \"2025-12-02\";\n\n    const year = new Date().getFullYear();\n\n    const finalDate = `${year}-${mm.padStart(2,\"0\")}-${dd.padStart(2,\"0\")}`;\n\n    // Se por algum motivo finalDate ficar inválida → fallback\n    return finalDate || \"2025-12-02\";\n  })()\n}}",
+                "type": "string"
+              },
+              {
+                "id": "de8dffbe-cbdd-410c-82f4-99a00a80e063",
+                "name": "period",
+                "value": "={{ $node[\"GetRows\"].json[\"periodo\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "73a4daed-161b-40c3-b8fb-eadfe5dbd93f",
+                "name": "link",
+                "value": "={{ $node[\"GetRows\"].json[\"link\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "69e9ee6d-2605-44f7-80d8-656c993379e4",
+                "name": "slug",
+                "value": "={{ $node[\"GetRows\"].json[\"slug\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "184e3f64-7db3-4d08-af65-e5908f058cf7",
+                "name": "clicks",
+                "value": "={{ $node[\"GetRows\"].json[\"clicks\"] }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          416,
+          0
+        ],
+        "id": "4d37f918-a893-4b1e-9b5d-76e6eaadb851",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "operation": "upsert",
+          "table": {
+            "__rl": true,
+            "value": "switchy_data",
+            "mode": "list",
+            "cachedResultName": "switchy_data"
+          },
+          "columnToMatchOn": "slug",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          624,
+          0
+        ],
+        "id": "36b851b7-0dbe-44af-94ad-32f7e52bda87",
+        "name": "Insert or update rows in a table",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "GetRows",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "GetRows": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "Insert or update rows in a table",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "f95c212e-3857-4a65-8ebf-8ce4b06d672f",
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "GetRows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetRows": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Insert or update rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-02T16:21:54.607Z",
+  "id": "l2C86vqJunC9CDJA",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Switchy Data",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 32
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e75b0dd6-6241-464b-94a6-5bf24eca5d78",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1Z0X6kGENBmy-kH6FvJHb3Kpb6SQ_J39Tl9w_Bw9U4vs/edit?gid=1958248444#gid=1958248444",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1958248444,
+          "mode": "list",
+          "cachedResultName": "AULA INTRODUTORIA",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Z0X6kGENBmy-kH6FvJHb3Kpb6SQ_J39Tl9w_Bw9U4vs/edit#gid=1958248444"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c754a234-2d36-4300-8859-fd3d96eeeb60",
+      "name": "GetRows",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4753d637-b401-4f71-a69f-f333b39da5a3",
+              "name": "date",
+              "value": "={{ \n  (() => {\n    const raw = $node[\"GetRows\"].json[\"dia\"];   // ex: \"05/11\"\n    \n    // Se vier nulo, undefined ou vazio → retorna data padrão\n    if (!raw) return \"2025-12-02\";\n\n    const parts = raw.split(\"/\");\n    \n    // Se não tiver exatamente DD/MM → retorna padrão\n    if (parts.length !== 2) return \"2025-12-02\";\n\n    const [dd, mm] = parts;\n\n    // Validação simples antes de montar\n    if (!dd || !mm) return \"2025-12-02\";\n\n    const year = new Date().getFullYear();\n\n    const finalDate = `${year}-${mm.padStart(2,\"0\")}-${dd.padStart(2,\"0\")}`;\n\n    // Se por algum motivo finalDate ficar inválida → fallback\n    return finalDate || \"2025-12-02\";\n  })()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "de8dffbe-cbdd-410c-82f4-99a00a80e063",
+              "name": "period",
+              "value": "={{ $node[\"GetRows\"].json[\"periodo\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "73a4daed-161b-40c3-b8fb-eadfe5dbd93f",
+              "name": "link",
+              "value": "={{ $node[\"GetRows\"].json[\"link\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "69e9ee6d-2605-44f7-80d8-656c993379e4",
+              "name": "slug",
+              "value": "={{ $node[\"GetRows\"].json[\"slug\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "184e3f64-7db3-4d08-af65-e5908f058cf7",
+              "name": "clicks",
+              "value": "={{ $node[\"GetRows\"].json[\"clicks\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "4d37f918-a893-4b1e-9b5d-76e6eaadb851",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "switchy_data",
+          "mode": "list",
+          "cachedResultName": "switchy_data"
+        },
+        "columnToMatchOn": "slug",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        624,
+        0
+      ],
+      "id": "36b851b7-0dbe-44af-94ad-32f7e52bda87",
+      "name": "Insert or update rows in a table",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-02T16:21:54.607Z",
+      "createdAt": "2025-12-02T16:21:54.607Z",
+      "role": "workflow:owner",
+      "workflowId": "l2C86vqJunC9CDJA",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-02T18:21:57.208Z",
+  "versionId": "f95c212e-3857-4a65-8ebf-8ce4b06d672f"
+}

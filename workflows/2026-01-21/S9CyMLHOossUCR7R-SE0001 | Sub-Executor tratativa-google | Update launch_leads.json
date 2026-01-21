@@ -1,0 +1,706 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-03T13:56:33.346Z",
+    "createdAt": "2025-12-03T13:56:33.346Z",
+    "versionId": "7b57380d-e5a2-45e3-8bfb-338fc76e32d8",
+    "workflowId": "S9CyMLHOossUCR7R",
+    "nodes": [
+      {
+        "parameters": {
+          "content": "## Fluxo para entrada de novos Leads\n",
+          "height": 80,
+          "width": 680,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "3259bb2b-28b8-4472-9126-3a60f4116f66",
+        "name": "Sticky Note1"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.2,
+        "position": [
+          1440,
+          128
+        ],
+        "id": "91df0835-b0d3-4e78-8596-5acdb333ff05",
+        "name": "Respond to Webhook"
+      },
+      {
+        "parameters": {
+          "multipleMethods": true,
+          "httpMethod": [
+            "POST",
+            "GET"
+          ],
+          "path": "tratativa-google",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          0,
+          144
+        ],
+        "id": "ecf170df-9ad7-4ca1-86ef-c0e9b3b1dc74",
+        "name": "Webhook",
+        "webhookId": "1d8aaf63-19bb-4250-8190-173e430732cc"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "7c01e48f-c0c4-459b-9ae5-79fe4ea41a21",
+                "leftValue": "={{ $node['searchByID'].json }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "object",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          608,
+          144
+        ],
+        "id": "65b2da64-9fcc-4f01-8669-695f548712e4",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT * FROM reports_google\nWHERE ad_id like $1\nLIMIT 1;",
+          "options": {
+            "queryReplacement": "={{ $json.query.s_ad_id }}"
+          }
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          432,
+          144
+        ],
+        "id": "6140c119-79d0-4c68-bcd9-22dd6e980521",
+        "name": "searchByID",
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "77382338-ed78-46c4-901a-ddfd683f6676",
+                "name": "utm_content",
+                "value": "={{ $json.ad_name }}",
+                "type": "string"
+              },
+              {
+                "id": "9e2e66e7-cd00-4ec8-9505-6de6b02563d6",
+                "name": "utm_medium",
+                "value": "={{ $json.ad_group_name }}",
+                "type": "string"
+              },
+              {
+                "id": "048632d5-1678-4307-967d-bc539373fa97",
+                "name": "utm_campaign",
+                "value": "={{ $json.campaign }}",
+                "type": "string"
+              },
+              {
+                "id": "583db5ce-236e-445b-bb6d-251228db946f",
+                "name": "ad_id",
+                "value": "={{ $json.ad_id }}",
+                "type": "string"
+              },
+              {
+                "id": "bf0541df-4f7b-4ae2-82af-b8f2e5e8e59e",
+                "name": "adset_id",
+                "value": "={{ $json.ad_group_id }}",
+                "type": "string"
+              },
+              {
+                "id": "59bf570f-4ace-4f1a-bcda-b54c0e910272",
+                "name": "campaign_id",
+                "value": "={{ $json.campaign_id }}",
+                "type": "string"
+              },
+              {
+                "id": "0d2b890f-31d9-4759-8105-f08c8b0c9666",
+                "name": "src",
+                "value": "={{ $json.campaign_id }}|{{ $json.ad_group_id }}|{{ $json.ad_id }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1280,
+          128
+        ],
+        "id": "6faf518f-89ae-4947-8f79-6f5b2eaeda15",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          1600,
+          128
+        ],
+        "id": "152e4dc2-ae87-4037-a16a-79daec2a6a56",
+        "name": "Fim"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          224,
+          144
+        ],
+        "id": "e16f9f8d-84b2-4229-a358-f850db0cb155",
+        "name": "Noopp"
+      },
+      {
+        "parameters": {
+          "jsCode": "const url = $node[\"Noopp\"].json.query.url || \"\";\n\n// Extrai a string após o \"utm_id=\"\nconst utmIdMatch = url.match(/utm_id=([^&]+)/);\n\nlet utmId = \"\";\nlet ultimoValor = null;\n\nif (utmIdMatch && utmIdMatch[1]) {\n  utmId = utmIdMatch[1];\n  const partes = utmId.split(\"7C\"); // ou troca por \"|\" se for o caso\n  ultimoValor = partes.slice(-1)[0];\n}\n\nreturn [{\n  json: {\n    utmIdCompleto: utmId,\n    ad_id: ultimoValor\n  }\n}];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          832,
+          272
+        ],
+        "id": "a5732e0d-e7aa-411f-91be-92f86836ef3e",
+        "name": "Code"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT * FROM reports_google\nWHERE ad_id like $1\nLIMIT 1;",
+          "options": {
+            "queryReplacement": "={{ $json.ad_id }}"
+          }
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          1008,
+          272
+        ],
+        "id": "cb3d3f80-75e3-4aa2-9d3b-5e1535bd6d6d",
+        "name": "searchByID_exc",
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        },
+        "onError": "continueRegularOutput"
+      }
+    ],
+    "connections": {
+      "Respond to Webhook": {
+        "main": [
+          [
+            {
+              "node": "Fim",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Noopp",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Noopp",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "searchByID": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Noopp": {
+        "main": [
+          [
+            {
+              "node": "searchByID",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "searchByID_exc",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "searchByID_exc": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "7b57380d-e5a2-45e3-8bfb-338fc76e32d8",
+  "connections": {
+    "Respond to Webhook": {
+      "main": [
+        [
+          {
+            "node": "Fim",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Noopp",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Noopp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "searchByID": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Noopp": {
+      "main": [
+        [
+          {
+            "node": "searchByID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "searchByID_exc",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "searchByID_exc": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-03T13:45:55.825Z",
+  "id": "S9CyMLHOossUCR7R",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "SE0001 | Sub-Executor /tratativa-google | Update launch_leads",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Fluxo para entrada de novos Leads\n",
+        "height": 80,
+        "width": 680,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3259bb2b-28b8-4472-9126-3a60f4116f66",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        1440,
+        128
+      ],
+      "id": "91df0835-b0d3-4e78-8596-5acdb333ff05",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "multipleMethods": true,
+        "httpMethod": [
+          "POST",
+          "GET"
+        ],
+        "path": "tratativa-google",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        144
+      ],
+      "id": "ecf170df-9ad7-4ca1-86ef-c0e9b3b1dc74",
+      "name": "Webhook",
+      "webhookId": "1d8aaf63-19bb-4250-8190-173e430732cc"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7c01e48f-c0c4-459b-9ae5-79fe4ea41a21",
+              "leftValue": "={{ $node['searchByID'].json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        608,
+        144
+      ],
+      "id": "65b2da64-9fcc-4f01-8669-695f548712e4",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM reports_google\nWHERE ad_id like $1\nLIMIT 1;",
+        "options": {
+          "queryReplacement": "={{ $json.query.s_ad_id }}"
+        }
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        432,
+        144
+      ],
+      "id": "6140c119-79d0-4c68-bcd9-22dd6e980521",
+      "name": "searchByID",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "77382338-ed78-46c4-901a-ddfd683f6676",
+              "name": "utm_content",
+              "value": "={{ $json.ad_name }}",
+              "type": "string"
+            },
+            {
+              "id": "9e2e66e7-cd00-4ec8-9505-6de6b02563d6",
+              "name": "utm_medium",
+              "value": "={{ $json.ad_group_name }}",
+              "type": "string"
+            },
+            {
+              "id": "048632d5-1678-4307-967d-bc539373fa97",
+              "name": "utm_campaign",
+              "value": "={{ $json.campaign }}",
+              "type": "string"
+            },
+            {
+              "id": "583db5ce-236e-445b-bb6d-251228db946f",
+              "name": "ad_id",
+              "value": "={{ $json.ad_id }}",
+              "type": "string"
+            },
+            {
+              "id": "bf0541df-4f7b-4ae2-82af-b8f2e5e8e59e",
+              "name": "adset_id",
+              "value": "={{ $json.ad_group_id }}",
+              "type": "string"
+            },
+            {
+              "id": "59bf570f-4ace-4f1a-bcda-b54c0e910272",
+              "name": "campaign_id",
+              "value": "={{ $json.campaign_id }}",
+              "type": "string"
+            },
+            {
+              "id": "0d2b890f-31d9-4759-8105-f08c8b0c9666",
+              "name": "src",
+              "value": "={{ $json.campaign_id }}|{{ $json.ad_group_id }}|{{ $json.ad_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1280,
+        128
+      ],
+      "id": "6faf518f-89ae-4947-8f79-6f5b2eaeda15",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        128
+      ],
+      "id": "152e4dc2-ae87-4037-a16a-79daec2a6a56",
+      "name": "Fim"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        224,
+        144
+      ],
+      "id": "e16f9f8d-84b2-4229-a358-f850db0cb155",
+      "name": "Noopp"
+    },
+    {
+      "parameters": {
+        "jsCode": "const url = $node[\"Noopp\"].json.query.url || \"\";\n\n// Extrai a string após o \"utm_id=\"\nconst utmIdMatch = url.match(/utm_id=([^&]+)/);\n\nlet utmId = \"\";\nlet ultimoValor = null;\n\nif (utmIdMatch && utmIdMatch[1]) {\n  utmId = utmIdMatch[1];\n  const partes = utmId.split(\"7C\"); // ou troca por \"|\" se for o caso\n  ultimoValor = partes.slice(-1)[0];\n}\n\nreturn [{\n  json: {\n    utmIdCompleto: utmId,\n    ad_id: ultimoValor\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        832,
+        272
+      ],
+      "id": "a5732e0d-e7aa-411f-91be-92f86836ef3e",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM reports_google\nWHERE ad_id like $1\nLIMIT 1;",
+        "options": {
+          "queryReplacement": "={{ $json.ad_id }}"
+        }
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        1008,
+        272
+      ],
+      "id": "cb3d3f80-75e3-4aa2-9d3b-5e1535bd6d6d",
+      "name": "searchByID_exc",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      },
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-03T13:45:55.825Z",
+      "createdAt": "2025-12-03T13:45:55.825Z",
+      "role": "workflow:owner",
+      "workflowId": "S9CyMLHOossUCR7R",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-03T13:56:33.353Z",
+  "versionId": "7b57380d-e5a2-45e3-8bfb-338fc76e32d8"
+}

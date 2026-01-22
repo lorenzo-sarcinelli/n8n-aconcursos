@@ -1,0 +1,315 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Teste",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Teste": {
+      "main": [
+        [
+          {
+            "node": "n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Discord1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Discord2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:05.330Z",
+  "id": "HXcAl85buK80GKh9",
+  "isArchived": false,
+  "meta": null,
+  "name": "Workflow de erro",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "84a2f3b7-1b75-4a8d-a4e6-4056e58ded28",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1100,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let erros = []\nfunction teste(obj){\n  if(typeof obj == 'object'){\n    for(key in obj){\n      if(key == 'message'){\n        let erro = safeDecodeURIComponent(obj[key])\n        if(!erro.includes('POST')){\n          erros.push(erro)\n        }\n      }\n      teste(obj[key])\n    }\n  }\n}\nfunction safeDecodeURIComponent(str) {\n  try {\n    return decodeUnicode(str);\n  } catch (e) {\n    return str;\n  }\n}\nfunction decodeUnicode(text) {\n \n  let erro = text.slice(text.indexOf('{'),text.lastIndexOf('}')+1)\n  \n  let json = JSON.parse(erro.replace(/\\\\n/g, '\\n').replace(/\\\\\"/g, '\"'))\n  console.log(json)\n\n  json = json.description ?? json.message ?? json.error.message\n\n  return json.replace(/\\\\u[\\dA-F]{4}/gi,\n    function (match) {\n      return String.fromCharCode(parseInt(match.replace(/\\\\u/g, ''), 16))\n    })\n}\n\nteste($input.first().json)\n\nreturn {erro:erros.join(', ')}"
+      },
+      "id": "4a1d8a2e-0af1-4944-8ec2-8ef49ec78d32",
+      "name": "Teste",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -880,
+        140
+      ],
+      "alwaysOutputData": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "workflowId": {
+          "__rl": true,
+          "value": "={{ $('Error Trigger').item.json.workflow.id }}",
+          "mode": "id"
+        },
+        "requestOptions": {}
+      },
+      "id": "945f6a90-29e5-4ce2-8487-79629b63f082",
+      "name": "n8n",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -660,
+        140
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "ED15KFHsFjXV3Aa1",
+          "name": "n8n account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "webhookUri": "https://discord.com/api/webhooks/1271481714127933490/lGq1ijvKb0U1ZnuA1abSo24OUVkkRUO49PEaQFJ6jzwcoNNeYpdMiP6RXsMuZEG2Zivv",
+        "text": "=WorkFlow: {{ $node['Error Trigger'].json.workflow.name }}\nExecução: {{ $node[\"Error Trigger\"].json[\"execution\"][\"url\"].replace('webhook','n8n') }}\nTrigger: {{ $node.Code1.runIndex>= 0 ? ($node.Code1.json.start ?? $node['Error Trigger'].json.execution.mode) : $node['Error Trigger'].json.execution.mode }}\nErro: {{ $node.Teste.json.erro }} ",
+        "options": {}
+      },
+      "id": "01c31fc8-9e08-47ec-abf4-770680847f37",
+      "name": "Discord",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let json = {}\nlet menor = Infinity\nlet tags = []\n\nfor(let i = 0;i < $node[\"n8n\"].json.nodes.length; i++){\n  if(menor>$node[\"n8n\"].json.nodes[i].position[0]){    \n    json.start = []\n    menor = $node[\"n8n\"].json.nodes[i].position[0]\n    json.start.push($node[\"n8n\"].json.nodes[i].name)\n  }else if(menor == $node[\"n8n\"].json.nodes[i].position[0]){\n    json.start.push($node[\"n8n\"].json.nodes[i].name)\n  }\n}\n\nfor(let i = 0;i < $node[\"n8n\"].json.tags.length; i++){\n  tags.push($node[\"n8n\"].json.tags[i].name)\n}\n\njson.start = json.start.join(', ')\njson.tags = tags.join(`, `)\nreturn json"
+      },
+      "id": "10eb7f86-37a4-4900-8b02-35600a086857",
+      "name": "Code1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -440,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "webhookUri": "https://discord.com/api/webhooks/1272543978209673329/lQC09ZJSdV9kLvs-nEwTMr__nu-ir-ODEARngm3giUH_UYXPBdjFb5DWgI33_bL8SrPe",
+        "text": "=WorkFlow: {{ $node['Error Trigger'].json.workflow.name }}\nExecução: {{ $node[\"Error Trigger\"].json[\"execution\"][\"url\"].replace('webhook','n8n') }}\nTrigger: {{ $node.Code1.runIndex>= 0 ? ($node.Code1.json.start ?? $node['Error Trigger'].json.execution.mode) : $node['Error Trigger'].json.execution.mode }}\nErro: {{ $node.Teste.json.erro }} ",
+        "options": {}
+      },
+      "id": "e5ecd7fe-230b-496d-9b9c-8ef425c7f86e",
+      "name": "Discord1",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 1,
+      "position": [
+        0,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "webhookUri": "https://discord.com/api/webhooks/1172168485741277305/Zc9m4gkA3Q5Jl8eMzdFT4TddCfhoBopdUM0elEq-68T__5SORQZt26kdIiir96rX7Bt0",
+        "text": "=WorkFlow: {{ $node['Error Trigger'].json.workflow.name }}\nExecução: {{ $node[\"Error Trigger\"].json[\"execution\"][\"url\"].replace('webhook','n8n') }}\nTrigger: {{ $node.Code1.runIndex>= 0 ? ($node.Code1.json.start ?? $node['Error Trigger'].json.execution.mode) : $node['Error Trigger'].json.execution.mode }}\nErro: {{ $node.Teste.json.erro }} ",
+        "options": {}
+      },
+      "id": "537b8bcb-1ecc-4bfa-9604-eccfa63d7158",
+      "name": "Discord2",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 1,
+      "position": [
+        0,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $node.Code1.runIndex>= 0 ? ($node.Code1.json.start ?? $node['Error Trigger'].json.execution.mode) : $node['Error Trigger'].json.execution.mode }}",
+                    "rightValue": "Schedule",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Schedule"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "e17c430c-bb62-4bcb-ae7a-9d6c52ea544c",
+                    "leftValue": "={{ $json.tags }}",
+                    "rightValue": "Schedule",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Schedule"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "c64f987e-aebd-452f-8b2c-ab097d2f1d22",
+                    "leftValue": "={{ $node.Code1.runIndex>= 0 ? ($node.Code1.json.start ?? $node['Error Trigger'].json.execution.mode) : $node['Error Trigger'].json.execution.mode }}",
+                    "rightValue": "Rabbit",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Rabbit"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "ce951abf-cd7e-4ddd-aa2c-73e0e0748f2c",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        -220,
+        160
+      ]
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:05.330Z",
+      "createdAt": "2025-08-06T19:56:05.330Z",
+      "role": "workflow:owner",
+      "workflowId": "HXcAl85buK80GKh9",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-11T20:54:32.597Z",
+  "versionId": "db926b8c-9487-4154-bca8-3b3feb01d63b"
+}

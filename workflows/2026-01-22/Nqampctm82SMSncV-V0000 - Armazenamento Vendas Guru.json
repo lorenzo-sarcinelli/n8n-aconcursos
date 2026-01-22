@@ -1,0 +1,652 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-17T13:52:59.179Z",
+    "createdAt": "2025-12-17T13:52:59.179Z",
+    "versionId": "cc615be4-58cc-4625-9e92-3f042ec0861c",
+    "workflowId": "Nqampctm82SMSncV",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "guru-vendas",
+          "options": {}
+        },
+        "id": "442a3cb5-f6cd-45fd-bfc7-edd8a04c1e3f",
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 1.1,
+        "position": [
+          -432,
+          96
+        ],
+        "webhookId": "4bff3d11-70c5-46a0-b9c3-c6a17ab18629",
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000
+      },
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "Guru_Vendas",
+            "mode": "list",
+            "cachedResultName": "Guru_Vendas"
+          },
+          "options": {}
+        },
+        "id": "fc53def7-0595-447c-8b10-3c739cc0d57a",
+        "name": "MySQL",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          224,
+          96
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "6cR89c3DkwiktSiW",
+            "name": "MySQL Vendas"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "jsons",
+                "value": "={{JSON.stringify($json.body)}}"
+              },
+              {
+                "name": "foi",
+                "value": "false"
+              },
+              {
+                "name": "tipo",
+                "value": "assinatura"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "d67d2fd8-8891-4587-aff5-7e2d24412a6a",
+        "name": "Set1",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "jsons",
+                "value": "={{JSON.stringify($json.body)}}"
+              },
+              {
+                "name": "foi",
+                "value": "false"
+              },
+              {
+                "name": "tipo",
+                "value": "venda"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "8d268ee4-43a8-403f-88fb-50478d10b2f2",
+        "name": "Set",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 1,
+        "position": [
+          0,
+          208
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $json.body.signature_status }}",
+                "operation": "isNotEmpty"
+              }
+            ]
+          }
+        },
+        "id": "77909958-8359-431e-b40f-ed519c39e5dd",
+        "name": "IF1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          -208,
+          96
+        ]
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "IF1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set1": {
+        "main": [
+          [
+            {
+              "node": "MySQL",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set": {
+        "main": [
+          [
+            {
+              "node": "MySQL",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF1": {
+        "main": [
+          [
+            {
+              "node": "Set",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Set",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "cc615be4-58cc-4625-9e92-3f042ec0861c",
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "IF1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF1": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-13T14:20:19.105Z",
+  "id": "Nqampctm82SMSncV",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "V0000 - Armazenamento Vendas Guru",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "guru-vendas",
+        "options": {}
+      },
+      "id": "442a3cb5-f6cd-45fd-bfc7-edd8a04c1e3f",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        -432,
+        96
+      ],
+      "webhookId": "4bff3d11-70c5-46a0-b9c3-c6a17ab18629",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "Guru_Vendas",
+          "mode": "list",
+          "cachedResultName": "Guru_Vendas"
+        },
+        "options": {}
+      },
+      "id": "fc53def7-0595-447c-8b10-3c739cc0d57a",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        96
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "jsons",
+              "value": "={{JSON.stringify($json.body)}}"
+            },
+            {
+              "name": "foi",
+              "value": "false"
+            },
+            {
+              "name": "tipo",
+              "value": "assinatura"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d67d2fd8-8891-4587-aff5-7e2d24412a6a",
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "jsons",
+              "value": "={{JSON.stringify($json.body)}}"
+            },
+            {
+              "name": "foi",
+              "value": "false"
+            },
+            {
+              "name": "tipo",
+              "value": "venda"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8d268ee4-43a8-403f-88fb-50478d10b2f2",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.body.signature_status }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "77909958-8359-431e-b40f-ed519c39e5dd",
+      "name": "IF1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        96
+      ]
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhookbolado.lorenzosarcinelli.com",
+            "user-agent": "digitalmanager.guru (dev@digitalmanager.guru)",
+            "content-length": "3835",
+            "content-type": "application/json",
+            "x-forwarded-for": "34.138.197.202",
+            "x-forwarded-host": "webhookbolado.lorenzosarcinelli.com",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "5a20891ba9f1",
+            "x-real-ip": "34.138.197.202",
+            "x-request-id": "a04fdb28-e68a-40d2-8978-0995b2f9e5a6",
+            "accept-encoding": "gzip"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "attempts": 1,
+            "connection": "pubsub",
+            "payload": {
+              "affiliations": [
+                {
+                  "affiliates_group_name": "Coprodutores",
+                  "contact_email": "jolucasmelo@gmail.com",
+                  "contact_id": "a03d54d6-fd19-49a4-aaa5-9a976ad5eaa0",
+                  "contacts_group_id": "9ae7b07c-671b-4ab3-a231-5620dd76989f",
+                  "contacts_group_name": "Coprodutores",
+                  "currency": "BRL",
+                  "fee": 0.45,
+                  "id": "a03d54d9-b410-4847-aa89-a072b130ccc9",
+                  "marketplace_id": "1U2ZUAYT",
+                  "name": "Joao Lucas Port Melo",
+                  "net_value": 12.56,
+                  "recipient_id": "a03d54d8-38f1-447a-87a2-f2f67441df6c",
+                  "recipient_marketplace_id": "re_cmhdtnczmf27t0l9tskg77ot7",
+                  "value": 13.01
+                },
+                {
+                  "affiliates_group_name": "Coprodutores",
+                  "contact_email": "rafael@agenciascale.com.br",
+                  "contact_id": "9d415c27-7b39-4524-915c-a8dc808bc9f7",
+                  "contacts_group_id": "9ae7b07c-671b-4ab3-a231-5620dd76989f",
+                  "contacts_group_name": "Coprodutores",
+                  "currency": "BRL",
+                  "fee": 0.68,
+                  "id": "a03d3d5a-5f8e-4600-9d43-47c36b66a3f3",
+                  "marketplace_id": "T5RA6NDM",
+                  "name": "Rafael Rebolla",
+                  "net_value": 18.84,
+                  "recipient_id": "9d415c28-5ac5-4438-a1cf-de05a23f3458",
+                  "recipient_marketplace_id": "re_cm2b61ed498o30l9t3ideicn8",
+                  "value": 19.52
+                },
+                {
+                  "affiliates_group_name": "Coprodutores",
+                  "contact_email": "tassio.figueiras@gmail.com",
+                  "contact_id": "9dfa14c0-1840-4776-bbfc-ac932caaa9a7",
+                  "contacts_group_id": "9ae7b07c-671b-4ab3-a231-5620dd76989f",
+                  "contacts_group_name": "Coprodutores",
+                  "currency": "BRL",
+                  "fee": 0.45,
+                  "id": "a03d3d5a-4dba-4e60-8e0c-0d3e9f5acc99",
+                  "marketplace_id": "TBXUVDTM",
+                  "name": "Tassio Figueira Santana",
+                  "net_value": 12.56,
+                  "recipient_id": "9dfa14c1-27c6-4099-9e16-5f6b1291fca3",
+                  "recipient_marketplace_id": "re_cm5ydkc640x4p0l9tolqspuq4",
+                  "value": 13.01
+                }
+              ],
+              "api_token": "1aSYyv000gzhTUirJmxxP17nX2vqPa0g9lFaqTtZ",
+              "checkout_url": "https://checkout.aconcursos.com.br/pay/black-upgrade-vitalicio",
+              "contact": {
+                "address": "Rua Crisântemo",
+                "address_city": "Aracruz",
+                "address_comp": "",
+                "address_country": "BR",
+                "address_district": "São Marcos",
+                "address_number": "50",
+                "address_state": "ES",
+                "address_state_full_name": "ES",
+                "address_zip_code": "29190715",
+                "company_name": "",
+                "doc": "80583644520",
+                "email": "alene.trancoso@gmail.com",
+                "id": "a057edf9-b565-4079-a45f-98ef3beeb21d",
+                "lead": [],
+                "name": "Alene Dos Santos Almeida",
+                "phone_local_code": "55",
+                "phone_number": "73982118048"
+              },
+              "contracts": [],
+              "dates": {
+                "canceled_at": null,
+                "confirmed_at": "2025-11-13T12:50:20Z",
+                "created_at": "2025-11-13T12:47:40Z",
+                "expires_at": null,
+                "ordered_at": "2025-11-13T12:46:23Z",
+                "unavailable_until": "2025-12-13T12:50:20Z",
+                "updated_at": "2025-11-13T12:51:01Z",
+                "warranty_until": "2025-12-13T12:50:20Z"
+              },
+              "ecommerces": [],
+              "extras": {
+                "accepted_privacy_policy_url": 0,
+                "accepted_terms_url": 0
+              },
+              "id": "a058ed45-2e8d-403e-8448-51c78f0c6c9d",
+              "infrastructure": {
+                "city": "serra",
+                "city_lat_long": "-20.127985,-40.308108",
+                "country": "BR",
+                "facebook_browser_id": "fb.2.1757287033701.515171063306338432",
+                "ga_id": "GA1.1.1967797003.1757287034",
+                "host": "checkout.aconcursos.com.br",
+                "ip": "2804:2dd4:2008:3000:e3a4:45ee:2777:91a7",
+                "region": "es",
+                "user_agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/29.0 Chrome/136.0.0.0 Mobile Safari/537.36"
+              },
+              "invoice": [],
+              "is_order_bump": 0,
+              "is_reissue": 0,
+              "items": [
+                {
+                  "id": "1761848826",
+                  "image_url": "https://storage.googleapis.com/disk.clkdmg.site/clients/9ac6fb48-8e5b-47ea-a06e-e6566488ae95/images/products/a0479890-fca3-423b-8e56-a68330f8aa05.png",
+                  "internal_id": "a03d3d59-9798-4b78-b2d3-8e5bdcc325e8",
+                  "marketplace_id": "1761848826",
+                  "marketplace_name": "pagarme2",
+                  "name": "Black Infinita - Upgrade Vitalício",
+                  "offer": {
+                    "id": "a03eee27-92a3-4784-b34a-a6bfa9e0d755",
+                    "name": "Upgrade Vitalício: Acelerador 2.0 - (18x)"
+                  },
+                  "producer": {
+                    "contact_email": null,
+                    "marketplace_id": "1701794100",
+                    "name": "Acelera Concursos"
+                  },
+                  "qty": 1,
+                  "total_value": 997,
+                  "type": "product",
+                  "unit_value": 997
+                }
+              ],
+              "last_transaction": [],
+              "payment": {
+                "acquirer": {
+                  "code": "0000",
+                  "message": "Transação aprovada com sucesso",
+                  "name": "pagarme",
+                  "nsu": "4172486935",
+                  "tid": "4172486935"
+                },
+                "affiliate_value": 43.96,
+                "can_try_again": 1,
+                "coupon": null,
+                "credit_card": {
+                  "brand": "visa",
+                  "expiration_month": "05",
+                  "expiration_year": "2031",
+                  "first_digits": "459384",
+                  "id": "card_vogx9epFOF04reJ2",
+                  "last_digits": "6172"
+                },
+                "currency": "BRL",
+                "discount_value": 0,
+                "gross": 997,
+                "installments": {
+                  "interest": 304.4,
+                  "qty": 18,
+                  "value": 72.3
+                },
+                "marketplace_id": "ch_KWkOZkPhehRLlByb",
+                "marketplace_name": "pagarme2",
+                "marketplace_value": 45.16,
+                "method": "credit_card",
+                "net": 1212.28,
+                "processing_times": {
+                  "delay_in_seconds": 3,
+                  "finished_at": "2025-11-13T12:50:20.163Z",
+                  "started_at": "2025-11-13T12:50:16.594Z"
+                },
+                "refund_reason": "",
+                "refuse_reason": "Transação aprovada com sucesso (0000)",
+                "tax": {
+                  "rate": 0,
+                  "value": 0
+                },
+                "total": 1301.4
+              },
+              "product": {
+                "group": {
+                  "id": null,
+                  "name": null
+                },
+                "id": "1761848826",
+                "image_url": "https://storage.googleapis.com/disk.clkdmg.site/clients/9ac6fb48-8e5b-47ea-a06e-e6566488ae95/images/products/a0479890-fca3-423b-8e56-a68330f8aa05.png",
+                "internal_id": "a03d3d59-9798-4b78-b2d3-8e5bdcc325e8",
+                "marketplace_id": "1761848826",
+                "marketplace_name": "pagarme2",
+                "name": "Black Infinita - Upgrade Vitalício",
+                "offer": {
+                  "id": "a03eee27-92a3-4784-b34a-a6bfa9e0d755",
+                  "name": "Upgrade Vitalício: Acelerador 2.0 - (18x)"
+                },
+                "producer": {
+                  "contact_email": "",
+                  "marketplace_id": "1701794100",
+                  "name": "Acelera Concursos"
+                },
+                "qty": 1,
+                "total_value": 997,
+                "type": "product",
+                "unit_value": 997
+              },
+              "self_attribution": null,
+              "shipment": {
+                "carrier": "",
+                "delivery_time": "",
+                "service": "",
+                "status": "",
+                "tracking": "",
+                "value": 0
+              },
+              "shipping": {
+                "name": " - ",
+                "value": 0
+              },
+              "source": {
+                "checkout_source": null,
+                "pptc": [],
+                "source": "comercial",
+                "utm_campaign": null,
+                "utm_content": null,
+                "utm_medium": null,
+                "utm_source": "rafaela_peres",
+                "utm_term": null
+              },
+              "status": "approved",
+              "subscription": [],
+              "type": "producer",
+              "webhook_type": "transaction"
+            },
+            "queue": "webhooks",
+            "request_id": "a058f01e-3cd7-43ae-8f06-8d1344f2e394",
+            "return": "{\"success\":true,\"payload\":\"webhook dmg created\"}",
+            "url": "https://functions-api.clint.digital/endpoints/integration/dmg/96d53f31-2d68-4fe4-8917-a14facfd6326"
+          }
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T14:20:19.105Z",
+      "createdAt": "2025-11-13T14:20:19.105Z",
+      "role": "workflow:owner",
+      "workflowId": "Nqampctm82SMSncV",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-17T13:52:59.189Z",
+  "versionId": "cc615be4-58cc-4625-9e92-3f042ec0861c"
+}

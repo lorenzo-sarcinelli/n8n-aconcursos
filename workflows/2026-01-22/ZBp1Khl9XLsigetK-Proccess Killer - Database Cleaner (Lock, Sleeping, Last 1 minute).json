@@ -1,0 +1,430 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-22T18:34:49.037Z",
+    "createdAt": "2026-01-22T18:34:49.037Z",
+    "versionId": "410f2e96-9429-469f-a62b-5aa01486402a",
+    "workflowId": "ZBp1Khl9XLsigetK",
+    "nodes": [
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          896,
+          144
+        ],
+        "id": "f2186a7d-d1f1-4b85-b726-d15dfe81c245",
+        "name": "Loop Over Items"
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "seconds"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          0,
+          144
+        ],
+        "id": "5e059043-3884-450c-aab6-ee11e75c59a9",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SHOW PROCESSLIST;",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          224,
+          144
+        ],
+        "id": "8a7843eb-e728-4eb2-bd08-bb4b6246b194",
+        "name": "GetProccessList",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "aggregate": "aggregateAllItemData",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          448,
+          144
+        ],
+        "id": "45a1cbc7-1550-4562-9935-e931b3d7e845",
+        "name": "Aggregate"
+      },
+      {
+        "parameters": {
+          "jsCode": "const data = $node['Aggregate'].json.data;\n\nconst idsToKill = data\n  .filter(p => {\n    // Ignore event_scheduler\n    if (p.User === 'event_scheduler') return false;\n    \n    // Lock states (real locks)\n    if (p.State?.toLowerCase().includes('waiting for table metadata lock')) return true;\n    if (p.State?.toLowerCase().includes('waiting for table level lock')) return true;\n    if (p.State?.toLowerCase().includes('waiting for global read lock')) return true;\n    if (p.State?.toLowerCase().includes('locked')) return true;\n    if (p.State?.toLowerCase().includes('table lock')) return true;\n    if (p.State?.toLowerCase().includes('system lock')) return true;\n    \n    // DDL operations (ALTER/RENAME) > 3min\n    if (p.State?.toLowerCase().includes('copy to tmp table') && p.Time > 180) return true;\n    if (p.State?.toLowerCase().includes('copying to tmp table') && p.Time > 180) return true;\n    if (p.Info?.toLowerCase().includes('alter table') && p.Time > 180) return true;\n    if (p.Info?.toLowerCase().includes('rename table') && p.Time > 180) return true;\n    \n    return false;\n  })\n  .map(p => ({ id: p.Id }));\n\nreturn idsToKill;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          672,
+          144
+        ],
+        "id": "2d66ef50-dbc6-4663-8a28-d50ccb860417",
+        "name": "SeparateIds"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "name": "Proccess",
+        "typeVersion": 1,
+        "position": [
+          1120,
+          208
+        ],
+        "id": "d0c21b7e-f913-42be-9eee-ec8b8321cfdf"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "KILL {{ $json.id }};",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          1344,
+          208
+        ],
+        "id": "158f72cf-4102-42c5-ae39-9a07b0c84cb2",
+        "name": "KillProccess",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Loop Over Items": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Proccess",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "GetProccessList",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "GetProccessList": {
+        "main": [
+          [
+            {
+              "node": "Aggregate",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Aggregate": {
+        "main": [
+          [
+            {
+              "node": "SeparateIds",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SeparateIds": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Proccess": {
+        "main": [
+          [
+            {
+              "node": "KillProccess",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "KillProccess": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "410f2e96-9429-469f-a62b-5aa01486402a",
+  "connections": {
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Proccess",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "GetProccessList",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetProccessList": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "SeparateIds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SeparateIds": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Proccess": {
+      "main": [
+        [
+          {
+            "node": "KillProccess",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "KillProccess": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-22T18:23:27.739Z",
+  "id": "ZBp1Khl9XLsigetK",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Proccess Killer - Database Cleaner (Lock, Sleeping, Last 1 minute)",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        896,
+        144
+      ],
+      "id": "f2186a7d-d1f1-4b85-b726-d15dfe81c245",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        144
+      ],
+      "id": "5e059043-3884-450c-aab6-ee11e75c59a9",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SHOW PROCESSLIST;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        224,
+        144
+      ],
+      "id": "8a7843eb-e728-4eb2-bd08-bb4b6246b194",
+      "name": "GetProccessList",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        448,
+        144
+      ],
+      "id": "45a1cbc7-1550-4562-9935-e931b3d7e845",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $node['Aggregate'].json.data;\n\nconst idsToKill = data\n  .filter(p => {\n    // Ignore event_scheduler\n    if (p.User === 'event_scheduler') return false;\n    \n    // Lock states (real locks)\n    if (p.State?.toLowerCase().includes('waiting for table metadata lock')) return true;\n    if (p.State?.toLowerCase().includes('waiting for table level lock')) return true;\n    if (p.State?.toLowerCase().includes('waiting for global read lock')) return true;\n    if (p.State?.toLowerCase().includes('locked')) return true;\n    if (p.State?.toLowerCase().includes('table lock')) return true;\n    if (p.State?.toLowerCase().includes('system lock')) return true;\n    \n    // DDL operations (ALTER/RENAME) > 3min\n    if (p.State?.toLowerCase().includes('copy to tmp table') && p.Time > 180) return true;\n    if (p.State?.toLowerCase().includes('copying to tmp table') && p.Time > 180) return true;\n    if (p.Info?.toLowerCase().includes('alter table') && p.Time > 180) return true;\n    if (p.Info?.toLowerCase().includes('rename table') && p.Time > 180) return true;\n    \n    return false;\n  })\n  .map(p => ({ id: p.Id }));\n\nreturn idsToKill;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        144
+      ],
+      "id": "2d66ef50-dbc6-4663-8a28-d50ccb860417",
+      "name": "SeparateIds"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Proccess",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        208
+      ],
+      "id": "d0c21b7e-f913-42be-9eee-ec8b8321cfdf"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "KILL {{ $json.id }};",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1344,
+        208
+      ],
+      "id": "158f72cf-4102-42c5-ae39-9a07b0c84cb2",
+      "name": "KillProccess",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-22T18:23:27.739Z",
+      "createdAt": "2026-01-22T18:23:27.739Z",
+      "role": "workflow:owner",
+      "workflowId": "ZBp1Khl9XLsigetK",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-22T18:34:49.048Z",
+  "versionId": "410f2e96-9429-469f-a62b-5aa01486402a"
+}

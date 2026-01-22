@@ -1,0 +1,143 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.002Z",
+  "id": "mZPPQ2RHragA0eI9",
+  "isArchived": true,
+  "meta": null,
+  "name": "POS100K - Funil Entrada",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/createSubscriber",
+        "sendHeaders": true,
+        "specifyHeaders": "=json",
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "jsonHeaders": "{\n   \"Authorization\": \"Bearer 2587643:8cdaecf0a70adf6893bef5a4e28e61e0\",\n  \"Content-Type\": \"application/json\"\n}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"first_name\": \"{{ $json.body['contact[first_name]'] }}\",\n  \"whatsapp_phone\": \"{{ $json.body['contact[phone]'].startsWith('55') ? $json.body['contact[phone]'].replace(/\\\\D/g, '').replace(\"(\", \"\").replace(\")\", \"\").replace(\"-\", \"\").replace(\" \", \"\") : '55' + $json.body['contact[phone]'].replace(/\\\\D/g, '').replace(\"(\", \"\").replace(\")\", \"\").replace(\"-\", \"\").replace(\" \", \"\") }}\",\n  \"has_opt_in_sms\": true,\n  \"has_opt_in_email\": true,\n  \"consent_phrase\": \"valid user\"\n}",
+        "options": {}
+      },
+      "id": "9243cb2b-40f3-4cb4-b668-f144e5f46c0f",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/addTag",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "{\n   \"Authorization\": \"Bearer 2587643:8cdaecf0a70adf6893bef5a4e28e61e0\",\n  \"Content-Type\": \"application/json\"\n}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"subscriber_id\": \"{{ $json.data.id }}\",\n  \"tag_id\": \"66802428\"\n}\n",
+        "options": {}
+      },
+      "id": "04616ba6-f0db-491d-873f-5667f32cd79c",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "funil-entrada-grupos-pos-vitalicia-100k",
+        "options": {}
+      },
+      "id": "9ab30f04-c13d-45bc-a49c-d9166499e581",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "cc457772-fbee-4227-a5c7-28b493a6c39e"
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "f4d2c6c9-a98c-4564-9791-2b6cc41e175a",
+      "name": "Wait",
+      "webhookId": "b61544e4-41f3-4c8c-a3bb-1334cdc05bec"
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.002Z",
+      "createdAt": "2025-08-06T19:56:06.002Z",
+      "role": "workflow:owner",
+      "workflowId": "mZPPQ2RHragA0eI9",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-07T18:46:56.858Z",
+  "versionId": "c61520ae-02c6-423f-82dc-6d639ad189ed"
+}

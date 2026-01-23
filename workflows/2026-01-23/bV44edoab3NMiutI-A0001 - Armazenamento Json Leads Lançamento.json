@@ -1,0 +1,177 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Buffer": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "InsertQueue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.120Z",
+  "id": "bV44edoab3NMiutI",
+  "isArchived": true,
+  "meta": null,
+  "name": "A0001 - Armazenamento Json Leads Lançamento",
+  "nodes": [
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "funnels_queue",
+          "mode": "list",
+          "cachedResultName": "funnels_queue"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "request_body",
+              "value": "={{ $node[\"Buffer\"].json['buffer'] ?? null }}"
+            },
+            {
+              "column": "insert_time",
+              "value": "={{$now }}"
+            },
+            {
+              "column": "action_type",
+              "value": "subscription"
+            },
+            {
+              "column": "action_source",
+              "value": "ActiveCampaign"
+            },
+            {
+              "column": "funnel_id",
+              "value": "={{ $('Webhook').item.json.body['contact[fields][launchkey]'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ce974776-be31-431b-83a9-07efe6915877",
+      "name": "InsertQueue",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        660,
+        0
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "QpNGYbj9wAM31I5T",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let body = $node['Webhook'].json['body'];\nlet jsonBody = JSON.stringify(body);\nlet buffer = new Buffer(jsonBody).toString('base64');\n\nreturn {buffer}\n\n"
+      },
+      "id": "36dead30-f8dd-45bd-8351-38a463b26056",
+      "name": "Buffer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "34900341-ff8a-4b7e-ad24-e20ee0e1a220",
+              "leftValue": "={{ $node['Buffer'].json[\"buffer\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c927d753-85e2-451d-ad30-39b8ce63a80b",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "armazenamento-lead-launch",
+        "options": {}
+      },
+      "id": "80fdbf5f-95ef-4e0a-a780-4b88484ab3d5",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "f5876d37-4e87-46c4-9bb5-06119a0c1164"
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.120Z",
+      "createdAt": "2025-08-06T19:56:06.120Z",
+      "role": "workflow:owner",
+      "workflowId": "bV44edoab3NMiutI",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-07T18:58:28.436Z",
+  "versionId": "65cf72aa-857d-4214-b6fa-401a591553c5"
+}

@@ -1,0 +1,77 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-17T16:47:52.759Z",
+  "id": "0d5jLl3LSuUmQ191",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 10",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "fe083874-c324-4ba2-8538-2e611c90e8e5",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n  e.id AS \"executionId\",\n  e.\"workflowId\",\n  w.name AS \"workflowName\",\n  w.active AS \"isActive\",\n  e.status,\n  e.mode,\n  e.\"startedAt\",\n  ROUND(EXTRACT(EPOCH FROM (now() - e.\"startedAt\")) / 60, 2) AS \"duration_minutes\"\nFROM \"execution_entity\" e\nLEFT JOIN \"workflow_entity\" w ON w.id = e.\"workflowId\"\nWHERE e.status = 'new'       -- ainda rodando\n  AND (w.active = false OR w.active IS NULL) -- workflow desativado\nORDER BY e.\"startedAt\" DESC;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        208,
+        0
+      ],
+      "id": "b66bf843-aa99-4e21-9ac5-8745eeea2b30",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "qkp1op2sP8ulJxQE",
+          "name": "N8N"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-10-17T16:47:52.759Z",
+      "createdAt": "2025-10-17T16:47:52.759Z",
+      "role": "workflow:owner",
+      "workflowId": "0d5jLl3LSuUmQ191",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-17T16:51:19.157Z",
+  "versionId": "1234bc25-7acb-4cae-9599-02647ff51cb9"
+}

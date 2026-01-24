@@ -1,0 +1,154 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "CreateQuery",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateQuery": {
+      "main": [
+        [
+          {
+            "node": "Execute",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.254Z",
+  "id": "K1FPCs7mN1Lv3MKN",
+  "isArchived": false,
+  "meta": null,
+  "name": "Replacer Dados Google",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6ecca13a-3444-4b6b-9a3e-39497e18c7f0",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1a6ISP5oiT_bDW9hZbe_DYKgLjUH5rfK5kcWqFJgSWzc/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1a6ISP5oiT_bDW9hZbe_DYKgLjUH5rfK5kcWqFJgSWzc/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        180,
+        0
+      ],
+      "id": "93b9dd7c-a20c-4519-a291-801cfac12284",
+      "name": "Google Sheets",
+      "executeOnce": false,
+      "alwaysOutputData": false,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "C4g4MSS3cOVbWTVv",
+          "name": "Google Sheets xorugas@alinesenatore.com.br"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ $json[\"query\"] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        540,
+        0
+      ],
+      "id": "7f762435-2189-422c-adf5-4e5bff90c4fc",
+      "name": "Execute",
+      "credentials": {
+        "mySql": {
+          "id": "QpNGYbj9wAM31I5T",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and generate SQL updates for each item\nfor (const item of $input.all()) {\n  const de = item.json.De;\n  const para = item.json.Para;\n  const coluna = item.json.Coluna;\n\n  // Adiciona o campo com a query SQL no JSON de saída\n  item.json.query = `UPDATE launch_leads SET ${coluna} = '${para}' WHERE ${coluna} = '${de}' and utm_source = 'GoogleAds';`;\n}\n\n// Retorna todos os itens com a nova propriedade 'query'\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        360,
+        0
+      ],
+      "id": "d35832c6-c0b0-458c-acfc-d63267ba82a8",
+      "name": "CreateQuery"
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.254Z",
+      "createdAt": "2025-08-06T19:56:06.254Z",
+      "role": "workflow:owner",
+      "workflowId": "K1FPCs7mN1Lv3MKN",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-07T18:53:43.659Z",
+  "versionId": "32e828b4-e362-4163-b8fc-5ae8a4ea9edb"
+}

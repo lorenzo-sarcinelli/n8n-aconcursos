@@ -1,0 +1,208 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Plataformas",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.010Z",
+  "id": "MzToYnozEk2DtCdR",
+  "isArchived": false,
+  "meta": null,
+  "name": "VTurb - API",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -580,
+        -60
+      ],
+      "id": "c589528c-c24e-4bf1-bdc5-c7611ca8ee4a",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://analytics.vturb.net/conversions/stats_by_day",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Api-Token",
+              "value": "7975d333d9ad0e7781b1572606941368dfe31209931e701856569abceeee5c5a"
+            },
+            {
+              "name": "X-Api-Version",
+              "value": "v1"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"start_date\": \"2025-05-16 01:24:05\",\n  \"end_date\": \"2025-06-10 01:24:05\",\n  \"player_id\": \"6827580cf5d44459db8990f0\",\n  \"timezone\": \"America/Sao_Paulo\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        40,
+        -60
+      ],
+      "id": "cd80e0a0-616d-451e-be41-fbfac61fb67c",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://analytics.vturb.net/conversions/active_platforms",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Api-Token",
+              "value": "7975d333d9ad0e7781b1572606941368dfe31209931e701856569abceeee5c5a"
+            },
+            {
+              "name": "X-Api-Version",
+              "value": "v1"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"start_date\": \"2023-10-08 18:24:05\",\n  \"timezone\": \"America/Sao_Paulo\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -360,
+        -240
+      ],
+      "id": "76b82891-2e5e-48eb-9001-a314991ffdc8",
+      "name": "Plataformas"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://analytics.vturb.net/events/total_by_company_players",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Api-Token",
+              "value": "7975d333d9ad0e7781b1572606941368dfe31209931e701856569abceeee5c5a"
+            },
+            {
+              "name": "X-Api-Version",
+              "value": "v1"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"start_date\": \"2025-06-10\",\n  \"end_date\": \"2025-06-10\",\n  \"events\": [\"viewed\"],\n  \"timezone\": \"America/Sao_Paulo\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -360,
+        140
+      ],
+      "id": "6e35cad7-8e84-449e-9144-88c26a19c60b",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "content": "## Conversões",
+        "height": 220,
+        "width": 280
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -120
+      ],
+      "id": "0fc4d327-a7ba-4231-bf97-c2899dfbb7fb",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://analytics.vturb.net/times/user_engagement_by_day",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Api-Token",
+              "value": "7975d333d9ad0e7781b1572606941368dfe31209931e701856569abceeee5c5a"
+            },
+            {
+              "name": "X-Api-Version",
+              "value": "v1"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"player_id\": \"68263556b02c09e6effd1594\",\n  \"date_start\": \"2025-05-15\",\n  \"date_end\": \"2024-05-16\",\n  \"video_duration\": \"3600,\",\n  \"timezone\": \"America/Sao_Paulo\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -360,
+        360
+      ],
+      "id": "ce9d59f8-c9e3-4bc8-86d0-68ccd01ed2db",
+      "name": "HTTP Request2"
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.010Z",
+      "createdAt": "2025-08-06T19:56:06.010Z",
+      "role": "workflow:owner",
+      "workflowId": "MzToYnozEk2DtCdR",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-06T19:56:06.010Z",
+  "versionId": "7c0f70e6-a060-4f79-98a3-0689d52568b3"
+}

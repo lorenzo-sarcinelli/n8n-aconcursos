@@ -1,0 +1,946 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Get_oferta": {
+      "main": [
+        [
+          {
+            "node": "MySQL20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "MySQL17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL17": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL20": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "MySQL9",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "MySQL8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "MySQL5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "IF5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF5": {
+      "main": [
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get_oferta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL5": {
+      "main": [
+        [
+          {
+            "node": "IF5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL8": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL9": {
+      "main": [
+        [
+          {
+            "node": "MySQL21",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL21": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "MySQL2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-20T14:41:51.332Z",
+  "id": "rE0YpxtyvGWg2jFh",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "A0005 | Ingressos Verifier",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "offers",
+          "mode": "list",
+          "cachedResultName": "offers"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "id_offer",
+              "value": "={{ $json.offer_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1e97a6f0-0fdb-4bc2-885f-cb1b6b946813",
+      "name": "Get_oferta",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -224,
+        384
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "user_id",
+              "stringValue": "={{ $('IF5').item.json.user_id }}"
+            },
+            {
+              "name": "email",
+              "stringValue": "={{ $json.email }}"
+            },
+            {
+              "name": "contact_id_active",
+              "stringValue": "={{ $json.contact_id_active }}"
+            },
+            {
+              "name": "launch_key",
+              "stringValue": "={{ $node.MySQL20.json.launch_tag }}"
+            },
+            {
+              "name": "utm_source",
+              "stringValue": "={{ $('IF5').item.json.utm_source }}"
+            },
+            {
+              "name": "utm_medium",
+              "stringValue": "={{ $('IF5').item.json.utm_medium }}"
+            },
+            {
+              "name": "utm_campaign",
+              "stringValue": "={{ $('IF5').item.json.utm_campaign }}"
+            },
+            {
+              "name": "utm_term",
+              "stringValue": "={{ $('IF5').item.json.utm_term }}"
+            },
+            {
+              "name": "utm_content",
+              "stringValue": "={{ $('IF5').item.json.utm_content }}"
+            },
+            {
+              "name": "utm_pagina",
+              "stringValue": "={{ $('IF5').item.json.utm_pagina }}"
+            },
+            {
+              "name": "utm_url"
+            },
+            {
+              "name": "utm_id"
+            },
+            {
+              "name": "campaign_id",
+              "stringValue": "={{ $('IF5').item.json.campaign_id }}"
+            },
+            {
+              "name": "adset_id",
+              "stringValue": "={{ $('IF5').item.json.adset_id }}"
+            },
+            {
+              "name": "ad_id",
+              "stringValue": "={{ $('IF5').item.json.ad_id }}"
+            },
+            {
+              "name": "subscription_date",
+              "stringValue": "={{ $('IF5').item.json.purchase_time }}"
+            },
+            {
+              "name": "is_membership_ebook",
+              "stringValue": "N"
+            },
+            {
+              "name": "lead_black24",
+              "stringValue": "N"
+            },
+            {
+              "name": "lead_sdc0325",
+              "stringValue": "N"
+            },
+            {
+              "name": "lead_hub0725",
+              "stringValue": "N"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "977d6d93-6620-4d1d-b3e2-874f6c6e385a",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1328,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "columnToMatchOn": "email",
+        "options": {}
+      },
+      "id": "2e5fdef2-e9aa-44b6-a3fd-cfa790d96193",
+      "name": "MySQL17",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1536,
+        176
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM purchases_key\nWHERE offer_id = $1 AND launch_tag = 'IMP0525' AND `phase` = 'Ingresso' ",
+        "options": {
+          "queryReplacement": "={{ $json.offer_ext.toString() }}",
+          "detailedOutput": false
+        }
+      },
+      "id": "6871fdce-8047-42e3-b66a-a1a362adea4c",
+      "name": "MySQL20",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        384
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "0235b99e-fcf2-45da-a947-95e872e13032",
+              "leftValue": "={{ $('IF5').item.json.update_time.split(' ')[0] }}",
+              "rightValue": "={{ $json.date_start }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "afterOrEquals"
+              }
+            },
+            {
+              "id": "cd2ff318-3240-4327-90f5-fd0c57fb85f6",
+              "leftValue": "={{ $('IF5').item.json.update_time.split(' ')[0] }}",
+              "rightValue": "={{ $json.date_end }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "beforeOrEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "07e29a24-830c-4c5e-9382-d15cb7fef840",
+      "name": "If2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        224,
+        384
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "5bd741f8-9d32-412a-a4ed-cecdbc244247",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "purchases",
+          "mode": "list",
+          "cachedResultName": "purchases"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "paid_launch_verified",
+              "value": "N"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8c568068-9315-4b02-abdf-ae2e16d54f6a",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -672,
+        384
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "d0307153-a162-44b7-acb9-89ed07cf4763",
+      "name": "IF5",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 10,
+        "unit": "minutes"
+      },
+      "id": "e34cf977-6203-4c78-943e-ee6e1417b02c",
+      "name": "Wait3",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        176
+      ],
+      "webhookId": "97b64ebd-cacd-4c34-b099-bbb799e19796"
+    },
+    {
+      "parameters": {
+        "method": "={{ $('Webhook').params['httpMethod'] }}",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "3d2a1002-1ea5-4381-9da5-95b4738fac08",
+      "name": "HTTP Request3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        0,
+        176
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "purchases",
+          "mode": "list",
+          "cachedResultName": "purchases"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "id_purchase",
+              "value": "20820"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6d7a1ca7-b28d-4348-b794-8fdfc9af85d8",
+      "name": "MySQL5",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -672,
+        176
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "={{ $('Webhook').params['httpMethod'] }}",
+        "url": "=https://webhook.aconcursos.com.br/webhook/ingresso-verifier",
+        "options": {}
+      },
+      "id": "264b3123-e35c-4014-a67f-02864a228834",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        0,
+        0
+      ],
+      "retryOnFail": false,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ingresso-verifier",
+        "options": {}
+      },
+      "id": "1d6d6c6b-2691-4fec-b366-f009d3f14704",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -880,
+        384
+      ],
+      "webhookId": "0e96fbc0-4a88-4226-b0fa-c7b41d3ce63e"
+    },
+    {
+      "parameters": {
+        "method": "={{ $('Webhook').params['httpMethod'] }}",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "78889013-de31-4bdb-aacc-e6e45c1d477b",
+      "name": "HTTP Request5",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        656,
+        480
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "purchases",
+          "mode": "list",
+          "cachedResultName": "purchases"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_purchase",
+        "valueToMatchOn": "={{ $('IF5').item.json.id_purchase }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "paid_launch_verified",
+              "value": "Y"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "22a16867-9299-45fe-9b4b-93590f78ab86",
+      "name": "MySQL8",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        480
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n## Verificação LÇ PAGO\n\n\n### ALTERAR A TAG",
+        "height": 320,
+        "width": 220,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        352
+      ],
+      "id": "51f1399d-465d-4700-9544-47f80279be96",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "method": "={{ $('Webhook').params['httpMethod'] }}",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "542b1e62-6c31-46d7-a99f-57dd71916bf7",
+      "name": "HTTP Request6",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1760,
+        176
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "purchases",
+          "mode": "list",
+          "cachedResultName": "purchases"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_purchase",
+        "valueToMatchOn": "={{ $('IF5').item.json.id_purchase }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "paid_launch_verified",
+              "value": "Y"
+            },
+            {
+              "column": "launch_tag",
+              "value": "={{ $node.MySQL20.json.launch_tag }}"
+            },
+            {
+              "column": "id_launch",
+              "value": "={{ $node.MySQL20.json.id_launch }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7059ae55-58d6-44cd-8c7a-5b3e625b7e5f",
+      "name": "MySQL9",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        288
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "\"Duplicar\" user - na launch leads\n\nlaunch_key = DEFINIR",
+        "height": 284,
+        "width": 220
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        608,
+        160
+      ],
+      "typeVersion": 1,
+      "id": "32b50efe-cf0b-400f-9c9b-edcbbe2749a4",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "purchases",
+          "mode": "list",
+          "cachedResultName": "purchases"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "paid_launch_verified",
+              "value": "N"
+            }
+          ]
+        },
+        "options": {
+          "outputColumns": [
+            "id_purchase"
+          ]
+        }
+      },
+      "id": "ee71408c-5188-4ac8-acea-e84287e48eca",
+      "name": "MySQL1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -672,
+        560
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "id_user",
+              "value": "={{ $('IF5').item.json.user_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        1104,
+        176
+      ],
+      "id": "e6bbc003-bade-4ce7-86df-d1b7fb2f12aa",
+      "name": "MySQL2",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM purchases_key\nWHERE offer_id = $1 AND launch_tag = 'IMP0525' AND `phase` = 'Ingresso' and `category` = 'Produto Principal'",
+        "options": {
+          "queryReplacement": "={{ $('MySQL20').item.json.offer_id }}",
+          "detailedOutput": false
+        }
+      },
+      "id": "d557320a-8f39-46ac-883d-2caa9540f191",
+      "name": "MySQL21",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        656,
+        288
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "26c6c2d1-e020-45bf-83d5-c9746bf66837",
+              "leftValue": "={{ $node['MySQL21'].json}}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        288
+      ],
+      "id": "bbaa68de-e33c-4c26-8675-e23686778783",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "method": "={{ $('Webhook').params['httpMethod'] }}",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "e688a974-5cc0-4b52-90dc-deb60421b249",
+      "name": "HTTP Request7",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1104,
+        384
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "content": "LEMBRAR DE ADICIONAR A VERFIIFÇÃO DE RETROATIVOS NO ACTIVECAMPAIGN",
+        "height": 460,
+        "width": 900
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        96
+      ],
+      "id": "255708b9-a725-4f0d-ad3e-72eae16d3209",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-20T14:41:51.332Z",
+      "createdAt": "2025-08-20T14:41:51.332Z",
+      "role": "workflow:owner",
+      "workflowId": "rE0YpxtyvGWg2jFh",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-17T14:08:47.284Z",
+  "versionId": "610ff71f-7546-4643-a31a-84912c38be67"
+}

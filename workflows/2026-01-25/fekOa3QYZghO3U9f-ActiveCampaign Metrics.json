@@ -1,0 +1,461 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Date & Time2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time2": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "Date & Time1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "MySQL1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.296Z",
+  "id": "fekOa3QYZghO3U9f",
+  "isArchived": true,
+  "meta": null,
+  "name": "ActiveCampaign Metrics",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 23,
+              "triggerAtMinute": 50
+            }
+          ]
+        }
+      },
+      "id": "06fb0d49-69a0-4e50-94be-80bada274dc1",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        460,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://jamilrahme.api-us1.com/api/3/campaigns/{{ $json.ID }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "activeCampaignApi",
+        "options": {}
+      },
+      "id": "18b8327c-27c2-405e-8282-b4463ac659d7",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1120,
+        480
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "5uJmKNzZrBktOTYB",
+          "name": "https://faculdadelibanoedu.activehosted.com/"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "9e349e19-4700-4e73-ac7f-f8da26d1ac72",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        900,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.campaign.ldate }}",
+        "format": "custom",
+        "customFormat": "yyyy-MM-dd",
+        "outputFieldName": "Data de Envio",
+        "options": {
+          "timezone": true
+        }
+      },
+      "id": "7eefcaf7-33c2-4425-b87e-f9f9e52a0cd5",
+      "name": "Date & Time",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $now.minus({days:1}) }}",
+        "format": "custom",
+        "customFormat": "yyyy-MM-dd",
+        "outputFieldName": "Data_anterior",
+        "options": {
+          "timezone": true
+        }
+      },
+      "id": "ce524d10-7726-4d82-b8fd-516ef7e5050a",
+      "name": "Date & Time2",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1560,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "active_campaign_metrics",
+          "mode": "list",
+          "cachedResultName": "active_campaign_metrics"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "id",
+              "value": "={{ $('Loop Over Items').item.json.ID }}"
+            },
+            {
+              "column": "date",
+              "value": "={{ $json.Data_anterior }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "abb95dbe-108a-4ddc-a7c6-41b87cb7da28",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        1780,
+        460
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "QpNGYbj9wAM31I5T",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "active_campaign_metrics",
+          "mode": "list",
+          "cachedResultName": "active_campaign_metrics"
+        },
+        "columnToMatchOn": "date",
+        "options": {
+          "replaceEmptyStrings": false
+        }
+      },
+      "id": "4f3ee812-9dad-44e0-b876-f2005f813612",
+      "name": "MySQL1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        2440,
+        460
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "QpNGYbj9wAM31I5T",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $now }}",
+        "format": "custom",
+        "customFormat": "yyyy-MM-dd",
+        "outputFieldName": "date",
+        "options": {
+          "timezone": true
+        }
+      },
+      "id": "c9cfc8bc-e425-425e-a690-606ba2a387a6",
+      "name": "Date & Time1",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "campaigns",
+              "value": "={{ $node['HTTP Request'].json.campaign.name }}"
+            },
+            {
+              "name": "total_sends",
+              "value": "={{ $node['HTTP Request'].json.campaign.send_amt }}"
+            },
+            {
+              "name": "total_opens",
+              "value": "={{ $node['HTTP Request'].json.campaign.uniqueopens }}"
+            },
+            {
+              "name": "total_clicks",
+              "value": "={{ $node['HTTP Request'].json.campaign.uniquelinkclicks }}"
+            },
+            {
+              "name": "total_replies",
+              "value": "={{ $node['HTTP Request'].json.campaign.uniquereplies}}"
+            },
+            {
+              "name": "total_bounces",
+              "value": "={{ parseInt($node['HTTP Request'].json.campaign.softbounces) + parseInt($node['HTTP Request'].json.campaign.hardbounces) }}"
+            },
+            {
+              "name": "send_date",
+              "value": "={{ $('Date & Time').item.json['Data de Envio'] }}"
+            },
+            {
+              "name": "daily_sends",
+              "value": "={{ $node['MySQL'].json['total_sends'] ? ($node['MySQL'].json['total_sends'] - $node['HTTP Request'].json.campaign.send_amt) * -1 : $node['HTTP Request'].json.campaign.send_amt }}"
+            },
+            {
+              "name": "daily_opens",
+              "value": "={{ $('MySQL').item.json['total_opens'] ? (($('MySQL').item.json['total_opens'] - $node['HTTP Request'].json.campaign.uniqueopens ) * -1) : $node['HTTP Request'].json.campaign.uniqueopens }}"
+            },
+            {
+              "name": "daily_clicks",
+              "value": "={{ $('MySQL').item.json['total_clicks'] ? (($('MySQL').item.json['total_clicks'] - $node['HTTP Request'].json.campaign.uniquelinkclicks ) * -1) : $node['HTTP Request'].json.campaign.uniquelinkclicks }}"
+            },
+            {
+              "name": "daily_replies",
+              "value": "={{ $('MySQL').item.json['total_replies'] ? (($('MySQL').item.json['total_replies'] - $node['HTTP Request'].json.campaign.uniquereplies ) * -1) : $node['HTTP Request'].json.campaign.uniquereplies }}"
+            },
+            {
+              "name": "daily_bounces",
+              "value": "={{  $('MySQL').item.json['total_bounces'] ?(($('MySQL').item.json['total_bounces'] -( parseInt($node['HTTP Request'].json.campaign.softbounces) + parseInt($node['HTTP Request'].json.campaign.hardbounces)) ) * -1) : (parseInt($node['HTTP Request'].json.campaign.softbounces) + parseInt($node['HTTP Request'].json.campaign.hardbounces)) }}"
+            },
+            {
+              "name": "id",
+              "value": "={{ $('HTTP Request').item.json.campaign.id }}"
+            },
+            {
+              "name": "email_url",
+              "value": "=https://carabaocursos.api-us1.com/report/#/campaign/{{ $('HTTP Request').item.json.campaign.id }}/message"
+            },
+            {
+              "name": "click_rate",
+              "value": "={{ $node['HTTP Request'].json.campaign.uniquelinkclicks / $node['HTTP Request'].json.campaign.uniqueopens }}"
+            },
+            {
+              "name": "open_rate",
+              "value": "={{ $node['HTTP Request'].json.campaign.uniqueopens / $node['HTTP Request'].json.campaign.send_amt }}"
+            },
+            {
+              "name": "total_unsubscribes",
+              "value": "={{ $('HTTP Request').item.json.campaign.unsubscribes }}"
+            },
+            {
+              "name": "daily_unsubscribes",
+              "value": "={{ $('MySQL').item.json['total_unsubscribes'] ? ($('MySQL').item.json['total_unsubscribes'] -( parseInt($node['HTTP Request'].json.campaign.unsubscribes) + parseInt($node['HTTP Request'].json.campaign.unsubscribes)) ) * -1 : parseInt($node['HTTP Request'].json.campaign.unsubscribes) + parseInt($node['HTTP Request'].json.campaign.unsubscribes)}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7cf4955c-86e3-470d-b63c-a58c8fabe47b",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        2220,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1p6ZGA3zipn3Y4ZSn0hCKuqK5KMSvTVIbwxzvLs03cJE/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "ID's",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p6ZGA3zipn3Y4ZSn0hCKuqK5KMSvTVIbwxzvLs03cJE/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "8b25ff12-933f-432c-80b6-f3c84a162528",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        680,
+        460
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "C4g4MSS3cOVbWTVv",
+          "name": "Google Sheets xorugas@alinesenatore.com.br"
+        }
+      }
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.296Z",
+      "createdAt": "2025-08-06T19:56:06.296Z",
+      "role": "workflow:owner",
+      "workflowId": "fekOa3QYZghO3U9f",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-07T19:04:37.940Z",
+  "versionId": "c16f38b2-f395-4c30-8759-612f5377c546"
+}

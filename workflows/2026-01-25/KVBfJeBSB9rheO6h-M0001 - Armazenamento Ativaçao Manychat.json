@@ -1,0 +1,338 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-26T12:42:47.548Z",
+    "createdAt": "2025-12-26T12:42:47.548Z",
+    "versionId": "4becbf76-5efe-4cce-bf6a-45b16ee08290",
+    "workflowId": "KVBfJeBSB9rheO6h",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "manychat-queue-direct",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "816c0d73-21ec-4b96-824c-4cf4669467be",
+        "name": "Webhook",
+        "webhookId": "2b673ab2-e069-4e82-8d3d-13d19645cab5"
+      },
+      {
+        "parameters": {
+          "jsCode": "let body = $node['Webhook'].json['body'];\nlet jsonBody = JSON.stringify(body);\nlet buffer = new Buffer(jsonBody).toString('base64');\n\nreturn {buffer}\n\n"
+        },
+        "id": "52095912-81e6-4bf6-8adf-0483cae98c8e",
+        "name": "Buffer",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          208,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "34900341-ff8a-4b7e-ad24-e20ee0e1a220",
+                "leftValue": "={{ $node['Buffer'].json[\"buffer\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "0636ef45-c2ef-420b-af43-f555fc4b6822",
+        "name": "Filter",
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2,
+        "position": [
+          432,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "general_queue",
+            "mode": "list",
+            "cachedResultName": "general_queue"
+          },
+          "dataMode": "defineBelow",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "request_body",
+                "value": "={{ $node[\"Buffer\"].json['buffer'] ?? null }}"
+              },
+              {
+                "column": "insert_time",
+                "value": "={{$now }}"
+              },
+              {
+                "column": "action_type",
+                "value": "subscription"
+              },
+              {
+                "column": "action_source",
+                "value": "ManyChatDirect"
+              },
+              {
+                "column": "launch_tag",
+                "value": "={{ $node[\"Webhook\"].json[\"query\"][\"launch\"] ?? null }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "e3207372-a01a-4da3-b19a-c1510cb356ee",
+        "name": "InsertQueue",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          656,
+          0
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Buffer",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Buffer": {
+        "main": [
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "InsertQueue",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "4becbf76-5efe-4cce-bf6a-45b16ee08290",
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buffer": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "InsertQueue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-30T13:36:19.463Z",
+  "id": "KVBfJeBSB9rheO6h",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "M0001 - Armazenamento Ativaçao Manychat",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "manychat-queue-direct",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "816c0d73-21ec-4b96-824c-4cf4669467be",
+      "name": "Webhook",
+      "webhookId": "2b673ab2-e069-4e82-8d3d-13d19645cab5"
+    },
+    {
+      "parameters": {
+        "jsCode": "let body = $node['Webhook'].json['body'];\nlet jsonBody = JSON.stringify(body);\nlet buffer = new Buffer(jsonBody).toString('base64');\n\nreturn {buffer}\n\n"
+      },
+      "id": "52095912-81e6-4bf6-8adf-0483cae98c8e",
+      "name": "Buffer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "34900341-ff8a-4b7e-ad24-e20ee0e1a220",
+              "leftValue": "={{ $node['Buffer'].json[\"buffer\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "0636ef45-c2ef-420b-af43-f555fc4b6822",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        432,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "general_queue",
+          "mode": "list",
+          "cachedResultName": "general_queue"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "request_body",
+              "value": "={{ $node[\"Buffer\"].json['buffer'] ?? null }}"
+            },
+            {
+              "column": "insert_time",
+              "value": "={{$now }}"
+            },
+            {
+              "column": "action_type",
+              "value": "subscription"
+            },
+            {
+              "column": "action_source",
+              "value": "ManyChatDirect"
+            },
+            {
+              "column": "launch_tag",
+              "value": "={{ $node[\"Webhook\"].json[\"query\"][\"launch\"] ?? null }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e3207372-a01a-4da3-b19a-c1510cb356ee",
+      "name": "InsertQueue",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        656,
+        0
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-30T13:36:19.463Z",
+      "createdAt": "2025-11-30T13:36:19.463Z",
+      "role": "workflow:owner",
+      "workflowId": "KVBfJeBSB9rheO6h",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-26T12:42:47.560Z",
+  "versionId": "4becbf76-5efe-4cce-bf6a-45b16ee08290"
+}

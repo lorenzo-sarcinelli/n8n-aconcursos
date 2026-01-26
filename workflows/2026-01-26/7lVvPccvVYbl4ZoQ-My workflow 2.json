@@ -1,0 +1,68 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-28T13:49:50.805Z",
+  "id": "7lVvPccvVYbl4ZoQ",
+  "isArchived": false,
+  "meta": null,
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8119428c-ea09-43cf-8c9c-b53952ddb0c0",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://connectors.windsor.ai/google_ads?api_key=898b73329b7b7c2be8155ca083a37144a714&date_from=2025-08-28&date_to=2025-08-28&fields=account_name,ad_group_id,ad_group_name,ad_id,campaign,campaign_id,clicks,date,impressions,spend,video_id,video_quartile100_rate,video_quartile25_rate,video_quartile50_rate,video_quartile75_rate,video_views&select_accounts=321-028-2013",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c7efe035-23d1-4cd9-acd0-5da279239942",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-28T13:49:50.805Z",
+      "createdAt": "2025-08-28T13:49:50.805Z",
+      "role": "workflow:owner",
+      "workflowId": "7lVvPccvVYbl4ZoQ",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-28T13:49:50.805Z",
+  "versionId": "098d095e-3246-49c4-af0f-a7fcb996190b"
+}

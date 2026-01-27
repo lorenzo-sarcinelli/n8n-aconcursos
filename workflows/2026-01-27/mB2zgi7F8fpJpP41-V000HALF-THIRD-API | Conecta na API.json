@@ -1,0 +1,365 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Setter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setter": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetRequest": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "GetRequest1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-23T18:00:49.999Z",
+  "id": "mB2zgi7F8fpJpP41",
+  "isArchived": false,
+  "meta": null,
+  "name": "V000HALF-THIRD-API | Conecta na API",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "181b65f9-6e47-40bc-a6cb-e2e95f1701ad",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "231898a9-d6fe-44c5-8744-6388ec14c5c2",
+              "name": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJjZW50cmFsZGVkYWRvc2x1Y2FzbnVuZXNAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvc2lkIjoiNDU1MTAiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiTG9yZW56byBFcXVpcGUiLCJzdWIiOiJBUElfVE1CIiwiZXhwIjoyMDg0NzI0MDc0LCJpc3MiOiJBUElfVE1CIn0.woMVuvkjx_SYbOp72M_GxJYilXnSeYYcFpq8wyYkl_g",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "ea5feea1-2da7-42fe-919d-33ffc64accb7",
+      "name": "Setter"
+    },
+    {
+      "parameters": {
+        "url": "https://api.tmbeducacao.com.br/api/pedidos",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "pageNumber",
+              "value": "1"
+            },
+            {
+              "name": "pageSize",
+              "value": "100"
+            },
+            {
+              "name": "data_inicio",
+              "value": "2026-01-22"
+            },
+            {
+              "name": "produto_id",
+              "value": "12902"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        624,
+        -304
+      ],
+      "id": "0a57d996-034d-446d-a4a1-ad7c92feba3f",
+      "name": "GetRequest",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "rlKW8kAPeuhUKHOS",
+          "name": "TMB API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.tmbeducacao.com.br/api/produtos",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "pageNumber",
+              "value": "1"
+            },
+            {
+              "name": "pageSize",
+              "value": "100"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        208,
+        -240
+      ],
+      "id": "eea892bf-1cf9-48fd-9d92-c19b8ea57c5e",
+      "name": "GetProdutos",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "rlKW8kAPeuhUKHOS",
+          "name": "TMB API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.tmbeducacao.com.br/api/ofertas",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -256,
+        -272
+      ],
+      "id": "3450e0d7-6ffa-4bfd-9b2b-30fab33f5e42",
+      "name": "GetOfertas",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "rlKW8kAPeuhUKHOS",
+          "name": "TMB API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const date = \"2026-01-22\";\nconst products = [\n  {id: \"12901\", date},\n  {id: \"12902\", date},\n]\n\nreturn products;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "f62b0124-9272-49d2-99ba-b754be15ac80",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5de7134c-5e4b-41f2-905a-acb025a763fd",
+              "leftValue": "={{ $json.code }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1040,
+        -304
+      ],
+      "id": "143d3a7c-6e07-4d6f-bfd6-46d2f3269052",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        832,
+        -304
+      ],
+      "id": "8ebdd24b-d05c-4638-9140-366406211908",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "url": "https://api.tmbeducacao.com.br/api/pedidos/1490625",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "pageNumber",
+              "value": "40"
+            },
+            {
+              "name": "pageSize",
+              "value": "100"
+            },
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1024,
+        208
+      ],
+      "id": "56c67aeb-519f-4679-94aa-9f291ea1e85c",
+      "name": "GetRequest1",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "rlKW8kAPeuhUKHOS",
+          "name": "TMB API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        624,
+        0
+      ],
+      "id": "a6211856-2399-459b-8b40-a639a833d190",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        832,
+        208
+      ],
+      "id": "c9527816-c545-4306-8a0a-1828ca9e3129"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-23T18:00:49.999Z",
+      "createdAt": "2026-01-23T18:00:49.999Z",
+      "role": "workflow:owner",
+      "workflowId": "mB2zgi7F8fpJpP41",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-23T18:43:33.864Z",
+  "versionId": "4089aa28-29e8-4243-b0dd-8d6ee90096e7"
+}

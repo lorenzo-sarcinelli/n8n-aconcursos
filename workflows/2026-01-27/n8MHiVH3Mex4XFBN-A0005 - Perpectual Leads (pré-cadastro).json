@@ -1,0 +1,769 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Loop": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchQueue": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item": {
+      "main": [
+        [
+          {
+            "node": "Atualizar Tentativa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buffer": {
+      "main": [
+        [
+          {
+            "node": "CheckUserExists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Inserir Banco",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inserir Banco": {
+      "main": [
+        [
+          {
+            "node": "Atualizar Pendencia = N",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualizar Pendencia = N": {
+      "main": [
+        [
+          {
+            "node": "Item1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "SearchQueue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualizar Tentativa": {
+      "main": [
+        [
+          {
+            "node": "Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CheckUserExists": {
+      "main": [
+        [
+          {
+            "node": "User Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "User Exists": {
+      "main": [
+        [
+          {
+            "node": "UserID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create User",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item1": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create User": {
+      "main": [
+        [
+          {
+            "node": "UserID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UserID": {
+      "main": [
+        [
+          {
+            "node": "getUtmPagina",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getUtmPagina": {
+      "main": [
+        [
+          {
+            "node": "destrinchaUTM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "destrinchaUTM": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.097Z",
+  "id": "n8MHiVH3Mex4XFBN",
+  "isArchived": false,
+  "meta": null,
+  "name": "A0005 - Perpectual Leads (pré-cadastro)",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "12aa0caa-9576-4749-bfd2-5e2780f34c5b",
+      "name": "Loop",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -96,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "perpetual_queue",
+          "mode": "list",
+          "cachedResultName": "perpetual_queue"
+        },
+        "limit": 5,
+        "where": {
+          "values": [
+            {
+              "column": "is_pending",
+              "value": "Y"
+            },
+            {
+              "column": "tries_count",
+              "condition": "<=",
+              "value": "4"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "453e69e7-ab75-4e14-bee2-afd44de7a873",
+      "name": "SearchQueue",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -320,
+        112
+      ],
+      "alwaysOutputData": false,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "dc92ffe4-3139-4094-85a3-8158d8712706",
+      "name": "Item",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        128,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let request = $node[\"Item\"].json[\"request_body\"]\nlet bufferObj = Buffer.from(request, \"base64\");\nlet decodedString = bufferObj.toString(\"utf8\");\nlet json = JSON.parse(decodedString);\nreturn json;"
+      },
+      "id": "a4746898-89e5-43d7-9f78-a063072be1a6",
+      "name": "Buffer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "18eb1297-2157-4b38-95ca-67be5ae2ce5a",
+              "name": "user_id",
+              "value": "={{ $('UserID').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "4d3f6768-b805-43f3-9699-7d3f15b3218e",
+              "name": "email",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[email]\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "d80af870-3180-4d01-b7ce-3777bf09b400",
+              "name": "perpetual_key",
+              "value": "=POS100K",
+              "type": "string"
+            },
+            {
+              "id": "9307b216-2d02-4545-b6c3-c696f5bdc9ba",
+              "name": "utm_source",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[fields][utmsource_cadastro]\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "b37e6b04-668e-4b35-84b9-8703ddf06f35",
+              "name": "utm_medium",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[fields][utmmedium_cadastro]\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "c9be6d2f-5f9e-4632-a205-e734d8709089",
+              "name": "utm_campaign",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[fields][utmcampaign_cadastro]\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "bb3a1579-bfea-48bc-8325-4a12037c3552",
+              "name": "utm_term",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[fields][utmterm_cadastro]\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "1d5c12f7-3f75-4a18-9969-9bd82019e247",
+              "name": "utm_content",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[fields][utmcontent_cadastro]\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "c918f164-a759-4500-8b12-2ff583177d37",
+              "name": "utm_pagina",
+              "value": "={{ $node['destrinchaUTM'].json['utm_pagina'] }}",
+              "type": "string"
+            },
+            {
+              "id": "8402cc23-de9d-4135-bc29-0009c4c85fe7",
+              "name": "utm_url",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[fields][utmpageurl_cadastro]\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "9d461699-2836-429d-b99b-1ca04674affe",
+              "name": "subscription_date",
+              "value": "={{ $node['SearchQueue'].json['insert_time'] }}",
+              "type": "string"
+            },
+            {
+              "id": "f36cd163-ccdc-4a94-a779-d4977f41eb93",
+              "name": "campaign_id",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[fields][src_cadastro]\"].split(\"|\")[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "1877cbf1-f3cb-4550-85c5-d8472a71a0d7",
+              "name": "adset_id",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[fields][src_cadastro]\"].split(\"|\")[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "bab93bd2-ba06-42ad-b3f1-4e0cb93aa5dc",
+              "name": "ad_id",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[fields][src_cadastro]\"].split(\"|\")[2] }}",
+              "type": "string"
+            },
+            {
+              "id": "4c772c13-2909-4626-bd9d-d1e30fba5786",
+              "name": "src",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[fields][src_cadastro]\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "655e1b82-be29-4a23-a2b2-502feb9cb8d2",
+              "name": "subscription_simple_date",
+              "value": "={{ $node['SearchQueue'].json['insert_time'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a82568c8-4776-4651-b330-12149ab0d8db",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        2112,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "perpetual_leads",
+          "mode": "list",
+          "cachedResultName": "perpetual_leads"
+        },
+        "columnToMatchOn": "email",
+        "options": {}
+      },
+      "id": "33e165ac-8737-4665-a9f3-0a2ff040ccdb",
+      "name": "Inserir Banco",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        2320,
+        112
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "perpetual_queue",
+          "mode": "list",
+          "cachedResultName": "perpetual_queue"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_perpetual_queue",
+        "valueToMatchOn": "={{ $node['Item'].json['id_perpetual_queue'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "execution_time",
+              "value": "={{ $now.toSQL() }}"
+            },
+            {
+              "column": "is_pending",
+              "value": "N"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3dbf0350-cf7a-4a63-b65e-606bf0d4f2b4",
+      "name": "Atualizar Pendencia = N",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        2544,
+        112
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Busca perpectual_leads que possuam \"pending\" = \"Y\"",
+        "height": 361,
+        "width": 150,
+        "color": 6
+      },
+      "id": "ccda1ffa-a087-4057-b7bf-5f956935132d",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -336,
+        -96
+      ]
+    },
+    {
+      "parameters": {
+        "content": "Atualiza tentativa e decodifica o json_body",
+        "height": 261,
+        "width": 621,
+        "color": 6
+      },
+      "id": "e7125dbe-bea4-46c7-a8d1-8cbe1eb9c2e7",
+      "name": "Sticky Note7",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        80,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -544,
+        112
+      ],
+      "id": "b44d23f3-d96a-4622-8ec3-f63ec9ad428f",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "perpetual_queue",
+          "mode": "list",
+          "cachedResultName": "perpetual_queue"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_perpetual_queue",
+        "valueToMatchOn": "={{ $node['Item'].json['id_perpetual_queue'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "tries_count",
+              "value": "={{ $json[\"tries_count\"] + 1}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bf7b0fe9-5019-47e3-b596-f04c3b40d8f9",
+      "name": "Atualizar Tentativa",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        352,
+        128
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "email",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[email]\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e9fe2a09-3d80-4938-8641-679a86d99637",
+      "name": "CheckUserExists",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        784,
+        128
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "45cb854a-c21c-483c-8183-c76571dd6b33",
+              "leftValue": "={{ $node['CheckUserExists'].json[\"id_user\"] ?? 0 }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "46dc5245-86c8-4596-956e-f59979644782",
+      "name": "User Exists",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        128
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "ba86ff29-eebd-4622-a761-f864b208e22d",
+      "name": "Item1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2768,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "name",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[first_name]\"] }} {{ $node[\"Buffer\"].json[\"contact[last_name]\"] }}"
+            },
+            {
+              "column": "email",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[email]\"] }}"
+            },
+            {
+              "column": "phone",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[phone]\"] }}"
+            },
+            {
+              "column": "create_time",
+              "value": "={{ $node['Item'].json['insert_time'] }}"
+            },
+            {
+              "column": "ext_id",
+              "value": "={{ $node[\"Buffer\"].json[\"contact[email]\"] }}"
+            }
+          ]
+        },
+        "options": {
+          "detailedOutput": true
+        }
+      },
+      "id": "a8464f9d-8c39-4299-b327-0173ad94992d",
+      "name": "Create User",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1232,
+        208
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let search =$node['CheckUserExists'].runIndex >= 0 &&  $node['CheckUserExists'].json['id_user'] !== undefined ? $node['CheckUserExists'].json['id_user'] : 0;\nlet create =  $node['Create User'].runIndex >= 0 &&  $node['Create User'].json[\"data\"][\"insertId\"] !== undefined ? $node['Create User'].json[\"data\"][\"insertId\"] : 0;\n\n\nif(create > 0) return {id: create};\nreturn {id: search};"
+      },
+      "id": "6babfd27-4041-405f-81d5-1167a03c3725",
+      "name": "UserID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let item = $node['Buffer'].json[\"jsonpx\"]; \n\nlet decodedString = item.toString(\"utf8\");\n\n// Converte a string UTF-8 para JSON\nlet jsonData = JSON.parse(decodedString);\n\nconst eventSourceUrl = jsonData.data?.[0]?.event_source_url || \"URL não encontrada\";\n\n\n// Retornando no formato esperado pelo n8n\nreturn [{ json: { event_source_url: eventSourceUrl } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1664,
+        112
+      ],
+      "id": "fa155b39-d011-4eeb-bbfb-0c819a972be5",
+      "name": "getUtmPagina",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "code para extraç~]ao de UTM pagina, que está presente em json dentro do json principal",
+        "height": 341,
+        "width": 150,
+        "color": 6
+      },
+      "id": "69b6b589-0e3d-42e5-847c-6b4a2f969142",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1648,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let item = $node['getUtmPagina'].json[\"event_source_url\"]; \n\nlet event_source_url = item.toString(\"utf8\");\n\n// Expressão Regex para capturar os parâmetros desejados\nconst regex = /[?&](mac_id|s_as_id|s_ad_id)=([^&#]+)/g;\n\nlet match;\nlet queryParams = {};\n\n// Executa o regex na URL para capturar os valores\nwhile ((match = regex.exec(event_source_url)) !== null) {\n    queryParams[match[1]] = decodeURIComponent(match[2]);\n}\n\n// Obtendo a página (slug) da URL\nconst urlPath = event_source_url.split('?')[0]; \nconst pathSegments = urlPath.split('/').filter(segment => segment);\nconst utm_pagina = pathSegments[pathSegments.length - 1] || null; \n\n// Retorno no formato esperado pelo n8n\nreturn [{\n    json: {\n        utm_pagina: utm_pagina,\n        mac_id: queryParams[\"mac_id\"] || null,\n        s_as_id: queryParams[\"s_as_id\"] || null,\n        s_ad_id: queryParams[\"s_ad_id\"] || null\n    }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1888,
+        112
+      ],
+      "id": "9441ecb7-9648-442d-95f6-7f685d876c46",
+      "name": "destrinchaUTM",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "extrair utm_pagina, s_as_id e s_ad_id",
+        "height": 341,
+        "width": 150,
+        "color": 6
+      },
+      "id": "e18bfa36-5072-4965-8f15-7c573cb1a7b4",
+      "name": "Sticky Note13",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1872,
+        -80
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.097Z",
+      "createdAt": "2025-08-06T19:56:06.097Z",
+      "role": "workflow:owner",
+      "workflowId": "n8MHiVH3Mex4XFBN",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-07T18:57:33.179Z",
+  "versionId": "5f600aba-2326-4a60-995d-c0abf2614b43"
+}

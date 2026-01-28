@@ -1,0 +1,1154 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T19:22:18.976Z",
+    "createdAt": "2025-11-26T19:22:18.976Z",
+    "versionId": "274f66dd-06a8-4763-8bb9-af9d53f4761d",
+    "workflowId": "ExuKIQKP2L2GqGPa",
+    "nodes": [
+      {
+        "parameters": {
+          "url": "=https://graph.facebook.com/v20.0/act_{{ $json[\"ID Conta de Anuncio\"] }}/insights",
+          "options": {},
+          "queryParametersUi": {
+            "parameter": [
+              {
+                "name": "fields",
+                "value": "ad_id"
+              },
+              {
+                "name": "access_token",
+                "value": "={{ $json[\"Token\"] }}"
+              },
+              {
+                "name": "level",
+                "value": "ad"
+              },
+              {
+                "name": "limit",
+                "value": "1"
+              }
+            ]
+          }
+        },
+        "id": "23dbffe4-8372-4242-8045-71f5093202f2",
+        "name": "HTTP Request4",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 2,
+        "position": [
+          368,
+          640
+        ],
+        "retryOnFail": true,
+        "continueOnFail": true
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=1122812575#gid=1122812575",
+            "mode": "url"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1122812575,
+            "mode": "list",
+            "cachedResultName": "BM's",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1122812575"
+          },
+          "options": {}
+        },
+        "id": "f1b67b92-2f83-4e43-874b-810d017caa0a",
+        "name": "Google Sheets2",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 3,
+        "position": [
+          -80,
+          672
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000,
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "SN6RzeMl3gN9prB4",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "batchSize": 1,
+          "options": {}
+        },
+        "id": "c460005f-73bb-4c5d-8bd2-54b77748add0",
+        "name": "Split In Batches",
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 2,
+        "position": [
+          144,
+          672
+        ]
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 15
+              }
+            ]
+          }
+        },
+        "id": "f322f401-31ad-4d0f-8fe1-1c75bca824ed",
+        "name": "Schedule Trigger",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -304,
+          672
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $json.error }}",
+                "operation": "isEmpty"
+              }
+            ]
+          }
+        },
+        "id": "b3d2581a-8152-47e8-af05-3777fb16c84d",
+        "name": "IF",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          592,
+          640
+        ]
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "ID Conta de Anuncio",
+                "value": "={{ $('Split In Batches').item.json['ID Conta de Anuncio'] }}"
+              },
+              {
+                "name": "Status",
+                "value": "Parou"
+              },
+              {
+                "name": "Motivo Parou",
+                "value": "={{ $json.error.message.substring($json.error.message.indexOf('\"message\":\"') + 11, $json.error.message.indexOf('\",\"', $json.error.message.indexOf('\"message\":\"'))) }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "022b2b97-a2ad-4c88-9196-308d955e95ca",
+        "name": "Set",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          928,
+          672
+        ]
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "ID Conta de Anuncio",
+                "value": "={{ $('Split In Batches').item.json['ID Conta de Anuncio'] }}"
+              },
+              {
+                "name": "Status",
+                "value": "Funcionando"
+              },
+              {
+                "name": "Previsão de Expirar",
+                "value": "={{ new Date($json.formattedDate).plus({days:60}).format('dd/MM/y') }}"
+              },
+              {
+                "name": "Motivo Parou"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "b2bf97c5-f535-498a-83b9-3aa5d4c51223",
+        "name": "Set1",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          1040,
+          512
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "documentId": {
+            "__rl": true,
+            "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=1122812575#gid=1122812575",
+            "mode": "url"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1122812575,
+            "mode": "list",
+            "cachedResultName": "BM's",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1122812575"
+          },
+          "dataMode": "autoMapInputData",
+          "columnToMatchOn": "ID Conta de Anuncio",
+          "options": {}
+        },
+        "id": "48ee057b-11f4-4703-a46f-46bb141c1a6b",
+        "name": "Google Sheets",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 3,
+        "position": [
+          1264,
+          672
+        ],
+        "retryOnFail": true,
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "SN6RzeMl3gN9prB4",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "chooseBranch",
+          "output": "input2"
+        },
+        "id": "6c30d6cb-d5c6-4219-be09-05204ad8facd",
+        "name": "Merge",
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 2.1,
+        "position": [
+          368,
+          880
+        ]
+      },
+      {
+        "parameters": {
+          "fields": {
+            "values": [
+              {
+                "name": "token",
+                "stringValue": "={{ $node.Merge.json.Token }}"
+              },
+              {
+                "name": "nome_conta",
+                "stringValue": "={{ $node.Merge.json[\"BM\"] || $('Merge').item.json[\"Nome Conta Anuncio\"]}}"
+              },
+              {
+                "name": "id_conta",
+                "stringValue": "={{ $('Merge').item.json['ID Conta de Anuncio'] }}"
+              },
+              {
+                "name": "status",
+                "stringValue": "={{ $node.Merge.json.Status }}"
+              },
+              {
+                "name": "data_troca",
+                "stringValue": "={{ $json.formattedDate }}"
+              },
+              {
+                "name": "previsao_expirar",
+                "stringValue": "={{ new Date($json.formattedDate).plus({days:60}).format('y-MM-dd') }}"
+              },
+              {
+                "name": "motivo_parou",
+                "stringValue": "={{ $node.Merge.json[\"Motivo Parou\"] }}"
+              }
+            ]
+          },
+          "include": "none",
+          "options": {}
+        },
+        "id": "c6770e32-6b9e-4aa5-9204-ae7aedbe9a49",
+        "name": "Edit Fields",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.2,
+        "position": [
+          800,
+          880
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "upsert",
+          "table": {
+            "__rl": true,
+            "value": "tokens",
+            "mode": "list",
+            "cachedResultName": "tokens"
+          },
+          "columnToMatchOn": "id_conta",
+          "options": {}
+        },
+        "id": "c60edc4b-f98e-43ec-8b34-b9974acaf3d2",
+        "name": "MySQL",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          1040,
+          880
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "formatDate",
+          "date": "={{ $json[\"Data de Troca\"] }}",
+          "format": "yyyy-MM-dd",
+          "options": {
+            "fromFormat": "dd/MM/yyyy"
+          }
+        },
+        "id": "607adece-82cf-4b9c-8af0-be113d3ec593",
+        "name": "Date & Time1",
+        "type": "n8n-nodes-base.dateTime",
+        "typeVersion": 2,
+        "position": [
+          592,
+          880
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "formatDate",
+          "date": "={{ $('Split In Batches').item.json[\"Data de Troca\"] }}",
+          "format": "yyyy-MM-dd",
+          "options": {
+            "fromFormat": "dd/MM/yyyy"
+          }
+        },
+        "id": "bed86d63-9d88-458d-a59a-3ffb2771cdbb",
+        "name": "Date & Time",
+        "type": "n8n-nodes-base.dateTime",
+        "typeVersion": 2,
+        "position": [
+          800,
+          512
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://webhook.snp.trackinghighend.com/webhook/tokens",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "nome_conta",
+                "value": "={{ $json.nome_conta }}"
+              },
+              {
+                "name": "token",
+                "value": "={{ $json.token }}"
+              },
+              {
+                "name": "id_conta",
+                "value": "={{ $json.id_conta }}"
+              },
+              {
+                "name": "status",
+                "value": "={{ $json.status }}"
+              },
+              {
+                "name": "data_troca",
+                "value": "={{ $json.data_troca }}"
+              },
+              {
+                "name": "previsao_expirar",
+                "value": "={{ $json.previsao_expirar }}"
+              },
+              {
+                "name": "motivo_parou",
+                "value": "={{ $json.motivo_parou }}"
+              },
+              {
+                "name": "cliente",
+                "value": "Lucas Nunes"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          1040,
+          1072
+        ],
+        "id": "4f4c514c-1638-4ed4-94fb-c287f5ae65ef",
+        "name": "HTTP Request"
+      }
+    ],
+    "connections": {
+      "HTTP Request4": {
+        "main": [
+          [
+            {
+              "node": "IF",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Sheets2": {
+        "main": [
+          [
+            {
+              "node": "Split In Batches",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Split In Batches": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request4",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Google Sheets2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF": {
+        "main": [
+          [
+            {
+              "node": "Date & Time",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Set",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set": {
+        "main": [
+          [
+            {
+              "node": "Google Sheets",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set1": {
+        "main": [
+          [
+            {
+              "node": "Google Sheets",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Sheets": {
+        "main": [
+          [
+            {
+              "node": "Split In Batches",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Date & Time1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "MySQL",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Date & Time1": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Date & Time": {
+        "main": [
+          [
+            {
+              "node": "Set1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "274f66dd-06a8-4763-8bb9-af9d53f4761d",
+  "connections": {
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Split In Batches": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Date & Time1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.290Z",
+  "id": "ExuKIQKP2L2GqGPa",
+  "isArchived": false,
+  "meta": null,
+  "name": "Meta00 | Status Bm",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v20.0/act_{{ $json[\"ID Conta de Anuncio\"] }}/insights",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "fields",
+              "value": "ad_id"
+            },
+            {
+              "name": "access_token",
+              "value": "={{ $json[\"Token\"] }}"
+            },
+            {
+              "name": "level",
+              "value": "ad"
+            },
+            {
+              "name": "limit",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "id": "23dbffe4-8372-4242-8045-71f5093202f2",
+      "name": "HTTP Request4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        368,
+        640
+      ],
+      "retryOnFail": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=1122812575#gid=1122812575",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1122812575,
+          "mode": "list",
+          "cachedResultName": "BM's",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1122812575"
+        },
+        "options": {}
+      },
+      "id": "f1b67b92-2f83-4e43-874b-810d017caa0a",
+      "name": "Google Sheets2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        -80,
+        672
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "c460005f-73bb-4c5d-8bd2-54b77748add0",
+      "name": "Split In Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        144,
+        672
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "id": "f322f401-31ad-4d0f-8fe1-1c75bca824ed",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -304,
+        672
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.error }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "b3d2581a-8152-47e8-af05-3777fb16c84d",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        592,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "ID Conta de Anuncio",
+              "value": "={{ $('Split In Batches').item.json['ID Conta de Anuncio'] }}"
+            },
+            {
+              "name": "Status",
+              "value": "Parou"
+            },
+            {
+              "name": "Motivo Parou",
+              "value": "={{ $json.error.message.substring($json.error.message.indexOf('\"message\":\"') + 11, $json.error.message.indexOf('\",\"', $json.error.message.indexOf('\"message\":\"'))) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "022b2b97-a2ad-4c88-9196-308d955e95ca",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        928,
+        672
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "ID Conta de Anuncio",
+              "value": "={{ $('Split In Batches').item.json['ID Conta de Anuncio'] }}"
+            },
+            {
+              "name": "Status",
+              "value": "Funcionando"
+            },
+            {
+              "name": "Previsão de Expirar",
+              "value": "={{ new Date($json.formattedDate).plus({days:60}).format('dd/MM/y') }}"
+            },
+            {
+              "name": "Motivo Parou"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b2bf97c5-f535-498a-83b9-3aa5d4c51223",
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=1122812575#gid=1122812575",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1122812575,
+          "mode": "list",
+          "cachedResultName": "BM's",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1122812575"
+        },
+        "dataMode": "autoMapInputData",
+        "columnToMatchOn": "ID Conta de Anuncio",
+        "options": {}
+      },
+      "id": "48ee057b-11f4-4703-a46f-46bb141c1a6b",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1264,
+        672
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch",
+        "output": "input2"
+      },
+      "id": "6c30d6cb-d5c6-4219-be09-05204ad8facd",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        368,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "token",
+              "stringValue": "={{ $node.Merge.json.Token }}"
+            },
+            {
+              "name": "nome_conta",
+              "stringValue": "={{ $node.Merge.json[\"BM\"] || $('Merge').item.json[\"Nome Conta Anuncio\"]}}"
+            },
+            {
+              "name": "id_conta",
+              "stringValue": "={{ $('Merge').item.json['ID Conta de Anuncio'] }}"
+            },
+            {
+              "name": "status",
+              "stringValue": "={{ $node.Merge.json.Status }}"
+            },
+            {
+              "name": "data_troca",
+              "stringValue": "={{ $json.formattedDate }}"
+            },
+            {
+              "name": "previsao_expirar",
+              "stringValue": "={{ new Date($json.formattedDate).plus({days:60}).format('y-MM-dd') }}"
+            },
+            {
+              "name": "motivo_parou",
+              "stringValue": "={{ $node.Merge.json[\"Motivo Parou\"] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "c6770e32-6b9e-4aa5-9204-ae7aedbe9a49",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        800,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "tokens",
+          "mode": "list",
+          "cachedResultName": "tokens"
+        },
+        "columnToMatchOn": "id_conta",
+        "options": {}
+      },
+      "id": "c60edc4b-f98e-43ec-8b34-b9974acaf3d2",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1040,
+        880
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json[\"Data de Troca\"] }}",
+        "format": "yyyy-MM-dd",
+        "options": {
+          "fromFormat": "dd/MM/yyyy"
+        }
+      },
+      "id": "607adece-82cf-4b9c-8af0-be113d3ec593",
+      "name": "Date & Time1",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        592,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $('Split In Batches').item.json[\"Data de Troca\"] }}",
+        "format": "yyyy-MM-dd",
+        "options": {
+          "fromFormat": "dd/MM/yyyy"
+        }
+      },
+      "id": "bed86d63-9d88-458d-a59a-3ffb2771cdbb",
+      "name": "Date & Time",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        800,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://webhook.snp.trackinghighend.com/webhook/tokens",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "nome_conta",
+              "value": "={{ $json.nome_conta }}"
+            },
+            {
+              "name": "token",
+              "value": "={{ $json.token }}"
+            },
+            {
+              "name": "id_conta",
+              "value": "={{ $json.id_conta }}"
+            },
+            {
+              "name": "status",
+              "value": "={{ $json.status }}"
+            },
+            {
+              "name": "data_troca",
+              "value": "={{ $json.data_troca }}"
+            },
+            {
+              "name": "previsao_expirar",
+              "value": "={{ $json.previsao_expirar }}"
+            },
+            {
+              "name": "motivo_parou",
+              "value": "={{ $json.motivo_parou }}"
+            },
+            {
+              "name": "cliente",
+              "value": "Lucas Nunes"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1040,
+        1072
+      ],
+      "id": "4f4c514c-1638-4ed4-94fb-c287f5ae65ef",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.290Z",
+      "createdAt": "2025-08-06T19:56:06.290Z",
+      "role": "workflow:owner",
+      "workflowId": "ExuKIQKP2L2GqGPa",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-09-30T11:37:59.065Z",
+  "versionId": "274f66dd-06a8-4763-8bb9-af9d53f4761d"
+}

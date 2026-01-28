@@ -1,0 +1,4280 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-21T20:33:50.214Z",
+    "createdAt": "2026-01-21T20:33:50.214Z",
+    "versionId": "f8a81d1b-1baf-494d-aca7-e1b12a3dfee1",
+    "workflowId": "UIduMV5R64WWb7pz",
+    "nodes": [
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "offers",
+            "mode": "list",
+            "cachedResultName": "offers"
+          },
+          "limit": 1,
+          "where": {
+            "values": [
+              {
+                "column": "offer_ext",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"product_offer_id\"] }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "88f1437a-52b3-4d24-9ef2-0fecdbd74a1c",
+        "name": "Get_oferta",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -672,
+          608
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "products",
+            "mode": "list",
+            "cachedResultName": "products"
+          },
+          "limit": 1,
+          "where": {
+            "values": [
+              {
+                "column": "product_ext",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"product_marketplace_id\"] }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "6e02a23c-fae4-4a71-94e6-750a87adc1e6",
+        "name": "Get_produto",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -1104,
+          784
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "values": {
+            "string": [
+              {
+                "name": "product_ext",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"product_marketplace_id\"] || 0}}"
+              },
+              {
+                "name": "product_name",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"product_name\"] }}"
+              },
+              {
+                "name": "product_price",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"product_value\"] || 0}}"
+              },
+              {
+                "name": "update_time",
+                "value": "={{ $now }}"
+              },
+              {
+                "name": "platform",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"platform\"] }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "d9a1a741-560e-4a57-a01c-eedce08ed7ec",
+        "name": "Set2",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          -672,
+          800
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $json }}",
+                "operation": "isNotEmpty"
+              }
+            ]
+          }
+        },
+        "id": "a3394fd4-08b6-48d9-8eb1-5611bdc15ce4",
+        "name": "IF_produto",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          -880,
+          784
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $json }}",
+                "operation": "isNotEmpty"
+              }
+            ]
+          }
+        },
+        "id": "3b014673-a19f-44f8-99a0-8d12f6955aff",
+        "name": "IF_oferta",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          -448,
+          608
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $node['getQueueItem'].json }}",
+                "operation": "isEmpty"
+              }
+            ]
+          }
+        },
+        "id": "d161744a-17c3-4651-8396-5700c1f71a1a",
+        "name": "IF5",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          -2416,
+          784
+        ]
+      },
+      {
+        "parameters": {
+          "amount": 15,
+          "unit": "minutes"
+        },
+        "id": "a0295585-066b-4b0c-b151-d53a70a1e637",
+        "name": "Wait3",
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1,
+        "position": [
+          -2000,
+          496
+        ],
+        "webhookId": "04c1de70-ec60-4a69-9927-cded31bd5fbd",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+          "options": {}
+        },
+        "id": "287ecd0c-8d78-425b-bb9b-d4a36d8e9f09",
+        "name": "HTTP Request3",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          -1840,
+          496
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000,
+        "disabled": true
+      },
+      {
+        "parameters": {},
+        "id": "a0f160cd-4da7-4b8f-aead-d39cab3037eb",
+        "name": "When clicking \"Execute Workflow\"",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -3344,
+          1136
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "users",
+            "mode": "list",
+            "cachedResultName": "users"
+          },
+          "limit": 1,
+          "where": {
+            "values": [
+              {
+                "column": "email",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"subscriber_email\"] }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "58037757-590b-402b-9dcc-7b9a3c30a832",
+        "name": "Get_user",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -224,
+          400
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $json }}",
+                "operation": "isNotEmpty"
+              }
+            ]
+          }
+        },
+        "id": "1fc11ec8-9af8-474f-9506-03cecaf2a7a3",
+        "name": "IF_user",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          0,
+          400
+        ]
+      },
+      {
+        "parameters": {
+          "values": {
+            "string": [
+              {
+                "name": "name",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"subscriber_name\"] || null}}"
+              },
+              {
+                "name": "ext_id",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"subscriber_email\"] || null }}"
+              },
+              {
+                "name": "email",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"subscriber_email\"] || null }}"
+              },
+              {
+                "name": "phone",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"subscriber_phone\"] || null}}"
+              },
+              {
+                "name": "document",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"subscriber_doc\"] || null}}"
+              },
+              {
+                "name": "update_time",
+                "value": "={{ $now }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "ff5b3011-0b8d-4496-b68a-f214a4b27cef",
+        "name": "Set4",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          224,
+          432
+        ]
+      },
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "transactions_new",
+            "mode": "list",
+            "cachedResultName": "transactions_new"
+          },
+          "options": {}
+        },
+        "id": "f5a922a3-3640-46d6-a728-24267a579458",
+        "name": "MySQL7",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          1056,
+          224
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "id_sql",
+                "value": "={{ $node[\"getQueueItem\"].json[\"id_sql\"] }}"
+              },
+              {
+                "name": "foi",
+                "value": "=1"
+              },
+              {
+                "name": "processada",
+                "value": "={{ $now }}"
+              },
+              {
+                "name": "status",
+                "value": "executed"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "e0fafe07-3c65-4f85-ad45-06b8bd077f38",
+        "name": "Set6",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          1280,
+          224
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "Guru_Vendas",
+            "mode": "list",
+            "cachedResultName": "Guru_Vendas"
+          },
+          "columnToMatchOn": "id_sql",
+          "options": {}
+        },
+        "id": "97a82f7f-e008-4499-af1f-8dc60996149a",
+        "name": "MySQL8",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          1488,
+          224
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "6cR89c3DkwiktSiW",
+            "name": "MySQL Vendas"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "addToDate",
+          "magnitude": "={{ $json.data }}",
+          "timeUnit": "hours",
+          "duration": 3,
+          "options": {}
+        },
+        "id": "89a9a4e0-d556-4a06-b481-daee225fc838",
+        "name": "Date & Time",
+        "type": "n8n-nodes-base.dateTime",
+        "typeVersion": 2,
+        "position": [
+          432,
+          224
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "addToDate",
+          "magnitude": "={{ $json.newDate }}",
+          "duration": "={{ $('Buffer').item.json.recurrency_period }}",
+          "options": {}
+        },
+        "id": "66eda0cc-bbe8-4a57-9797-14cd62f9b400",
+        "name": "Date & Time1",
+        "type": "n8n-nodes-base.dateTime",
+        "typeVersion": 2,
+        "position": [
+          656,
+          224
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+          "options": {}
+        },
+        "id": "deeb94e1-8df6-4abd-9e39-473993f94bdc",
+        "name": "HTTP Request2",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          1888,
+          416
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000,
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "ext_id",
+                "value": "={{ $('Buffer').item.json.order_id }}"
+              },
+              {
+                "name": "invoice_code",
+                "value": "={{ $('Buffer').item.json.order_ref }}"
+              },
+              {
+                "name": "invoice_cycle",
+                "value": "="
+              },
+              {
+                "name": "invoice_discount",
+                "value": "={{ $node['Buffer'].json.invoice.discount_value }}"
+              },
+              {
+                "name": "invoice_id",
+                "value": "={{ $('Buffer').item.json.order_ref }}"
+              },
+              {
+                "name": "invoice_increment_value",
+                "value": "={{ $node['Buffer'].json.invoice.increment_value }}"
+              },
+              {
+                "name": "invoice_payment_url",
+                "value": "={{ $('Buffer').item.json.pix_code }}"
+              },
+              {
+                "name": "invoice_period_start",
+                "value": "={{ $('Date & Time').item.json.newDate }}"
+              },
+              {
+                "name": "invoice_period_end",
+                "value": "={{ $json.newDate }}"
+              },
+              {
+                "name": "invoice_subscription_id",
+                "value": "={{ $node['Buffer'].json.invoice.id }}"
+              },
+              {
+                "name": "invoice_status",
+                "value": "={{ $('Buffer').item.json.order_status }}"
+              },
+              {
+                "name": "invoice_next_cycle",
+                "value": "={{ null }}"
+              },
+              {
+                "name": "invoice_type",
+                "value": "={{ $('Buffer').item.json.product_type }}"
+              },
+              {
+                "name": "subscriber_id",
+                "value": "={{ $('Buffer').item.json.Customer.email }}"
+              },
+              {
+                "name": "subscriber_internal_id",
+                "value": "={{ $node['Get_user'].json.id_user }}"
+              },
+              {
+                "name": "subscriber_name",
+                "value": "={{ $('Buffer').item.json.Customer.full_name }}"
+              },
+              {
+                "name": "subscriber_email",
+                "value": "={{ $('Buffer').item.json.Customer.email }}"
+              },
+              {
+                "name": "subscriber_phone",
+                "value": "={{ $('Buffer').item.json.Customer.mobile }}"
+              },
+              {
+                "name": "subscriber_doc",
+                "value": "={{ $('Buffer').item.json.Customer.CPF }}"
+              },
+              {
+                "name": "subscriber_status"
+              },
+              {
+                "name": "contact_address",
+                "value": "={{ $('Buffer').item.json.customer.street_name }}"
+              },
+              {
+                "name": "contact_address_city",
+                "value": "={{ $('Buffer').item.json.customer.city }}"
+              },
+              {
+                "name": "contact_address_comp",
+                "value": "={{ $('Buffer').item.json.customer.complement }}"
+              },
+              {
+                "name": "contact_address_country",
+                "value": "={{ $node['Buffer'].json.contact.address_country }}"
+              },
+              {
+                "name": "contact_address_district",
+                "value": "={{ $('Buffer').item.json.customer.district }}"
+              },
+              {
+                "name": "contact_address_number",
+                "value": "={{ $('Buffer').item.json.customer.street_number }}"
+              },
+              {
+                "name": "contact_address_state",
+                "value": "={{ $('Buffer').item.json.customer.state }}"
+              },
+              {
+                "name": "contact_address_full_name",
+                "value": "={{ $('Buffer').item.json.customer.street_name }}, {{ $('Buffer').item.json.customer.street_number }}"
+              },
+              {
+                "name": "contact_address_zip_code",
+                "value": "={{ $('Buffer').item.json.customer.zip_code }}"
+              },
+              {
+                "name": "product_id",
+                "value": "={{ $node['IF_produto'].json.id_product }}"
+              },
+              {
+                "name": "product_marketplace_id",
+                "value": "={{ $node['IF_produto'].json.product_ext }}"
+              },
+              {
+                "name": "product_name",
+                "value": "={{ $node['IF_produto'].json.product_name }}"
+              },
+              {
+                "name": "product_offer_id",
+                "value": "={{ $node['IF_oferta'].json.id_offer }}"
+              },
+              {
+                "name": "product_offer_name",
+                "value": "={{ $node['IF_oferta'].json.offer_name }}"
+              },
+              {
+                "name": "payment_method",
+                "value": "={{ $('Buffer').item.json.payment_method }}"
+              },
+              {
+                "name": "payment_price",
+                "value": "={{ $('Buffer').item.json.Commissions.charge_amount/100 }}"
+              },
+              {
+                "name": "queue_json",
+                "value": "={{ $node['getQueueItem'].json.id_sql }}"
+              },
+              {
+                "name": "utm_source",
+                "value": "={{ $('Buffer').item.json.TrackingParameters.utm_source }}"
+              },
+              {
+                "name": "utm_campaign",
+                "value": "={{ $('Buffer').item.json.TrackingParameters.utm_campaign }}"
+              },
+              {
+                "name": "utm_medium",
+                "value": "={{ $('Buffer').item.json.TrackingParameters.utm_medium }}"
+              },
+              {
+                "name": "utm_content",
+                "value": "={{ $('Buffer').item.json.TrackingParameters.utm_content }}"
+              },
+              {
+                "name": "utm_term",
+                "value": "={{ $('Buffer').item.json.TrackingParameters.utm_term }}"
+              },
+              {
+                "name": "src",
+                "value": "={{ $('Buffer').item.json.TrackingParameters.src }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "b15b792c-03dd-4295-b067-cf4c39e6505f",
+        "name": "Set com oferta",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          1184,
+          32
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://webhook.aconcursos.com.br/webhook/89e9f180-82a7-4bd7-b598-ad1d2ef5157d",
+          "options": {}
+        },
+        "id": "57394794-7fd3-4ac7-870b-faed71e1f67b",
+        "name": "HTTP Request",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          -1840,
+          304
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000,
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "id_sql",
+                "value": "={{ $('getQueueItem').item.json.id_sales_events }}"
+              },
+              {
+                "name": "status",
+                "value": "error"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "bc1d74e2-10f7-4402-87a9-cacbb760e429",
+        "name": "Set",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          -1104,
+          992
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "Hotmart_Vendas",
+            "mode": "list",
+            "cachedResultName": "Hotmart_Vendas"
+          },
+          "columnToMatchOn": "id_sql",
+          "options": {}
+        },
+        "id": "f8bd7c6c-2a4b-4b36-be5d-4d2d2ee6dafa",
+        "name": "MySQL13",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -880,
+          992
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+          "options": {}
+        },
+        "id": "541f18c1-63bd-40ad-a9d4-f4bad9b8da9e",
+        "name": "HTTP Request4",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          -672,
+          1184
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000,
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "jsCode": "let datas = []\nfor (item in $node.Buffer.json) {\n  if(item.includes('date')){\n    datas.push($node.Buffer.json[item])\n  }\n}\nfunction DataMaisAntiga(datas) {\n    if (datas.length === 0) {\n        return null;\n    }\n\n    const dataMaisAntiga = datas.reduce(function (dataAtual, data) {\n        return data < dataAtual ? data : dataAtual;\n    });\n\n    return dataMaisAntiga;\n}\n\nfunction FormatDate(date){\n  let dataUTC = new Date(date);\n\n  dataUTC.setUTCHours(dataUTC.getUTCHours() - 3);\n  \n  return dataUTC.toISOString();\n}\n\n// (FormatDate(DataMaisAntiga(datas)))\nreturn {data:FormatDate(DataMaisAntiga(datas))}"
+        },
+        "id": "814ce945-e414-4e02-b4a3-c8b0cb7ad332",
+        "name": "Code1",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          0,
+          0
+        ],
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "c47a9fa1-a5f7-4820-a0e7-97902f19927c",
+          "options": {}
+        },
+        "id": "c457dc42-8c31-45f4-b8b3-e6445f929ac0",
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 1,
+        "position": [
+          -3344,
+          928
+        ],
+        "webhookId": "c47a9fa1-a5f7-4820-a0e7-97902f19927c",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+          "options": {}
+        },
+        "id": "d8c10097-4ecb-4f47-a911-d82bc1e7dcba",
+        "name": "HTTP Request1",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          1072,
+          976
+        ],
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "5c47237a-0477-42e1-84bd-e57fbff3a601",
+                "leftValue": "={{ $('getQueueItem').item.json.tries }}",
+                "rightValue": 5,
+                "operator": {
+                  "type": "number",
+                  "operation": "lte"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "96337ba2-9b63-45c0-9d21-7afb41fec0c5",
+        "name": "If1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          -1296,
+          800
+        ]
+      },
+      {
+        "parameters": {
+          "values": {
+            "string": [
+              {
+                "name": "product_id",
+                "value": "={{ $('IF_produto').item.json.id_product }}"
+              },
+              {
+                "name": "offer_ext",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"product_offer_id\"] }}"
+              },
+              {
+                "name": "offer_name",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"product_offer_name\"] }}"
+              },
+              {
+                "name": "offer_price",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"offer_price\"] }}"
+              },
+              {
+                "name": "update_time",
+                "value": "={{ $now }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "008ee872-e727-478f-8bc5-f09d0f9b98b5",
+        "name": "Set1",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          -224,
+          624
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1552,
+          800
+        ],
+        "id": "536b57dc-951e-4990-81ed-26e0e6819415",
+        "name": "Transactions_ObjectFinal"
+      },
+      {
+        "parameters": {
+          "content": "#### Processa transactions para diferentes plataformas",
+          "height": 80,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -2096,
+          192
+        ],
+        "id": "6dcdfe62-5ce9-41ac-8fad-3726285bf93c",
+        "name": "Sticky Note1"
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "Guru_Vendas",
+            "mode": "list",
+            "cachedResultName": "Guru_Vendas"
+          },
+          "limit": 1,
+          "where": {
+            "values": [
+              {
+                "column": "tries",
+                "condition": "<=",
+                "value": "5"
+              },
+              {
+                "column": "foi",
+                "value": "0"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "747ac1e1-f1df-404c-9772-8e8bcf2f4c92",
+        "name": "getQueueItem",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -2816,
+          784
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "6cR89c3DkwiktSiW",
+            "name": "MySQL Vendas"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "jsCode": "let json =JSON.parse($('getQueueItem').first().json.jsons)\n\njson.body ? json = json.body : ''\n\nreturn json\n"
+        },
+        "id": "27147817-2067-4c3e-95eb-e38381f37054",
+        "name": "Buffer",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -2208,
+          896
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "Guru_Vendas",
+            "mode": "list",
+            "cachedResultName": "Guru_Vendas"
+          },
+          "dataMode": "defineBelow",
+          "columnToMatchOn": "id_sql",
+          "valueToMatchOn": "={{ $json.id_sql }}",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "tries",
+                "value": "={{ $json.tries + 1}}"
+              },
+              {
+                "column": "status",
+                "value": "processing"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          -2608,
+          784
+        ],
+        "id": "95089833-a3c0-4e9a-9589-9a7fc2db7553",
+        "name": "update2SalesEvents",
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "6cR89c3DkwiktSiW",
+            "name": "MySQL Vendas"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "operation": "upsert",
+          "table": {
+            "__rl": true,
+            "value": "users",
+            "mode": "list",
+            "cachedResultName": "users"
+          },
+          "columnToMatchOn": "email",
+          "options": {}
+        },
+        "id": "f187545e-b041-44f3-9aee-0e64c6eefb95",
+        "name": "upsert2Users",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          416,
+          432
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "offers",
+            "mode": "list",
+            "cachedResultName": "offers"
+          },
+          "options": {}
+        },
+        "id": "d8eb3feb-dede-4a03-b011-7e31c79464a1",
+        "name": "upsert2Offers",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          0,
+          624
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "products",
+            "mode": "list",
+            "cachedResultName": "products"
+          },
+          "options": {}
+        },
+        "id": "b72a9cda-288d-42c3-8d94-1b499a413530",
+        "name": "upsert2Products",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -448,
+          800
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "cefe7454-c76c-40c2-9041-8dd3e4f9a955",
+                "name": "ext_id",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"ext_id\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "b8377aee-4911-47da-8079-74bb66dcba00",
+                "name": "product_id",
+                "value": "={{ $('Get_produto').item.json.id_product }}",
+                "type": "string"
+              },
+              {
+                "id": "7f9da3cb-a01d-4704-9b5b-86bb01fe50ca",
+                "name": "offer_id",
+                "value": "={{ $('Get_oferta').item.json.id_offer }}",
+                "type": "string"
+              },
+              {
+                "id": "ca4acba6-b616-4597-8705-61e69de15b96",
+                "name": "user_id",
+                "value": "={{ $('Get_user').item.json.id_user }}",
+                "type": "string"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj1",
+                "name": "payment_method",
+                "type": "string",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"payment_method\"] || null }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj2",
+                "name": "payment_price",
+                "type": "string",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"payment_price\"] || 0}}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj3",
+                "name": "installments",
+                "type": "string",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"installments_number\"] || 0 }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj4",
+                "name": "approved_date",
+                "type": "string",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"approved_date\"] ?\n  new Date(\n        new Date($('Transactions_ObjectFinal').item.json.insert.transactions[0].approved_date).getTime() - 3 * 60 * 60 * 1000\n      ).toISOString() \n    : new Date(\n    new Date($('Transactions_ObjectFinal').item.json.insert.transactions[0].order_date).getTime() - 3 * 60 * 60 * 1000\n  ).toISOString() || null\n}}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj5",
+                "name": "warranty_expire_date",
+                "type": "string",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"warrantly_expire_date\"] ?\nnew Date(\n    new Date($('Transactions_ObjectFinal').item.json.insert.transactions[0].warrantly_expire_date).getTime() - 3 * 60 * 60 * 1000\n  ).toISOString() : null}}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudf6j",
+                "name": "order_date",
+                "type": "string",
+                "value": "={{\n  new Date(\n    new Date($('Transactions_ObjectFinal').item.json.insert.transactions[0].order_date).getTime() - 3 * 60 * 60 * 1000\n  ).toISOString()\n}}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj7",
+                "name": "commision_value",
+                "type": "string",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"commision_value\"] || 0 }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj8",
+                "name": "platform",
+                "type": "string",
+                "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].platform }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj9",
+                "name": "commission_plataform",
+                "type": "string",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"commission_plataform\"] }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj0",
+                "name": "currency",
+                "type": "string",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"currency\"] }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia1fpudfj",
+                "name": "utm_source",
+                "type": "string",
+                "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].utm_source || null}}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia2fpudfj",
+                "name": "utm_medium",
+                "type": "string",
+                "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].utm_medium }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia3fpudfj",
+                "name": "utm_campaign",
+                "type": "string",
+                "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].utm_campaign }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia4fpudfj",
+                "name": "utm_term",
+                "type": "string",
+                "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].utm_term }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia5fpudfj",
+                "name": "utm_content",
+                "type": "string",
+                "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].utm_content }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia6fpudfj",
+                "name": "sck",
+                "type": "string",
+                "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].sck || null }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia7fpudfj",
+                "name": "src",
+                "type": "string",
+                "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].src }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia8fpudfj",
+                "name": "campaign_id",
+                "type": "string",
+                "value": "={{ null }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia9fpudfj",
+                "name": "adset_id",
+                "type": "string",
+                "value": "={{ null }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia0fpudfj",
+                "name": "ad_id",
+                "type": "string",
+                "value": "={{ null }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdf1uibhiafpudfj",
+                "name": "xcod",
+                "type": "string",
+                "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].xcod || null  }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdf2uibhiafpudfj",
+                "name": "cycle",
+                "type": "string",
+                "value": "=1"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdf3uibhiafpudfj",
+                "name": "status",
+                "type": "string",
+                "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].invoice_status }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdf4uibhiafpudfj",
+                "name": "installments_value",
+                "type": "string",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"installments_value\"] || 0}}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfu5ibhiafpudfj",
+                "name": "commission_affiliate",
+                "type": "string",
+                "value": "={{ ($node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"commission_affiliate\"]).toFixed(2) || 0 }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugd6fuibhiafpudfj",
+                "name": "code_affiliate",
+                "type": "string",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"affiliate_code\"] }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugd7fuibhiafpudfj",
+                "name": "name_affiliate",
+                "type": "string",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"affiliate_name\"] }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugd8fuibhiafpudfj",
+                "name": "purchase_type",
+                "type": "string",
+                "value": "venda"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugd9fuibhiafpudfj",
+                "name": "cancelled_time",
+                "type": "string",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"canceled_time\"] ?\n  new Date(\n    new Date($('Transactions_ObjectFinal').item.json.insert.transactions[0].canceled_time).getTime() - 3 * 60 * 60 * 1000\n  ).toISOString() : null || null\n}}"
+              },
+              {
+                "id": "7e0ef0d0-1682-4e3f-91d0-dad2a3514aef",
+                "name": "json_vendas_id",
+                "value": "={{ $node[\"getQueueItem\"].json[\"id_sql\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "96a8c2b5-3f86-4a11-9158-39e298dd67e3",
+                "name": "is_processed",
+                "value": "=N",
+                "type": "string"
+              },
+              {
+                "id": "ec36ecb1-5ee5-439b-82ef-cbbf40d0d6ff",
+                "name": "refusal_reason",
+                "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"refusal_reason\"] || null}}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          848,
+          224
+        ],
+        "id": "29ce6287-dd3f-46ad-8449-d944bf7a5930",
+        "name": "set2TransactionsNew"
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "id_sql",
+                "value": "={{ $('getQueueItem').item.json.id_sql }}"
+              },
+              {
+                "name": "status",
+                "value": "Não é evento relacionado à venda"
+              },
+              {
+                "name": "processada",
+                "value": "={{ $now }}"
+              },
+              {
+                "name": "foi",
+                "value": "1"
+              }
+            ],
+            "number": [
+              {
+                "name": "tries",
+                "value": 5
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "863ae8f6-65e6-49bd-81d3-87652f36caa5",
+        "name": "Set3",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          -2032,
+          1232
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "Guru_Vendas",
+            "mode": "list",
+            "cachedResultName": "Guru_Vendas"
+          },
+          "columnToMatchOn": "id_sql",
+          "options": {}
+        },
+        "id": "0e3893be-4382-4e70-9d01-81b837ebfda3",
+        "name": "MySQL",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -1872,
+          1232
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "6cR89c3DkwiktSiW",
+            "name": "MySQL Vendas"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+          "options": {}
+        },
+        "id": "05a38184-2e3c-47b9-a64d-fe67de10649c",
+        "name": "HTTP Request5",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          -1696,
+          1456
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000,
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "content": "## Sinalização de erro",
+          "height": 240,
+          "width": 560,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -2096,
+          1168
+        ],
+        "id": "fa00400f-3cbb-41bd-80b9-8bd067d098e4",
+        "name": "Sticky Note2"
+      },
+      {
+        "parameters": {
+          "amount": 1
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1696,
+          224
+        ],
+        "id": "aef80e59-7625-4dc1-b992-8c143a8213c3",
+        "name": "Wait",
+        "webhookId": "2cf8a954-3cc6-456c-bd5b-862b4b558029"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "UIduMV5R64WWb7pz",
+            "mode": "id",
+            "cachedResultUrl": "/workflow/UIduMV5R64WWb7pz"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {
+            "waitForSubWorkflow": false
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.2,
+        "position": [
+          -1696,
+          1232
+        ],
+        "id": "d0d48f62-09a3-4f12-b9af-e89e74dae8c2",
+        "name": "restartWorkflow"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "UIduMV5R64WWb7pz",
+            "mode": "id",
+            "cachedResultUrl": "/workflow/UIduMV5R64WWb7pz"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {
+            "waitForSubWorkflow": false
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.2,
+        "position": [
+          -672,
+          992
+        ],
+        "id": "4fe31ce9-4a74-4cc1-acab-6e991e449815",
+        "name": "restartWorkflow1"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "UIduMV5R64WWb7pz",
+            "mode": "id",
+            "cachedResultUrl": "/workflow/UIduMV5R64WWb7pz"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {
+            "waitForSubWorkflow": false
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.2,
+        "position": [
+          1072,
+          800
+        ],
+        "id": "5f49764f-d22c-4798-9edc-7833595205f2",
+        "name": "restartWorkflow2"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "UIduMV5R64WWb7pz",
+            "mode": "id",
+            "cachedResultUrl": "/workflow/UIduMV5R64WWb7pz"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {
+            "waitForSubWorkflow": false
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.2,
+        "position": [
+          1888,
+          224
+        ],
+        "id": "2737bc37-b31a-4148-8a3a-0d37036687d0",
+        "name": "restartWorkflow3"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          -2208,
+          672
+        ],
+        "id": "4bb1b38c-0a43-43ad-8735-b0f7c7558b23",
+        "name": "no_pending"
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 1
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -3696,
+          512
+        ],
+        "id": "de16c539-f77d-4b3e-9161-6e20c48639c4",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -3696,
+          720
+        ],
+        "id": "854754c2-6b78-4131-91f0-71b62bbb4bc6",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT COUNT(id) AS qt\nFROM execution_entity\nWHERE \"workflowId\" = '{{$workflow.id}}'\n AND \"status\" IN ('running', 'queued', 'new', 'waiting')  \n AND \"id\" <> {{ $execution.id }} \nAND finished = false",
+          "options": {}
+        },
+        "id": "8b081088-c9eb-460d-9c75-0809a0cf520a",
+        "name": "SearchExecution",
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.5,
+        "position": [
+          -3248,
+          576
+        ],
+        "alwaysOutputData": true,
+        "executeOnce": true,
+        "credentials": {
+          "postgres": {
+            "id": "qkp1op2sP8ulJxQE",
+            "name": "N8N"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "6d32d062-f657-4ed5-bc0b-54a4f6eeb04f",
+                "leftValue": "={{ $json.qt }}",
+                "rightValue": 4,
+                "operator": {
+                  "type": "number",
+                  "operation": "lt"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          -3040,
+          576
+        ],
+        "id": "ac97215e-4a06-4b3d-aa94-dd1ef8cbd22e",
+        "name": "Filter"
+      },
+      {
+        "parameters": {
+          "jsCode": "function isValidObject(obj) {\n    return obj && typeof obj === 'object' && Object.keys(obj).length > 0;\n}\n\nfunction mapJsonToTransaction(data, stored_date, queue_id) {\n    if (!isValidObject(data)) return null;\n\n    return {\n          order_date: data.dates.ordered_at ? data.dates.ordered_at : data.dates.ordered_at || data.dates.ordered_at,\n          update_at: data.dates.updated_at || null,\n          approved_date: data.payment?.processing_times?.finished_at || data.dates.confirmed_at || null,\n          canceled_time: data.dates.canceled_at || null,\n          warrantly_expire_date: data.dates?.warranty_until || null,\n          ext_id: data.id || null,\n          // invoice_code: data.transaction || null,\n          // invoice_cycle: Number.isNaN(parseInt(data.recurrency)) ? null : parseInt(data.recurrency),\n          // invoice_discount: data.invoice?.discount_value || null,\n          // invoice_id: data.transaction || null,\n          // invoice_increment_value: data.invoice?.increment_value || null,\n          // invoice_payment_url: (data.transaction?.qrcode ?? data.sale?.boleto_url) || (data.currentSale?.qrcode ?? data.currentSale?.boleto_url) || null,\n          // invoice_subscription_id: data.transaction || null,\n          invoice_status: data.status || null,\n          invoice_next_cycle: Number.isNaN(parseInt(data.recurrency)) ? null : parseInt(data.recurrency) + 1,\n          invoice_type: \"TRANSACTION\",\n          subscriber_id: data.contact?.id || null,\n          subscriber_internal_id: data.contact?.id || null,\n          subscriber_name: data.contact?.name || null,\n          subscriber_email: data.contact?.email || null,\n          subscriber_phone: data.contact?.phone_number || null,\n          subscriber_doc: data.contact?.doc || null,\n          subscriber_status: data.contact?.subscription_status || null,\n          contact_address: data.contact?.address || null,\n          contact_address_city: data.contact?.address_city || null,\n          contact_address_comp: data.contact?.address_comp || null,\n          contact_address_country: data.contact?.address_country || null,\n          contact_address_district: data.contact?.address_district || null,\n          contact_address_number: data.contact?.address_number || null,\n          contact_address_state: data.contact?.address_state || null,\n          contact_address_full_name: data.contact?.client?.street && data.contact?.client?.number ? `${data.contact?.client.street}, ${data.contact?.client.number}` : null,\n          contact_address_zip_code: data.contact?.address_zip_code || null,\n          product_id: data.product?.prod || null,\n          product_marketplace_id: data.product?.id || null,\n          product_name: data.product?.name || null,\n          product_offer_id: data.product?.offer?.id || null,\n          product_offer_name: data.product?.offer?.name || null,\n          payment_method: data.payment?.method || null,\n          payment_price: data.payment?.total || null,\n          offer_price: data.product?.total_value || null,\n      \n          utm_source: data.source?.utm_source || null,\n          utm_medium: data.source?.utm_medium || null,\n          utm_campaign: data.source?.utm_campaign || null,\n          utm_term: data.source?.utm_term || null,\n          utm_content: data.source?.utm_content || null,\n          src: data.source?.source || null,\n          xcod: data.source?.xcod || null,\n      \n          commision_value: data.payment?.net || 0,\n          sck: data.sck || null,\n          installments_number: data.payment?.installments?.qty || 0,\n          installments_value: data.payment?.installments?.value || 0,\n          commission_plataform: data.payment?.marketplace_value || 0,\n          commission_affiliate: data.payment?.affiliate_value || 0,\n          \n          affiliate_name: (() => {\n            const affs = data.affiliations || [];\n            if (!Array.isArray(affs) || affs.length === 0) return null;\n        \n            const ids = affs\n              .flatMap(a => [a.name])\n              .filter(Boolean);\n        \n            if (ids.length === 0) return null;\n            return ids.join(', ');\n          })() || null,\n      \n          affiliate_code: (() => {\n            const affs = data.affiliations || [];\n            if (!Array.isArray(affs) || affs.length === 0) return null;\n        \n            const ids = affs\n              .flatMap(a => [a.marketplace_id])\n              .filter(Boolean);\n        \n            if (ids.length === 0) return null;\n            return ids.join(', ');\n          })() || null,\n      \n          platform: \"guru\",\n          product_value: data.product?.unit_value || 0,\n          refusal_reason: data.payment?.refuse_reason || data.payment?.refund_reason || null,\n          currency: data.payment?.currency || null,\n          stored_date,\n          queue_id,      \n          queue_table: \"Guru_Vendas\"\n    };\n}\n\n\nfunction mapJsonToProductWithOffer(data) {\n    if (!isValidObject(data.product || $input.first().json.product)) return null;\n\n    return {\n        product_marketplace_id: data.product?.id || data.product?.slug || null, // Corrigido\n        product_name: data.product?.name || undefined,\n        product_period: data.product?.period || 0,\n        product_description: data.product?.name || undefined,\n        product_price: data.product?.amount ? data.product.amount : undefined,\n        product_class: \"INFOPRODUCT\",\n        product_value: data.product?.unit_value || 0,\n        product_code: data.product?.slug || undefined,\n        platform: \"guru\",\n        offer_ext: data.product?.offer?.id || null,\n        offer_name: data.offer?.name || undefined,\n        offer_price: data.product?.total_value || null\n    };\n}\n\nconst transactions = [];\nconst products = new Map();\n\nfor (const item of $input.all()) {\n    if (!isValidObject(item?.json?.body || item?.json)) {\n        console.warn(\"Item ignorado por não conter 'json.data':\", item);\n        continue;\n    }\n\n    const data = item.json.body || item.json;\n    const stored_date =  item.json.stored_date;\n    const queue_id = item.json.id;\n    \n    const transactionData = mapJsonToTransaction(data, stored_date, queue_id);\n    if (transactionData) transactions.push(transactionData);\n\n    const productData = mapJsonToProductWithOffer(data);\n    if (productData && productData.product_marketplace_id) {\n        products.set(productData.product_marketplace_id, productData);\n    }\n}\n\nreturn [{\n    insert: {\n        transactions,\n        products: Array.from(products.values())\n    }\n}];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1856,
+          896
+        ],
+        "id": "444f981d-f6e6-44dc-817e-6e6432ef77e7",
+        "name": "Guru_Object",
+        "alwaysOutputData": false,
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "jsCode": "return JSON.parse($input.all()[0].json.jsons).body\n"
+        },
+        "id": "745dff40-a50d-4e88-8ed7-473a1889183a",
+        "name": "Code",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1840,
+          720
+        ]
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          -2032,
+          896
+        ],
+        "id": "34864f35-832b-4e65-a0c2-81918a569bd8",
+        "name": "Guru"
+      }
+    ],
+    "connections": {
+      "Get_oferta": {
+        "main": [
+          [
+            {
+              "node": "IF_oferta",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get_produto": {
+        "main": [
+          [
+            {
+              "node": "IF_produto",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set2": {
+        "main": [
+          [
+            {
+              "node": "upsert2Products",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF_produto": {
+        "main": [
+          [
+            {
+              "node": "Get_oferta",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Set2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF_oferta": {
+        "main": [
+          [
+            {
+              "node": "Get_user",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Set1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF5": {
+        "main": [
+          [
+            {
+              "node": "no_pending",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Buffer",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait3": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking \"Execute Workflow\"": {
+        "main": [
+          [
+            {
+              "node": "getQueueItem",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get_user": {
+        "main": [
+          [
+            {
+              "node": "IF_user",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF_user": {
+        "main": [
+          [
+            {
+              "node": "Date & Time",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Set4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set4": {
+        "main": [
+          [
+            {
+              "node": "upsert2Users",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "MySQL7": {
+        "main": [
+          [
+            {
+              "node": "Set6",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set6": {
+        "main": [
+          [
+            {
+              "node": "MySQL8",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "MySQL8": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Date & Time": {
+        "main": [
+          [
+            {
+              "node": "Date & Time1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Date & Time1": {
+        "main": [
+          [
+            {
+              "node": "set2TransactionsNew",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set": {
+        "main": [
+          [
+            {
+              "node": "MySQL13",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "MySQL13": {
+        "main": [
+          [
+            {
+              "node": "restartWorkflow1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "getQueueItem",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "Get_produto",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Set",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set1": {
+        "main": [
+          [
+            {
+              "node": "upsert2Offers",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Transactions_ObjectFinal": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getQueueItem": {
+        "main": [
+          [
+            {
+              "node": "update2SalesEvents",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Buffer": {
+        "main": [
+          [
+            {
+              "node": "Guru",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "update2SalesEvents": {
+        "main": [
+          [
+            {
+              "node": "IF5",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "upsert2Users": {
+        "main": [
+          [
+            {
+              "node": "Get_user",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "upsert2Offers": {
+        "main": [
+          [
+            {
+              "node": "Get_oferta",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "upsert2Products": {
+        "main": [
+          [
+            {
+              "node": "Get_produto",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "set2TransactionsNew": {
+        "main": [
+          [
+            {
+              "node": "MySQL7",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set3": {
+        "main": [
+          [
+            {
+              "node": "MySQL",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "MySQL": {
+        "main": [
+          [
+            {
+              "node": "restartWorkflow",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "restartWorkflow3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "SearchExecution",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "SearchExecution",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SearchExecution": {
+        "main": [
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "getQueueItem",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Guru_Object": {
+        "main": [
+          [
+            {
+              "node": "Transactions_ObjectFinal",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Set3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Guru": {
+        "main": [
+          [
+            {
+              "node": "Guru_Object",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "f8a81d1b-1baf-494d-aca7-e1b12a3dfee1",
+  "connections": {
+    "Get_oferta": {
+      "main": [
+        [
+          {
+            "node": "IF_oferta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get_produto": {
+      "main": [
+        [
+          {
+            "node": "IF_produto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set2": {
+      "main": [
+        [
+          {
+            "node": "upsert2Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF_produto": {
+      "main": [
+        [
+          {
+            "node": "Get_oferta",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF_oferta": {
+      "main": [
+        [
+          {
+            "node": "Get_user",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF5": {
+      "main": [
+        [
+          {
+            "node": "no_pending",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "getQueueItem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get_user": {
+      "main": [
+        [
+          {
+            "node": "IF_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF_user": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set4": {
+      "main": [
+        [
+          {
+            "node": "upsert2Users",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL7": {
+      "main": [
+        [
+          {
+            "node": "Set6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set6": {
+      "main": [
+        [
+          {
+            "node": "MySQL8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL8": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Date & Time1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "main": [
+        [
+          {
+            "node": "set2TransactionsNew",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "MySQL13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL13": {
+      "main": [
+        [
+          {
+            "node": "restartWorkflow1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "getQueueItem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Get_produto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "upsert2Offers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transactions_ObjectFinal": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getQueueItem": {
+      "main": [
+        [
+          {
+            "node": "update2SalesEvents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buffer": {
+      "main": [
+        [
+          {
+            "node": "Guru",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update2SalesEvents": {
+      "main": [
+        [
+          {
+            "node": "IF5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upsert2Users": {
+      "main": [
+        [
+          {
+            "node": "Get_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upsert2Offers": {
+      "main": [
+        [
+          {
+            "node": "Get_oferta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upsert2Products": {
+      "main": [
+        [
+          {
+            "node": "Get_produto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set2TransactionsNew": {
+      "main": [
+        [
+          {
+            "node": "MySQL7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set3": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "restartWorkflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "restartWorkflow3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "SearchExecution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "SearchExecution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearchExecution": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "getQueueItem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guru_Object": {
+      "main": [
+        [
+          {
+            "node": "Transactions_ObjectFinal",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guru": {
+      "main": [
+        [
+          {
+            "node": "Guru_Object",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-06T20:03:38.024Z",
+  "id": "UIduMV5R64WWb7pz",
+  "isArchived": false,
+  "meta": null,
+  "name": "V0001 | Guru | Json -> transactions_new",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "offers",
+          "mode": "list",
+          "cachedResultName": "offers"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "offer_ext",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"product_offer_id\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "88f1437a-52b3-4d24-9ef2-0fecdbd74a1c",
+      "name": "Get_oferta",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -672,
+        608
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "products",
+          "mode": "list",
+          "cachedResultName": "products"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "product_ext",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"product_marketplace_id\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6e02a23c-fae4-4a71-94e6-750a87adc1e6",
+      "name": "Get_produto",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -1104,
+        784
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "product_ext",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"product_marketplace_id\"] || 0}}"
+            },
+            {
+              "name": "product_name",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"product_name\"] }}"
+            },
+            {
+              "name": "product_price",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"product_value\"] || 0}}"
+            },
+            {
+              "name": "update_time",
+              "value": "={{ $now }}"
+            },
+            {
+              "name": "platform",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"platform\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d9a1a741-560e-4a57-a01c-eedce08ed7ec",
+      "name": "Set2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -672,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "a3394fd4-08b6-48d9-8eb1-5611bdc15ce4",
+      "name": "IF_produto",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        784
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "3b014673-a19f-44f8-99a0-8d12f6955aff",
+      "name": "IF_oferta",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node['getQueueItem'].json }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "d161744a-17c3-4651-8396-5700c1f71a1a",
+      "name": "IF5",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -2416,
+        784
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 15,
+        "unit": "minutes"
+      },
+      "id": "a0295585-066b-4b0c-b151-d53a70a1e637",
+      "name": "Wait3",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        -2000,
+        496
+      ],
+      "webhookId": "04c1de70-ec60-4a69-9927-cded31bd5fbd",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "287ecd0c-8d78-425b-bb9b-d4a36d8e9f09",
+      "name": "HTTP Request3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -1840,
+        496
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "id": "a0f160cd-4da7-4b8f-aead-d39cab3037eb",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -3344,
+        1136
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "email",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"subscriber_email\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "58037757-590b-402b-9dcc-7b9a3c30a832",
+      "name": "Get_user",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -224,
+        400
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "1fc11ec8-9af8-474f-9506-03cecaf2a7a3",
+      "name": "IF_user",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        0,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "name",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"subscriber_name\"] || null}}"
+            },
+            {
+              "name": "ext_id",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"subscriber_email\"] || null }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"subscriber_email\"] || null }}"
+            },
+            {
+              "name": "phone",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"subscriber_phone\"] || null}}"
+            },
+            {
+              "name": "document",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"subscriber_doc\"] || null}}"
+            },
+            {
+              "name": "update_time",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ff5b3011-0b8d-4496-b68a-f214a4b27cef",
+      "name": "Set4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        224,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "transactions_new",
+          "mode": "list",
+          "cachedResultName": "transactions_new"
+        },
+        "options": {}
+      },
+      "id": "f5a922a3-3640-46d6-a728-24267a579458",
+      "name": "MySQL7",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1056,
+        224
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "id_sql",
+              "value": "={{ $node[\"getQueueItem\"].json[\"id_sql\"] }}"
+            },
+            {
+              "name": "foi",
+              "value": "=1"
+            },
+            {
+              "name": "processada",
+              "value": "={{ $now }}"
+            },
+            {
+              "name": "status",
+              "value": "executed"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e0fafe07-3c65-4f85-ad45-06b8bd077f38",
+      "name": "Set6",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "Guru_Vendas",
+          "mode": "list",
+          "cachedResultName": "Guru_Vendas"
+        },
+        "columnToMatchOn": "id_sql",
+        "options": {}
+      },
+      "id": "97a82f7f-e008-4499-af1f-8dc60996149a",
+      "name": "MySQL8",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1488,
+        224
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addToDate",
+        "magnitude": "={{ $json.data }}",
+        "timeUnit": "hours",
+        "duration": 3,
+        "options": {}
+      },
+      "id": "89a9a4e0-d556-4a06-b481-daee225fc838",
+      "name": "Date & Time",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        432,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "addToDate",
+        "magnitude": "={{ $json.newDate }}",
+        "duration": "={{ $('Buffer').item.json.recurrency_period }}",
+        "options": {}
+      },
+      "id": "66eda0cc-bbe8-4a57-9797-14cd62f9b400",
+      "name": "Date & Time1",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        656,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "deeb94e1-8df6-4abd-9e39-473993f94bdc",
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1888,
+        416
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "ext_id",
+              "value": "={{ $('Buffer').item.json.order_id }}"
+            },
+            {
+              "name": "invoice_code",
+              "value": "={{ $('Buffer').item.json.order_ref }}"
+            },
+            {
+              "name": "invoice_cycle",
+              "value": "="
+            },
+            {
+              "name": "invoice_discount",
+              "value": "={{ $node['Buffer'].json.invoice.discount_value }}"
+            },
+            {
+              "name": "invoice_id",
+              "value": "={{ $('Buffer').item.json.order_ref }}"
+            },
+            {
+              "name": "invoice_increment_value",
+              "value": "={{ $node['Buffer'].json.invoice.increment_value }}"
+            },
+            {
+              "name": "invoice_payment_url",
+              "value": "={{ $('Buffer').item.json.pix_code }}"
+            },
+            {
+              "name": "invoice_period_start",
+              "value": "={{ $('Date & Time').item.json.newDate }}"
+            },
+            {
+              "name": "invoice_period_end",
+              "value": "={{ $json.newDate }}"
+            },
+            {
+              "name": "invoice_subscription_id",
+              "value": "={{ $node['Buffer'].json.invoice.id }}"
+            },
+            {
+              "name": "invoice_status",
+              "value": "={{ $('Buffer').item.json.order_status }}"
+            },
+            {
+              "name": "invoice_next_cycle",
+              "value": "={{ null }}"
+            },
+            {
+              "name": "invoice_type",
+              "value": "={{ $('Buffer').item.json.product_type }}"
+            },
+            {
+              "name": "subscriber_id",
+              "value": "={{ $('Buffer').item.json.Customer.email }}"
+            },
+            {
+              "name": "subscriber_internal_id",
+              "value": "={{ $node['Get_user'].json.id_user }}"
+            },
+            {
+              "name": "subscriber_name",
+              "value": "={{ $('Buffer').item.json.Customer.full_name }}"
+            },
+            {
+              "name": "subscriber_email",
+              "value": "={{ $('Buffer').item.json.Customer.email }}"
+            },
+            {
+              "name": "subscriber_phone",
+              "value": "={{ $('Buffer').item.json.Customer.mobile }}"
+            },
+            {
+              "name": "subscriber_doc",
+              "value": "={{ $('Buffer').item.json.Customer.CPF }}"
+            },
+            {
+              "name": "subscriber_status"
+            },
+            {
+              "name": "contact_address",
+              "value": "={{ $('Buffer').item.json.customer.street_name }}"
+            },
+            {
+              "name": "contact_address_city",
+              "value": "={{ $('Buffer').item.json.customer.city }}"
+            },
+            {
+              "name": "contact_address_comp",
+              "value": "={{ $('Buffer').item.json.customer.complement }}"
+            },
+            {
+              "name": "contact_address_country",
+              "value": "={{ $node['Buffer'].json.contact.address_country }}"
+            },
+            {
+              "name": "contact_address_district",
+              "value": "={{ $('Buffer').item.json.customer.district }}"
+            },
+            {
+              "name": "contact_address_number",
+              "value": "={{ $('Buffer').item.json.customer.street_number }}"
+            },
+            {
+              "name": "contact_address_state",
+              "value": "={{ $('Buffer').item.json.customer.state }}"
+            },
+            {
+              "name": "contact_address_full_name",
+              "value": "={{ $('Buffer').item.json.customer.street_name }}, {{ $('Buffer').item.json.customer.street_number }}"
+            },
+            {
+              "name": "contact_address_zip_code",
+              "value": "={{ $('Buffer').item.json.customer.zip_code }}"
+            },
+            {
+              "name": "product_id",
+              "value": "={{ $node['IF_produto'].json.id_product }}"
+            },
+            {
+              "name": "product_marketplace_id",
+              "value": "={{ $node['IF_produto'].json.product_ext }}"
+            },
+            {
+              "name": "product_name",
+              "value": "={{ $node['IF_produto'].json.product_name }}"
+            },
+            {
+              "name": "product_offer_id",
+              "value": "={{ $node['IF_oferta'].json.id_offer }}"
+            },
+            {
+              "name": "product_offer_name",
+              "value": "={{ $node['IF_oferta'].json.offer_name }}"
+            },
+            {
+              "name": "payment_method",
+              "value": "={{ $('Buffer').item.json.payment_method }}"
+            },
+            {
+              "name": "payment_price",
+              "value": "={{ $('Buffer').item.json.Commissions.charge_amount/100 }}"
+            },
+            {
+              "name": "queue_json",
+              "value": "={{ $node['getQueueItem'].json.id_sql }}"
+            },
+            {
+              "name": "utm_source",
+              "value": "={{ $('Buffer').item.json.TrackingParameters.utm_source }}"
+            },
+            {
+              "name": "utm_campaign",
+              "value": "={{ $('Buffer').item.json.TrackingParameters.utm_campaign }}"
+            },
+            {
+              "name": "utm_medium",
+              "value": "={{ $('Buffer').item.json.TrackingParameters.utm_medium }}"
+            },
+            {
+              "name": "utm_content",
+              "value": "={{ $('Buffer').item.json.TrackingParameters.utm_content }}"
+            },
+            {
+              "name": "utm_term",
+              "value": "={{ $('Buffer').item.json.TrackingParameters.utm_term }}"
+            },
+            {
+              "name": "src",
+              "value": "={{ $('Buffer').item.json.TrackingParameters.src }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b15b792c-03dd-4295-b067-cf4c39e6505f",
+      "name": "Set com oferta",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://webhook.aconcursos.com.br/webhook/89e9f180-82a7-4bd7-b598-ad1d2ef5157d",
+        "options": {}
+      },
+      "id": "57394794-7fd3-4ac7-870b-faed71e1f67b",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -1840,
+        304
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "id_sql",
+              "value": "={{ $('getQueueItem').item.json.id_sales_events }}"
+            },
+            {
+              "name": "status",
+              "value": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bc1d74e2-10f7-4402-87a9-cacbb760e429",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -1104,
+        992
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "Hotmart_Vendas",
+          "mode": "list",
+          "cachedResultName": "Hotmart_Vendas"
+        },
+        "columnToMatchOn": "id_sql",
+        "options": {}
+      },
+      "id": "f8bd7c6c-2a4b-4b36-be5d-4d2d2ee6dafa",
+      "name": "MySQL13",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -880,
+        992
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "541f18c1-63bd-40ad-a9d4-f4bad9b8da9e",
+      "name": "HTTP Request4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -672,
+        1184
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "let datas = []\nfor (item in $node.Buffer.json) {\n  if(item.includes('date')){\n    datas.push($node.Buffer.json[item])\n  }\n}\nfunction DataMaisAntiga(datas) {\n    if (datas.length === 0) {\n        return null;\n    }\n\n    const dataMaisAntiga = datas.reduce(function (dataAtual, data) {\n        return data < dataAtual ? data : dataAtual;\n    });\n\n    return dataMaisAntiga;\n}\n\nfunction FormatDate(date){\n  let dataUTC = new Date(date);\n\n  dataUTC.setUTCHours(dataUTC.getUTCHours() - 3);\n  \n  return dataUTC.toISOString();\n}\n\n// (FormatDate(DataMaisAntiga(datas)))\nreturn {data:FormatDate(DataMaisAntiga(datas))}"
+      },
+      "id": "814ce945-e414-4e02-b4a3-c8b0cb7ad332",
+      "name": "Code1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "c47a9fa1-a5f7-4820-a0e7-97902f19927c",
+        "options": {}
+      },
+      "id": "c457dc42-8c31-45f4-b8b3-e6445f929ac0",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -3344,
+        928
+      ],
+      "webhookId": "c47a9fa1-a5f7-4820-a0e7-97902f19927c",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "d8c10097-4ecb-4f47-a911-d82bc1e7dcba",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1072,
+        976
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "5c47237a-0477-42e1-84bd-e57fbff3a601",
+              "leftValue": "={{ $('getQueueItem').item.json.tries }}",
+              "rightValue": 5,
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "96337ba2-9b63-45c0-9d21-7afb41fec0c5",
+      "name": "If1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1296,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "product_id",
+              "value": "={{ $('IF_produto').item.json.id_product }}"
+            },
+            {
+              "name": "offer_ext",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"product_offer_id\"] }}"
+            },
+            {
+              "name": "offer_name",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"product_offer_name\"] }}"
+            },
+            {
+              "name": "offer_price",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"offer_price\"] }}"
+            },
+            {
+              "name": "update_time",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "008ee872-e727-478f-8bc5-f09d0f9b98b5",
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -224,
+        624
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1552,
+        800
+      ],
+      "id": "536b57dc-951e-4990-81ed-26e0e6819415",
+      "name": "Transactions_ObjectFinal"
+    },
+    {
+      "parameters": {
+        "content": "#### Processa transactions para diferentes plataformas",
+        "height": 80,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2096,
+        192
+      ],
+      "id": "6dcdfe62-5ce9-41ac-8fad-3726285bf93c",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "Guru_Vendas",
+          "mode": "list",
+          "cachedResultName": "Guru_Vendas"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "tries",
+              "condition": "<=",
+              "value": "5"
+            },
+            {
+              "column": "foi",
+              "value": "0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "747ac1e1-f1df-404c-9772-8e8bcf2f4c92",
+      "name": "getQueueItem",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -2816,
+        784
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "let json =JSON.parse($('getQueueItem').first().json.jsons)\n\njson.body ? json = json.body : ''\n\nreturn json\n"
+      },
+      "id": "27147817-2067-4c3e-95eb-e38381f37054",
+      "name": "Buffer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2208,
+        896
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "Guru_Vendas",
+          "mode": "list",
+          "cachedResultName": "Guru_Vendas"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_sql",
+        "valueToMatchOn": "={{ $json.id_sql }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "tries",
+              "value": "={{ $json.tries + 1}}"
+            },
+            {
+              "column": "status",
+              "value": "processing"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -2608,
+        784
+      ],
+      "id": "95089833-a3c0-4e9a-9589-9a7fc2db7553",
+      "name": "update2SalesEvents",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "columnToMatchOn": "email",
+        "options": {}
+      },
+      "id": "f187545e-b041-44f3-9aee-0e64c6eefb95",
+      "name": "upsert2Users",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        432
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "offers",
+          "mode": "list",
+          "cachedResultName": "offers"
+        },
+        "options": {}
+      },
+      "id": "d8eb3feb-dede-4a03-b011-7e31c79464a1",
+      "name": "upsert2Offers",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        624
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "products",
+          "mode": "list",
+          "cachedResultName": "products"
+        },
+        "options": {}
+      },
+      "id": "b72a9cda-288d-42c3-8d94-1b499a413530",
+      "name": "upsert2Products",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        800
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cefe7454-c76c-40c2-9041-8dd3e4f9a955",
+              "name": "ext_id",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"ext_id\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "b8377aee-4911-47da-8079-74bb66dcba00",
+              "name": "product_id",
+              "value": "={{ $('Get_produto').item.json.id_product }}",
+              "type": "string"
+            },
+            {
+              "id": "7f9da3cb-a01d-4704-9b5b-86bb01fe50ca",
+              "name": "offer_id",
+              "value": "={{ $('Get_oferta').item.json.id_offer }}",
+              "type": "string"
+            },
+            {
+              "id": "ca4acba6-b616-4597-8705-61e69de15b96",
+              "name": "user_id",
+              "value": "={{ $('Get_user').item.json.id_user }}",
+              "type": "string"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj1",
+              "name": "payment_method",
+              "type": "string",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"payment_method\"] || null }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj2",
+              "name": "payment_price",
+              "type": "string",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"payment_price\"] || 0}}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj3",
+              "name": "installments",
+              "type": "string",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"installments_number\"] || 0 }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj4",
+              "name": "approved_date",
+              "type": "string",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"approved_date\"] ?\n  new Date(\n        new Date($('Transactions_ObjectFinal').item.json.insert.transactions[0].approved_date).getTime() - 3 * 60 * 60 * 1000\n      ).toISOString() \n    : new Date(\n    new Date($('Transactions_ObjectFinal').item.json.insert.transactions[0].order_date).getTime() - 3 * 60 * 60 * 1000\n  ).toISOString() || null\n}}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj5",
+              "name": "warranty_expire_date",
+              "type": "string",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"warrantly_expire_date\"] ?\nnew Date(\n    new Date($('Transactions_ObjectFinal').item.json.insert.transactions[0].warrantly_expire_date).getTime() - 3 * 60 * 60 * 1000\n  ).toISOString() : null}}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudf6j",
+              "name": "order_date",
+              "type": "string",
+              "value": "={{\n  new Date(\n    new Date($('Transactions_ObjectFinal').item.json.insert.transactions[0].order_date).getTime() - 3 * 60 * 60 * 1000\n  ).toISOString()\n}}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj7",
+              "name": "commision_value",
+              "type": "string",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"commision_value\"] || 0 }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj8",
+              "name": "platform",
+              "type": "string",
+              "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].platform }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj9",
+              "name": "commission_plataform",
+              "type": "string",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"commission_plataform\"] }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj0",
+              "name": "currency",
+              "type": "string",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"currency\"] }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia1fpudfj",
+              "name": "utm_source",
+              "type": "string",
+              "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].utm_source || null}}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia2fpudfj",
+              "name": "utm_medium",
+              "type": "string",
+              "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].utm_medium }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia3fpudfj",
+              "name": "utm_campaign",
+              "type": "string",
+              "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].utm_campaign }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia4fpudfj",
+              "name": "utm_term",
+              "type": "string",
+              "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].utm_term }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia5fpudfj",
+              "name": "utm_content",
+              "type": "string",
+              "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].utm_content }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia6fpudfj",
+              "name": "sck",
+              "type": "string",
+              "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].sck || null }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia7fpudfj",
+              "name": "src",
+              "type": "string",
+              "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].src }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia8fpudfj",
+              "name": "campaign_id",
+              "type": "string",
+              "value": "={{ null }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia9fpudfj",
+              "name": "adset_id",
+              "type": "string",
+              "value": "={{ null }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia0fpudfj",
+              "name": "ad_id",
+              "type": "string",
+              "value": "={{ null }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdf1uibhiafpudfj",
+              "name": "xcod",
+              "type": "string",
+              "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].xcod || null  }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdf2uibhiafpudfj",
+              "name": "cycle",
+              "type": "string",
+              "value": "=1"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdf3uibhiafpudfj",
+              "name": "status",
+              "type": "string",
+              "value": "={{ $('Transactions_ObjectFinal').item.json.insert.transactions[0].invoice_status }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdf4uibhiafpudfj",
+              "name": "installments_value",
+              "type": "string",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"installments_value\"] || 0}}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfu5ibhiafpudfj",
+              "name": "commission_affiliate",
+              "type": "string",
+              "value": "={{ ($node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"commission_affiliate\"]).toFixed(2) || 0 }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugd6fuibhiafpudfj",
+              "name": "code_affiliate",
+              "type": "string",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"affiliate_code\"] }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugd7fuibhiafpudfj",
+              "name": "name_affiliate",
+              "type": "string",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"affiliate_name\"] }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugd8fuibhiafpudfj",
+              "name": "purchase_type",
+              "type": "string",
+              "value": "venda"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugd9fuibhiafpudfj",
+              "name": "cancelled_time",
+              "type": "string",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"canceled_time\"] ?\n  new Date(\n    new Date($('Transactions_ObjectFinal').item.json.insert.transactions[0].canceled_time).getTime() - 3 * 60 * 60 * 1000\n  ).toISOString() : null || null\n}}"
+            },
+            {
+              "id": "7e0ef0d0-1682-4e3f-91d0-dad2a3514aef",
+              "name": "json_vendas_id",
+              "value": "={{ $node[\"getQueueItem\"].json[\"id_sql\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "96a8c2b5-3f86-4a11-9158-39e298dd67e3",
+              "name": "is_processed",
+              "value": "=N",
+              "type": "string"
+            },
+            {
+              "id": "ec36ecb1-5ee5-439b-82ef-cbbf40d0d6ff",
+              "name": "refusal_reason",
+              "value": "={{ $node[\"Transactions_ObjectFinal\"].json[\"insert\"][\"transactions\"][\"0\"][\"refusal_reason\"] || null}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        848,
+        224
+      ],
+      "id": "29ce6287-dd3f-46ad-8449-d944bf7a5930",
+      "name": "set2TransactionsNew"
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "id_sql",
+              "value": "={{ $('getQueueItem').item.json.id_sql }}"
+            },
+            {
+              "name": "status",
+              "value": "Não é evento relacionado à venda"
+            },
+            {
+              "name": "processada",
+              "value": "={{ $now }}"
+            },
+            {
+              "name": "foi",
+              "value": "1"
+            }
+          ],
+          "number": [
+            {
+              "name": "tries",
+              "value": 5
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "863ae8f6-65e6-49bd-81d3-87652f36caa5",
+      "name": "Set3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -2032,
+        1232
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "Guru_Vendas",
+          "mode": "list",
+          "cachedResultName": "Guru_Vendas"
+        },
+        "columnToMatchOn": "id_sql",
+        "options": {}
+      },
+      "id": "0e3893be-4382-4e70-9d01-81b837ebfda3",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -1872,
+        1232
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "05a38184-2e3c-47b9-a64d-fe67de10649c",
+      "name": "HTTP Request5",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -1696,
+        1456
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## Sinalização de erro",
+        "height": 240,
+        "width": 560,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2096,
+        1168
+      ],
+      "id": "fa00400f-3cbb-41bd-80b9-8bd067d098e4",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1696,
+        224
+      ],
+      "id": "aef80e59-7625-4dc1-b992-8c143a8213c3",
+      "name": "Wait",
+      "webhookId": "2cf8a954-3cc6-456c-bd5b-862b4b558029"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "UIduMV5R64WWb7pz",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/UIduMV5R64WWb7pz"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -1696,
+        1232
+      ],
+      "id": "d0d48f62-09a3-4f12-b9af-e89e74dae8c2",
+      "name": "restartWorkflow"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "UIduMV5R64WWb7pz",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/UIduMV5R64WWb7pz"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -672,
+        992
+      ],
+      "id": "4fe31ce9-4a74-4cc1-acab-6e991e449815",
+      "name": "restartWorkflow1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "UIduMV5R64WWb7pz",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/UIduMV5R64WWb7pz"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1072,
+        800
+      ],
+      "id": "5f49764f-d22c-4798-9edc-7833595205f2",
+      "name": "restartWorkflow2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "UIduMV5R64WWb7pz",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/UIduMV5R64WWb7pz"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1888,
+        224
+      ],
+      "id": "2737bc37-b31a-4148-8a3a-0d37036687d0",
+      "name": "restartWorkflow3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -2208,
+        672
+      ],
+      "id": "4bb1b38c-0a43-43ad-8735-b0f7c7558b23",
+      "name": "no_pending"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -3696,
+        512
+      ],
+      "id": "de16c539-f77d-4b3e-9161-6e20c48639c4",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -3696,
+        720
+      ],
+      "id": "854754c2-6b78-4131-91f0-71b62bbb4bc6",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT COUNT(id) AS qt\nFROM execution_entity\nWHERE \"workflowId\" = '{{$workflow.id}}'\n AND \"status\" IN ('running', 'queued', 'new', 'waiting')  \n AND \"id\" <> {{ $execution.id }} \nAND finished = false",
+        "options": {}
+      },
+      "id": "8b081088-c9eb-460d-9c75-0809a0cf520a",
+      "name": "SearchExecution",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -3248,
+        576
+      ],
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "postgres": {
+          "id": "qkp1op2sP8ulJxQE",
+          "name": "N8N"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6d32d062-f657-4ed5-bc0b-54a4f6eeb04f",
+              "leftValue": "={{ $json.qt }}",
+              "rightValue": 4,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -3040,
+        576
+      ],
+      "id": "ac97215e-4a06-4b3d-aa94-dd1ef8cbd22e",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "jsCode": "function isValidObject(obj) {\n    return obj && typeof obj === 'object' && Object.keys(obj).length > 0;\n}\n\nfunction mapJsonToTransaction(data, stored_date, queue_id) {\n    if (!isValidObject(data)) return null;\n\n    return {\n          order_date: data.dates.ordered_at ? data.dates.ordered_at : data.dates.ordered_at || data.dates.ordered_at,\n          update_at: data.dates.updated_at || null,\n          approved_date: data.payment?.processing_times?.finished_at || data.dates.confirmed_at || null,\n          canceled_time: data.dates.canceled_at || null,\n          warrantly_expire_date: data.dates?.warranty_until || null,\n          ext_id: data.id || null,\n          // invoice_code: data.transaction || null,\n          // invoice_cycle: Number.isNaN(parseInt(data.recurrency)) ? null : parseInt(data.recurrency),\n          // invoice_discount: data.invoice?.discount_value || null,\n          // invoice_id: data.transaction || null,\n          // invoice_increment_value: data.invoice?.increment_value || null,\n          // invoice_payment_url: (data.transaction?.qrcode ?? data.sale?.boleto_url) || (data.currentSale?.qrcode ?? data.currentSale?.boleto_url) || null,\n          // invoice_subscription_id: data.transaction || null,\n          invoice_status: data.status || null,\n          invoice_next_cycle: Number.isNaN(parseInt(data.recurrency)) ? null : parseInt(data.recurrency) + 1,\n          invoice_type: \"TRANSACTION\",\n          subscriber_id: data.contact?.id || null,\n          subscriber_internal_id: data.contact?.id || null,\n          subscriber_name: data.contact?.name || null,\n          subscriber_email: data.contact?.email || null,\n          subscriber_phone: data.contact?.phone_number || null,\n          subscriber_doc: data.contact?.doc || null,\n          subscriber_status: data.contact?.subscription_status || null,\n          contact_address: data.contact?.address || null,\n          contact_address_city: data.contact?.address_city || null,\n          contact_address_comp: data.contact?.address_comp || null,\n          contact_address_country: data.contact?.address_country || null,\n          contact_address_district: data.contact?.address_district || null,\n          contact_address_number: data.contact?.address_number || null,\n          contact_address_state: data.contact?.address_state || null,\n          contact_address_full_name: data.contact?.client?.street && data.contact?.client?.number ? `${data.contact?.client.street}, ${data.contact?.client.number}` : null,\n          contact_address_zip_code: data.contact?.address_zip_code || null,\n          product_id: data.product?.prod || null,\n          product_marketplace_id: data.product?.id || null,\n          product_name: data.product?.name || null,\n          product_offer_id: data.product?.offer?.id || null,\n          product_offer_name: data.product?.offer?.name || null,\n          payment_method: data.payment?.method || null,\n          payment_price: data.payment?.total || null,\n          offer_price: data.product?.total_value || null,\n      \n          utm_source: data.source?.utm_source || null,\n          utm_medium: data.source?.utm_medium || null,\n          utm_campaign: data.source?.utm_campaign || null,\n          utm_term: data.source?.utm_term || null,\n          utm_content: data.source?.utm_content || null,\n          src: data.source?.source || null,\n          xcod: data.source?.xcod || null,\n      \n          commision_value: data.payment?.net || 0,\n          sck: data.sck || null,\n          installments_number: data.payment?.installments?.qty || 0,\n          installments_value: data.payment?.installments?.value || 0,\n          commission_plataform: data.payment?.marketplace_value || 0,\n          commission_affiliate: data.payment?.affiliate_value || 0,\n          \n          affiliate_name: (() => {\n            const affs = data.affiliations || [];\n            if (!Array.isArray(affs) || affs.length === 0) return null;\n        \n            const ids = affs\n              .flatMap(a => [a.name])\n              .filter(Boolean);\n        \n            if (ids.length === 0) return null;\n            return ids.join(', ');\n          })() || null,\n      \n          affiliate_code: (() => {\n            const affs = data.affiliations || [];\n            if (!Array.isArray(affs) || affs.length === 0) return null;\n        \n            const ids = affs\n              .flatMap(a => [a.marketplace_id])\n              .filter(Boolean);\n        \n            if (ids.length === 0) return null;\n            return ids.join(', ');\n          })() || null,\n      \n          platform: \"guru\",\n          product_value: data.product?.unit_value || 0,\n          refusal_reason: data.payment?.refuse_reason || data.payment?.refund_reason || null,\n          currency: data.payment?.currency || null,\n          stored_date,\n          queue_id,      \n          queue_table: \"Guru_Vendas\"\n    };\n}\n\n\nfunction mapJsonToProductWithOffer(data) {\n    if (!isValidObject(data.product || $input.first().json.product)) return null;\n\n    return {\n        product_marketplace_id: data.product?.id || data.product?.slug || null, // Corrigido\n        product_name: data.product?.name || undefined,\n        product_period: data.product?.period || 0,\n        product_description: data.product?.name || undefined,\n        product_price: data.product?.amount ? data.product.amount : undefined,\n        product_class: \"INFOPRODUCT\",\n        product_value: data.product?.unit_value || 0,\n        product_code: data.product?.slug || undefined,\n        platform: \"guru\",\n        offer_ext: data.product?.offer?.id || null,\n        offer_name: data.offer?.name || undefined,\n        offer_price: data.product?.total_value || null\n    };\n}\n\nconst transactions = [];\nconst products = new Map();\n\nfor (const item of $input.all()) {\n    if (!isValidObject(item?.json?.body || item?.json)) {\n        console.warn(\"Item ignorado por não conter 'json.data':\", item);\n        continue;\n    }\n\n    const data = item.json.body || item.json;\n    const stored_date =  item.json.stored_date;\n    const queue_id = item.json.id;\n    \n    const transactionData = mapJsonToTransaction(data, stored_date, queue_id);\n    if (transactionData) transactions.push(transactionData);\n\n    const productData = mapJsonToProductWithOffer(data);\n    if (productData && productData.product_marketplace_id) {\n        products.set(productData.product_marketplace_id, productData);\n    }\n}\n\nreturn [{\n    insert: {\n        transactions,\n        products: Array.from(products.values())\n    }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1856,
+        896
+      ],
+      "id": "444f981d-f6e6-44dc-817e-6e6432ef77e7",
+      "name": "Guru_Object",
+      "alwaysOutputData": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "return JSON.parse($input.all()[0].json.jsons).body\n"
+      },
+      "id": "745dff40-a50d-4e88-8ed7-473a1889183a",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1840,
+        720
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -2032,
+        896
+      ],
+      "id": "34864f35-832b-4e65-a0c2-81918a569bd8",
+      "name": "Guru"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-06T20:03:38.024Z",
+      "createdAt": "2026-01-06T20:03:38.024Z",
+      "role": "workflow:owner",
+      "workflowId": "UIduMV5R64WWb7pz",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-21T20:33:50.226Z",
+  "versionId": "f8a81d1b-1baf-494d-aca7-e1b12a3dfee1"
+}

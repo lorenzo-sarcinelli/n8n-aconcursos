@@ -1,0 +1,686 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T19:22:18.976Z",
+    "createdAt": "2025-11-26T19:22:18.976Z",
+    "versionId": "0f5cc001-47d3-4146-b2c5-192a346acbdd",
+    "workflowId": "1iF0QCapw1NTETha",
+    "nodes": [
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "let data\nlet i = 1\n\nlet dataInicial = $now\ndataInicial = dataInicial.year + '-' + (dataInicial.month <= 9 ? '0' + dataInicial.month : dataInicial.month) + '-' + (dataInicial.day <= 9 ? '0' + dataInicial.day : dataInicial.day)\n\n//dataInicial = '2023-06-17'\n\n// while (data != dataInicial) {\n//     data = $now.minus(86400000 * i)\n//     data = data.year + '-' + (data.month <= 9 ? '0' + data.month : data.month) + '-' + (data.day <= 9 ? '0' + data.day : data.day)\n//     dias[dias.length] = data\n//     i++\n// }\nlet dias = [dataInicial]\n\n// dias = dias.reverse()\n\n$input.item.json.data = dias\n\nreturn $input.item"
+        },
+        "id": "8211977e-3a09-4751-bc31-20d74dba73f1",
+        "name": "Code",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 1,
+        "position": [
+          624,
+          272
+        ]
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "data",
+          "include": "allOtherFields",
+          "options": {}
+        },
+        "id": "7609366d-c24d-469d-9e52-2e20314197ae",
+        "name": "Item Lists4",
+        "type": "n8n-nodes-base.itemLists",
+        "typeVersion": 1,
+        "position": [
+          848,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "sort",
+          "sortFieldsUi": {
+            "sortField": [
+              {
+                "fieldName": "data"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "3b3ee2ef-69a2-4b5f-a781-fd9438b744fd",
+        "name": "Item Lists5",
+        "type": "n8n-nodes-base.itemLists",
+        "typeVersion": 1,
+        "position": [
+          1072,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "hours",
+                "triggerAtMinute": 20
+              },
+              {
+                "field": "hours",
+                "triggerAtMinute": 50
+              }
+            ]
+          }
+        },
+        "id": "346c2a32-076f-48fb-a310-db145e0b24b5",
+        "name": "Schedule Trigger",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1,
+        "position": [
+          -48,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "batchSize": 1,
+          "options": {}
+        },
+        "id": "350cc8fe-6489-4e1d-9108-58715a489788",
+        "name": "Split In Batches",
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 2,
+        "position": [
+          1280,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "let data\nlet i = 1\nlet dias = []\n\nlet dataInicial = $now.minus(86400000)\ndataInicial = dataInicial.year + '-' + (dataInicial.month <= 9 ? '0' + dataInicial.month : dataInicial.month) + '-' + (dataInicial.day <= 9 ? '0' + dataInicial.day : dataInicial.day)\n\n//dataInicial = '2025-08-22'\n\nwhile (data != dataInicial) {\n    data = $now.minus(86400000 * i)\n    data = data.year + '-' + (data.month <= 9 ? '0' + data.month : data.month) + '-' + (data.day <= 9 ? '0' + data.day : data.day)\n    dias[dias.length] = data\n    i++\n}\n\ndias = dias.reverse()\n\n$input.item.json.data = dias\n\nreturn $input.item"
+        },
+        "id": "cb8009b7-85b3-4622-9e64-7cb283aa8830",
+        "name": "Code2",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 1,
+        "position": [
+          624,
+          432
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "number": [
+              {
+                "value1": "={{ parseInt( $item(\"0\").$node[\"Schedule Trigger\"].json[\"Hour\"] ) }}",
+                "operation": "larger",
+                "value2": 6
+              }
+            ]
+          }
+        },
+        "id": "5221c565-f3e4-4e33-a711-f7bad1238591",
+        "name": "IF4",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          400,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "content": "OBS\n\nEsse nó starta o workflow \"Placement 2\", porém no jamil este workflow está desativado",
+          "height": 340,
+          "width": 220
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          1440,
+          144
+        ],
+        "id": "d7a5e825-8f8d-46d1-9f48-3a823969e56e",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "dxLDSnuwJfnABZxl",
+            "mode": "list",
+            "cachedResultName": "Placement 2 (NOVO)"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {
+            "waitForSubWorkflow": true
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.2,
+        "position": [
+          1504,
+          320
+        ],
+        "id": "801cc3c9-c061-455d-8339-63671b1514e1",
+        "name": "Execute Workflow",
+        "alwaysOutputData": true,
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=1122812575#gid=1122812575",
+            "mode": "url"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1122812575,
+            "mode": "list",
+            "cachedResultName": "BM's",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1122812575"
+          },
+          "filtersUI": {
+            "values": [
+              {
+                "lookupColumn": "Status",
+                "lookupValue": "Funcionando"
+              }
+            ]
+          },
+          "options": {
+            "returnAllMatches": "returnAllMatches"
+          }
+        },
+        "id": "ab5b5afc-5d1d-4f94-844a-90b1b432d1be",
+        "name": "Get row(s) in sheet",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 3,
+        "position": [
+          192,
+          352
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000,
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "SN6RzeMl3gN9prB4",
+            "name": "Google Sheets account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "Item Lists4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Item Lists4": {
+        "main": [
+          [
+            {
+              "node": "Item Lists5",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Item Lists5": {
+        "main": [
+          [
+            {
+              "node": "Split In Batches",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Get row(s) in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Split In Batches": {
+        "main": [
+          [
+            {
+              "node": "Execute Workflow",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code2": {
+        "main": [
+          [
+            {
+              "node": "Item Lists4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF4": {
+        "main": [
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Code2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Execute Workflow": {
+        "main": [
+          [
+            {
+              "node": "Split In Batches",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get row(s) in sheet": {
+        "main": [
+          [
+            {
+              "node": "IF4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "0f5cc001-47d3-4146-b2c5-192a346acbdd",
+  "connections": {
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Item Lists4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists4": {
+      "main": [
+        [
+          {
+            "node": "Item Lists5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists5": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split In Batches": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "Item Lists4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF4": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "IF4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.188Z",
+  "id": "1iF0QCapw1NTETha",
+  "isArchived": false,
+  "meta": null,
+  "name": "Placement 1 (NOVO)",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let data\nlet i = 1\n\nlet dataInicial = $now\ndataInicial = dataInicial.year + '-' + (dataInicial.month <= 9 ? '0' + dataInicial.month : dataInicial.month) + '-' + (dataInicial.day <= 9 ? '0' + dataInicial.day : dataInicial.day)\n\n//dataInicial = '2023-06-17'\n\n// while (data != dataInicial) {\n//     data = $now.minus(86400000 * i)\n//     data = data.year + '-' + (data.month <= 9 ? '0' + data.month : data.month) + '-' + (data.day <= 9 ? '0' + data.day : data.day)\n//     dias[dias.length] = data\n//     i++\n// }\nlet dias = [dataInicial]\n\n// dias = dias.reverse()\n\n$input.item.json.data = dias\n\nreturn $input.item"
+      },
+      "id": "8211977e-3a09-4751-bc31-20d74dba73f1",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        624,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "id": "7609366d-c24d-469d-9e52-2e20314197ae",
+      "name": "Item Lists4",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 1,
+      "position": [
+        848,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "sort",
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3b3ee2ef-69a2-4b5f-a781-fd9438b744fd",
+      "name": "Item Lists5",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "triggerAtMinute": 20
+            },
+            {
+              "field": "hours",
+              "triggerAtMinute": 50
+            }
+          ]
+        }
+      },
+      "id": "346c2a32-076f-48fb-a310-db145e0b24b5",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "350cc8fe-6489-4e1d-9108-58715a489788",
+      "name": "Split In Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let data\nlet i = 1\nlet dias = []\n\nlet dataInicial = $now.minus(86400000)\ndataInicial = dataInicial.year + '-' + (dataInicial.month <= 9 ? '0' + dataInicial.month : dataInicial.month) + '-' + (dataInicial.day <= 9 ? '0' + dataInicial.day : dataInicial.day)\n\n//dataInicial = '2025-08-22'\n\nwhile (data != dataInicial) {\n    data = $now.minus(86400000 * i)\n    data = data.year + '-' + (data.month <= 9 ? '0' + data.month : data.month) + '-' + (data.day <= 9 ? '0' + data.day : data.day)\n    dias[dias.length] = data\n    i++\n}\n\ndias = dias.reverse()\n\n$input.item.json.data = dias\n\nreturn $input.item"
+      },
+      "id": "cb8009b7-85b3-4622-9e64-7cb283aa8830",
+      "name": "Code2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        624,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ parseInt( $item(\"0\").$node[\"Schedule Trigger\"].json[\"Hour\"] ) }}",
+              "operation": "larger",
+              "value2": 6
+            }
+          ]
+        }
+      },
+      "id": "5221c565-f3e4-4e33-a711-f7bad1238591",
+      "name": "IF4",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        400,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "content": "OBS\n\nEsse nó starta o workflow \"Placement 2\", porém no jamil este workflow está desativado",
+        "height": 340,
+        "width": 220
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        144
+      ],
+      "id": "d7a5e825-8f8d-46d1-9f48-3a823969e56e",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "dxLDSnuwJfnABZxl",
+          "mode": "list",
+          "cachedResultName": "Placement 2 (NOVO)"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1504,
+        320
+      ],
+      "id": "801cc3c9-c061-455d-8339-63671b1514e1",
+      "name": "Execute Workflow",
+      "alwaysOutputData": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=1122812575#gid=1122812575",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1122812575,
+          "mode": "list",
+          "cachedResultName": "BM's",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1122812575"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Funcionando"
+            }
+          ]
+        },
+        "options": {
+          "returnAllMatches": "returnAllMatches"
+        }
+      },
+      "id": "ab5b5afc-5d1d-4f94-844a-90b1b432d1be",
+      "name": "Get row(s) in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        192,
+        352
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.188Z",
+      "createdAt": "2025-08-06T19:56:06.188Z",
+      "role": "workflow:owner",
+      "workflowId": "1iF0QCapw1NTETha",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-08-27T12:43:06.880Z",
+  "versionId": "0f5cc001-47d3-4146-b2c5-192a346acbdd"
+}

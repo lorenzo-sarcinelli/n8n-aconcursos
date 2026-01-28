@@ -1,0 +1,359 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "MySQL2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "MySQL1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL2": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.166Z",
+  "id": "chkHzkNqmDO0ZIEW",
+  "isArchived": true,
+  "meta": null,
+  "name": "Reprocessamento User_id WhatsappLeads",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "WhatsApp_leads",
+          "mode": "list",
+          "cachedResultName": "WhatsApp_leads"
+        },
+        "limit": 1000,
+        "where": {
+          "values": [
+            {
+              "column": "user_id",
+              "condition": "IS NULL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "002e1b27-b536-44c5-9e42-7d10c7fb8fa1",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -1580,
+        240
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "QpNGYbj9wAM31I5T",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "5535e374-34f1-43eb-8d0f-0355dc563970",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1360,
+        240
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "8c73d27b-1d45-4242-b467-69feeb63e7cf",
+      "name": "Replace Me",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -1140,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ee273914-154d-4ae4-8975-23cdebf63d95",
+              "name": "user_id",
+              "value": "={{ $item(\"0\").$node[\"Wait\"].json[\"id_user\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "c0373dad-fbd0-4c22-ad07-20d71dfcfe5e",
+              "name": "phone",
+              "value": "={{ $item(\"0\").$node[\"Replace Me\"].json[\"phone\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cb52cfba-3b1e-40fd-b483-d0b07bcdb770",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        -260,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "WhatsApp_leads",
+          "mode": "list",
+          "cachedResultName": "WhatsApp_leads"
+        },
+        "columnToMatchOn": "phone",
+        "options": {}
+      },
+      "id": "215216a2-e91c-4ded-b5fb-570106486641",
+      "name": "MySQL1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -40,
+        240
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "QpNGYbj9wAM31I5T",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 10
+            }
+          ]
+        }
+      },
+      "id": "b703a867-f252-4120-aca0-563db222979b",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1800,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "e108d2f2-357e-4b70-a089-539184fd5e96",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -480,
+        240
+      ],
+      "webhookId": "278010f6-38b6-4d70-b621-92279ca0b335"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "phone",
+              "condition": "LIKE",
+              "value": "=%{{ $item(\"0\").$node[\"Replace Me\"].json[\"phone\"].slice(-8) }}%"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -920,
+        260
+      ],
+      "id": "a93add41-3109-43e5-b694-f31d56f67e1e",
+      "name": "MySQL2",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "QpNGYbj9wAM31I5T",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "f89e09a9-d05a-499c-b64f-3c7c1ad2b35b",
+              "leftValue": "={{ $item(\"0\").$node[\"MySQL2\"].json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "30349e73-2740-443a-8968-c3f60eb2e806",
+      "name": "If1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -700,
+        260
+      ]
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.166Z",
+      "createdAt": "2025-08-06T19:56:06.166Z",
+      "role": "workflow:owner",
+      "workflowId": "chkHzkNqmDO0ZIEW",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-07T19:04:47.703Z",
+  "versionId": "716b6a96-a8b4-427b-9a8c-6f385b481a6b"
+}

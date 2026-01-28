@@ -1,0 +1,1131 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-27T11:24:31.246Z",
+    "createdAt": "2026-01-27T11:24:31.246Z",
+    "versionId": "8a939252-ed62-4917-9958-11e60acc8e89",
+    "workflowId": "VNkL9Ai1NYtoOx6V",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "cronExpression",
+                "expression": "5,25,55 * * * *"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -464,
+          48
+        ],
+        "id": "f7e76649-8ce1-42f0-9641-03ce312f305d",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          -80,
+          48
+        ],
+        "id": "c513bae3-f263-46e7-aeb0-b593074a2160",
+        "name": "Loop Over Items"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "name": "Replace Me",
+        "typeVersion": 1,
+        "position": [
+          128,
+          160
+        ],
+        "id": "0c5dd233-fa1f-44b9-862e-37aa36e8a4b7"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "cd77b83a-a02f-422e-b5d4-f115acd42200",
+                "name": "id_data",
+                "value": "={{ $json[\"Campaign ID\"] }}_{{ $json[\"Ad Group ID\"] }}_{{ $json[\"Ad ID\"] }}_{{ $json['Date (Segment)'] }}",
+                "type": "string"
+              },
+              {
+                "id": "98550163-9194-4249-9d00-bee6139c5233",
+                "name": "video_id",
+                "value": "={{ $json.video_id !== undefined && $json.video_id !== null ? \"https://www.youtube.com/watch?v=\" + $json.video_id : null }}",
+                "type": "string"
+              },
+              {
+                "id": "6fa2dd1a-d315-4964-a38f-b6491db8b3fa",
+                "name": "ad_group_name",
+                "value": "={{ $json[\"Ad Group Name\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "c87e2a60-815c-4820-9206-6a0897449d05",
+                "name": "ad_name",
+                "value": "={{ $json[\"Ad Name\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "c5126540-caa7-4dc1-a1af-4b3775fa066a",
+                "name": "campaign",
+                "value": "={{ $json[\"Campaign Name\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "e5530091-ae95-47e7-aaee-ff745c1e4948",
+                "name": "clicks",
+                "value": "={{ $json.Clicks }}",
+                "type": "number"
+              },
+              {
+                "id": "75e09dcc-4731-49fe-93bd-d4c16946271e",
+                "name": "Impressions",
+                "value": "={{ $json.Impressions }}",
+                "type": "number"
+              },
+              {
+                "id": "b73c3b4f-5449-4810-98c2-5f9a24ac6d13",
+                "name": "date",
+                "value": "={{ $json['Date (Segment)']}}",
+                "type": "string"
+              },
+              {
+                "id": "f2f1985d-f616-4a46-b1ff-a119272cebff",
+                "name": "spend",
+                "value": "={{ $json['Cost (Spend, Amount Spent)'] }}",
+                "type": "number"
+              },
+              {
+                "id": "3b6baa46-aacb-49fa-9dc6-afdf49b226c7",
+                "name": "ad_id",
+                "value": "={{ $json[\"Ad ID\"] }}",
+                "type": "number"
+              },
+              {
+                "id": "666f2df4-0fd8-4f15-b846-cca9442bbffb",
+                "name": "ad_group_id",
+                "value": "={{ $json[\"Ad Group ID\"] }}",
+                "type": "number"
+              },
+              {
+                "id": "781aee36-b651-430f-9eb9-ec03e179fb27",
+                "name": "campaign_id",
+                "value": "={{ $json[\"Campaign ID\"] }}",
+                "type": "number"
+              },
+              {
+                "id": "91affa40-798a-4579-b29e-0cd9565a5d0f",
+                "name": "account_name",
+                "value": "Lucas Nunes - Acelera Concursos",
+                "type": "string"
+              },
+              {
+                "id": "463ad44a-7ad9-482b-ad66-d9ba7a92f246",
+                "name": "launch_tag",
+                "value": "={{ $json[\"Campaign Name\"]?.includes(\"SSP-L19\") ? \"SSP-L19\" : null }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          320,
+          160
+        ],
+        "id": "de523ab6-d594-43ad-81a0-79fa2c1e6616",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "reports_google",
+            "mode": "list",
+            "cachedResultName": "reports_google"
+          },
+          "returnAll": true,
+          "where": {
+            "values": [
+              {
+                "column": "id_data",
+                "value": "={{ $json.id_data }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          512,
+          160
+        ],
+        "id": "86e90921-e2bf-475b-82dc-59124eb1ce06",
+        "name": "getReport",
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "jsCode": "const dados_upsert = $node[\"Edit Fields\"].json;\n\n// Retorna exatamente a mesma saída\nreturn dados_upsert;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1168,
+          -160
+        ],
+        "id": "88645425-8eeb-429b-ae58-bef2b1a4fb3f",
+        "name": "object2Upsert"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "40411f0d-153b-4103-ba79-db096155c743",
+                "leftValue": "={{ $node['getReport'].json }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "object",
+                  "operation": "empty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          704,
+          160
+        ],
+        "id": "c28685b6-55a6-49a5-938c-99573890ce78",
+        "name": "exist?"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "72e74451-7d8a-42fe-a5d0-5e406f7116d3",
+                "leftValue": "={{ $('Edit Fields').item.json.spend }}",
+                "rightValue": "={{ parseFloat($json.spend) }}",
+                "operator": {
+                  "type": "number",
+                  "operation": "gt"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          880,
+          240
+        ],
+        "id": "d443a207-6998-4ab8-8e9f-4c7ba42811df",
+        "name": "valorMaior?"
+      },
+      {
+        "parameters": {
+          "operation": "upsert",
+          "table": {
+            "__rl": true,
+            "value": "reports_google",
+            "mode": "list",
+            "cachedResultName": "reports_google"
+          },
+          "columnToMatchOn": "id_data",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          1360,
+          -160
+        ],
+        "id": "ac9cc060-a793-43a0-9634-c15de257c7c3",
+        "name": "upsert2ReportsGoogle",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "https://docs.google.com/spreadsheets/d/165SQ0xUC5o6YRLHqAcIwo6-ho5-efTN0geeBWw5_upk/edit?gid=0#gid=0",
+            "mode": "url"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "GoogleAds",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/165SQ0xUC5o6YRLHqAcIwo6-ho5-efTN0geeBWw5_upk/edit#gid=0"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          -288,
+          48
+        ],
+        "id": "a45ac00d-fa39-4b95-ad24-7a6d8591b5b5",
+        "name": "getRows",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "SN6RzeMl3gN9prB4",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 2
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -464,
+          -336
+        ],
+        "id": "cee1ea77-b40e-4da5-9fa9-4d1a9e72266a",
+        "name": "Schedule Trigger1"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE reports_google set launch_tag = 'SSP-L19' WHERE campaign like '%SSP-L19%'",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          -256,
+          -336
+        ],
+        "id": "22a01d94-6fc0-4d6b-9456-33288cf96bbb",
+        "name": "Execute a SQL query",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "update launch tag ssp-l19",
+          "height": 192,
+          "width": 464
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -528,
+          -400
+        ],
+        "typeVersion": 1,
+        "id": "32a0e689-597b-4d4d-b1e4-e2066a0ae0b2",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "update reports_google set launch_tag = 'SSP-L21' Where campaign like '%SSP-L21%'",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.5,
+        "position": [
+          128,
+          32
+        ],
+        "id": "a7242a69-9974-44cb-b5d2-bb8a9fd5f12d",
+        "name": "Execute a SQL query1",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "getRows",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [
+            {
+              "node": "Execute a SQL query1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Replace Me",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Replace Me": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "getReport",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getReport": {
+        "main": [
+          [
+            {
+              "node": "exist?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "object2Upsert": {
+        "main": [
+          [
+            {
+              "node": "upsert2ReportsGoogle",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "exist?": {
+        "main": [
+          [
+            {
+              "node": "object2Upsert",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "valorMaior?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "valorMaior?": {
+        "main": [
+          [
+            {
+              "node": "object2Upsert",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "upsert2ReportsGoogle": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getRows": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger1": {
+        "main": [
+          [
+            {
+              "node": "Execute a SQL query",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "8a939252-ed62-4917-9958-11e60acc8e89",
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "getRows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "getReport",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getReport": {
+      "main": [
+        [
+          {
+            "node": "exist?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "object2Upsert": {
+      "main": [
+        [
+          {
+            "node": "upsert2ReportsGoogle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "exist?": {
+      "main": [
+        [
+          {
+            "node": "object2Upsert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "valorMaior?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "valorMaior?": {
+      "main": [
+        [
+          {
+            "node": "object2Upsert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upsert2ReportsGoogle": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getRows": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-26T17:42:37.132Z",
+  "id": "VNkL9Ai1NYtoOx6V",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "T0003 | Reports Google | Atualiza tabela com dados de extração via planilha",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "5,25,55 * * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -464,
+        48
+      ],
+      "id": "f7e76649-8ce1-42f0-9641-03ce312f305d",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -80,
+        48
+      ],
+      "id": "c513bae3-f263-46e7-aeb0-b593074a2160",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        128,
+        160
+      ],
+      "id": "0c5dd233-fa1f-44b9-862e-37aa36e8a4b7"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cd77b83a-a02f-422e-b5d4-f115acd42200",
+              "name": "id_data",
+              "value": "={{ $json[\"Campaign ID\"] }}_{{ $json[\"Ad Group ID\"] }}_{{ $json[\"Ad ID\"] }}_{{ $json['Date (Segment)'] }}",
+              "type": "string"
+            },
+            {
+              "id": "98550163-9194-4249-9d00-bee6139c5233",
+              "name": "video_id",
+              "value": "={{ $json.video_id !== undefined && $json.video_id !== null ? \"https://www.youtube.com/watch?v=\" + $json.video_id : null }}",
+              "type": "string"
+            },
+            {
+              "id": "6fa2dd1a-d315-4964-a38f-b6491db8b3fa",
+              "name": "ad_group_name",
+              "value": "={{ $json[\"Ad Group Name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "c87e2a60-815c-4820-9206-6a0897449d05",
+              "name": "ad_name",
+              "value": "={{ $json[\"Ad Name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "c5126540-caa7-4dc1-a1af-4b3775fa066a",
+              "name": "campaign",
+              "value": "={{ $json[\"Campaign Name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "e5530091-ae95-47e7-aaee-ff745c1e4948",
+              "name": "clicks",
+              "value": "={{ $json.Clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "75e09dcc-4731-49fe-93bd-d4c16946271e",
+              "name": "Impressions",
+              "value": "={{ $json.Impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "b73c3b4f-5449-4810-98c2-5f9a24ac6d13",
+              "name": "date",
+              "value": "={{ $json['Date (Segment)']}}",
+              "type": "string"
+            },
+            {
+              "id": "f2f1985d-f616-4a46-b1ff-a119272cebff",
+              "name": "spend",
+              "value": "={{ $json['Cost (Spend, Amount Spent)'] }}",
+              "type": "number"
+            },
+            {
+              "id": "3b6baa46-aacb-49fa-9dc6-afdf49b226c7",
+              "name": "ad_id",
+              "value": "={{ $json[\"Ad ID\"] }}",
+              "type": "number"
+            },
+            {
+              "id": "666f2df4-0fd8-4f15-b846-cca9442bbffb",
+              "name": "ad_group_id",
+              "value": "={{ $json[\"Ad Group ID\"] }}",
+              "type": "number"
+            },
+            {
+              "id": "781aee36-b651-430f-9eb9-ec03e179fb27",
+              "name": "campaign_id",
+              "value": "={{ $json[\"Campaign ID\"] }}",
+              "type": "number"
+            },
+            {
+              "id": "91affa40-798a-4579-b29e-0cd9565a5d0f",
+              "name": "account_name",
+              "value": "Lucas Nunes - Acelera Concursos",
+              "type": "string"
+            },
+            {
+              "id": "463ad44a-7ad9-482b-ad66-d9ba7a92f246",
+              "name": "launch_tag",
+              "value": "={{ $json[\"Campaign Name\"]?.includes(\"SSP-L19\") ? \"SSP-L19\" : null }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        160
+      ],
+      "id": "de523ab6-d594-43ad-81a0-79fa2c1e6616",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "reports_google",
+          "mode": "list",
+          "cachedResultName": "reports_google"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "id_data",
+              "value": "={{ $json.id_data }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        512,
+        160
+      ],
+      "id": "86e90921-e2bf-475b-82dc-59124eb1ce06",
+      "name": "getReport",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const dados_upsert = $node[\"Edit Fields\"].json;\n\n// Retorna exatamente a mesma saída\nreturn dados_upsert;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1168,
+        -160
+      ],
+      "id": "88645425-8eeb-429b-ae58-bef2b1a4fb3f",
+      "name": "object2Upsert"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "40411f0d-153b-4103-ba79-db096155c743",
+              "leftValue": "={{ $node['getReport'].json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        704,
+        160
+      ],
+      "id": "c28685b6-55a6-49a5-938c-99573890ce78",
+      "name": "exist?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "72e74451-7d8a-42fe-a5d0-5e406f7116d3",
+              "leftValue": "={{ $('Edit Fields').item.json.spend }}",
+              "rightValue": "={{ parseFloat($json.spend) }}",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        240
+      ],
+      "id": "d443a207-6998-4ab8-8e9f-4c7ba42811df",
+      "name": "valorMaior?"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "reports_google",
+          "mode": "list",
+          "cachedResultName": "reports_google"
+        },
+        "columnToMatchOn": "id_data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1360,
+        -160
+      ],
+      "id": "ac9cc060-a793-43a0-9634-c15de257c7c3",
+      "name": "upsert2ReportsGoogle",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/165SQ0xUC5o6YRLHqAcIwo6-ho5-efTN0geeBWw5_upk/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "GoogleAds",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/165SQ0xUC5o6YRLHqAcIwo6-ho5-efTN0geeBWw5_upk/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -288,
+        48
+      ],
+      "id": "a45ac00d-fa39-4b95-ad24-7a6d8591b5b5",
+      "name": "getRows",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 2
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -464,
+        -336
+      ],
+      "id": "cee1ea77-b40e-4da5-9fa9-4d1a9e72266a",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE reports_google set launch_tag = 'SSP-L19' WHERE campaign like '%SSP-L19%'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -256,
+        -336
+      ],
+      "id": "22a01d94-6fc0-4d6b-9456-33288cf96bbb",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "update launch tag ssp-l19",
+        "height": 192,
+        "width": 464
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -528,
+        -400
+      ],
+      "typeVersion": 1,
+      "id": "32a0e689-597b-4d4d-b1e4-e2066a0ae0b2",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update reports_google set launch_tag = 'SSP-L21' Where campaign like '%SSP-L21%'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        128,
+        32
+      ],
+      "id": "a7242a69-9974-44cb-b5d2-bb8a9fd5f12d",
+      "name": "Execute a SQL query1",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-26T17:42:37.132Z",
+      "createdAt": "2025-09-26T17:42:37.132Z",
+      "role": "workflow:owner",
+      "workflowId": "VNkL9Ai1NYtoOx6V",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    },
+    "node:Schedule Trigger1": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 2,
+  "updatedAt": "2026-01-27T11:24:31.281Z",
+  "versionId": "8a939252-ed62-4917-9958-11e60acc8e89"
+}

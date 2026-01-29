@@ -1,0 +1,103 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "GetTerms",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-20T21:41:03.125Z",
+  "id": "1J5H35C5JbHKBQ7Z",
+  "isArchived": false,
+  "meta": null,
+  "name": "My workflow 19",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a2ea37e0-2a5a-4a76-8174-8f2d44653d08",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT\n  w.id AS workflow_id,\n  w.name AS workflow_name,\n  node ->> 'name' AS node_name,\n  node ->> 'id' AS node_id,\n  node -> 'parameters' AS node_parameters\nFROM workflow_entity w,\n     jsonb_array_elements(w.nodes::jsonb) AS node\nWHERE node::text ILIKE '%{{ $json[\"term\"] }}%' AND w.id <> '{{ $workflow.id }}';\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        448,
+        0
+      ],
+      "id": "02535708-edf8-4602-a13b-b54c8e7666a0",
+      "name": "GetTerms"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7f82e52c-d8fe-4b34-8b48-af449ac06eb7",
+              "name": "term",
+              "value": "1L1pgOXvdIi_7u63KmuGXgwpjlNkUvaRzuRkSyGkGsYQ",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        0
+      ],
+      "id": "12d881c6-54c2-46eb-b2c9-58502b63fa09",
+      "name": "Set"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-20T21:41:03.125Z",
+      "createdAt": "2026-01-20T21:41:03.125Z",
+      "role": "workflow:owner",
+      "workflowId": "1J5H35C5JbHKBQ7Z",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-20T21:41:03.125Z",
+  "versionId": "91939c24-3006-4dbc-b7f1-b654fd1d9ca7"
+}

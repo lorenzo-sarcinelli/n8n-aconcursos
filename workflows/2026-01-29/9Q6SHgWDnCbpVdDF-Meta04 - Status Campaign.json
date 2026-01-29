@@ -1,0 +1,932 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T19:22:18.976Z",
+    "createdAt": "2025-11-26T19:22:18.976Z",
+    "versionId": "b3b700be-34f9-4fb3-961c-ad749246fec5",
+    "workflowId": "9Q6SHgWDnCbpVdDF",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "hours",
+                "hoursInterval": 5
+              }
+            ]
+          }
+        },
+        "id": "31da2fbe-51ee-4ab1-84b9-0dab9dee46ca",
+        "name": "Schedule Trigger",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1,
+        "position": [
+          -1120,
+          48
+        ]
+      },
+      {
+        "parameters": {
+          "batchSize": 1,
+          "options": {}
+        },
+        "id": "23a8c4a1-8ec5-41ee-a1a0-d52945b69872",
+        "name": "Split In Batches",
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 2,
+        "position": [
+          -656,
+          48
+        ]
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "campaign_id",
+                "value": "={{ $node['Item Lists'].json.id }}"
+              },
+              {
+                "name": "status_campaign",
+                "value": "={{ $node['Item Lists'].json.configured_status }}"
+              },
+              {
+                "name": "paused_date",
+                "value": "={{ $node['Item Lists'].json.configured_status == 'ACTIVE' ? null : $json.pause_date }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "bc17c831-c870-424e-be5a-8f3f1854cb18",
+        "name": "Set",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 1,
+        "position": [
+          672,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "data",
+          "options": {}
+        },
+        "id": "4c87eb07-6e19-4e1d-8f4f-070356424909",
+        "name": "Item Lists",
+        "type": "n8n-nodes-base.itemLists",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $node[\"HTTP Request5\"].json[\"data\"] }}",
+                "operation": "isNotEmpty"
+              }
+            ]
+          },
+          "combineOperation": "any"
+        },
+        "id": "2b6babb7-8a7e-4b22-9574-50bc08325cdd",
+        "name": "IF1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          -224,
+          32
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $node[\"IF1\"].json[\"paging\"][\"next\"] }}",
+                "operation": "isNotEmpty"
+              }
+            ]
+          }
+        },
+        "id": "c553b659-bae0-43fe-9628-9af9e3decc50",
+        "name": "IF",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          1312,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "url": "=https://graph.facebook.com/v20.0/act_{{ $json['ID Conta de Anuncio'] }}/campaigns",
+          "options": {},
+          "queryParametersUi": {
+            "parameter": [
+              {
+                "name": "fields",
+                "value": "configured_status"
+              },
+              {
+                "name": "access_token",
+                "value": "={{ $json.Token }}"
+              },
+              {
+                "name": "limit",
+                "value": "200"
+              }
+            ]
+          }
+        },
+        "id": "ea13ba2a-ed14-430c-86d9-22b7a3694543",
+        "name": "HTTP Request5",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 2,
+        "position": [
+          -448,
+          32
+        ],
+        "retryOnFail": false
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.limit",
+        "typeVersion": 1,
+        "position": [
+          1104,
+          0
+        ],
+        "id": "18214d12-2e10-448b-9f72-9df80552cd80",
+        "name": "Limit"
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "campaigns_bms",
+            "mode": "list",
+            "cachedResultName": "campaigns_bms"
+          },
+          "columnToMatchOn": "campaign_id",
+          "options": {}
+        },
+        "id": "5625f28a-6927-48e4-b17d-85af82dcf513",
+        "name": "Update/Geral",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          880,
+          0
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT `paused_date` FROM `campaigns_bms` WHERE `campaign_id` = {{ $json.id }} ORDER BY `campaigns_bms`.`data` DESC LIMIT 1",
+          "options": {
+            "detailedOutput": true
+          }
+        },
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.4,
+        "position": [
+          224,
+          0
+        ],
+        "id": "dec5e8d3-8fce-466c-a25b-d2f937f03a1a",
+        "name": "MySQL",
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "let pause_date = null\n\npause_date = $node['Item Lists'].json.configured_status == 'ACTIVE' ? null :($input.item.json.data[0] ? ($input.item.json.data[0].pause_date ?? $now.toFormat('yyyy-MM-dd')) : $now.toFormat('yyyy-MM-dd'))\n\nreturn {pause_date}"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          448,
+          0
+        ],
+        "id": "be89a885-369e-4b8b-9895-11a762a6ea02",
+        "name": "Code"
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=1122812575#gid=1122812575",
+            "mode": "url"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1122812575,
+            "mode": "list",
+            "cachedResultName": "BM's",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1122812575"
+          },
+          "filtersUI": {
+            "values": [
+              {
+                "lookupColumn": "Status",
+                "lookupValue": "Funcionando"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "8d80704f-28fc-48d3-8c80-3ced66f70da4",
+        "name": "Get row(s) in sheet",
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 3,
+        "position": [
+          -896,
+          48
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000,
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "SN6RzeMl3gN9prB4",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "={{ $node[\"IF1\"].json[\"paging\"][\"next\"] }}",
+          "options": {}
+        },
+        "id": "b4fd4ad9-5981-447f-b1c2-18447256af6a",
+        "name": "HTTP Request1",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 2,
+        "position": [
+          1552,
+          -16
+        ],
+        "retryOnFail": true
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Get row(s) in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Split In Batches": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request5",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set": {
+        "main": [
+          [
+            {
+              "node": "Update/Geral",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Item Lists": {
+        "main": [
+          [
+            {
+              "node": "MySQL",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF1": {
+        "main": [
+          [
+            {
+              "node": "Item Lists",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Split In Batches",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Split In Batches",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request5": {
+        "main": [
+          [
+            {
+              "node": "IF1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Limit": {
+        "main": [
+          [
+            {
+              "node": "IF",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update/Geral": {
+        "main": [
+          [
+            {
+              "node": "Limit",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "MySQL": {
+        "main": [
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "Set",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get row(s) in sheet": {
+        "main": [
+          [
+            {
+              "node": "Split In Batches",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request1": {
+        "main": [
+          [
+            {
+              "node": "IF1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "b3b700be-34f9-4fb3-961c-ad749246fec5",
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split In Batches": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Update/Geral",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF1": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "IF1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update/Geral": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "IF1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-07T18:42:43.211Z",
+  "id": "9Q6SHgWDnCbpVdDF",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Meta04 - Status Campaign",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 5
+            }
+          ]
+        }
+      },
+      "id": "31da2fbe-51ee-4ab1-84b9-0dab9dee46ca",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1120,
+        48
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "23a8c4a1-8ec5-41ee-a1a0-d52945b69872",
+      "name": "Split In Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        -656,
+        48
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "campaign_id",
+              "value": "={{ $node['Item Lists'].json.id }}"
+            },
+            {
+              "name": "status_campaign",
+              "value": "={{ $node['Item Lists'].json.configured_status }}"
+            },
+            {
+              "name": "paused_date",
+              "value": "={{ $node['Item Lists'].json.configured_status == 'ACTIVE' ? null : $json.pause_date }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bc17c831-c870-424e-be5a-8f3f1854cb18",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        672,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "id": "4c87eb07-6e19-4e1d-8f4f-070356424909",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"HTTP Request5\"].json[\"data\"] }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        },
+        "combineOperation": "any"
+      },
+      "id": "2b6babb7-8a7e-4b22-9574-50bc08325cdd",
+      "name": "IF1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"IF1\"].json[\"paging\"][\"next\"] }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "c553b659-bae0-43fe-9628-9af9e3decc50",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1312,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v20.0/act_{{ $json['ID Conta de Anuncio'] }}/campaigns",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "fields",
+              "value": "configured_status"
+            },
+            {
+              "name": "access_token",
+              "value": "={{ $json.Token }}"
+            },
+            {
+              "name": "limit",
+              "value": "200"
+            }
+          ]
+        }
+      },
+      "id": "ea13ba2a-ed14-430c-86d9-22b7a3694543",
+      "name": "HTTP Request5",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        -448,
+        32
+      ],
+      "retryOnFail": false
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        0
+      ],
+      "id": "18214d12-2e10-448b-9f72-9df80552cd80",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "campaigns_bms",
+          "mode": "list",
+          "cachedResultName": "campaigns_bms"
+        },
+        "columnToMatchOn": "campaign_id",
+        "options": {}
+      },
+      "id": "5625f28a-6927-48e4-b17d-85af82dcf513",
+      "name": "Update/Geral",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        0
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT `paused_date` FROM `campaigns_bms` WHERE `campaign_id` = {{ $json.id }} ORDER BY `campaigns_bms`.`data` DESC LIMIT 1",
+        "options": {
+          "detailedOutput": true
+        }
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        224,
+        0
+      ],
+      "id": "dec5e8d3-8fce-466c-a25b-d2f937f03a1a",
+      "name": "MySQL",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let pause_date = null\n\npause_date = $node['Item Lists'].json.configured_status == 'ACTIVE' ? null :($input.item.json.data[0] ? ($input.item.json.data[0].pause_date ?? $now.toFormat('yyyy-MM-dd')) : $now.toFormat('yyyy-MM-dd'))\n\nreturn {pause_date}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "be89a885-369e-4b8b-9895-11a762a6ea02",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=1122812575#gid=1122812575",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1122812575,
+          "mode": "list",
+          "cachedResultName": "BM's",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1122812575"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Funcionando"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8d80704f-28fc-48d3-8c80-3ced66f70da4",
+      "name": "Get row(s) in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        -896,
+        48
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $node[\"IF1\"].json[\"paging\"][\"next\"] }}",
+        "options": {}
+      },
+      "id": "b4fd4ad9-5981-447f-b1c2-18447256af6a",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        1552,
+        -16
+      ],
+      "retryOnFail": true
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-07T18:42:43.211Z",
+      "createdAt": "2025-08-07T18:42:43.211Z",
+      "role": "workflow:owner",
+      "workflowId": "9Q6SHgWDnCbpVdDF",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": [
+        20
+      ]
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-08-24T22:33:10.149Z",
+  "versionId": "b3b700be-34f9-4fb3-961c-ad749246fec5"
+}

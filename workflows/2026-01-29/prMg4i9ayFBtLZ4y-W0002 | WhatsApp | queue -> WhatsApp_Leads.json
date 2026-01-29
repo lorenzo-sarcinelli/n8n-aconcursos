@@ -1,0 +1,656 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "MySQL1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Noop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL1": {
+      "main": [
+        [
+          {
+            "node": "Noop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Noop": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "MySQL2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "MySQL4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF1": {
+      "main": [
+        [
+          {
+            "node": "Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Test workflow\"": {
+      "main": [
+        [
+          {
+            "node": "MySQL3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL3": {
+      "main": [
+        [
+          {
+            "node": "IF1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buffer": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "MySQL3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.147Z",
+  "id": "prMg4i9ayFBtLZ4y",
+  "isArchived": true,
+  "meta": null,
+  "name": "W0002 | WhatsApp | queue -> WhatsApp_Leads",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "phone",
+              "value": "={{ $node.Buffer.json.body.data.number }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4555e360-e0da-4c83-851d-57b84382d928",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        528,
+        464
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "3865bf14-7dd9-461f-af2f-7a4717b4c6d2",
+              "leftValue": "={{ $json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4b021608-7b47-43fc-a123-2060f26a9ab5",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        752,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "phone",
+              "value": "={{ $node.Buffer.json.body.data.number.substring(2) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f1cd2fd2-7907-4516-8e59-1992a78f6749",
+      "name": "MySQL1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        960,
+        368
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "3cfc068b-b8ab-48f5-a27c-e437d7a4c0b3",
+      "name": "Noop",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "833554de-e0a4-4b37-8f64-fe7cdf51fbea",
+              "name": "enter_time",
+              "value": "={{ $item(\"0\").$node[\"Buffer\"].json[\"body\"][\"data\"][\"createdAt\"].replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "931504c1-c2e5-49b7-92ce-857001c39a5a",
+              "name": "group_name",
+              "value": "={{ $('Buffer').item.json.body.data.groupName }}",
+              "type": "string"
+            },
+            {
+              "id": "4fb32687-6e66-4685-9b33-ea564a8bbb56",
+              "name": "phone",
+              "value": "={{ $('Buffer').item.json.body.data.number }}",
+              "type": "string"
+            },
+            {
+              "id": "96266f3f-5208-4c71-b9bb-1b1471759b58",
+              "name": "user_id",
+              "value": "={{ $node.Noop.json.id_user }}",
+              "type": "string"
+            },
+            {
+              "id": "c7eb3b0a-a083-4925-b2a7-971e1163eeb4",
+              "name": "status",
+              "value": "={{ $('Buffer').item.json.body.event == 'group.updated.members.added' ? 'Entrou' : 'Saiu' }}",
+              "type": "string"
+            },
+            {
+              "id": "eb6e07f8-347a-42fe-9d14-05afce5d05d4",
+              "name": "phone_group",
+              "value": "={{ $('Buffer').item.json.body.data.number }}_{{ $('Buffer').item.json.body.data.groupName }}",
+              "type": "string"
+            },
+            {
+              "id": "fb2e036e-9673-4de2-8a9a-119366912ad7",
+              "name": "launch_tag",
+              "value": "={{ $node[\"Buffer\"].json[\"query\"][\"launch\"]   }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e01ec18e-6a0a-495a-aa7e-212aab746b74",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1408,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "WhatsApp_leads",
+          "mode": "list",
+          "cachedResultName": "WhatsApp_leads"
+        },
+        "columnToMatchOn": "phone_group",
+        "options": {}
+      },
+      "id": "d5616c0d-b1c6-4149-967e-1337fd5376c6",
+      "name": "MySQL2",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        1632,
+        480
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f298e282-82a2-438b-8d00-9a2b9e5f23ea",
+              "name": "id_launch_queue",
+              "value": "={{ $node['IF1'].json.id_launch_queue }}",
+              "type": "string"
+            },
+            {
+              "id": "b6f40c7d-02c6-46ec-b673-464a7f814a77",
+              "name": "execution_time",
+              "value": "={{ $now }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "757546d6-c935-4020-9227-5dda6359fd18",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1840,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "e71f17ff-e6ad-406b-a648-026da98a7170",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        528,
+        688
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "minutes"
+      },
+      "id": "33d2bf78-80d0-493e-92da-e8b24eb8fb79",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        304,
+        688
+      ],
+      "webhookId": "58008e2f-6a2d-4a3b-89dc-22ef999d123c"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "3315ea4e-1461-4192-84a6-cbe188a2c50e",
+      "name": "IF1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        64,
+        480
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "7c0aad67-4be9-46d1-9915-234c96213eaa",
+      "name": "When clicking \"Test workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        304
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "launch_groups_queue",
+          "mode": "list",
+          "cachedResultName": "launch_groups_queue"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "execution_time",
+              "condition": "IS NULL"
+            }
+          ]
+        },
+        "sort": {
+          "values": [
+            {
+              "column": "id_launch_queue"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3362f3bd-059e-4502-b28a-029fe9117bb8",
+      "name": "MySQL3",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -160,
+        480
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "launch_groups_queue",
+          "mode": "list",
+          "cachedResultName": "launch_groups_queue"
+        },
+        "columnToMatchOn": "id_launch_queue",
+        "options": {}
+      },
+      "id": "6b05e499-93c6-45ad-af0b-15a94dca9841",
+      "name": "MySQL4",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        2064,
+        480
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "cf1d9b2c-b2f4-4041-9582-0c6ac54e0ba4",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2288,
+        480
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "jsCode": "let request = $node[\"IF1\"].json[\"request_body\"]\nlet bufferObj = Buffer.from(request, \"base64\");\nlet decodedString = bufferObj.toString(\"utf8\");\nlet json = JSON.parse(decodedString);\n\nreturn json;"
+      },
+      "id": "0790d9df-31d3-4963-963e-94067293a30e",
+      "name": "Buffer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        304,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://webhook.aconcursos.com.br/webhook/fdd218da-6f0c-4294-acbf-eae18908528056435y2w456",
+        "options": {}
+      },
+      "id": "698c044c-7c9b-4144-bab5-bb1af9142520",
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        528,
+        864
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fdd218da-6f0c-4294-acbf-eae18908528056435y2w456",
+        "options": {}
+      },
+      "id": "6d1456af-f947-453c-9905-b4b6a5db019e",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -384,
+        480
+      ],
+      "webhookId": "fdd218da-6f0c-4294-acbf-eae189085280"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.aconcursos.com.br",
+            "user-agent": "axios/1.8.3",
+            "content-length": "0",
+            "accept": "application/json,text/html,application/xhtml+xml,application/xml,text/*;q=0.9, image/*;q=0.8, */*;q=0.7",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "webhook.aconcursos.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "660043f7f463",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {},
+          "webhookUrl": "https://webhook.aconcursos.com.br/webhook/fdd218da-6f0c-4294-acbf-eae18908528056435y2w456",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.147Z",
+      "createdAt": "2025-08-06T19:56:06.147Z",
+      "role": "workflow:owner",
+      "workflowId": "prMg4i9ayFBtLZ4y",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-23T16:22:18.172Z",
+  "versionId": "8401f6d4-c935-45df-a6fb-8419f4f1f8d2"
+}

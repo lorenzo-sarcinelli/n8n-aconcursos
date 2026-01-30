@@ -1,0 +1,4824 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T19:22:18.976Z",
+    "createdAt": "2025-11-26T19:22:18.976Z",
+    "versionId": "4196c3f6-c8f7-4b33-b72e-fec0acf6ad28",
+    "workflowId": "TtPdLTqNdqrGQADZ",
+    "nodes": [
+      {
+        "parameters": {
+          "jsCode": "let json =JSON.parse($input.all()[0].json.jsons)\n\njson.body ? json = json.body : ''\n\nreturn json\n"
+        },
+        "id": "7c98aeb9-1b2c-49a3-8617-cebbaf3af8d0",
+        "name": "Code",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -2208,
+          1040
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "offers",
+            "mode": "list",
+            "cachedResultName": "offers"
+          },
+          "limit": 1,
+          "where": {
+            "values": [
+              {
+                "column": "offer_ext",
+                "value": "={{ $('Loop Over Items').item.json.data.offer.id }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "32b01750-c0c6-4e65-b04d-50e936130583",
+        "name": "Get_oferta",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -256,
+          848
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "offers",
+            "mode": "list",
+            "cachedResultName": "offers"
+          },
+          "options": {}
+        },
+        "id": "f8ccc18b-9395-481e-9ca3-651fa0ce92b8",
+        "name": "MySQL1",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          416,
+          864
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "products",
+            "mode": "list",
+            "cachedResultName": "products"
+          },
+          "options": {}
+        },
+        "id": "1ef235f8-7b7d-47e8-8f4a-8cc435ba443a",
+        "name": "MySQL2",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -32,
+          1040
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "products",
+            "mode": "list",
+            "cachedResultName": "products"
+          },
+          "limit": 1,
+          "where": {
+            "values": [
+              {
+                "column": "product_ext",
+                "value": "={{ $node[\"Loop Over Items\"].json[\"data\"][\"offer\"][\"product\"][\"id\"] }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "b9683608-baf7-4898-a19a-b80e27257e30",
+        "name": "Get_produto",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -688,
+          1024
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "values": {
+            "string": [
+              {
+                "name": "product_ext",
+                "value": "={{ $node['Loop Over Items'].json.data.offer.product.id }}"
+              },
+              {
+                "name": "product_name",
+                "value": "={{ $node['Loop Over Items'].json.data.offer.product.name }}"
+              },
+              {
+                "name": "product_price",
+                "value": "={{ $node['Loop Over Items'].json.data.offer.amount/100 }}"
+              },
+              {
+                "name": "update_time",
+                "value": "={{ $now }}"
+              },
+              {
+                "name": "platform",
+                "value": "assiny"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "a298fc08-bfa6-4b50-860d-cab5b76cf762",
+        "name": "Set2",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          -256,
+          1040
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $json }}",
+                "operation": "isNotEmpty"
+              }
+            ]
+          }
+        },
+        "id": "7686b4fb-29b4-424c-9563-f6f569644baf",
+        "name": "IF_produto",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          -464,
+          1024
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $json }}",
+                "operation": "isNotEmpty"
+              }
+            ]
+          }
+        },
+        "id": "c2240af7-a9c4-4820-a52c-bcdc8202d993",
+        "name": "IF_oferta",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          -32,
+          848
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $json }}",
+                "operation": "isEmpty"
+              }
+            ]
+          }
+        },
+        "id": "c26eb385-2ba8-49d9-9d56-35d683564499",
+        "name": "IF5",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          -2416,
+          944
+        ]
+      },
+      {
+        "parameters": {
+          "amount": 15,
+          "unit": "minutes"
+        },
+        "id": "e4990a93-d532-4d03-92cf-ff661e4dc812",
+        "name": "Wait3",
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1,
+        "position": [
+          -2208,
+          848
+        ],
+        "webhookId": "f2fa12a1-9597-49d0-8176-a737af43f8a4"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+          "options": {}
+        },
+        "id": "ede57b74-2697-435b-b7df-a93881b87a5a",
+        "name": "HTTP Request3",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          -1984,
+          848
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000
+      },
+      {
+        "parameters": {},
+        "id": "35915823-b477-4d54-a418-c03a7f3dfb32",
+        "name": "When clicking \"Execute Workflow\"",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -2864,
+          1104
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "upsert",
+          "table": {
+            "__rl": true,
+            "value": "users",
+            "mode": "list",
+            "cachedResultName": "users"
+          },
+          "columnToMatchOn": "email",
+          "options": {}
+        },
+        "id": "c7bd8470-51f2-4706-860b-a424f4fb368b",
+        "name": "MySQL3",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          848,
+          656
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "users",
+            "mode": "list",
+            "cachedResultName": "users"
+          },
+          "limit": 1,
+          "where": {
+            "values": [
+              {
+                "column": "email",
+                "value": "={{ $('Loop Over Items').item.json.data.client.email }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "a4ff9539-d832-4d0e-8021-1ff377bd5b83",
+        "name": "Get_user",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          192,
+          640
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $json }}",
+                "operation": "isNotEmpty"
+              }
+            ]
+          }
+        },
+        "id": "20dc7d68-c49c-4329-b10b-b01190e21ffc",
+        "name": "IF_user",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          416,
+          640
+        ]
+      },
+      {
+        "parameters": {
+          "values": {
+            "string": [
+              {
+                "name": "name",
+                "value": "={{ $('Loop Over Items').item.json.data.client.full_name }}"
+              },
+              {
+                "name": "ext_id",
+                "value": "={{ $('Loop Over Items').item.json.data.client.email }}"
+              },
+              {
+                "name": "email",
+                "value": "={{ $('Loop Over Items').item.json.data.client.email }}"
+              },
+              {
+                "name": "phone",
+                "value": "={{ $('Loop Over Items').item.json.data.client.phone }}"
+              },
+              {
+                "name": "document",
+                "value": "={{ $('Loop Over Items').item.json.data.client.document }}"
+              },
+              {
+                "name": "update_time",
+                "value": "={{ $now }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "b80fcc59-0281-4c09-94fb-5f083369343a",
+        "name": "Set4",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          624,
+          656
+        ]
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "id_sql",
+                "value": "={{ $('IF5').item.json.id_sql }}"
+              },
+              {
+                "name": "foi",
+                "value": "=1"
+              },
+              {
+                "name": "processada",
+                "value": "={{ $now }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "178138a0-f3f9-44a4-9273-7af3df12b717",
+        "name": "Set6",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          -496,
+          640
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "addToDate",
+          "magnitude": "={{ $json.data }}",
+          "timeUnit": "hours",
+          "duration": 3,
+          "options": {}
+        },
+        "id": "28583e73-c149-4159-93d8-4f313e9971a2",
+        "name": "Date & Time",
+        "type": "n8n-nodes-base.dateTime",
+        "typeVersion": 2,
+        "position": [
+          848,
+          464
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "addToDate",
+          "magnitude": "={{ $json.newDate }}",
+          "duration": "={{ $('Code').item.json.recurrency_period }}",
+          "options": {}
+        },
+        "id": "762ecd30-85f8-427f-80b3-333f15a89ba4",
+        "name": "Date & Time1",
+        "type": "n8n-nodes-base.dateTime",
+        "typeVersion": 2,
+        "position": [
+          1072,
+          464
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+          "options": {}
+        },
+        "id": "5f202948-845f-41ca-a987-6ca0f133c479",
+        "name": "HTTP Request2",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          -64,
+          640
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "ext_id",
+                "value": "={{ $('Code').item.json.order_id }}"
+              },
+              {
+                "name": "invoice_code",
+                "value": "={{ $('Code').item.json.order_ref }}"
+              },
+              {
+                "name": "invoice_cycle",
+                "value": "="
+              },
+              {
+                "name": "invoice_discount",
+                "value": "={{ $node['Code'].json.invoice.discount_value }}"
+              },
+              {
+                "name": "invoice_id",
+                "value": "={{ $('Code').item.json.order_ref }}"
+              },
+              {
+                "name": "invoice_increment_value",
+                "value": "={{ $node['Code'].json.invoice.increment_value }}"
+              },
+              {
+                "name": "invoice_payment_url",
+                "value": "={{ $('Code').item.json.pix_code }}"
+              },
+              {
+                "name": "invoice_period_start",
+                "value": "={{ $('Date & Time').item.json.newDate }}"
+              },
+              {
+                "name": "invoice_period_end",
+                "value": "={{ $json.newDate }}"
+              },
+              {
+                "name": "invoice_subscription_id",
+                "value": "={{ $node['Code'].json.invoice.id }}"
+              },
+              {
+                "name": "invoice_status",
+                "value": "={{ $('Code').item.json.order_status }}"
+              },
+              {
+                "name": "invoice_next_cycle",
+                "value": "={{ null }}"
+              },
+              {
+                "name": "invoice_type",
+                "value": "={{ $('Code').item.json.product_type }}"
+              },
+              {
+                "name": "subscriber_id",
+                "value": "={{ $('Code').item.json.Customer.email }}"
+              },
+              {
+                "name": "subscriber_internal_id",
+                "value": "={{ $node['Get_user'].json.id_user }}"
+              },
+              {
+                "name": "subscriber_name",
+                "value": "={{ $('Code').item.json.Customer.full_name }}"
+              },
+              {
+                "name": "subscriber_email",
+                "value": "={{ $('Code').item.json.Customer.email }}"
+              },
+              {
+                "name": "subscriber_phone",
+                "value": "={{ $('Code').item.json.Customer.mobile }}"
+              },
+              {
+                "name": "subscriber_doc",
+                "value": "={{ $('Code').item.json.Customer.CPF }}"
+              },
+              {
+                "name": "subscriber_status"
+              },
+              {
+                "name": "contact_address",
+                "value": "={{ $('Code').item.json.customer.street_name }}"
+              },
+              {
+                "name": "contact_address_city",
+                "value": "={{ $('Code').item.json.customer.city }}"
+              },
+              {
+                "name": "contact_address_comp",
+                "value": "={{ $('Code').item.json.customer.complement }}"
+              },
+              {
+                "name": "contact_address_country",
+                "value": "={{ $node['Code'].json.contact.address_country }}"
+              },
+              {
+                "name": "contact_address_district",
+                "value": "={{ $('Code').item.json.customer.district }}"
+              },
+              {
+                "name": "contact_address_number",
+                "value": "={{ $('Code').item.json.customer.street_number }}"
+              },
+              {
+                "name": "contact_address_state",
+                "value": "={{ $('Code').item.json.customer.state }}"
+              },
+              {
+                "name": "contact_address_full_name",
+                "value": "={{ $('Code').item.json.customer.street_name }}, {{ $('Code').item.json.customer.street_number }}"
+              },
+              {
+                "name": "contact_address_zip_code",
+                "value": "={{ $('Code').item.json.customer.zip_code }}"
+              },
+              {
+                "name": "product_id",
+                "value": "={{ $node['IF_produto'].json.id_product }}"
+              },
+              {
+                "name": "product_marketplace_id",
+                "value": "={{ $node['IF_produto'].json.product_ext }}"
+              },
+              {
+                "name": "product_name",
+                "value": "={{ $node['IF_produto'].json.product_name }}"
+              },
+              {
+                "name": "product_offer_id",
+                "value": "={{ $node['IF_oferta'].json.id_offer }}"
+              },
+              {
+                "name": "product_offer_name",
+                "value": "={{ $node['IF_oferta'].json.offer_name }}"
+              },
+              {
+                "name": "payment_method",
+                "value": "={{ $('Code').item.json.payment_method }}"
+              },
+              {
+                "name": "payment_price",
+                "value": "={{ $('Code').item.json.Commissions.charge_amount/100 }}"
+              },
+              {
+                "name": "queue_json",
+                "value": "={{ $node['Select rows from a table'].json.id_sql }}"
+              },
+              {
+                "name": "utm_source",
+                "value": "={{ $('Code').item.json.TrackingParameters.utm_source }}"
+              },
+              {
+                "name": "utm_campaign",
+                "value": "={{ $('Code').item.json.TrackingParameters.utm_campaign }}"
+              },
+              {
+                "name": "utm_medium",
+                "value": "={{ $('Code').item.json.TrackingParameters.utm_medium }}"
+              },
+              {
+                "name": "utm_content",
+                "value": "={{ $('Code').item.json.TrackingParameters.utm_content }}"
+              },
+              {
+                "name": "utm_term",
+                "value": "={{ $('Code').item.json.TrackingParameters.utm_term }}"
+              },
+              {
+                "name": "src",
+                "value": "={{ $('Code').item.json.TrackingParameters.src }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "4355d2e9-7d89-4e76-8637-e02100c39e36",
+        "name": "Set com oferta",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          1088,
+          288
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "deleteTable",
+          "table": {
+            "__rl": true,
+            "value": "products",
+            "mode": "list",
+            "cachedResultName": "products"
+          },
+          "options": {}
+        },
+        "id": "7b43a288-6ab7-4828-acd8-c7a905ffa11c",
+        "name": "Get_produto1",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -2816,
+          384
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "deleteTable",
+          "table": {
+            "__rl": true,
+            "value": "offers",
+            "mode": "list",
+            "cachedResultName": "offers"
+          },
+          "options": {}
+        },
+        "id": "59a31e5c-3ab2-4903-99d0-71c0963f9212",
+        "name": "Get_oferta1",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -2608,
+          384
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "deleteTable",
+          "table": {
+            "__rl": true,
+            "value": "users",
+            "mode": "list",
+            "cachedResultName": "users"
+          },
+          "options": {}
+        },
+        "id": "425fef84-071a-41a4-bd36-ea42eabaca4c",
+        "name": "Get_user1",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -2384,
+          384
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "deleteTable",
+          "table": {
+            "__rl": true,
+            "value": "purchases",
+            "mode": "list",
+            "cachedResultName": "purchases"
+          },
+          "options": {}
+        },
+        "id": "9ecfdc31-f6e0-49f3-85c2-4c04e54458cc",
+        "name": "MySQL9",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -2160,
+          384
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "deleteTable",
+          "table": {
+            "__rl": true,
+            "value": "transactions",
+            "mode": "list",
+            "cachedResultName": "transactions"
+          },
+          "options": {}
+        },
+        "id": "dd74ca95-416a-4144-a3d2-9dd25aeeb314",
+        "name": "MySQL10",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -1936,
+          384
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE `Hotmart_Vendas` SET `foi`='0' WHERE 1",
+          "options": {}
+        },
+        "id": "8d5b5e3e-82de-41d1-abf6-5ca40508005b",
+        "name": "MySQL11",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -1728,
+          384
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "6cR89c3DkwiktSiW",
+            "name": "MySQL Vendas"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "## Zerar o banco\n",
+          "height": 249.50325581395333,
+          "width": 1307.7581395348857
+        },
+        "id": "0c989086-6233-43f4-8e0f-0e10e9e6c3f4",
+        "name": "Sticky Note",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -2864,
+          304
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/89e9f180-82a7-4bd7-b598-ad1d2ef5157d",
+          "options": {}
+        },
+        "id": "7d0b20fc-ee0d-49ff-b1dc-0de1e3075329",
+        "name": "HTTP Request",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          -1984,
+          640
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "id_sql",
+                "value": "={{ $('IF5').item.json.id_sql }}"
+              },
+              {
+                "name": "foi",
+                "value": "=1"
+              },
+              {
+                "name": "processada",
+                "value": "={{ $now }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "b45b5bff-82e8-4efa-b42f-4f26c12f9d34",
+        "name": "Set",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          -1760,
+          1184
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+          "options": {}
+        },
+        "id": "fe3b1a6a-ee3a-4783-825b-b99d2171e959",
+        "name": "HTTP Request4",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          -1328,
+          1184
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000
+      },
+      {
+        "parameters": {
+          "jsCode": "let datas = []\nfor (item in $node.Code.json) {\n  if(item.includes('date')){\n    datas.push($node.Code.json[item])\n  }\n}\nfunction DataMaisAntiga(datas) {\n    if (datas.length === 0) {\n        return null;\n    }\n\n    const dataMaisAntiga = datas.reduce(function (dataAtual, data) {\n        return data < dataAtual ? data : dataAtual;\n    });\n\n    return dataMaisAntiga;\n}\n\nfunction FormatDate(date){\n  let dataUTC = new Date(date);\n\n  dataUTC.setUTCHours(dataUTC.getUTCHours() - 3);\n  \n  return dataUTC.toISOString();\n}\n\n// (FormatDate(DataMaisAntiga(datas)))\nreturn {data:FormatDate(DataMaisAntiga(datas))}"
+        },
+        "id": "694670bc-ebc6-44f4-8182-7c03d7b3dae4",
+        "name": "Code1",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          624,
+          464
+        ]
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "89e9f180-82a7-4bd7-b598-ad1d2ef5157d",
+          "options": {}
+        },
+        "id": "ecf35d87-683a-456c-a9b3-d3fc290e5401",
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 1,
+        "position": [
+          -2864,
+          944
+        ],
+        "webhookId": "89e9f180-82a7-4bd7-b598-ad1d2ef5157d"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+          "options": {}
+        },
+        "id": "3f2b243a-4c2a-4ccc-b6ab-964b05214e01",
+        "name": "HTTP Request1",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          1728,
+          1040
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "5c47237a-0477-42e1-84bd-e57fbff3a601",
+                "leftValue": "={{ $('IF5').item.json.tries }}",
+                "rightValue": 10,
+                "operator": {
+                  "type": "number",
+                  "operation": "lte"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "098843ce-6bc4-45c0-a938-4d3fdc0aeb9f",
+        "name": "If1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          -1984,
+          1040
+        ]
+      },
+      {
+        "parameters": {
+          "values": {
+            "string": [
+              {
+                "name": "product_id",
+                "value": "={{ $node['IF_produto'].json.id_product }}"
+              },
+              {
+                "name": "offer_ext",
+                "value": "={{ $node['Loop Over Items'].json.data.offer.id }}"
+              },
+              {
+                "name": "offer_name",
+                "value": "={{ $node['Loop Over Items'].json.data.offer.name }}"
+              },
+              {
+                "name": "offer_price",
+                "value": "={{ $node['Loop Over Items'].json.data.offer.amount/100 }}"
+              },
+              {
+                "name": "update_time",
+                "value": "={{ $now }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "a1b4933d-2031-4a8a-9887-6bcf7ed28f7a",
+        "name": "Set1",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          192,
+          864
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "Acon_Vendas",
+            "mode": "list",
+            "cachedResultName": "Acon_Vendas"
+          },
+          "limit": 1,
+          "where": {
+            "values": [
+              {
+                "column": "foi",
+                "value": "0"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "4c2d603e-5b86-4def-bab4-b20d4344e587",
+        "name": "Select rows from a table",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -2640,
+          944
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "6cR89c3DkwiktSiW",
+            "name": "MySQL Vendas"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "table": {
+            "__rl": true,
+            "value": "Acon_Vendas",
+            "mode": "list",
+            "cachedResultName": "Acon_Vendas"
+          },
+          "returnAll": true,
+          "where": {
+            "values": [
+              {
+                "column": "id_sql",
+                "value": "5466"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "badba7ff-71d5-4eff-bfb9-5837efcf3a1d",
+        "name": "Select rows from a table1",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -2640,
+          1104
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "6cR89c3DkwiktSiW",
+            "name": "MySQL Vendas"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "data.offer.order_bumps",
+          "include": "allOtherFields",
+          "options": {
+            "destinationFieldName": "order_bumps"
+          }
+        },
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          -1760,
+          912
+        ],
+        "id": "46e4bb2c-7b88-4b24-b2b8-4918ad259644",
+        "name": "Split Out",
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.1,
+        "position": [
+          -1536,
+          1008
+        ],
+        "id": "7f1e8bda-96a8-4ec3-8f98-f19947274a4b",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "jsCode": "$input.all().forEach(el=>{\n  if(el.json[\"order_bumps\"]){\n    el.json.data.offer.id = el.json[\"order_bumps\"].id\n    el.json.data.offer.name = el.json[\"order_bumps\"].name\n    el.json.data.offer.type = el.json[\"order_bumps\"].type\n    el.json.data.offer.recurrence = el.json[\"order_bumps\"].recurrence\n    el.json.data.offer.amount = el.json[\"order_bumps\"].product_price\n    el.json.data.offer.amount_client = el.json[\"order_bumps\"].amount_client\n    el.json.data.offer.amount_assiny = el.json[\"order_bumps\"].amount_assiny\n    el.json.data.offer.amount_with_tax = el.json[\"order_bumps\"].amount_with_tax\n    el.json.data.offer.product.id = el.json[\"order_bumps\"].product.id\n    el.json.data.offer.product.name = el.json[\"order_bumps\"].product.id\n    el.json.data.offer.product.producer_name = el.json[\"order_bumps\"].product.producer_name\n    el.json.data.offer.product.product_type = el.json[\"order_bumps\"].product.product_type\n  }\n})\n\nreturn $input.all();"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1120,
+          1008
+        ],
+        "id": "f9b6b5e3-50c5-4d17-bd9c-3e34857e2b37",
+        "name": "Code2"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          -912,
+          1008
+        ],
+        "id": "33fb780a-2121-4ca0-8fe2-5fe9ca3aa038",
+        "name": "Loop Over Items"
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "Acon_Vendas",
+            "mode": "list",
+            "cachedResultName": "Acon_Vendas"
+          },
+          "dataMode": "defineBelow",
+          "columnToMatchOn": "id_sql",
+          "valueToMatchOn": "={{ $('IF5').item.json.id_sql }}",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "tries",
+                "value": "={{ $('IF5').item.json.tries + 1 }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "e49824bb-f8fe-41ec-bf66-4196850d5019",
+        "name": "Update rows in a table",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          1296,
+          1040
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "6cR89c3DkwiktSiW",
+            "name": "MySQL Vendas"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.limit",
+        "typeVersion": 1,
+        "position": [
+          -704,
+          640
+        ],
+        "id": "afd2996a-707a-4b2c-8da1-bc8a645cf585",
+        "name": "Limit"
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "Acon_Vendas",
+            "mode": "list",
+            "cachedResultName": "Acon_Vendas"
+          },
+          "columnToMatchOn": "id_sql",
+          "options": {}
+        },
+        "id": "f1fa5b38-b79f-4327-9fe0-42dd86429b98",
+        "name": "Update rows in a table1",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -272,
+          640
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "6cR89c3DkwiktSiW",
+            "name": "MySQL Vendas"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "table": {
+            "__rl": true,
+            "value": "Acon_Vendas",
+            "mode": "list",
+            "cachedResultName": "Acon_Vendas"
+          },
+          "columnToMatchOn": "id_sql",
+          "options": {}
+        },
+        "id": "ab1761e3-154a-4a04-a272-8299133c36b4",
+        "name": "Update rows in a table2",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          -1536,
+          1184
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "6cR89c3DkwiktSiW",
+            "name": "MySQL Vendas"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "e5d628a3-93a2-4cab-b37d-a41e00253f5f",
+                "leftValue": "={{ $json }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "object",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          -1328,
+          1008
+        ],
+        "id": "57bc4649-85db-4f61-b033-bb6ad1572904",
+        "name": "Filter"
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "ext_id",
+                "value": "={{ $('Loop Over Items').item.json.data.offer.product.id }}-{{ $('Loop Over Items').item.json.data.transaction.id }}"
+              },
+              {
+                "name": "invoice_code",
+                "value": "={{ $('Loop Over Items').item.json.data.offer.product.id }}-{{ $('Loop Over Items').item.json.data.transaction.id }}"
+              },
+              {
+                "name": "invoice_cycle",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.cycle }}"
+              },
+              {
+                "name": "invoice_discount",
+                "value": "={{ $node['Code'].json.invoice.discount_value }}"
+              },
+              {
+                "name": "invoice_id",
+                "value": "={{ $('Loop Over Items').item.json.data.offer.product.id }}-{{ $('Loop Over Items').item.json.data.transaction.id }}"
+              },
+              {
+                "name": "invoice_increment_value",
+                "value": "={{ $node['Code'].json.invoice.increment_value }}"
+              },
+              {
+                "name": "invoice_payment_url",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.additional_data.PIX.qr_code }}"
+              },
+              {
+                "name": "invoice_period_start",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.updated_at }}"
+              },
+              {
+                "name": "invoice_period_end",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.updated_at }}"
+              },
+              {
+                "name": "invoice_subscription_id",
+                "value": "={{ $('Loop Over Items').item.json.data.client.id }}"
+              },
+              {
+                "name": "invoice_status",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.status }}"
+              },
+              {
+                "name": "invoice_next_cycle",
+                "value": "={{ parseInt($('Loop Over Items').item.json.data.transaction.cycle) + 1 }}"
+              },
+              {
+                "name": "invoice_type",
+                "value": "={{ $('Loop Over Items').item.json.data.offer.type }}"
+              },
+              {
+                "name": "subscriber_id",
+                "value": "={{ $('Loop Over Items').item.json.data.client.id }}"
+              },
+              {
+                "name": "subscriber_internal_id",
+                "value": "={{ $node['Get_user'].json.id_user }}"
+              },
+              {
+                "name": "subscriber_name",
+                "value": "={{ $('Loop Over Items').item.json.data.client.full_name }}"
+              },
+              {
+                "name": "subscriber_email",
+                "value": "={{ $('Loop Over Items').item.json.data.client.email }}"
+              },
+              {
+                "name": "subscriber_phone",
+                "value": "={{ $('Loop Over Items').item.json.data.client.phone }}"
+              },
+              {
+                "name": "subscriber_doc",
+                "value": "={{ $('Loop Over Items').item.json.data.client.document }}"
+              },
+              {
+                "name": "subscriber_status",
+                "value": "={{ $('Code').item.json.subscription_status }}"
+              },
+              {
+                "name": "contact_address",
+                "value": "={{ $('Loop Over Items').item.json.data.client.address.street }}"
+              },
+              {
+                "name": "contact_address_city",
+                "value": "={{ $('Loop Over Items').item.json.data.client.address.city }}"
+              },
+              {
+                "name": "contact_address_comp",
+                "value": "={{ $('Loop Over Items').item.json.data.client.address.complement }}"
+              },
+              {
+                "name": "contact_address_country",
+                "value": "={{ $('Loop Over Items').item.json.data.client.address.country }}"
+              },
+              {
+                "name": "contact_address_district",
+                "value": "={{ $('Loop Over Items').item.json.data.client.address.neighborhood }}"
+              },
+              {
+                "name": "contact_address_number",
+                "value": "={{ $('Loop Over Items').item.json.data.client.address.number }}"
+              },
+              {
+                "name": "contact_address_state",
+                "value": "={{ $('Loop Over Items').item.json.data.client.address.state }}"
+              },
+              {
+                "name": "contact_address_full_name",
+                "value": "={{ $('Loop Over Items').item.json.data.client.address.street }}"
+              },
+              {
+                "name": "contact_address_zip_code",
+                "value": "={{ $('Loop Over Items').item.json.data.client.address.zipcode }}"
+              },
+              {
+                "name": "product_id",
+                "value": "={{ $node['IF_produto'].json.id_product }}"
+              },
+              {
+                "name": "product_marketplace_id",
+                "value": "={{ $node['IF_produto'].json.product_ext }}"
+              },
+              {
+                "name": "product_name",
+                "value": "={{ $node['IF_produto'].json.product_name }}"
+              },
+              {
+                "name": "product_offer_id",
+                "value": "={{ $('IF_oferta').item.json.id_offer }}"
+              },
+              {
+                "name": "product_offer_name",
+                "value": "={{ $('IF_oferta').item.json.offer_name }}"
+              },
+              {
+                "name": "payment_method",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.payment_type }}"
+              },
+              {
+                "name": "payment_price",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.amount }}"
+              },
+              {
+                "name": "queue_json_id",
+                "value": "={{ $node['IF5'].json.id_sql }}"
+              },
+              {
+                "name": "utm_source",
+                "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_source }}"
+              },
+              {
+                "name": "utm_medium",
+                "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_medium }}"
+              },
+              {
+                "name": "utm_campaign",
+                "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_campaign }}"
+              },
+              {
+                "name": "utm_term",
+                "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_term }}"
+              },
+              {
+                "name": "utm_content",
+                "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_content }}"
+              },
+              {
+                "name": "src",
+                "value": "={{ $('Code').item.json.src }}"
+              },
+              {
+                "name": "commision_value",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.net_amount }}"
+              },
+              {
+                "name": "sck",
+                "value": "={{ $('Code').item.json.sck }}"
+              },
+              {
+                "name": "platform",
+                "value": "assiny"
+              },
+              {
+                "name": "product_value",
+                "value": "={{ $('Loop Over Items').item.json.data.offer.amount }}"
+              },
+              {
+                "name": "commission_plataform",
+                "value": "={{ $('Loop Over Items').item.json.data.offer.amount_assiny }}"
+              },
+              {
+                "name": "commission_affiliate",
+                "value": "={{ $('Code').item.json.cms_aff }}"
+              },
+              {
+                "name": "code_affiliate",
+                "value": "={{ $('Code').item.json.aff }}"
+              },
+              {
+                "name": "name_affiliate",
+                "value": "={{ $('Code').item.json.aff_name }}"
+              },
+              {
+                "name": "currency",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.currency }}"
+              },
+              {
+                "name": "purchase_type",
+                "value": "={{ $('Code').item.json.payment.courses.paymentForm == 'Recorrente' ? 'assinatura' : '' }}"
+              },
+              {
+                "name": "cms_marketplace",
+                "value": "={{ $('Loop Over Items').item.json.data.offer.amount_assiny }}"
+              },
+              {
+                "name": "installments_number",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.installments }}"
+              },
+              {
+                "name": "xcod",
+                "value": "={{ $('Code').item.json.xcod }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "64b66af2-21e9-44f7-a580-adbe305099e4",
+        "name": "Set11",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          1088,
+          128
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "cefe7454-c76c-40c2-9041-8dd3e4f9a955",
+                "name": "ext_id",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction?.id || 'abandoned_'+ $now.format('X')}}",
+                "type": "string"
+              },
+              {
+                "id": "b8377aee-4911-47da-8079-74bb66dcba00",
+                "name": "product_id",
+                "value": "={{ $('Get_produto').item.json.id_product }}",
+                "type": "string"
+              },
+              {
+                "id": "7f9da3cb-a01d-4704-9b5b-86bb01fe50ca",
+                "name": "offer_id",
+                "value": "={{ $('Get_oferta').item.json.id_offer }}",
+                "type": "string"
+              },
+              {
+                "id": "ca4acba6-b616-4597-8705-61e69de15b96",
+                "name": "user_id",
+                "value": "={{ $('Get_user').item.json.id_user }}",
+                "type": "string"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj1",
+                "name": "payment_method",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.event == 'abandoned_checkout' ? 'abandoned' : $('Loop Over Items').item.json.data.transaction.payment_type }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj2",
+                "name": "payment_price",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.event == 'abandoned_checkout' ? '0.00' : $('Loop Over Items').item.json.data.transaction.amount/100 }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj3",
+                "name": "installments",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.event == 'abandoned_checkout' ? '0' : $('Loop Over Items').item.json.data.transaction.installments }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj4",
+                "name": "approved_date",
+                "type": "string",
+                "value": "={{ \n  $('Loop Over Items').item.json.data.transaction.status == 'paid' \n    ? new Date(\n        new Date($('Loop Over Items').item.json.data.transaction.updated_at).getTime() - 3 * 60 * 60 * 1000\n      ).toISOString() \n    : null\n}}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj5",
+                "name": "warranty_expire_date",
+                "type": "string"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudf6j",
+                "name": "order_date",
+                "type": "string",
+                "value": "={{\n  new Date(\n    new Date($node['Loop Over Items'].json.data.transaction?.created_at || $node['Loop Over Items'].json.data.created_at).getTime() - 3 * 60 * 60 * 1000\n  ).toISOString()\n}}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj7",
+                "name": "commision_value",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.net_amount/100 }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj8",
+                "name": "platform",
+                "type": "string",
+                "value": "assiny"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj9",
+                "name": "commission_plataform",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.fee_amount/100 }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj0",
+                "name": "currency",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.currency }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia1fpudfj",
+                "name": "utm_source",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_source || $('Loop Over Items').item.json.data.metadata.url_parameters.utm_source }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia2fpudfj",
+                "name": "utm_medium",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_medium || $('Loop Over Items').item.json.data.metadata.url_parameters.utm_medium }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia3fpudfj",
+                "name": "utm_campaign",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_campaign || $('Loop Over Items').item.json.data.metadata.url_parameters.utm_campaign }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia4fpudfj",
+                "name": "utm_term",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_term || $('Loop Over Items').item.json.data.metadata.url_parameters.utm_term }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia5fpudfj",
+                "name": "utm_content",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_content }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia6fpudfj",
+                "name": "sck",
+                "type": "string"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia7fpudfj",
+                "name": "src",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.metadata.url_parameters.trk_src }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia8fpudfj",
+                "name": "campaign_id",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.metadata.url_parameters.trk_cpg }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia9fpudfj",
+                "name": "adset_id",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.metadata.url_parameters.trk_adgp }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfuibhia0fpudfj",
+                "name": "ad_id",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.metadata.url_parameters.trk_ad }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdf1uibhiafpudfj",
+                "name": "xcod",
+                "type": "string"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdf2uibhiafpudfj",
+                "name": "cycle",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.event == 'abandoned_checkout' ? '0' : $('Loop Over Items').item.json.data.transaction.cycle }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdf3uibhiafpudfj",
+                "name": "status",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.event == 'abandoned_checkout' ? 'abandoned' : $('Loop Over Items').item.json.data.transaction.status }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdf4uibhiafpudfj",
+                "name": "installments_value",
+                "type": "string",
+                "value": "={{ ($('Loop Over Items').item.json.data.transaction.amount / $('Loop Over Items').item.json.data.transaction.installments)/100 }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugdfu5ibhiafpudfj",
+                "name": "commission_affiliate",
+                "type": "string",
+                "value": "={{ $node.Code3.json.fee_commision/100 }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugd6fuibhiafpudfj",
+                "name": "code_affiliate",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.commissions[1].email }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugd7fuibhiafpudfj",
+                "name": "name_affiliate",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.commissions[1].user }}"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugd8fuibhiafpudfj",
+                "name": "purchase_type",
+                "type": "string",
+                "value": "venda"
+              },
+              {
+                "id": "aopgghaofhbuiahfbaiugd9fuibhiafpudfj",
+                "name": "cancelled_time",
+                "type": "string",
+                "value": "={{ $('Loop Over Items').item.json.data.transaction.status == 'refunded' ? $('Loop Over Items').item.json.data.transaction.updated_at : null }}"
+              },
+              {
+                "id": "7e0ef0d0-1682-4e3f-91d0-dad2a3514aef",
+                "name": "json_vendas_id",
+                "value": "={{ $item(\"0\").$node[\"IF5\"].json[\"id_sql\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "96a8c2b5-3f86-4a11-9158-39e298dd67e3",
+                "name": "is_processed",
+                "value": "={{ $('Loop Over Items').item.json.event == 'abandoned_checkout' ? 'Y' : 'N' }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1520,
+          464
+        ],
+        "id": "1ddf39be-6b60-4585-b1d3-03234184df32",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "table": {
+            "__rl": true,
+            "value": "transactions_new",
+            "mode": "list",
+            "cachedResultName": "transactions_new"
+          },
+          "options": {}
+        },
+        "id": "b4c9efe1-40e2-4758-a06b-2dce966fd845",
+        "name": "Insert rows in a table",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          2240,
+          464
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "let commisions = $('Loop Over Items').first().json.data.transaction?.commissions\nlet fee_commision = 0\n\ncommisions?.forEach(el=>{\n  if(el.email != \"lucasnunes.vix@gmail.com\"){\n    fee_commision += el.amount\n  }\n})\n\nreturn {fee_commision}"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1296,
+          464
+        ],
+        "id": "fb0cbd64-24dd-4a03-8378-b7487f1c9b2f",
+        "name": "Code3"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "8d95f8dd-5fb9-424f-85d3-dca80d6268c8",
+                "leftValue": "={{ $json.status }}",
+                "rightValue": "completed_purchase",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1728,
+          464
+        ],
+        "id": "7267cf89-fbf9-4a85-9498-c8901d07c075",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "jsCode": "let data = $json\n\n\ndata.approved_date = undefined;\ndata.entry_value = undefined;\n\ndelete data.approved_date;\ndelete data.entry_value;\n\nreturn data;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1984,
+          368
+        ],
+        "id": "c352d900-a2ed-4432-bcc3-09f59483f520",
+        "name": "RemoveColumnsByStatus"
+      }
+    ],
+    "connections": {
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get_oferta": {
+        "main": [
+          [
+            {
+              "node": "IF_oferta",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "MySQL1": {
+        "main": [
+          [
+            {
+              "node": "Update rows in a table",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "MySQL2": {
+        "main": [
+          [
+            {
+              "node": "Update rows in a table",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get_produto": {
+        "main": [
+          [
+            {
+              "node": "IF_produto",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set2": {
+        "main": [
+          [
+            {
+              "node": "MySQL2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF_produto": {
+        "main": [
+          [
+            {
+              "node": "Get_oferta",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Set2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF_oferta": {
+        "main": [
+          [
+            {
+              "node": "Get_user",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Set1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF5": {
+        "main": [
+          [
+            {
+              "node": "Wait3",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait3": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking \"Execute Workflow\"": {
+        "main": [
+          [
+            {
+              "node": "Select rows from a table1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "MySQL3": {
+        "main": [
+          [
+            {
+              "node": "Update rows in a table",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get_user": {
+        "main": [
+          [
+            {
+              "node": "IF_user",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF_user": {
+        "main": [
+          [
+            {
+              "node": "Code1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Set4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set4": {
+        "main": [
+          [
+            {
+              "node": "MySQL3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set6": {
+        "main": [
+          [
+            {
+              "node": "Update rows in a table1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Date & Time": {
+        "main": [
+          [
+            {
+              "node": "Date & Time1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Date & Time1": {
+        "main": [
+          [
+            {
+              "node": "Code3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get_produto1": {
+        "main": [
+          [
+            {
+              "node": "Get_oferta1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get_oferta1": {
+        "main": [
+          [
+            {
+              "node": "Get_user1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get_user1": {
+        "main": [
+          [
+            {
+              "node": "MySQL9",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "MySQL9": {
+        "main": [
+          [
+            {
+              "node": "MySQL10",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "MySQL10": {
+        "main": [
+          [
+            {
+              "node": "MySQL11",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set": {
+        "main": [
+          [
+            {
+              "node": "Update rows in a table2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code1": {
+        "main": [
+          [
+            {
+              "node": "Date & Time",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Select rows from a table",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "Split Out",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ],
+          [
+            {
+              "node": "Set",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set1": {
+        "main": [
+          [
+            {
+              "node": "MySQL1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Select rows from a table": {
+        "main": [
+          [
+            {
+              "node": "IF5",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Select rows from a table1": {
+        "main": [
+          [
+            {
+              "node": "IF5",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Split Out": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code2": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [
+            {
+              "node": "Limit",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get_produto",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update rows in a table": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Limit": {
+        "main": [
+          [
+            {
+              "node": "Set6",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update rows in a table1": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update rows in a table2": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "Code2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set11": {
+        "main": [
+          []
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Insert rows in a table": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code3": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "RemoveColumnsByStatus",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Insert rows in a table",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "RemoveColumnsByStatus": {
+        "main": [
+          [
+            {
+              "node": "Insert rows in a table",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "4196c3f6-c8f7-4b33-b72e-fec0acf6ad28",
+  "connections": {
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get_oferta": {
+      "main": [
+        [
+          {
+            "node": "IF_oferta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL1": {
+      "main": [
+        [
+          {
+            "node": "Update rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL2": {
+      "main": [
+        [
+          {
+            "node": "Update rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get_produto": {
+      "main": [
+        [
+          {
+            "node": "IF_produto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set2": {
+      "main": [
+        [
+          {
+            "node": "MySQL2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF_produto": {
+      "main": [
+        [
+          {
+            "node": "Get_oferta",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF_oferta": {
+      "main": [
+        [
+          {
+            "node": "Get_user",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF5": {
+      "main": [
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL3": {
+      "main": [
+        [
+          {
+            "node": "Update rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get_user": {
+      "main": [
+        [
+          {
+            "node": "IF_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF_user": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set4": {
+      "main": [
+        [
+          {
+            "node": "MySQL3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set6": {
+      "main": [
+        [
+          {
+            "node": "Update rows in a table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Date & Time1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "main": [
+        [
+          {
+            "node": "Code3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get_produto1": {
+      "main": [
+        [
+          {
+            "node": "Get_oferta1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get_oferta1": {
+      "main": [
+        [
+          {
+            "node": "Get_user1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get_user1": {
+      "main": [
+        [
+          {
+            "node": "MySQL9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL9": {
+      "main": [
+        [
+          {
+            "node": "MySQL10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL10": {
+      "main": [
+        [
+          {
+            "node": "MySQL11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Update rows in a table2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "MySQL1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table": {
+      "main": [
+        [
+          {
+            "node": "IF5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table1": {
+      "main": [
+        [
+          {
+            "node": "IF5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get_produto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update rows in a table": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Set6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update rows in a table1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update rows in a table2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set11": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "RemoveColumnsByStatus",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RemoveColumnsByStatus": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.218Z",
+  "id": "TtPdLTqNdqrGQADZ",
+  "isArchived": false,
+  "meta": null,
+  "name": "V0001 - [Assiny] Json Assinaturas -> SQL (transaction)",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "let json =JSON.parse($input.all()[0].json.jsons)\n\njson.body ? json = json.body : ''\n\nreturn json\n"
+      },
+      "id": "7c98aeb9-1b2c-49a3-8617-cebbaf3af8d0",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2208,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "offers",
+          "mode": "list",
+          "cachedResultName": "offers"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "offer_ext",
+              "value": "={{ $('Loop Over Items').item.json.data.offer.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "32b01750-c0c6-4e65-b04d-50e936130583",
+      "name": "Get_oferta",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -256,
+        848
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "offers",
+          "mode": "list",
+          "cachedResultName": "offers"
+        },
+        "options": {}
+      },
+      "id": "f8ccc18b-9395-481e-9ca3-651fa0ce92b8",
+      "name": "MySQL1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        864
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "products",
+          "mode": "list",
+          "cachedResultName": "products"
+        },
+        "options": {}
+      },
+      "id": "1ef235f8-7b7d-47e8-8f4a-8cc435ba443a",
+      "name": "MySQL2",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -32,
+        1040
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "products",
+          "mode": "list",
+          "cachedResultName": "products"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "product_ext",
+              "value": "={{ $node[\"Loop Over Items\"].json[\"data\"][\"offer\"][\"product\"][\"id\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b9683608-baf7-4898-a19a-b80e27257e30",
+      "name": "Get_produto",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -688,
+        1024
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "product_ext",
+              "value": "={{ $node['Loop Over Items'].json.data.offer.product.id }}"
+            },
+            {
+              "name": "product_name",
+              "value": "={{ $node['Loop Over Items'].json.data.offer.product.name }}"
+            },
+            {
+              "name": "product_price",
+              "value": "={{ $node['Loop Over Items'].json.data.offer.amount/100 }}"
+            },
+            {
+              "name": "update_time",
+              "value": "={{ $now }}"
+            },
+            {
+              "name": "platform",
+              "value": "assiny"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a298fc08-bfa6-4b50-860d-cab5b76cf762",
+      "name": "Set2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -256,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "7686b4fb-29b4-424c-9563-f6f569644baf",
+      "name": "IF_produto",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        1024
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "c2240af7-a9c4-4820-a52c-bcdc8202d993",
+      "name": "IF_oferta",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        848
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "c26eb385-2ba8-49d9-9d56-35d683564499",
+      "name": "IF5",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -2416,
+        944
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 15,
+        "unit": "minutes"
+      },
+      "id": "e4990a93-d532-4d03-92cf-ff661e4dc812",
+      "name": "Wait3",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        -2208,
+        848
+      ],
+      "webhookId": "f2fa12a1-9597-49d0-8176-a737af43f8a4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "ede57b74-2697-435b-b7df-a93881b87a5a",
+      "name": "HTTP Request3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -1984,
+        848
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {},
+      "id": "35915823-b477-4d54-a418-c03a7f3dfb32",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2864,
+        1104
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "columnToMatchOn": "email",
+        "options": {}
+      },
+      "id": "c7bd8470-51f2-4706-860b-a424f4fb368b",
+      "name": "MySQL3",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        848,
+        656
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "email",
+              "value": "={{ $('Loop Over Items').item.json.data.client.email }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a4ff9539-d832-4d0e-8021-1ff377bd5b83",
+      "name": "Get_user",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        192,
+        640
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "20dc7d68-c49c-4329-b10b-b01190e21ffc",
+      "name": "IF_user",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        416,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "name",
+              "value": "={{ $('Loop Over Items').item.json.data.client.full_name }}"
+            },
+            {
+              "name": "ext_id",
+              "value": "={{ $('Loop Over Items').item.json.data.client.email }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $('Loop Over Items').item.json.data.client.email }}"
+            },
+            {
+              "name": "phone",
+              "value": "={{ $('Loop Over Items').item.json.data.client.phone }}"
+            },
+            {
+              "name": "document",
+              "value": "={{ $('Loop Over Items').item.json.data.client.document }}"
+            },
+            {
+              "name": "update_time",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b80fcc59-0281-4c09-94fb-5f083369343a",
+      "name": "Set4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        624,
+        656
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "id_sql",
+              "value": "={{ $('IF5').item.json.id_sql }}"
+            },
+            {
+              "name": "foi",
+              "value": "=1"
+            },
+            {
+              "name": "processada",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "178138a0-f3f9-44a4-9273-7af3df12b717",
+      "name": "Set6",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -496,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "addToDate",
+        "magnitude": "={{ $json.data }}",
+        "timeUnit": "hours",
+        "duration": 3,
+        "options": {}
+      },
+      "id": "28583e73-c149-4159-93d8-4f313e9971a2",
+      "name": "Date & Time",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        848,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "addToDate",
+        "magnitude": "={{ $json.newDate }}",
+        "duration": "={{ $('Code').item.json.recurrency_period }}",
+        "options": {}
+      },
+      "id": "762ecd30-85f8-427f-80b3-333f15a89ba4",
+      "name": "Date & Time1",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1072,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "5f202948-845f-41ca-a987-6ca0f133c479",
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -64,
+        640
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "ext_id",
+              "value": "={{ $('Code').item.json.order_id }}"
+            },
+            {
+              "name": "invoice_code",
+              "value": "={{ $('Code').item.json.order_ref }}"
+            },
+            {
+              "name": "invoice_cycle",
+              "value": "="
+            },
+            {
+              "name": "invoice_discount",
+              "value": "={{ $node['Code'].json.invoice.discount_value }}"
+            },
+            {
+              "name": "invoice_id",
+              "value": "={{ $('Code').item.json.order_ref }}"
+            },
+            {
+              "name": "invoice_increment_value",
+              "value": "={{ $node['Code'].json.invoice.increment_value }}"
+            },
+            {
+              "name": "invoice_payment_url",
+              "value": "={{ $('Code').item.json.pix_code }}"
+            },
+            {
+              "name": "invoice_period_start",
+              "value": "={{ $('Date & Time').item.json.newDate }}"
+            },
+            {
+              "name": "invoice_period_end",
+              "value": "={{ $json.newDate }}"
+            },
+            {
+              "name": "invoice_subscription_id",
+              "value": "={{ $node['Code'].json.invoice.id }}"
+            },
+            {
+              "name": "invoice_status",
+              "value": "={{ $('Code').item.json.order_status }}"
+            },
+            {
+              "name": "invoice_next_cycle",
+              "value": "={{ null }}"
+            },
+            {
+              "name": "invoice_type",
+              "value": "={{ $('Code').item.json.product_type }}"
+            },
+            {
+              "name": "subscriber_id",
+              "value": "={{ $('Code').item.json.Customer.email }}"
+            },
+            {
+              "name": "subscriber_internal_id",
+              "value": "={{ $node['Get_user'].json.id_user }}"
+            },
+            {
+              "name": "subscriber_name",
+              "value": "={{ $('Code').item.json.Customer.full_name }}"
+            },
+            {
+              "name": "subscriber_email",
+              "value": "={{ $('Code').item.json.Customer.email }}"
+            },
+            {
+              "name": "subscriber_phone",
+              "value": "={{ $('Code').item.json.Customer.mobile }}"
+            },
+            {
+              "name": "subscriber_doc",
+              "value": "={{ $('Code').item.json.Customer.CPF }}"
+            },
+            {
+              "name": "subscriber_status"
+            },
+            {
+              "name": "contact_address",
+              "value": "={{ $('Code').item.json.customer.street_name }}"
+            },
+            {
+              "name": "contact_address_city",
+              "value": "={{ $('Code').item.json.customer.city }}"
+            },
+            {
+              "name": "contact_address_comp",
+              "value": "={{ $('Code').item.json.customer.complement }}"
+            },
+            {
+              "name": "contact_address_country",
+              "value": "={{ $node['Code'].json.contact.address_country }}"
+            },
+            {
+              "name": "contact_address_district",
+              "value": "={{ $('Code').item.json.customer.district }}"
+            },
+            {
+              "name": "contact_address_number",
+              "value": "={{ $('Code').item.json.customer.street_number }}"
+            },
+            {
+              "name": "contact_address_state",
+              "value": "={{ $('Code').item.json.customer.state }}"
+            },
+            {
+              "name": "contact_address_full_name",
+              "value": "={{ $('Code').item.json.customer.street_name }}, {{ $('Code').item.json.customer.street_number }}"
+            },
+            {
+              "name": "contact_address_zip_code",
+              "value": "={{ $('Code').item.json.customer.zip_code }}"
+            },
+            {
+              "name": "product_id",
+              "value": "={{ $node['IF_produto'].json.id_product }}"
+            },
+            {
+              "name": "product_marketplace_id",
+              "value": "={{ $node['IF_produto'].json.product_ext }}"
+            },
+            {
+              "name": "product_name",
+              "value": "={{ $node['IF_produto'].json.product_name }}"
+            },
+            {
+              "name": "product_offer_id",
+              "value": "={{ $node['IF_oferta'].json.id_offer }}"
+            },
+            {
+              "name": "product_offer_name",
+              "value": "={{ $node['IF_oferta'].json.offer_name }}"
+            },
+            {
+              "name": "payment_method",
+              "value": "={{ $('Code').item.json.payment_method }}"
+            },
+            {
+              "name": "payment_price",
+              "value": "={{ $('Code').item.json.Commissions.charge_amount/100 }}"
+            },
+            {
+              "name": "queue_json",
+              "value": "={{ $node['Select rows from a table'].json.id_sql }}"
+            },
+            {
+              "name": "utm_source",
+              "value": "={{ $('Code').item.json.TrackingParameters.utm_source }}"
+            },
+            {
+              "name": "utm_campaign",
+              "value": "={{ $('Code').item.json.TrackingParameters.utm_campaign }}"
+            },
+            {
+              "name": "utm_medium",
+              "value": "={{ $('Code').item.json.TrackingParameters.utm_medium }}"
+            },
+            {
+              "name": "utm_content",
+              "value": "={{ $('Code').item.json.TrackingParameters.utm_content }}"
+            },
+            {
+              "name": "utm_term",
+              "value": "={{ $('Code').item.json.TrackingParameters.utm_term }}"
+            },
+            {
+              "name": "src",
+              "value": "={{ $('Code').item.json.TrackingParameters.src }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4355d2e9-7d89-4e76-8637-e02100c39e36",
+      "name": "Set com oferta",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1088,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "deleteTable",
+        "table": {
+          "__rl": true,
+          "value": "products",
+          "mode": "list",
+          "cachedResultName": "products"
+        },
+        "options": {}
+      },
+      "id": "7b43a288-6ab7-4828-acd8-c7a905ffa11c",
+      "name": "Get_produto1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -2816,
+        384
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "deleteTable",
+        "table": {
+          "__rl": true,
+          "value": "offers",
+          "mode": "list",
+          "cachedResultName": "offers"
+        },
+        "options": {}
+      },
+      "id": "59a31e5c-3ab2-4903-99d0-71c0963f9212",
+      "name": "Get_oferta1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -2608,
+        384
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "deleteTable",
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "options": {}
+      },
+      "id": "425fef84-071a-41a4-bd36-ea42eabaca4c",
+      "name": "Get_user1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -2384,
+        384
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "deleteTable",
+        "table": {
+          "__rl": true,
+          "value": "purchases",
+          "mode": "list",
+          "cachedResultName": "purchases"
+        },
+        "options": {}
+      },
+      "id": "9ecfdc31-f6e0-49f3-85c2-4c04e54458cc",
+      "name": "MySQL9",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -2160,
+        384
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "deleteTable",
+        "table": {
+          "__rl": true,
+          "value": "transactions",
+          "mode": "list",
+          "cachedResultName": "transactions"
+        },
+        "options": {}
+      },
+      "id": "dd74ca95-416a-4144-a3d2-9dd25aeeb314",
+      "name": "MySQL10",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -1936,
+        384
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE `Hotmart_Vendas` SET `foi`='0' WHERE 1",
+        "options": {}
+      },
+      "id": "8d5b5e3e-82de-41d1-abf6-5ca40508005b",
+      "name": "MySQL11",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -1728,
+        384
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Zerar o banco\n",
+        "height": 249.50325581395333,
+        "width": 1307.7581395348857
+      },
+      "id": "0c989086-6233-43f4-8e0f-0e10e9e6c3f4",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2864,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/89e9f180-82a7-4bd7-b598-ad1d2ef5157d",
+        "options": {}
+      },
+      "id": "7d0b20fc-ee0d-49ff-b1dc-0de1e3075329",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -1984,
+        640
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "id_sql",
+              "value": "={{ $('IF5').item.json.id_sql }}"
+            },
+            {
+              "name": "foi",
+              "value": "=1"
+            },
+            {
+              "name": "processada",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b45b5bff-82e8-4efa-b42f-4f26c12f9d34",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -1760,
+        1184
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "fe3b1a6a-ee3a-4783-825b-b99d2171e959",
+      "name": "HTTP Request4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -1328,
+        1184
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "jsCode": "let datas = []\nfor (item in $node.Code.json) {\n  if(item.includes('date')){\n    datas.push($node.Code.json[item])\n  }\n}\nfunction DataMaisAntiga(datas) {\n    if (datas.length === 0) {\n        return null;\n    }\n\n    const dataMaisAntiga = datas.reduce(function (dataAtual, data) {\n        return data < dataAtual ? data : dataAtual;\n    });\n\n    return dataMaisAntiga;\n}\n\nfunction FormatDate(date){\n  let dataUTC = new Date(date);\n\n  dataUTC.setUTCHours(dataUTC.getUTCHours() - 3);\n  \n  return dataUTC.toISOString();\n}\n\n// (FormatDate(DataMaisAntiga(datas)))\nreturn {data:FormatDate(DataMaisAntiga(datas))}"
+      },
+      "id": "694670bc-ebc6-44f4-8182-7c03d7b3dae4",
+      "name": "Code1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "89e9f180-82a7-4bd7-b598-ad1d2ef5157d",
+        "options": {}
+      },
+      "id": "ecf35d87-683a-456c-a9b3-d3fc290e5401",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -2864,
+        944
+      ],
+      "webhookId": "89e9f180-82a7-4bd7-b598-ad1d2ef5157d"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $('Webhook').params[\"path\"] }}",
+        "options": {}
+      },
+      "id": "3f2b243a-4c2a-4ccc-b6ab-964b05214e01",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1728,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "5c47237a-0477-42e1-84bd-e57fbff3a601",
+              "leftValue": "={{ $('IF5').item.json.tries }}",
+              "rightValue": 10,
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "098843ce-6bc4-45c0-a938-4d3fdc0aeb9f",
+      "name": "If1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1984,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "product_id",
+              "value": "={{ $node['IF_produto'].json.id_product }}"
+            },
+            {
+              "name": "offer_ext",
+              "value": "={{ $node['Loop Over Items'].json.data.offer.id }}"
+            },
+            {
+              "name": "offer_name",
+              "value": "={{ $node['Loop Over Items'].json.data.offer.name }}"
+            },
+            {
+              "name": "offer_price",
+              "value": "={{ $node['Loop Over Items'].json.data.offer.amount/100 }}"
+            },
+            {
+              "name": "update_time",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1b4933d-2031-4a8a-9887-6bcf7ed28f7a",
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        192,
+        864
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "Acon_Vendas",
+          "mode": "list",
+          "cachedResultName": "Acon_Vendas"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "foi",
+              "value": "0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4c2d603e-5b86-4def-bab4-b20d4344e587",
+      "name": "Select rows from a table",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -2640,
+        944
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "Acon_Vendas",
+          "mode": "list",
+          "cachedResultName": "Acon_Vendas"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "id_sql",
+              "value": "5466"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "badba7ff-71d5-4eff-bfb9-5837efcf3a1d",
+      "name": "Select rows from a table1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -2640,
+        1104
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.offer.order_bumps",
+        "include": "allOtherFields",
+        "options": {
+          "destinationFieldName": "order_bumps"
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1760,
+        912
+      ],
+      "id": "46e4bb2c-7b88-4b24-b2b8-4918ad259644",
+      "name": "Split Out",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        -1536,
+        1008
+      ],
+      "id": "7f1e8bda-96a8-4ec3-8f98-f19947274a4b",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "$input.all().forEach(el=>{\n  if(el.json[\"order_bumps\"]){\n    el.json.data.offer.id = el.json[\"order_bumps\"].id\n    el.json.data.offer.name = el.json[\"order_bumps\"].name\n    el.json.data.offer.type = el.json[\"order_bumps\"].type\n    el.json.data.offer.recurrence = el.json[\"order_bumps\"].recurrence\n    el.json.data.offer.amount = el.json[\"order_bumps\"].product_price\n    el.json.data.offer.amount_client = el.json[\"order_bumps\"].amount_client\n    el.json.data.offer.amount_assiny = el.json[\"order_bumps\"].amount_assiny\n    el.json.data.offer.amount_with_tax = el.json[\"order_bumps\"].amount_with_tax\n    el.json.data.offer.product.id = el.json[\"order_bumps\"].product.id\n    el.json.data.offer.product.name = el.json[\"order_bumps\"].product.id\n    el.json.data.offer.product.producer_name = el.json[\"order_bumps\"].product.producer_name\n    el.json.data.offer.product.product_type = el.json[\"order_bumps\"].product.product_type\n  }\n})\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1120,
+        1008
+      ],
+      "id": "f9b6b5e3-50c5-4d17-bd9c-3e34857e2b37",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -912,
+        1008
+      ],
+      "id": "33fb780a-2121-4ca0-8fe2-5fe9ca3aa038",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "Acon_Vendas",
+          "mode": "list",
+          "cachedResultName": "Acon_Vendas"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id_sql",
+        "valueToMatchOn": "={{ $('IF5').item.json.id_sql }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "tries",
+              "value": "={{ $('IF5').item.json.tries + 1 }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e49824bb-f8fe-41ec-bf66-4196850d5019",
+      "name": "Update rows in a table",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1296,
+        1040
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -704,
+        640
+      ],
+      "id": "afd2996a-707a-4b2c-8da1-bc8a645cf585",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "Acon_Vendas",
+          "mode": "list",
+          "cachedResultName": "Acon_Vendas"
+        },
+        "columnToMatchOn": "id_sql",
+        "options": {}
+      },
+      "id": "f1fa5b38-b79f-4327-9fe0-42dd86429b98",
+      "name": "Update rows in a table1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -272,
+        640
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "Acon_Vendas",
+          "mode": "list",
+          "cachedResultName": "Acon_Vendas"
+        },
+        "columnToMatchOn": "id_sql",
+        "options": {}
+      },
+      "id": "ab1761e3-154a-4a04-a272-8299133c36b4",
+      "name": "Update rows in a table2",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        -1536,
+        1184
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "6cR89c3DkwiktSiW",
+          "name": "MySQL Vendas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e5d628a3-93a2-4cab-b37d-a41e00253f5f",
+              "leftValue": "={{ $json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -1328,
+        1008
+      ],
+      "id": "57bc4649-85db-4f61-b033-bb6ad1572904",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "ext_id",
+              "value": "={{ $('Loop Over Items').item.json.data.offer.product.id }}-{{ $('Loop Over Items').item.json.data.transaction.id }}"
+            },
+            {
+              "name": "invoice_code",
+              "value": "={{ $('Loop Over Items').item.json.data.offer.product.id }}-{{ $('Loop Over Items').item.json.data.transaction.id }}"
+            },
+            {
+              "name": "invoice_cycle",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.cycle }}"
+            },
+            {
+              "name": "invoice_discount",
+              "value": "={{ $node['Code'].json.invoice.discount_value }}"
+            },
+            {
+              "name": "invoice_id",
+              "value": "={{ $('Loop Over Items').item.json.data.offer.product.id }}-{{ $('Loop Over Items').item.json.data.transaction.id }}"
+            },
+            {
+              "name": "invoice_increment_value",
+              "value": "={{ $node['Code'].json.invoice.increment_value }}"
+            },
+            {
+              "name": "invoice_payment_url",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.additional_data.PIX.qr_code }}"
+            },
+            {
+              "name": "invoice_period_start",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.updated_at }}"
+            },
+            {
+              "name": "invoice_period_end",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.updated_at }}"
+            },
+            {
+              "name": "invoice_subscription_id",
+              "value": "={{ $('Loop Over Items').item.json.data.client.id }}"
+            },
+            {
+              "name": "invoice_status",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.status }}"
+            },
+            {
+              "name": "invoice_next_cycle",
+              "value": "={{ parseInt($('Loop Over Items').item.json.data.transaction.cycle) + 1 }}"
+            },
+            {
+              "name": "invoice_type",
+              "value": "={{ $('Loop Over Items').item.json.data.offer.type }}"
+            },
+            {
+              "name": "subscriber_id",
+              "value": "={{ $('Loop Over Items').item.json.data.client.id }}"
+            },
+            {
+              "name": "subscriber_internal_id",
+              "value": "={{ $node['Get_user'].json.id_user }}"
+            },
+            {
+              "name": "subscriber_name",
+              "value": "={{ $('Loop Over Items').item.json.data.client.full_name }}"
+            },
+            {
+              "name": "subscriber_email",
+              "value": "={{ $('Loop Over Items').item.json.data.client.email }}"
+            },
+            {
+              "name": "subscriber_phone",
+              "value": "={{ $('Loop Over Items').item.json.data.client.phone }}"
+            },
+            {
+              "name": "subscriber_doc",
+              "value": "={{ $('Loop Over Items').item.json.data.client.document }}"
+            },
+            {
+              "name": "subscriber_status",
+              "value": "={{ $('Code').item.json.subscription_status }}"
+            },
+            {
+              "name": "contact_address",
+              "value": "={{ $('Loop Over Items').item.json.data.client.address.street }}"
+            },
+            {
+              "name": "contact_address_city",
+              "value": "={{ $('Loop Over Items').item.json.data.client.address.city }}"
+            },
+            {
+              "name": "contact_address_comp",
+              "value": "={{ $('Loop Over Items').item.json.data.client.address.complement }}"
+            },
+            {
+              "name": "contact_address_country",
+              "value": "={{ $('Loop Over Items').item.json.data.client.address.country }}"
+            },
+            {
+              "name": "contact_address_district",
+              "value": "={{ $('Loop Over Items').item.json.data.client.address.neighborhood }}"
+            },
+            {
+              "name": "contact_address_number",
+              "value": "={{ $('Loop Over Items').item.json.data.client.address.number }}"
+            },
+            {
+              "name": "contact_address_state",
+              "value": "={{ $('Loop Over Items').item.json.data.client.address.state }}"
+            },
+            {
+              "name": "contact_address_full_name",
+              "value": "={{ $('Loop Over Items').item.json.data.client.address.street }}"
+            },
+            {
+              "name": "contact_address_zip_code",
+              "value": "={{ $('Loop Over Items').item.json.data.client.address.zipcode }}"
+            },
+            {
+              "name": "product_id",
+              "value": "={{ $node['IF_produto'].json.id_product }}"
+            },
+            {
+              "name": "product_marketplace_id",
+              "value": "={{ $node['IF_produto'].json.product_ext }}"
+            },
+            {
+              "name": "product_name",
+              "value": "={{ $node['IF_produto'].json.product_name }}"
+            },
+            {
+              "name": "product_offer_id",
+              "value": "={{ $('IF_oferta').item.json.id_offer }}"
+            },
+            {
+              "name": "product_offer_name",
+              "value": "={{ $('IF_oferta').item.json.offer_name }}"
+            },
+            {
+              "name": "payment_method",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.payment_type }}"
+            },
+            {
+              "name": "payment_price",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.amount }}"
+            },
+            {
+              "name": "queue_json_id",
+              "value": "={{ $node['IF5'].json.id_sql }}"
+            },
+            {
+              "name": "utm_source",
+              "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_source }}"
+            },
+            {
+              "name": "utm_medium",
+              "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_medium }}"
+            },
+            {
+              "name": "utm_campaign",
+              "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_campaign }}"
+            },
+            {
+              "name": "utm_term",
+              "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_term }}"
+            },
+            {
+              "name": "utm_content",
+              "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_content }}"
+            },
+            {
+              "name": "src",
+              "value": "={{ $('Code').item.json.src }}"
+            },
+            {
+              "name": "commision_value",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.net_amount }}"
+            },
+            {
+              "name": "sck",
+              "value": "={{ $('Code').item.json.sck }}"
+            },
+            {
+              "name": "platform",
+              "value": "assiny"
+            },
+            {
+              "name": "product_value",
+              "value": "={{ $('Loop Over Items').item.json.data.offer.amount }}"
+            },
+            {
+              "name": "commission_plataform",
+              "value": "={{ $('Loop Over Items').item.json.data.offer.amount_assiny }}"
+            },
+            {
+              "name": "commission_affiliate",
+              "value": "={{ $('Code').item.json.cms_aff }}"
+            },
+            {
+              "name": "code_affiliate",
+              "value": "={{ $('Code').item.json.aff }}"
+            },
+            {
+              "name": "name_affiliate",
+              "value": "={{ $('Code').item.json.aff_name }}"
+            },
+            {
+              "name": "currency",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.currency }}"
+            },
+            {
+              "name": "purchase_type",
+              "value": "={{ $('Code').item.json.payment.courses.paymentForm == 'Recorrente' ? 'assinatura' : '' }}"
+            },
+            {
+              "name": "cms_marketplace",
+              "value": "={{ $('Loop Over Items').item.json.data.offer.amount_assiny }}"
+            },
+            {
+              "name": "installments_number",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.installments }}"
+            },
+            {
+              "name": "xcod",
+              "value": "={{ $('Code').item.json.xcod }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "64b66af2-21e9-44f7-a580-adbe305099e4",
+      "name": "Set11",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1088,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cefe7454-c76c-40c2-9041-8dd3e4f9a955",
+              "name": "ext_id",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction?.id || 'abandoned_'+ $now.format('X')}}",
+              "type": "string"
+            },
+            {
+              "id": "b8377aee-4911-47da-8079-74bb66dcba00",
+              "name": "product_id",
+              "value": "={{ $('Get_produto').item.json.id_product }}",
+              "type": "string"
+            },
+            {
+              "id": "7f9da3cb-a01d-4704-9b5b-86bb01fe50ca",
+              "name": "offer_id",
+              "value": "={{ $('Get_oferta').item.json.id_offer }}",
+              "type": "string"
+            },
+            {
+              "id": "ca4acba6-b616-4597-8705-61e69de15b96",
+              "name": "user_id",
+              "value": "={{ $('Get_user').item.json.id_user }}",
+              "type": "string"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj1",
+              "name": "payment_method",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.event == 'abandoned_checkout' ? 'abandoned' : $('Loop Over Items').item.json.data.transaction.payment_type }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj2",
+              "name": "payment_price",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.event == 'abandoned_checkout' ? '0.00' : $('Loop Over Items').item.json.data.transaction.amount/100 }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj3",
+              "name": "installments",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.event == 'abandoned_checkout' ? '0' : $('Loop Over Items').item.json.data.transaction.installments }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj4",
+              "name": "approved_date",
+              "type": "string",
+              "value": "={{ \n  $('Loop Over Items').item.json.data.transaction.status == 'paid' \n    ? new Date(\n        new Date($('Loop Over Items').item.json.data.transaction.updated_at).getTime() - 3 * 60 * 60 * 1000\n      ).toISOString() \n    : null\n}}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj5",
+              "name": "warranty_expire_date",
+              "type": "string"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudf6j",
+              "name": "order_date",
+              "type": "string",
+              "value": "={{\n  new Date(\n    new Date($node['Loop Over Items'].json.data.transaction?.created_at || $node['Loop Over Items'].json.data.created_at).getTime() - 3 * 60 * 60 * 1000\n  ).toISOString()\n}}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj7",
+              "name": "commision_value",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.net_amount/100 }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj8",
+              "name": "platform",
+              "type": "string",
+              "value": "assiny"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj9",
+              "name": "commission_plataform",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.fee_amount/100 }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhiafpudfj0",
+              "name": "currency",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.currency }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia1fpudfj",
+              "name": "utm_source",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_source || $('Loop Over Items').item.json.data.metadata.url_parameters.utm_source }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia2fpudfj",
+              "name": "utm_medium",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_medium || $('Loop Over Items').item.json.data.metadata.url_parameters.utm_medium }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia3fpudfj",
+              "name": "utm_campaign",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_campaign || $('Loop Over Items').item.json.data.metadata.url_parameters.utm_campaign }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia4fpudfj",
+              "name": "utm_term",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_term || $('Loop Over Items').item.json.data.metadata.url_parameters.utm_term }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia5fpudfj",
+              "name": "utm_content",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.metadata.utm_content }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia6fpudfj",
+              "name": "sck",
+              "type": "string"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia7fpudfj",
+              "name": "src",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.metadata.url_parameters.trk_src }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia8fpudfj",
+              "name": "campaign_id",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.metadata.url_parameters.trk_cpg }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia9fpudfj",
+              "name": "adset_id",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.metadata.url_parameters.trk_adgp }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfuibhia0fpudfj",
+              "name": "ad_id",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.metadata.url_parameters.trk_ad }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdf1uibhiafpudfj",
+              "name": "xcod",
+              "type": "string"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdf2uibhiafpudfj",
+              "name": "cycle",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.event == 'abandoned_checkout' ? '0' : $('Loop Over Items').item.json.data.transaction.cycle }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdf3uibhiafpudfj",
+              "name": "status",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.event == 'abandoned_checkout' ? 'abandoned' : $('Loop Over Items').item.json.data.transaction.status }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdf4uibhiafpudfj",
+              "name": "installments_value",
+              "type": "string",
+              "value": "={{ ($('Loop Over Items').item.json.data.transaction.amount / $('Loop Over Items').item.json.data.transaction.installments)/100 }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugdfu5ibhiafpudfj",
+              "name": "commission_affiliate",
+              "type": "string",
+              "value": "={{ $node.Code3.json.fee_commision/100 }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugd6fuibhiafpudfj",
+              "name": "code_affiliate",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.commissions[1].email }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugd7fuibhiafpudfj",
+              "name": "name_affiliate",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.commissions[1].user }}"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugd8fuibhiafpudfj",
+              "name": "purchase_type",
+              "type": "string",
+              "value": "venda"
+            },
+            {
+              "id": "aopgghaofhbuiahfbaiugd9fuibhiafpudfj",
+              "name": "cancelled_time",
+              "type": "string",
+              "value": "={{ $('Loop Over Items').item.json.data.transaction.status == 'refunded' ? $('Loop Over Items').item.json.data.transaction.updated_at : null }}"
+            },
+            {
+              "id": "7e0ef0d0-1682-4e3f-91d0-dad2a3514aef",
+              "name": "json_vendas_id",
+              "value": "={{ $item(\"0\").$node[\"IF5\"].json[\"id_sql\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "96a8c2b5-3f86-4a11-9158-39e298dd67e3",
+              "name": "is_processed",
+              "value": "={{ $('Loop Over Items').item.json.event == 'abandoned_checkout' ? 'Y' : 'N' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1520,
+        464
+      ],
+      "id": "1ddf39be-6b60-4585-b1d3-03234184df32",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "transactions_new",
+          "mode": "list",
+          "cachedResultName": "transactions_new"
+        },
+        "options": {}
+      },
+      "id": "b4c9efe1-40e2-4758-a06b-2dce966fd845",
+      "name": "Insert rows in a table",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        2240,
+        464
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let commisions = $('Loop Over Items').first().json.data.transaction?.commissions\nlet fee_commision = 0\n\ncommisions?.forEach(el=>{\n  if(el.email != \"lucasnunes.vix@gmail.com\"){\n    fee_commision += el.amount\n  }\n})\n\nreturn {fee_commision}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1296,
+        464
+      ],
+      "id": "fb0cbd64-24dd-4a03-8378-b7487f1c9b2f",
+      "name": "Code3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8d95f8dd-5fb9-424f-85d3-dca80d6268c8",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "completed_purchase",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1728,
+        464
+      ],
+      "id": "7267cf89-fbf9-4a85-9498-c8901d07c075",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "let data = $json\n\n\ndata.approved_date = undefined;\ndata.entry_value = undefined;\n\ndelete data.approved_date;\ndelete data.entry_value;\n\nreturn data;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1984,
+        368
+      ],
+      "id": "c352d900-a2ed-4432-bcc3-09f59483f520",
+      "name": "RemoveColumnsByStatus"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "name": "First item",
+          "code": 1
+        }
+      }
+    ],
+    "Select rows from a table": [
+      {
+        "json": {
+          "id_sql": 10066,
+          "jsons": "{\"event\":\"completed_purchase\",\"data\":{\"offer\":{\"id\":\"3bb532a9-577f-4f55-9b30-9828c5c03990\",\"name\":\"Acelerador Nivel Médio - Entrada Boleto R$100\",\"type\":\"ENTRY\",\"recurrence\":\"MONTHLY\",\"amount\":10000,\"amount_client\":9603,\"amount_assiny\":397,\"amount_with_tax\":10000,\"product\":{\"id\":\"49a6ee30-4fa0-4393-89e7-88fabae2dab0\",\"name\":\"Acelerador Nível Médio - Operação - Boleto Parcelado\",\"producer_name\":\"Acelera Concursos\",\"product_type\":\"\"},\"subscription\":null,\"order_bumps\":[],\"checkout_type\":\"\"},\"transaction\":{\"id\":\"f70b7765-f16c-481d-ae8f-e432365368de\",\"project\":{\"name\":\"ACELERA CONCURSOS\",\"id\":\"269d483a-59f7-4c6d-9846-2b86d7a34feb\",\"organization\":{\"name\":\"ACELERA CONCURSOS LTDA\",\"id\":\"4b9206b7-f1ce-4ce8-9caa-615247f391af\"}},\"amount\":10000,\"fee_amount\":397,\"net_amount\":9603,\"installments\":1,\"currency\":\"BRL\",\"cycle\":1,\"created_at\":\"2025-09-24T11:54:38.190452Z\",\"updated_at\":\"2025-09-24T11:56:29.170553Z\",\"status\":\"completed_purchase\",\"payment_type\":\"PIX\",\"reason\":\"\",\"additional_data\":{\"PIX\":{\"qr_code\":\"00020101021226830014br.gov.bcb.pix2561api.pagseguro.com/pix/v2/DFDBF534-9748-4F38-8E15-3F231A6C6D4627600016BR.COM.PAGSEGURO0136DFDBF534-9748-4F38-8E15-3F231A6C6D465204829953039865406100.005802BR5922ASSINY INTERMEDIACAO D6014Belo Horizonte62070503***63044B67\"},\"BANKSLIP\":{\"url\":null,\"barcode\":null}},\"smart_installment\":null,\"commissions\":[{\"user\":\"David de Oliveira Juliati\",\"email\":\"lucasnunes.vix@gmail.com\",\"amount\":9218,\"type\":\"co producer\"},{\"user\":\"Tassio Figueira Santana\",\"email\":\"tassio.figueiras@gmail.com\",\"amount\":96,\"type\":\"co producer\"},{\"user\":\"João Lucas Port Melo\",\"email\":\"jolucasmelo@gmail.com\",\"amount\":96,\"type\":\"co producer\"},{\"user\":\"Rafael Rebolla\",\"email\":\"rafael@agenciascale.com.br\",\"amount\":144,\"type\":\"co producer\"},{\"user\":\"Patrick Borges De Medeiros\",\"email\":\"patrickbmedeiros@gmail.com\",\"amount\":48,\"type\":\"co producer\"}]},\"client\":{\"id\":\"f5a6b768-074a-491f-9935-ce1862053b7f\",\"full_name\":\"André Carlos do Nascimento Seabra\",\"first_name\":\"André\",\"last_name\":\"Seabra\",\"email\":\"seabrapetroleirobr016@gmail.com\",\"phone\":\"+5521964769315\",\"document\":\"17253715705\",\"address\":{\"street\":\"Rua Ivone dos Santos Cardoso\",\"number\":\"3\",\"complement\":\"Casa 10\",\"neighborhood\":\"Itapeba\",\"city\":\"Maricá\",\"state\":\"Rio de Janeiro\",\"country\":\"Brasil\",\"zipcode\":\"24913000\"}},\"metadata\":{\"utm_campaign\":\"direct\",\"utm_content\":\"direct\",\"utm_medium\":\"direct\",\"utm_source\":\"andressa_mendes\",\"utm_term\":\"direct\",\"ip\":\"2804:214:816c:5f2f:1:1:dc4d:2bba\",\"user_agent\":\"Mozilla/5.0 (Linux; Android 15; 2311DRK48I) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.192 Mobile Safari/537.36 OPR/74.2.3922.71802\",\"url_parameters\":{\"af_id\":\"11335%2C53980%2C20297%2C36918%2C64798%2C01104%2C77182%2C24040\",\"delivery_amount\":0,\"eventId\":\"01997b91-7e68-7e22-b474-8db64da4f2c1\",\"fbclid\":null,\"fbp\":null,\"ip\":\"2804:214:816c:5f2f:1:1:dc4d:2bba\",\"nodeId\":\"C86m2p\",\"organizationDocument\":\"53171723000110\",\"organizationDocumentType\":\"CORPORATE\",\"referrer\":\"direct\",\"saveCard\":true,\"trk_ad\":\"direct\",\"trk_adgp\":\"direct\",\"trk_cpg\":\"direct\",\"trk_src\":\"direct\",\"ttclid\":null,\"ttp\":null,\"utm_campaign\":\"direct\",\"utm_content\":\"direct\",\"utm_medium\":\"direct\",\"utm_source\":\"andressa_mendes\",\"utm_term\":\"direct\"},\"funnel_id\":\"7f5c66de-d410-4f80-8bfb-b85db107f3c9\",\"short_funnel_id\":\"07f3c9\",\"node_id\":\"C86m2p\",\"event_source_url\":\"https://pay.assiny.com.br/07f3c9/node/C86m2p?af_id=11335%2C53980%2C20297%2C36918%2C64798%2C01104%2C77182%2C24040&utm_source=andressa_mendes\"}}}",
+          "foi": 0,
+          "insert_time": "2025-10-01 08:56:15",
+          "processada": null,
+          "tipo": "",
+          "tries": 0
+        }
+      }
+    ]
+  },
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.218Z",
+      "createdAt": "2025-08-06T19:56:06.218Z",
+      "role": "workflow:owner",
+      "workflowId": "TtPdLTqNdqrGQADZ",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-01T12:18:30.552Z",
+  "versionId": "4196c3f6-c8f7-4b33-b72e-fec0acf6ad28"
+}

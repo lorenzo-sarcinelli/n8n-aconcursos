@@ -1,0 +1,330 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query1": {
+      "main": [
+        [
+          {
+            "node": "Agg_LL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agg_LL": {
+      "main": [
+        []
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet1": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2025-12-17T16:34:06.516Z",
+  "id": "dAcm2LUHTj2ecwSL",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 17",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -528,
+        16
+      ],
+      "id": "d39e22b9-2df4-4ec0-b011-a887876724b6",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT user_id, offer_id, order_date FROM purchases_new\nWHERE offer_id in (193, 192) and status in(\"approved\")",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -320,
+        16
+      ],
+      "id": "1ef225a9-f58d-45d3-9170-0128e185a5fb",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "user_id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        128,
+        16
+      ],
+      "id": "857c237c-f413-4a4b-a346-82b503fde52b",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT user_id as user_LL FROM launch_leads\nWHERE launch_key = \"SSP-L19\" AND is_paid = \"Y\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        336,
+        16
+      ],
+      "id": "84dd9396-9cbd-4911-afc4-e3f06a5d0a1b",
+      "name": "Execute a SQL query1",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "user_LL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        512,
+        16
+      ],
+      "id": "2c5d7b03-c199-4c73-9431-be36e42be4ba",
+      "name": "Agg_LL"
+    },
+    {
+      "parameters": {
+        "jsCode": "// pega TODOS os items dos nodes\nconst lista_LL = $items(\"Agg_LL\")\n  .flatMap(item => item.json.user_LL)\n  .map(Number);\n\nconst lista_PN = $items(\"Aggregate\")\n  .flatMap(item => item.json.user_id)\n  .map(Number);\n\n// segurança extra\nconst setLL = new Set(lista_LL);\nconst setPN = new Set(lista_PN);\n\nconst diff = lista_PN.filter(id => !setLL.has(id));\nconst diff2 = lista_LL.filter(id => !setPN.has(id));\n\nreturn [\n  {\n    json: {\n      total_LL: lista_LL.length,\n      total_PN: lista_PN.length,\n      faltantes_na_LL: diff,\n      existente_pn_diff_LL: diff2,\n      total_faltantes: diff.length\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        16
+      ],
+      "id": "75451698-bbe1-4f4b-ad48-2a346a90a1df",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/15QvNtV7jFd57aLjzDm_y4cWeTI_NIAa2IiLFPOUrDQI/edit?pli=1&gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Página1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15QvNtV7jFd57aLjzDm_y4cWeTI_NIAa2IiLFPOUrDQI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "user_id"
+          ],
+          "schema": [
+            {
+              "id": "user_id",
+              "displayName": "user_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "offer_id",
+              "displayName": "offer_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "order_date",
+              "displayName": "order_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "user_LL",
+              "displayName": "user_LL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -96,
+        16
+      ],
+      "id": "4238a34a-a835-463e-8917-4b5f4d671b81",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/15QvNtV7jFd57aLjzDm_y4cWeTI_NIAa2IiLFPOUrDQI/edit?pli=1&gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 153660556,
+          "mode": "list",
+          "cachedResultName": "Página2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15QvNtV7jFd57aLjzDm_y4cWeTI_NIAa2IiLFPOUrDQI/edit#gid=153660556"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        512,
+        -240
+      ],
+      "id": "f18e8464-3f0d-4d03-a1f0-8ada5b947ed7",
+      "name": "Append or update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-17T16:34:06.516Z",
+      "createdAt": "2025-12-17T16:34:06.516Z",
+      "role": "workflow:owner",
+      "workflowId": "dAcm2LUHTj2ecwSL",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-17T21:39:02.113Z",
+  "versionId": "5011b6a9-1622-4b1b-99db-7d76d546424b"
+}

@@ -1,0 +1,219 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Update rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update rows in a table": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-24T21:24:50.170Z",
+  "id": "EJSejv6H5iMQ22Ip",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "retroativo pontual erro de parametrizaçao dos cara",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "51e97274-eff4-4f3d-ad59-491bf07bfc7e",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "  SELECT * FROM launch_leads WHERE launch_key = 'SSP-L21' and utm_source = 'meta-ads' and utm_term like '%AUTO |%'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        208,
+        0
+      ],
+      "id": "ea1ef1dc-feb7-4cf8-b8d6-d2081ab0b31b",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "246be37a-8c24-4a45-ae61-e201cfa21209",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        592,
+        208
+      ],
+      "id": "d7b72c52-fd58-4bb7-bbff-ff5b9d85e233"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6a00c9f0-afa8-41c8-ac85-19d65ea2b81d",
+              "name": "id_launch",
+              "value": "={{ $node[\"Replace Me\"].json[\"id_launch\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "c4bc481a-02e6-463d-a8b3-b48a614a8c63",
+              "name": "utm_medium",
+              "value": "={{ $node[\"Replace Me\"].json[\"utm_term\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "c247f86b-92cc-4872-813c-a3fce952e83a",
+              "name": "utm_term",
+              "value": "={{ $node[\"Replace Me\"].json[\"utm_medium\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        800,
+        208
+      ],
+      "id": "b5118452-1a70-4b44-94ee-ab45d9baec42",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "launch_leads",
+          "mode": "list",
+          "cachedResultName": "launch_leads"
+        },
+        "columnToMatchOn": "id_launch",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1008,
+        208
+      ],
+      "id": "d57dab9f-d181-490e-b5db-48bb9d17b819",
+      "name": "Update rows in a table",
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-24T21:24:50.170Z",
+      "createdAt": "2026-01-24T21:24:50.170Z",
+      "role": "workflow:owner",
+      "workflowId": "EJSejv6H5iMQ22Ip",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-24T21:28:28.132Z",
+  "versionId": "de99480c-42dc-467d-9f99-6902e3281fcd"
+}

@@ -1,0 +1,1914 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-26T19:22:18.976Z",
+    "createdAt": "2025-11-26T19:22:18.976Z",
+    "versionId": "ab0bb7da-6e91-475f-bd59-fad9c0560392",
+    "workflowId": "5XxqhX6vSMAOuP8G",
+    "nodes": [
+      {
+        "parameters": {
+          "jsCode": "// ,'cDTa0pLbxnvbKLGt' - erro grupo wpp\n// ,'esTSblpCnCBB1WL0' - erro pesquisa launch\n\nlet workflows = ['TtPdLTqNdqrGQADZ','r6TeRIgCOBYNdhq6']\nlet json = []\n\nworkflows.forEach(el=>{\n  json.push({\n    id:el\n  })\n})\n\n\n\nreturn json"
+        },
+        "id": "80eb1ce4-da99-4be4-8bbc-c8b959dc69d0",
+        "name": "Code1",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -2160,
+          2288
+        ]
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "id": "d3221942-6f66-4c86-8616-6f3936bc5854",
+        "name": "Loop Over Items",
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          -1936,
+          2288
+        ]
+      },
+      {
+        "parameters": {
+          "resource": "execution",
+          "limit": 20,
+          "filters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "={{ $json.id }}",
+              "mode": "id"
+            }
+          },
+          "options": {},
+          "requestOptions": {}
+        },
+        "id": "f06ce723-8388-440d-ab10-9dcf560777bc",
+        "name": "n8n14",
+        "type": "n8n-nodes-base.n8n",
+        "typeVersion": 1,
+        "position": [
+          -1712,
+          2304
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "n8nApi": {
+            "id": "ED15KFHsFjXV3Aa1",
+            "name": "n8n account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "amount": 10,
+          "unit": "seconds"
+        },
+        "id": "825c51e6-03f7-431d-b6e8-07764bb0af1a",
+        "name": "Wait7",
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1,
+        "position": [
+          -816,
+          2288
+        ],
+        "webhookId": "fa287a9f-3cfc-4b12-98ba-054e2a5954d2"
+      },
+      {
+        "parameters": {
+          "jsCode": "let webhook = returnwebhook($node.n8n10.json.nodes)\n\nfunction returnwebhook(nodes){\n    let path = ''\n    let method = ''\n    nodes.forEach(el=>{\n        if (el.type == 'n8n-nodes-base.webhook'){\n          path = el.parameters.path\n          method = el.parameters.httpMethod\n        }\n    })\n\n  if(path == '={{ $workflow.id }}'){\n    path = $input.first().json.id\n  }\n    return {path:path,method:method}\n}\n\nreturn webhook"
+        },
+        "id": "b132d7cb-dba2-46ea-a06f-6e884ee1e85c",
+        "name": "Code",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          528,
+          2272
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "d074b306-e70d-4069-8c8e-0967ee35c1cc",
+                "name": "webhook",
+                "value": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $json.path }}",
+                "type": "string"
+              },
+              {
+                "id": "58674d89-cad7-424e-9fd0-cd29b125211f",
+                "name": "method",
+                "value": "={{ $json.method }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "f7322ad9-58ec-4978-b8e0-e4cf1100b70b",
+        "name": "Edit Fields1",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.3,
+        "position": [
+          752,
+          2272
+        ]
+      },
+      {
+        "parameters": {
+          "resource": "execution",
+          "operation": "get",
+          "executionId": "={{ $json.id }}",
+          "options": {},
+          "requestOptions": {}
+        },
+        "id": "b41a88af-fd67-435d-972d-914a40c1e46e",
+        "name": "n8n15",
+        "type": "n8n-nodes-base.n8n",
+        "typeVersion": 1,
+        "position": [
+          -1488,
+          2304
+        ],
+        "credentials": {
+          "n8nApi": {
+            "id": "ED15KFHsFjXV3Aa1",
+            "name": "n8n account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "execution",
+          "limit": 20,
+          "filters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "={{ $node[\"Loop Over Items\"].json[\"id\"] }}",
+              "mode": "id"
+            }
+          },
+          "options": {},
+          "requestOptions": {}
+        },
+        "id": "e043bcce-bdd5-43de-b7d5-f1339c8f6f3b",
+        "name": "n8n16",
+        "type": "n8n-nodes-base.n8n",
+        "typeVersion": 1,
+        "position": [
+          -592,
+          2288
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "n8nApi": {
+            "id": "ED15KFHsFjXV3Aa1",
+            "name": "n8n account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "execution",
+          "operation": "get",
+          "executionId": "={{ $json.id }}",
+          "options": {},
+          "requestOptions": {}
+        },
+        "id": "19e14b41-9bff-4ced-be25-a94dd6d48724",
+        "name": "n8n18",
+        "type": "n8n-nodes-base.n8n",
+        "typeVersion": 1,
+        "position": [
+          -368,
+          2288
+        ],
+        "credentials": {
+          "n8nApi": {
+            "id": "ED15KFHsFjXV3Aa1",
+            "name": "n8n account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "fc478960-f82b-4e92-aa87-5f67419a3c41",
+                "leftValue": "={{ $json }}",
+                "rightValue": "waiting",
+                "operator": {
+                  "type": "object",
+                  "operation": "empty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "bf963f70-ad08-437a-b350-4d1eadfa2637",
+        "name": "If",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          -1040,
+          2304
+        ]
+      },
+      {
+        "parameters": {
+          "method": "={{ $json.method }}",
+          "url": "={{ $json.webhook }}",
+          "options": {}
+        },
+        "id": "f30b4dd6-f875-4ed5-bbd5-291c94b5341b",
+        "name": "Call Workflow",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          976,
+          2272
+        ],
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000
+      },
+      {
+        "parameters": {
+          "sortFieldsUi": {
+            "sortField": [
+              {
+                "fieldName": "id"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "65e6daae-1694-4d00-a876-fab6fb18c0bf",
+        "name": "Sort",
+        "type": "n8n-nodes-base.sort",
+        "typeVersion": 1,
+        "position": [
+          -816,
+          2480
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "a2bafa39-fc01-4e55-a130-540257508943",
+                "leftValue": "={{ $input.all().length }}",
+                "rightValue": 1,
+                "operator": {
+                  "type": "number",
+                  "operation": "gt"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "922ca7fe-fbbb-4efa-9f19-d02140b1aa41",
+        "name": "If2",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          -592,
+          2480
+        ]
+      },
+      {
+        "parameters": {
+          "maxItems": "={{ $input.all().length - 1 }}"
+        },
+        "id": "49574de7-3717-40ab-9617-8b4d5ce03d96",
+        "name": "Limit",
+        "type": "n8n-nodes-base.limit",
+        "typeVersion": 1,
+        "position": [
+          -368,
+          2464
+        ]
+      },
+      {
+        "parameters": {},
+        "id": "0a5e5f5b-c3ae-4bb6-96a4-67b3625cc79e",
+        "name": "Limit1",
+        "type": "n8n-nodes-base.limit",
+        "typeVersion": 1,
+        "position": [
+          80,
+          2464
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "fc478960-f82b-4e92-aa87-5f67419a3c41",
+                "leftValue": "={{ $json }}",
+                "rightValue": "waiting",
+                "operator": {
+                  "type": "object",
+                  "operation": "empty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "54af9a32-407e-470d-8b93-9c7608582d4e",
+        "name": "If1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          80,
+          2288
+        ]
+      },
+      {
+        "parameters": {
+          "sortFieldsUi": {
+            "sortField": [
+              {
+                "fieldName": "id"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "98336ed8-45c8-4da4-9614-7de36f0e003d",
+        "name": "Sort1",
+        "type": "n8n-nodes-base.sort",
+        "typeVersion": 1,
+        "position": [
+          304,
+          2464
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "a2bafa39-fc01-4e55-a130-540257508943",
+                "leftValue": "={{ $input.all().length }}",
+                "rightValue": 1,
+                "operator": {
+                  "type": "number",
+                  "operation": "gt"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "5663cfaf-6173-4109-a88e-e3eb7ea497ec",
+        "name": "If3",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          528,
+          2464
+        ]
+      },
+      {
+        "parameters": {
+          "maxItems": "={{ $input.all().length - 1 }}",
+          "keep": "lastItems"
+        },
+        "id": "3559e5a3-20a5-4e9a-8274-fffdeb7772fc",
+        "name": "Limit2",
+        "type": "n8n-nodes-base.limit",
+        "typeVersion": 1,
+        "position": [
+          752,
+          2448
+        ]
+      },
+      {
+        "parameters": {},
+        "id": "a2058678-056c-4c06-9c8c-381ce0c61379",
+        "name": "Limit3",
+        "type": "n8n-nodes-base.limit",
+        "typeVersion": 1,
+        "position": [
+          1184,
+          2448
+        ]
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes"
+              }
+            ]
+          }
+        },
+        "id": "0ffeb146-2115-4f0a-abe6-89e6d2e09a75",
+        "name": "Schedule Trigger1",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -2384,
+          2288
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "23b4638a-e5c3-4727-9c3d-40f2eacb128a",
+                "leftValue": "={{ $json.status }}",
+                "rightValue": "waiting",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              },
+              {
+                "id": "884b7c8d-26fa-4515-bfe4-a064fc30cce8",
+                "leftValue": "={{ $json.status }}",
+                "rightValue": "running",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "id": "ece0e310-f61b-46fd-be68-a8d9b20032d4",
+        "name": "Filter8",
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2,
+        "position": [
+          -1264,
+          2304
+        ],
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "resource": "execution",
+          "operation": "delete",
+          "executionId": "={{ $json.id }}",
+          "requestOptions": {}
+        },
+        "id": "d0df5f9d-8793-45fc-a746-34b898f9f928",
+        "name": "n8n8",
+        "type": "n8n-nodes-base.n8n",
+        "typeVersion": 1,
+        "position": [
+          -144,
+          2464
+        ],
+        "credentials": {
+          "n8nApi": {
+            "id": "ED15KFHsFjXV3Aa1",
+            "name": "n8n account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "23b4638a-e5c3-4727-9c3d-40f2eacb128a",
+                "leftValue": "={{ $json.status }}",
+                "rightValue": "waiting",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              },
+              {
+                "id": "884b7c8d-26fa-4515-bfe4-a064fc30cce8",
+                "leftValue": "={{ $json.status }}",
+                "rightValue": "running",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "id": "31f8f195-d68f-4281-abe6-6d08f76e818f",
+        "name": "Filter9",
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2,
+        "position": [
+          -144,
+          2288
+        ],
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "resource": "execution",
+          "operation": "delete",
+          "executionId": "={{ $json.id }}",
+          "requestOptions": {}
+        },
+        "id": "a7af5290-4e73-44f4-ac09-7a83809ea4d7",
+        "name": "n8n9",
+        "type": "n8n-nodes-base.n8n",
+        "typeVersion": 1,
+        "position": [
+          976,
+          2448
+        ],
+        "credentials": {
+          "n8nApi": {
+            "id": "ED15KFHsFjXV3Aa1",
+            "name": "n8n account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "workflowId": {
+            "__rl": true,
+            "value": "={{ $node[\"Loop Over Items\"].json[\"id\"] }}",
+            "mode": "id"
+          },
+          "requestOptions": {}
+        },
+        "id": "8c9308e6-71b3-486c-a46d-25c373ae9eef",
+        "name": "n8n10",
+        "type": "n8n-nodes-base.n8n",
+        "typeVersion": 1,
+        "position": [
+          304,
+          2272
+        ],
+        "credentials": {
+          "n8nApi": {
+            "id": "ED15KFHsFjXV3Aa1",
+            "name": "n8n account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "## IMPORTANTE\n\nOs ids de grupo do wpp e pesquisa launch foram comentados, para não crashar o CRON\n",
+          "height": 364,
+          "width": 200
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -2208,
+          2096
+        ],
+        "id": "54015b19-e9ac-425b-a2d4-09cb24e72274",
+        "name": "Sticky Note"
+      }
+    ],
+    "connections": {
+      "Code1": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [],
+          [
+            {
+              "node": "n8n14",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "n8n14": {
+        "main": [
+          [
+            {
+              "node": "n8n15",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait7": {
+        "main": [
+          [
+            {
+              "node": "n8n16",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields1": {
+        "main": [
+          [
+            {
+              "node": "Call Workflow",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "n8n15": {
+        "main": [
+          [
+            {
+              "node": "Filter8",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "n8n16": {
+        "main": [
+          [
+            {
+              "node": "n8n18",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "n8n18": {
+        "main": [
+          [
+            {
+              "node": "Filter9",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Wait7",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Sort",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call Workflow": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Sort": {
+        "main": [
+          [
+            {
+              "node": "If2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If2": {
+        "main": [
+          [
+            {
+              "node": "Limit",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Limit": {
+        "main": [
+          [
+            {
+              "node": "n8n8",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Limit1": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "n8n10",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Sort1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Sort1": {
+        "main": [
+          [
+            {
+              "node": "If3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If3": {
+        "main": [
+          [
+            {
+              "node": "Limit2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Limit2": {
+        "main": [
+          [
+            {
+              "node": "n8n9",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Limit3": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger1": {
+        "main": [
+          [
+            {
+              "node": "Code1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter8": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "n8n8": {
+        "main": [
+          [
+            {
+              "node": "Limit1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter9": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "n8n9": {
+        "main": [
+          [
+            {
+              "node": "Limit3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "n8n10": {
+        "main": [
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "ab0bb7da-6e91-475f-bd59-fad9c0560392",
+  "connections": {
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "n8n14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n14": {
+      "main": [
+        [
+          {
+            "node": "n8n15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait7": {
+      "main": [
+        [
+          {
+            "node": "n8n16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Call Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n15": {
+      "main": [
+        [
+          {
+            "node": "Filter8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n16": {
+      "main": [
+        [
+          {
+            "node": "n8n18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n18": {
+      "main": [
+        [
+          {
+            "node": "Filter9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Wait7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Workflow": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "n8n8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "n8n10",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sort1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort1": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Limit2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit2": {
+      "main": [
+        [
+          {
+            "node": "n8n9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter8": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n8": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter9": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n9": {
+      "main": [
+        [
+          {
+            "node": "Limit3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n10": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.194Z",
+  "id": "5XxqhX6vSMAOuP8G",
+  "isArchived": false,
+  "meta": null,
+  "name": "[CRON] Verificar purchase e transaction",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// ,'cDTa0pLbxnvbKLGt' - erro grupo wpp\n// ,'esTSblpCnCBB1WL0' - erro pesquisa launch\n\nlet workflows = ['TtPdLTqNdqrGQADZ','r6TeRIgCOBYNdhq6']\nlet json = []\n\nworkflows.forEach(el=>{\n  json.push({\n    id:el\n  })\n})\n\n\n\nreturn json"
+      },
+      "id": "80eb1ce4-da99-4be4-8bbc-c8b959dc69d0",
+      "name": "Code1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2160,
+        2288
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "d3221942-6f66-4c86-8616-6f3936bc5854",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1936,
+        2288
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "execution",
+        "limit": 20,
+        "filters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          }
+        },
+        "options": {},
+        "requestOptions": {}
+      },
+      "id": "f06ce723-8388-440d-ab10-9dcf560777bc",
+      "name": "n8n14",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -1712,
+        2304
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "n8nApi": {
+          "id": "ED15KFHsFjXV3Aa1",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10,
+        "unit": "seconds"
+      },
+      "id": "825c51e6-03f7-431d-b6e8-07764bb0af1a",
+      "name": "Wait7",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        -816,
+        2288
+      ],
+      "webhookId": "fa287a9f-3cfc-4b12-98ba-054e2a5954d2"
+    },
+    {
+      "parameters": {
+        "jsCode": "let webhook = returnwebhook($node.n8n10.json.nodes)\n\nfunction returnwebhook(nodes){\n    let path = ''\n    let method = ''\n    nodes.forEach(el=>{\n        if (el.type == 'n8n-nodes-base.webhook'){\n          path = el.parameters.path\n          method = el.parameters.httpMethod\n        }\n    })\n\n  if(path == '={{ $workflow.id }}'){\n    path = $input.first().json.id\n  }\n    return {path:path,method:method}\n}\n\nreturn webhook"
+      },
+      "id": "b132d7cb-dba2-46ea-a06f-6e884ee1e85c",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        2272
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d074b306-e70d-4069-8c8e-0967ee35c1cc",
+              "name": "webhook",
+              "value": "=https://{{ $execution.resumeUrl.extractDomain() }}/webhook/{{ $json.path }}",
+              "type": "string"
+            },
+            {
+              "id": "58674d89-cad7-424e-9fd0-cd29b125211f",
+              "name": "method",
+              "value": "={{ $json.method }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f7322ad9-58ec-4978-b8e0-e4cf1100b70b",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        752,
+        2272
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "execution",
+        "operation": "get",
+        "executionId": "={{ $json.id }}",
+        "options": {},
+        "requestOptions": {}
+      },
+      "id": "b41a88af-fd67-435d-972d-914a40c1e46e",
+      "name": "n8n15",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -1488,
+        2304
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "ED15KFHsFjXV3Aa1",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "execution",
+        "limit": 20,
+        "filters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "={{ $node[\"Loop Over Items\"].json[\"id\"] }}",
+            "mode": "id"
+          }
+        },
+        "options": {},
+        "requestOptions": {}
+      },
+      "id": "e043bcce-bdd5-43de-b7d5-f1339c8f6f3b",
+      "name": "n8n16",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        2288
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "n8nApi": {
+          "id": "ED15KFHsFjXV3Aa1",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "execution",
+        "operation": "get",
+        "executionId": "={{ $json.id }}",
+        "options": {},
+        "requestOptions": {}
+      },
+      "id": "19e14b41-9bff-4ced-be25-a94dd6d48724",
+      "name": "n8n18",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        2288
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "ED15KFHsFjXV3Aa1",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "fc478960-f82b-4e92-aa87-5f67419a3c41",
+              "leftValue": "={{ $json }}",
+              "rightValue": "waiting",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "bf963f70-ad08-437a-b350-4d1eadfa2637",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1040,
+        2304
+      ]
+    },
+    {
+      "parameters": {
+        "method": "={{ $json.method }}",
+        "url": "={{ $json.webhook }}",
+        "options": {}
+      },
+      "id": "f30b4dd6-f875-4ed5-bbd5-291c94b5341b",
+      "name": "Call Workflow",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        976,
+        2272
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "65e6daae-1694-4d00-a876-fab6fb18c0bf",
+      "name": "Sort",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        -816,
+        2480
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "a2bafa39-fc01-4e55-a130-540257508943",
+              "leftValue": "={{ $input.all().length }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "922ca7fe-fbbb-4efa-9f19-d02140b1aa41",
+      "name": "If2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -592,
+        2480
+      ]
+    },
+    {
+      "parameters": {
+        "maxItems": "={{ $input.all().length - 1 }}"
+      },
+      "id": "49574de7-3717-40ab-9617-8b4d5ce03d96",
+      "name": "Limit",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        2464
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "0a5e5f5b-c3ae-4bb6-96a4-67b3625cc79e",
+      "name": "Limit1",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        80,
+        2464
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "fc478960-f82b-4e92-aa87-5f67419a3c41",
+              "leftValue": "={{ $json }}",
+              "rightValue": "waiting",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "54af9a32-407e-470d-8b93-9c7608582d4e",
+      "name": "If1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        80,
+        2288
+      ]
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "98336ed8-45c8-4da4-9614-7de36f0e003d",
+      "name": "Sort1",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        304,
+        2464
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "a2bafa39-fc01-4e55-a130-540257508943",
+              "leftValue": "={{ $input.all().length }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "5663cfaf-6173-4109-a88e-e3eb7ea497ec",
+      "name": "If3",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        528,
+        2464
+      ]
+    },
+    {
+      "parameters": {
+        "maxItems": "={{ $input.all().length - 1 }}",
+        "keep": "lastItems"
+      },
+      "id": "3559e5a3-20a5-4e9a-8274-fffdeb7772fc",
+      "name": "Limit2",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        752,
+        2448
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "a2058678-056c-4c06-9c8c-381ce0c61379",
+      "name": "Limit3",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        2448
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "id": "0ffeb146-2115-4f0a-abe6-89e6d2e09a75",
+      "name": "Schedule Trigger1",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -2384,
+        2288
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "23b4638a-e5c3-4727-9c3d-40f2eacb128a",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "waiting",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "884b7c8d-26fa-4515-bfe4-a064fc30cce8",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "running",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "ece0e310-f61b-46fd-be68-a8d9b20032d4",
+      "name": "Filter8",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        -1264,
+        2304
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "resource": "execution",
+        "operation": "delete",
+        "executionId": "={{ $json.id }}",
+        "requestOptions": {}
+      },
+      "id": "d0df5f9d-8793-45fc-a746-34b898f9f928",
+      "name": "n8n8",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        2464
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "ED15KFHsFjXV3Aa1",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "23b4638a-e5c3-4727-9c3d-40f2eacb128a",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "waiting",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "884b7c8d-26fa-4515-bfe4-a064fc30cce8",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "running",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "31f8f195-d68f-4281-abe6-6d08f76e818f",
+      "name": "Filter9",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        -144,
+        2288
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "resource": "execution",
+        "operation": "delete",
+        "executionId": "={{ $json.id }}",
+        "requestOptions": {}
+      },
+      "id": "a7af5290-4e73-44f4-ac09-7a83809ea4d7",
+      "name": "n8n9",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        976,
+        2448
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "ED15KFHsFjXV3Aa1",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "workflowId": {
+          "__rl": true,
+          "value": "={{ $node[\"Loop Over Items\"].json[\"id\"] }}",
+          "mode": "id"
+        },
+        "requestOptions": {}
+      },
+      "id": "8c9308e6-71b3-486c-a46d-25c373ae9eef",
+      "name": "n8n10",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        304,
+        2272
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "ED15KFHsFjXV3Aa1",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## IMPORTANTE\n\nOs ids de grupo do wpp e pesquisa launch foram comentados, para não crashar o CRON\n",
+        "height": 364,
+        "width": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2208,
+        2096
+      ],
+      "id": "54015b19-e9ac-425b-a2d4-09cb24e72274",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.194Z",
+      "createdAt": "2025-08-06T19:56:06.194Z",
+      "role": "workflow:owner",
+      "workflowId": "5XxqhX6vSMAOuP8G",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger1": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-17T20:32:42.089Z",
+  "versionId": "ab0bb7da-6e91-475f-bd59-fad9c0560392"
+}

@@ -1,0 +1,239 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Buffer": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "InsertQueue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.156Z",
+  "id": "uPjeMCFZBZq8tDF1",
+  "isArchived": false,
+  "meta": null,
+  "name": "A0006 | Pesquisa | Typebot | Armazena JSON",
+  "nodes": [
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "survey_queue",
+          "mode": "list",
+          "cachedResultName": "survey_queue"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "request_body",
+              "value": "={{ $node[\"Buffer\"].json['buffer'] ?? null }}"
+            },
+            {
+              "column": "insert_time",
+              "value": "={{$now }}"
+            },
+            {
+              "column": "action_type",
+              "value": "subscription"
+            },
+            {
+              "column": "action_source",
+              "value": "=Typebot"
+            },
+            {
+              "column": "launch_tag",
+              "value": "=SSP-L18"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9ea1af4d-ce02-4c50-8f0d-a667ad5eec84",
+      "name": "InsertQueue",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        48,
+        144
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let body = $node['Webhook'].json['body'];\nlet jsonBody = JSON.stringify(body);\nlet buffer = new Buffer(jsonBody).toString('base64');\n\nreturn {buffer}\n\n"
+      },
+      "id": "0f258bea-d458-48c6-a346-45b1d09e7ad0",
+      "name": "Buffer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "34900341-ff8a-4b7e-ad24-e20ee0e1a220",
+              "leftValue": "={{ $node['Buffer'].json[\"buffer\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "77f3e175-9945-4928-887f-85a1769e80e4",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        -176,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "content": "#### Insere o json da pesquisa na tabela \"survey_queue\"",
+        "height": 300,
+        "width": 154,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        16,
+        0
+      ],
+      "id": "8a015169-b355-4438-8ef5-113f7b170d2a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "survey-answers",
+        "options": {}
+      },
+      "id": "754ab1ca-18a9-46c9-a5e7-9534aaba4c57",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -624,
+        144
+      ],
+      "webhookId": "f5876d37-4e87-46c4-9bb5-06119a0c1164"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.aconcursos.com.br",
+            "user-agent": "node",
+            "content-length": "452",
+            "accept": "*/*",
+            "accept-encoding": "br, gzip, deflate",
+            "accept-language": "*",
+            "content-type": "application/json",
+            "sec-fetch-mode": "cors",
+            "x-forwarded-for": "161.97.76.85",
+            "x-forwarded-host": "webhook.aconcursos.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "660043f7f463",
+            "x-real-ip": "161.97.76.85"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "submittedAt": "2025-08-21T16:37:47.481Z",
+            "email": "alysson.montovanelli@gmail.com",
+            "Idade": "23-27",
+            "Group #15": "Não",
+            "Nivel": "Superior",
+            "Profissional": "Funcionário público",
+            "Renda": "Mais de R$10.000",
+            "Escolaridade": "Ensino superior completo",
+            "Duvida": "Dúvidas sobre a Petrobras",
+            "Dificuldade": "Dificuldade em estudar",
+            "utm_source": "teste1",
+            "utm_medium": "teste2",
+            "utm_campaign": "teste3",
+            "utm_content": "teste4",
+            "utm_term": "teste5",
+            "source": "typebot"
+          },
+          "webhookUrl": "https://webhook.aconcursos.com.br/webhook/survey-answers",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.156Z",
+      "createdAt": "2025-08-06T19:56:06.156Z",
+      "role": "workflow:owner",
+      "workflowId": "uPjeMCFZBZq8tDF1",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-24T16:05:34.524Z",
+  "versionId": "25b1f899-a755-4cb4-8cbb-6caca552a252"
+}

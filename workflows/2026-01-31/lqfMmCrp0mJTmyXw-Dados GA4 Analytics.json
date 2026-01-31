@@ -1,0 +1,854 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-28T12:08:38.149Z",
+    "createdAt": "2026-01-28T12:08:38.149Z",
+    "versionId": "1ae512dd-36e2-4f1c-8fba-a0e1a44e7e90",
+    "workflowId": "lqfMmCrp0mJTmyXw",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 30
+              }
+            ]
+          }
+        },
+        "id": "0a30ba79-dc8c-4383-a79e-625b282d8b8b",
+        "name": "Schedule Trigger",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -1168,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "data",
+          "options": {}
+        },
+        "id": "fb66f877-84d9-4b0a-bcbb-94b2f9eae9fd",
+        "name": "Split Out1",
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          720,
+          992
+        ]
+      },
+      {
+        "parameters": {
+          "content": "## Falta o token\n\nadicionar no \"TOKEN_DADOS_GOOGLE\"",
+          "width": 261.62790697674455
+        },
+        "id": "c52222cd-5d7d-4332-8dc0-25ae13583a4d",
+        "name": "Sticky Note",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          128,
+          144
+        ]
+      },
+      {
+        "parameters": {
+          "value": "={{ $node['PrepareSumOrganize'].json[\"account_name\"] }}_{{ $node['PrepareSumOrganize'].json[\"date\"] }}_{{ $node['PrepareSumOrganize'].json[\"page_path\"] }}_{{ $node['PrepareSumOrganize'].json[\"source\"] }}"
+        },
+        "id": "ed8d39ab-b340-4772-8d58-de0cb06256b5",
+        "name": "Crypto",
+        "type": "n8n-nodes-base.crypto",
+        "typeVersion": 1,
+        "position": [
+          544,
+          448
+        ]
+      },
+      {
+        "parameters": {
+          "url": "=https://connectors.windsor.ai/googleanalytics4?api_key=08b026b9bfd11724c788cdffa05ec09e4453&date_from=2025-01-19&date_to=2025-01-19&fields=account_name,active_users,date,page_path,pagetitle,sessions,source,screen_page_views",
+          "options": {}
+        },
+        "id": "e0237079-47f3-4c34-b5f1-1b900cabfcea",
+        "name": "HTTP Request1",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          -64,
+          160
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "010e1364-86c7-4c44-93c7-306218d815b8",
+                "leftValue": "={{ $json[\"data\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "array",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          176,
+          784
+        ],
+        "id": "d8976ae2-7572-482b-9d25-b183348bbfb4",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "// --- Entrada (pode trocar por $json.dataInicial, se quiser) ---\nlet dataInicial = '2026-01-20'; // ex.: $json.dataInicial || '2025-08-25'\n\n// --- Util: parse YYYY-MM-DD sem usar DateTime.fromISO ---\nfunction buildDateFromYMD(ymd, ref) {\n  const p = String(ymd || '').trim().split('-').map(Number);\n  if (p.length !== 3 || p.some(isNaN)) return null;\n  // Usa o fuso/zone do próprio $now (ref), evitando problemas de timezone\n  return ref.set({ year: p[0], month: p[1], day: p[2], hour: 0, minute: 0, second: 0, millisecond: 0 }).startOf('day');\n}\n\n// --- \"Hoje\" com corte às 07:00 ---\nlet end = ($now.hour < 7 ? $now.minus({ days: 1 }) : $now).startOf('day');\n\n// --- Normaliza dataInicial (fallback para 'end' se inválida) ---\nlet start = buildDateFromYMD(dataInicial, $now) || end;\n\n// --- Intervalo vazio se start > end ---\nif (start > end) {\n  return { data: [] };\n}\n\n// --- Gera todos os dias (start..end), inclusive extremos ---\nconst dias = [];\nfor (let d = start; d <= end; d = d.plus({ days: 1 })) {\n  dias.push(d.toFormat('yyyy-MM-dd'));\n}\n\nreturn { data: dias };\n"
+        },
+        "id": "4a932a86-4257-4db2-9434-e7ce86ef934c",
+        "name": "SeparateDates",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -944,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "data",
+          "options": {}
+        },
+        "id": "b71379ed-6837-4927-935c-219889e922cf",
+        "name": "SplitDates",
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          -720,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "sortFieldsUi": {
+            "sortField": [
+              {
+                "fieldName": "data"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "6e0c495a-630e-4235-b566-1312702f5c40",
+        "name": "OrganizeDates",
+        "type": "n8n-nodes-base.sort",
+        "typeVersion": 1,
+        "position": [
+          -496,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "id": "124a4356-2b02-4447-b219-8bcc56848b88",
+        "name": "LoopDates",
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          -288,
+          352
+        ]
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          -64,
+          448
+        ],
+        "id": "7530e07c-859f-48bf-80e8-0fcb9605862f",
+        "name": "Date"
+      },
+      {
+        "parameters": {
+          "url": "=https://connectors.windsor.ai/googleanalytics4?api_key=898b73329b7b7c2be8155ca083a37144a714&date_from={{$json.data}}&date_to={{$json.data}}&fields=account_name,active_users,date,page_path,pagetitle,sessions,source,screen_page_views",
+          "options": {}
+        },
+        "id": "09eab2fa-9caa-4072-b261-c9996f0c5821",
+        "name": "RequestDate",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          128,
+          448
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "upsert",
+          "table": {
+            "__rl": true,
+            "value": "reports_ga4",
+            "mode": "list",
+            "cachedResultName": "reports_ga4"
+          },
+          "dataMode": "defineBelow",
+          "columnToMatchOn": "unique_id",
+          "valueToMatchOn": "={{ $node['Crypto'].json[\"data\"] }}",
+          "valuesToSend": {
+            "values": [
+              {
+                "column": "account_name",
+                "value": "={{ $node['Crypto'].json[\"account_name\"] }}"
+              },
+              {
+                "column": "active_users",
+                "value": "={{ $node['Crypto'].json[\"active_users\"] }}"
+              },
+              {
+                "column": "report_date",
+                "value": "={{ $node['Crypto'].json[\"date\"] }}"
+              },
+              {
+                "column": "page_path",
+                "value": "={{ $node['Crypto'].json[\"page_path\"] }}"
+              },
+              {
+                "column": "page_title",
+                "value": "={{ $node['Crypto'].json[\"pagetitle\"] }}"
+              },
+              {
+                "column": "sessions",
+                "value": "={{ $node['Crypto'].json[\"sessions\"] }}"
+              },
+              {
+                "column": "source",
+                "value": "={{ $node['Crypto'].json[\"source\"] }}"
+              },
+              {
+                "column": "screen_page_views",
+                "value": "={{ $node['Crypto'].json[\"screen_page_views\"] }}"
+              }
+            ]
+          },
+          "options": {
+            "detailedOutput": true
+          }
+        },
+        "id": "7affaf9b-aade-4938-b1bf-f816b3c643c7",
+        "name": "UpsertDetails",
+        "type": "n8n-nodes-base.mySql",
+        "typeVersion": 2.2,
+        "position": [
+          752,
+          448
+        ],
+        "credentials": {
+          "mySql": {
+            "id": "SLbk0R6796E4DmlD",
+            "name": "MySQL infoproduct"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "function agruparDados(data) {\n  return Object.values(\n    data.reduce((acc, item) => {\n      // cria uma chave única pela combinação dos 3 campos\n      const key = `${item.account_name}|${item.page_path}|${item.source}`;\n\n      if (!acc[key]) {\n        // se não existe ainda no acumulador, copia o item\n        acc[key] = { ...item };\n      } else {\n        // se já existe, soma os campos numéricos\n        acc[key].active_users += item.active_users;\n        acc[key].sessions += item.sessions;\n        acc[key].screen_page_views += item.screen_page_views;\n      }\n\n      return acc;\n    }, {})\n  );\n}\n\nlet data = $node['RequestDate'].json['data'];\n\nreturn agruparDados(data)\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          336,
+          448
+        ],
+        "id": "a08497d7-c956-4bfc-ab6c-c773a66922fe",
+        "name": "PrepareSumOrganize"
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "SeparateDates",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Split Out1": {
+        "main": [
+          []
+        ]
+      },
+      "Crypto": {
+        "main": [
+          [
+            {
+              "node": "UpsertDetails",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Split Out1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          []
+        ]
+      },
+      "SeparateDates": {
+        "main": [
+          [
+            {
+              "node": "SplitDates",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SplitDates": {
+        "main": [
+          [
+            {
+              "node": "OrganizeDates",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OrganizeDates": {
+        "main": [
+          [
+            {
+              "node": "LoopDates",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "LoopDates": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Date",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Date": {
+        "main": [
+          [
+            {
+              "node": "RequestDate",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "RequestDate": {
+        "main": [
+          [
+            {
+              "node": "PrepareSumOrganize",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "UpsertDetails": {
+        "main": [
+          [
+            {
+              "node": "LoopDates",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "PrepareSumOrganize": {
+        "main": [
+          [
+            {
+              "node": "Crypto",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Lucas Nunes",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "1ae512dd-36e2-4f1c-8fba-a0e1a44e7e90",
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "SeparateDates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        []
+      ]
+    },
+    "Crypto": {
+      "main": [
+        [
+          {
+            "node": "UpsertDetails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "SeparateDates": {
+      "main": [
+        [
+          {
+            "node": "SplitDates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SplitDates": {
+      "main": [
+        [
+          {
+            "node": "OrganizeDates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OrganizeDates": {
+      "main": [
+        [
+          {
+            "node": "LoopDates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LoopDates": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date": {
+      "main": [
+        [
+          {
+            "node": "RequestDate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RequestDate": {
+      "main": [
+        [
+          {
+            "node": "PrepareSumOrganize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UpsertDetails": {
+      "main": [
+        [
+          {
+            "node": "LoopDates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PrepareSumOrganize": {
+      "main": [
+        [
+          {
+            "node": "Crypto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.171Z",
+  "id": "lqfMmCrp0mJTmyXw",
+  "isArchived": false,
+  "meta": null,
+  "name": "Dados GA4 Analytics",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 30
+            }
+          ]
+        }
+      },
+      "id": "0a30ba79-dc8c-4383-a79e-625b282d8b8b",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1168,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "id": "fb66f877-84d9-4b0a-bcbb-94b2f9eae9fd",
+      "name": "Split Out1",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        720,
+        992
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Falta o token\n\nadicionar no \"TOKEN_DADOS_GOOGLE\"",
+        "width": 261.62790697674455
+      },
+      "id": "c52222cd-5d7d-4332-8dc0-25ae13583a4d",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        128,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "value": "={{ $node['PrepareSumOrganize'].json[\"account_name\"] }}_{{ $node['PrepareSumOrganize'].json[\"date\"] }}_{{ $node['PrepareSumOrganize'].json[\"page_path\"] }}_{{ $node['PrepareSumOrganize'].json[\"source\"] }}"
+      },
+      "id": "ed8d39ab-b340-4772-8d58-de0cb06256b5",
+      "name": "Crypto",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        544,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://connectors.windsor.ai/googleanalytics4?api_key=08b026b9bfd11724c788cdffa05ec09e4453&date_from=2025-01-19&date_to=2025-01-19&fields=account_name,active_users,date,page_path,pagetitle,sessions,source,screen_page_views",
+        "options": {}
+      },
+      "id": "e0237079-47f3-4c34-b5f1-1b900cabfcea",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -64,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "010e1364-86c7-4c44-93c7-306218d815b8",
+              "leftValue": "={{ $json[\"data\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        176,
+        784
+      ],
+      "id": "d8976ae2-7572-482b-9d25-b183348bbfb4",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// --- Entrada (pode trocar por $json.dataInicial, se quiser) ---\nlet dataInicial = '2026-01-20'; // ex.: $json.dataInicial || '2025-08-25'\n\n// --- Util: parse YYYY-MM-DD sem usar DateTime.fromISO ---\nfunction buildDateFromYMD(ymd, ref) {\n  const p = String(ymd || '').trim().split('-').map(Number);\n  if (p.length !== 3 || p.some(isNaN)) return null;\n  // Usa o fuso/zone do próprio $now (ref), evitando problemas de timezone\n  return ref.set({ year: p[0], month: p[1], day: p[2], hour: 0, minute: 0, second: 0, millisecond: 0 }).startOf('day');\n}\n\n// --- \"Hoje\" com corte às 07:00 ---\nlet end = ($now.hour < 7 ? $now.minus({ days: 1 }) : $now).startOf('day');\n\n// --- Normaliza dataInicial (fallback para 'end' se inválida) ---\nlet start = buildDateFromYMD(dataInicial, $now) || end;\n\n// --- Intervalo vazio se start > end ---\nif (start > end) {\n  return { data: [] };\n}\n\n// --- Gera todos os dias (start..end), inclusive extremos ---\nconst dias = [];\nfor (let d = start; d <= end; d = d.plus({ days: 1 })) {\n  dias.push(d.toFormat('yyyy-MM-dd'));\n}\n\nreturn { data: dias };\n"
+      },
+      "id": "4a932a86-4257-4db2-9434-e7ce86ef934c",
+      "name": "SeparateDates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -944,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "id": "b71379ed-6837-4927-935c-219889e922cf",
+      "name": "SplitDates",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6e0c495a-630e-4235-b566-1312702f5c40",
+      "name": "OrganizeDates",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "124a4356-2b02-4447-b219-8bcc56848b88",
+      "name": "LoopDates",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -288,
+        352
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        448
+      ],
+      "id": "7530e07c-859f-48bf-80e8-0fcb9605862f",
+      "name": "Date"
+    },
+    {
+      "parameters": {
+        "url": "=https://connectors.windsor.ai/googleanalytics4?api_key=898b73329b7b7c2be8155ca083a37144a714&date_from={{$json.data}}&date_to={{$json.data}}&fields=account_name,active_users,date,page_path,pagetitle,sessions,source,screen_page_views",
+        "options": {}
+      },
+      "id": "09eab2fa-9caa-4072-b261-c9996f0c5821",
+      "name": "RequestDate",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        128,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "reports_ga4",
+          "mode": "list",
+          "cachedResultName": "reports_ga4"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "unique_id",
+        "valueToMatchOn": "={{ $node['Crypto'].json[\"data\"] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "account_name",
+              "value": "={{ $node['Crypto'].json[\"account_name\"] }}"
+            },
+            {
+              "column": "active_users",
+              "value": "={{ $node['Crypto'].json[\"active_users\"] }}"
+            },
+            {
+              "column": "report_date",
+              "value": "={{ $node['Crypto'].json[\"date\"] }}"
+            },
+            {
+              "column": "page_path",
+              "value": "={{ $node['Crypto'].json[\"page_path\"] }}"
+            },
+            {
+              "column": "page_title",
+              "value": "={{ $node['Crypto'].json[\"pagetitle\"] }}"
+            },
+            {
+              "column": "sessions",
+              "value": "={{ $node['Crypto'].json[\"sessions\"] }}"
+            },
+            {
+              "column": "source",
+              "value": "={{ $node['Crypto'].json[\"source\"] }}"
+            },
+            {
+              "column": "screen_page_views",
+              "value": "={{ $node['Crypto'].json[\"screen_page_views\"] }}"
+            }
+          ]
+        },
+        "options": {
+          "detailedOutput": true
+        }
+      },
+      "id": "7affaf9b-aade-4938-b1bf-f816b3c643c7",
+      "name": "UpsertDetails",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        752,
+        448
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "function agruparDados(data) {\n  return Object.values(\n    data.reduce((acc, item) => {\n      // cria uma chave única pela combinação dos 3 campos\n      const key = `${item.account_name}|${item.page_path}|${item.source}`;\n\n      if (!acc[key]) {\n        // se não existe ainda no acumulador, copia o item\n        acc[key] = { ...item };\n      } else {\n        // se já existe, soma os campos numéricos\n        acc[key].active_users += item.active_users;\n        acc[key].sessions += item.sessions;\n        acc[key].screen_page_views += item.screen_page_views;\n      }\n\n      return acc;\n    }, {})\n  );\n}\n\nlet data = $node['RequestDate'].json['data'];\n\nreturn agruparDados(data)\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        336,
+        448
+      ],
+      "id": "a08497d7-c956-4bfc-ab6c-c773a66922fe",
+      "name": "PrepareSumOrganize"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.171Z",
+      "createdAt": "2025-08-06T19:56:06.171Z",
+      "role": "workflow:owner",
+      "workflowId": "lqfMmCrp0mJTmyXw",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-28T12:08:38.181Z",
+  "versionId": "1ae512dd-36e2-4f1c-8fba-a0e1a44e7e90"
+}

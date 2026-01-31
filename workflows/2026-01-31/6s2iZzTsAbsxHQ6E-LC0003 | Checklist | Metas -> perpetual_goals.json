@@ -1,0 +1,254 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-06T19:56:06.236Z",
+  "id": "6s2iZzTsAbsxHQ6E",
+  "isArchived": false,
+  "meta": null,
+  "name": "LC0003 | Checklist | Metas -> perpetual_goals",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## mudar planilha\n",
+        "height": 243,
+        "width": 172
+      },
+      "id": "8618f3c8-02ae-4586-8005-72f349c57002",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1232,
+        528
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 30
+            }
+          ]
+        }
+      },
+      "id": "3db475b2-2327-4cb2-b9f8-82e7c6f161fe",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        624
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit?uuspsharing=&gid=1235510725#gid=1235510725",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1235510725,
+          "mode": "list",
+          "cachedResultName": "Checklist Metas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omDKRQ9gBGVTEoNiUsD1u4iXRdmMG2lhOYtkHXs9pd0/edit#gid=1235510725"
+        },
+        "options": {}
+      },
+      "id": "d09518ce-9cea-4411-8975-4f5fb371e3d8",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        1264,
+        624
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "SN6RzeMl3gN9prB4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "value": "perpetual_goals",
+          "mode": "list",
+          "cachedResultName": "perpetual_goals"
+        },
+        "columnToMatchOn": "perpetual_tag",
+        "options": {}
+      },
+      "id": "9afcea7a-d50c-483e-a86f-f15e538dd35b",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.2,
+      "position": [
+        1712,
+        624
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "SLbk0R6796E4DmlD",
+          "name": "MySQL infoproduct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "72110feb-12f4-4ce0-8044-ced1538e0df1",
+              "name": "launch_tag",
+              "value": "={{ $json.LAUNCHTAG }}",
+              "type": "string"
+            },
+            {
+              "id": "0d3b78a4-11a6-415a-9eea-dc00a686c2eb",
+              "name": "projection",
+              "value": "={{ $json['Objetivo'] }}",
+              "type": "string"
+            },
+            {
+              "id": "86201891-fdd8-4787-af10-2e398aa49866",
+              "name": "general_budget",
+              "value": "={{ $json['Orçamento Geral'] }}",
+              "type": "string"
+            },
+            {
+              "id": "e4868757-62e2-4bc2-ad21-a3cc25049ea9",
+              "name": "total_organic_leads",
+              "value": "={{ $json['Total Leads Orgânicos'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9689e570-77fa-4828-bba1-04ce51c8218f",
+              "name": "total_paid_leads",
+              "value": "={{ $json['Total Leads Pagos'] }}",
+              "type": "string"
+            },
+            {
+              "id": "4aafa787-ade7-494b-8739-9387fd714791",
+              "name": "total_unique_leads",
+              "value": "={{ $json['Total Leads Únicos'] }}",
+              "type": "string"
+            },
+            {
+              "id": "f719120c-2e23-42fe-81e8-4435721d900e",
+              "name": "average_cost_per_paid_lead",
+              "value": "={{ $json['Custo por lead médio pago'] }}",
+              "type": "string"
+            },
+            {
+              "id": "e5b498aa-4d12-4ef6-b993-253f78d61fae",
+              "name": "group_entry_goal",
+              "value": "={{ $json['Meta de Entrada em Grupos'] }}",
+              "type": "string"
+            },
+            {
+              "id": "88a01c9c-5237-4530-a38e-b1aaf9602389",
+              "name": "list_conversion_rate",
+              "value": "={{ $json['Taxa conversão lista'] }}",
+              "type": "string"
+            },
+            {
+              "id": "22249c1c-e1b9-42b0-8ae9-0f9828527707",
+              "name": "revenue",
+              "value": "={{ $json.Faturamento }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "16d53ce2-453a-4da4-b3bb-5ea33c62caa2",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1488,
+        624
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Desligado por não haver planilha de perpetuo ainda",
+        "height": 243,
+        "width": 172
+      },
+      "id": "d20c68d2-d18e-49e6-9979-ebe4fc2dbd70",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1008,
+        304
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "errorWorkflow": "HXcAl85buK80GKh9"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-06T19:56:06.236Z",
+      "createdAt": "2025-08-06T19:56:06.236Z",
+      "role": "workflow:owner",
+      "workflowId": "6s2iZzTsAbsxHQ6E",
+      "projectId": "VuiAAhWq61ItL83O"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-18T22:38:14.062Z",
+  "versionId": "c6cfa541-4178-43ec-bc61-9b67bfc54dc5"
+}
